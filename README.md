@@ -6,7 +6,7 @@ MTA Resplay Server
 
 **Пароль от тест сервера:** rjgfntkmjaakfqy
 
-**Продакшн сервер:** 149.202.223.118:22003
+**Продакшн сервер:** ---
 
 **Мини инструкция по тесту:**
 
@@ -31,10 +31,10 @@ MTA Resplay Server
 
 ```
 Кнопки
->> 3 Инвентарь
->> 4 Главное меню
->> 5 Меню друзей
->> 6 Показать прогресс
+>> I Инвентарь
+>> K Главное меню
+>> O Меню друзей
+>> L Показать прогресс
 >> P Панель админа
 ```
 
@@ -42,9 +42,15 @@ MTA Resplay Server
 
 **Группа проекта:** https://vk.com/resplay
 
-**Сайт проекта:** http://resplay.ru
+**Сайт проекта:** http://resplay.ru (ЗАМОРОЖЕН)
 
 **Документация по MTA:** https://wiki.multitheftauto.com/wiki/%D0%93%D0%BB%D0%B0%D0%B2%D0%BD%D0%B0%D1%8F_%D1%81%D1%82%D1%80%D0%B0%D0%BD%D0%B8%D1%86%D0%B0
 
 **Идентификаторы транспорта:**
 https://wiki.multitheftauto.com/wiki/RU/Vehicle_IDs
+
+**Идентификаторы скинов:**
+https://wiki.multitheftauto.com/wiki/All_Skins_Page
+
+**Идентификаторы оружия:**
+https://wiki.multitheftauto.com/wiki/Weapons
