@@ -1,0 +1,703 @@
+<messages>
+    <message>
+        <subject>1</subject>
+        <category>Question</category>
+        <author>Egor_Moshkin</author>
+        <time>2018-03-16 22:44</time>
+        <text>Как открыть gps??&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Отмычка</subject>
+        <category>Question</category>
+        <author>Sergei_Danilov</author>
+        <time>2018-03-17 03:08</time>
+        <text>Как взломать автомобиль&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Помогите!</subject>
+        <category>Question</category>
+        <author>Luis_Fiera</author>
+        <time>2018-03-17 18:09</time>
+        <text>Как можно узнать что я хочу есть или пить?&#x0A;</text>
+    </message>
+    <message>
+        <subject>123</subject>
+        <category>Question</category>
+        <author>Miras_Nurjanov</author>
+        <time>2018-03-17 18:29</time>
+        <text>Как выйти с клана?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>Помогите</subject>
+        <category>Question</category>
+        <author>Frail_Esenin</author>
+        <time>2018-03-18 09:58</time>
+        <text>Что у меня с HUDом он не показывает деньги?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Помогите</subject>
+        <category>Question</category>
+        <author>Misha_Taganrock</author>
+        <time>2018-03-18 18:11</time>
+        <text>Что делать я завел гостей но дальше не знаю что делать&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>0</subject>
+        <category>Other</category>
+        <author>Ivan_Sukharev</author>
+        <time>2018-03-18 18:29</time>
+        <text>Мне какой-то полицейский дал 6 звёзд просто так, пришлось выходить и убегать со спавна, снимите мне эти звёзды, только на сервер зашёл...&#x0A;</text>
+    </message>
+    <message>
+        <subject>11111</subject>
+        <category>Question</category>
+        <author>Ivan_Sukharev</author>
+        <time>2018-03-18 18:31</time>
+        <text>Что мне делать если мне дали 6 звёзд просто так???????&#x0A;</text>
+    </message>
+    <message>
+        <subject>228</subject>
+        <category>Question</category>
+        <author>Ivan_Sukharev</author>
+        <time>2018-03-18 18:34</time>
+        <text>Пидоры, хоть бы помогли, чмошники&#x0A;</text>
+    </message>
+    <message>
+        <subject>админ</subject>
+        <category>Question</category>
+        <author>Alex_Nealenko</author>
+        <time>2018-03-19 19:59</time>
+        <text>админушка дай велик плз&#x0A;</text>
+    </message>
+    <message>
+        <subject>please</subject>
+        <category>Question</category>
+        <author>Kirill_Krasnogir</author>
+        <time>2018-03-19 20:51</time>
+        <text>как взимодействовать с персонажем?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос</subject>
+        <category>Question</category>
+        <author>Aleksey_Bikov</author>
+        <time>2018-03-19 21:16</time>
+        <text>Как включать фары?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>ВОПРО СРОЧНО</subject>
+        <category>Question</category>
+        <author>Aleksey_Bikov</author>
+        <time>2018-03-19 21:21</time>
+        <text>КАК ВКЛЮЧАТЬ И ВЫКЛЮЧАТЬ ДВИГАТЕЛЬ И ФАРЫ?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>Пдд</subject>
+        <category>Question</category>
+        <author>Roma_Ladoga</author>
+        <time>2018-03-21 14:00</time>
+        <text>Нужно ли соблюдать Пдд?Красный и тд.&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Help</subject>
+        <category>Question</category>
+        <author>Ivan_Proximity</author>
+        <time>2018-03-21 15:08</time>
+        <text>Помогите, что мне делать?&#x0A;Я не успел прочитать текст&#x0A;</text>
+    </message>
+    <message>
+        <subject>1</subject>
+        <category>Question</category>
+        <author>Maksim_Banetti</author>
+        <time>2018-03-22 15:32</time>
+        <text>как грабить дома&#x0A;&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>1</subject>
+        <category>Question</category>
+        <author>Miha_Vandetta</author>
+        <time>2018-03-22 17:35</time>
+        <text>Как говорить&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Велик</subject>
+        <category>Other</category>
+        <author>Lenya_Golubkov</author>
+        <time>2018-03-22 21:10</time>
+        <text>При перезаходе где велик?&#x0A;</text>
+    </message>
+    <message>
+        <subject>ВОПРОС</subject>
+        <category>Question</category>
+        <author>Lenya_Golubkov</author>
+        <time>2018-03-22 21:12</time>
+        <text>Где мой велик?&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>1</subject>
+        <category>Question</category>
+        <author>Amir_Haizerov</author>
+        <time>2018-03-23 08:01</time>
+        <text>Как говорить в микро?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Police</subject>
+        <category>Question</category>
+        <author>Alex_Lavrov</author>
+        <time>2018-03-23 13:38</time>
+        <text>меня за текстуры выкинуло&#x0A;</text>
+    </message>
+    <message>
+        <subject>прары</subject>
+        <category>Question</category>
+        <author>Stanly_Zakonov</author>
+        <time>2018-03-23 13:48</time>
+        <text>Vadik Guliev DM он попросил обыскать меня,я по рп отыгрывал а он убил&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос</subject>
+        <category>Question</category>
+        <author>Vladimir_Marselev</author>
+        <time>2018-03-23 15:56</time>
+        <text>Что делать когда ты был бандитом и не можешь вступить на обычную работу решившимся поменять свой путь&#x0A;</text>
+    </message>
+    <message>
+        <subject>123</subject>
+        <category>Other</category>
+        <author>Vladislav_Vukolov</author>
+        <time>2018-03-24 10:27</time>
+        <text>А где все люди?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Онлайн</subject>
+        <category>Question</category>
+        <author>Shary_Bloods</author>
+        <time>2018-03-24 18:36</time>
+        <text>Как посмотреть онлайн на сервере?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>угару</subject>
+        <category>Question</category>
+        <author>Aliher_Morgenstern</author>
+        <time>2018-03-24 21:36</time>
+        <text>Как включать микро?&#x0A;</text>
+    </message>
+    <message>
+        <subject>АЖВАХВАХАХ</subject>
+        <category>Question</category>
+        <author>Ilya_Bordag</author>
+        <time>2018-03-25 14:22</time>
+        <text>ПОМОГИТЕ&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>ПОМОГИТЕ</subject>
+        <category>Question</category>
+        <author>Ilya_Bordag</author>
+        <time>2018-03-25 14:23</time>
+        <text>ПОМОГИТЕ&#x0A;</text>
+    </message>
+    <message>
+        <subject>взаимодействие</subject>
+        <category>Question</category>
+        <author>Nate_Jarobels</author>
+        <time>2018-03-25 15:54</time>
+        <text>как взаимодействовать с красными поинтами&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>ввв</subject>
+        <category>Question</category>
+        <author>Yaroslav_Golubev</author>
+        <time>2018-03-25 19:03</time>
+        <text>Какой бинд на менб взаемодействие?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Igor Kotov</subject>
+        <category>Other</category>
+        <author>Igor_Kotov</author>
+        <time>2018-03-25 19:24</time>
+        <text>Как сменить лицо персонажа? Какую ссылку надо? и Что это дает?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как открыть/закрыть авто?</subject>
+        <category>Question</category>
+        <author>Artem_Filosov</author>
+        <time>2018-03-26 10:54</time>
+        <text>Как открыть/закрыть авто?&#x0A;</text>
+    </message>
+    <message>
+        <subject>s</subject>
+        <category>Question</category>
+        <author>Serega_Han</author>
+        <time>2018-03-26 18:07</time>
+        <text>Как найти и начать работать на 1 работе?&#x0A;</text>
+    </message>
+    <message>
+        <subject>вы</subject>
+        <category>Question</category>
+        <author>Nikita_Kretov</author>
+        <time>2018-03-27 13:41</time>
+        <text>Как включить gps?&#x0A;</text>
+    </message>
+    <message>
+        <subject>sss</subject>
+        <category>Question</category>
+        <author>Yaroslav_Golubev</author>
+        <time>2018-03-27 15:40</time>
+        <text>Как продать машину игроку?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Что делать ?</subject>
+        <category>Question</category>
+        <author>Jonson_Denial</author>
+        <time>2018-03-27 19:36</time>
+        <text>у меня я не бандит теперь я паработал на ферме и все пропало &#x0A;</text>
+    </message>
+    <message>
+        <subject>А куда мне пойти работать ну я новичёк</subject>
+        <category>Question</category>
+        <author>Murad_Rasulov</author>
+        <time>2018-03-27 21:13</time>
+        <text>А куда мне пойти работать ну я новичёк&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как устроиться на какую то работу?</subject>
+        <category>Question</category>
+        <author>Murad_Rasulov</author>
+        <time>2018-03-27 21:15</time>
+        <text>Как устроиться на какую то работу?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>я</subject>
+        <category>Question</category>
+        <author>Tolik_Golova</author>
+        <time>2018-03-28 12:54</time>
+        <text>міня посаділі в тірьму просто так&#x0A;</text>
+    </message>
+    <message>
+        <subject>f</subject>
+        <category>Question</category>
+        <author>Sasha_Kirov</author>
+        <time>2018-03-28 13:43</time>
+        <text>Как в голосовой чат говорить?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как ?</subject>
+        <category>Question</category>
+        <author>Andrew_Moskvin</author>
+        <time>2018-03-28 14:42</time>
+        <text>Как говорить в голосовой чат ?&#x0A;</text>
+    </message>
+    <message>
+        <subject>как выйти из декора</subject>
+        <category>Question</category>
+        <author>James_Armstrong</author>
+        <time>2018-03-28 19:18</time>
+        <text>на какую кнопку выйти из декорации?&#x0A;</text>
+    </message>
+    <message>
+        <subject>ЗАБАГАЛСЯ</subject>
+        <category>Question</category>
+        <author>Tommy_Wallace</author>
+        <time>2018-03-29 00:56</time>
+        <text>ЗАБАГАЛСЯ&#x0A;</text>
+    </message>
+    <message>
+        <subject>help</subject>
+        <category>Question</category>
+        <author>Mad_Colone</author>
+        <time>2018-03-29 02:35</time>
+        <text>я застрял в начале, усодил гостей,что дальше ? ничего не происходит&#x0A;</text>
+    </message>
+    <message>
+        <subject>Лол</subject>
+        <category>Question</category>
+        <author>Den_Getto</author>
+        <time>2018-03-29 23:31</time>
+        <text>Где тут выход?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>ш</subject>
+        <category>Question</category>
+        <author>Dima_Gordey</author>
+        <time>2018-03-31 04:59</time>
+        <text>админы я работал в полиции почему меня автоматом от туда выкинуло у меня багнулось можете вернуть обратно в LSPD пожалуйста&#x0A;</text>
+    </message>
+    <message>
+        <subject>Well_Donee</subject>
+        <category>Other</category>
+        <author>Lero_Makaronte</author>
+        <time>2018-04-01 12:33</time>
+        <text>Нон РП&#x0A;</text>
+    </message>
+    <message>
+        <subject>микровон</subject>
+        <category>Question</category>
+        <author>Jerry_Jity</author>
+        <time>2018-04-01 22:08</time>
+        <text>не слышно друга когда он говорит, в чем проблема может быть?&#x0A;</text>
+    </message>
+    <message>
+        <subject>а!!</subject>
+        <category>Question</category>
+        <author>Jerry_Jity</author>
+        <time>2018-04-01 23:03</time>
+        <text>так говорите где проходит.....&#x0A;мда&#x0A;</text>
+    </message>
+    <message>
+        <subject>a</subject>
+        <category>Question</category>
+        <author>Artak_Xudoyan</author>
+        <time>2018-04-02 16:34</time>
+        <text>А где можно устроится чтобы грабить дома?метку скажите!а то в gps найди немогу&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Голосовой чат и меню</subject>
+        <category>Question</category>
+        <author>Sem_Nak</author>
+        <time>2018-04-02 20:01</time>
+        <text>Как войти в меню персонажа или включить голосовой чат?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Vlad Gulev</subject>
+        <category>Suggestion</category>
+        <author>David_Ashotov</author>
+        <time>2018-04-02 20:08</time>
+        <text>убил меня с оружия во время того когда я спокойно работал на ферму&#x0A;</text>
+    </message>
+    <message>
+        <subject>Работа</subject>
+        <category>Question</category>
+        <author>Olexander_Izai</author>
+        <time>2018-04-03 16:49</time>
+        <text>Кем можно работаь с 1 процентом респекта&#x0A;</text>
+    </message>
+    <message>
+        <subject>нужна помощь</subject>
+        <category>Cheater/Moder</category>
+        <author>Madison_Smith</author>
+        <time>2018-04-04 19:11</time>
+        <text>помогите я вызываю механиков,в никто не едет мне нужно завершить работу и все&#x0A;</text>
+    </message>
+    <message>
+        <subject>Что делать?</subject>
+        <category>Question</category>
+        <author>Anthony_Lytton</author>
+        <time>2018-04-05 21:52</time>
+        <text>Что делать дальше, то ли квест залагал, то ли ещё что-то.&#x0A;</text>
+    </message>
+    <message>
+        <subject>Vladislav_Yunusov</subject>
+        <category>Question</category>
+        <author>Vladislav_Yunusov</author>
+        <time>2018-04-06 12:13</time>
+        <text>как завести двигатель автомобиля?&#x0A;</text>
+    </message>
+    <message>
+        <subject>1</subject>
+        <category>Question</category>
+        <author>Sergey_Mihailev</author>
+        <time>2018-04-06 13:03</time>
+        <text>как работать на ферме?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Хелп</subject>
+        <category>Other</category>
+        <author>Drakon_Kykymber</author>
+        <time>2018-04-06 18:48</time>
+        <text>Помогите,затрял(( &#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос</subject>
+        <category>Question</category>
+        <author>Vitya_Pluzhnikov</author>
+        <time>2018-04-07 12:40</time>
+        <text>Как узнать сколько осталось сидеть?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Гол.чат</subject>
+        <category>Question</category>
+        <author>James_Massey</author>
+        <time>2018-04-07 15:52</time>
+        <text>Не слышу голосовой чат&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>ЖБ</subject>
+        <category>Question</category>
+        <author>Ilya_Bordag</author>
+        <time>2018-04-08 09:41</time>
+        <text>Почему моего друга забанили навсегда из за 1.1.6 хотя там бан от 7 дней , почему именно бессрочно&#x0A;</text>
+    </message>
+    <message>
+        <subject>ауыап</subject>
+        <category>Question</category>
+        <author>Ivan_Atlas</author>
+        <time>2018-04-09 18:42</time>
+        <text>сколько мне еще сидеть&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>:</subject>
+        <category>Question</category>
+        <author>Andrei_Maslennicov</author>
+        <time>2018-04-10 08:57</time>
+        <text>как говорить?&#x0A;</text>
+    </message>
+    <message>
+        <subject>sa</subject>
+        <category>Question</category>
+        <author>Nakashi_Takivaroo</author>
+        <time>2018-04-14 14:32</time>
+        <text>как написать в репорт&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как выйти из либирти сити</subject>
+        <category>Question</category>
+        <author>Garix_Fox</author>
+        <time>2018-04-14 17:21</time>
+        <text>помогите выйти из либерти сити&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>Администраторы</subject>
+        <category>Question</category>
+        <author>Kirill_Swordee</author>
+        <time>2018-04-16 00:35</time>
+        <text>Что тут делать? &#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>работа</subject>
+        <category>Question</category>
+        <author>Vazgen_Poghosyan</author>
+        <time>2018-04-16 19:28</time>
+        <text>где заработать певые денги?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Artyr_Sanshov</subject>
+        <category>Other</category>
+        <author>Timothy_Hyam</author>
+        <time>2018-04-16 21:52</time>
+        <text> Вы получили уровень розыска 1 от игрока Artyr_Sanshov с причиной &apos;7.1&apos;. Не по рп, я был на крыше, мне говорили спуститься, я говорил, что высоко, не могу, и мне дали звезду.&#x0A;</text>
+    </message>
+    <message>
+        <subject>я</subject>
+        <category>Question</category>
+        <author>Pavel_Griffin</author>
+        <time>2018-04-17 10:17</time>
+        <text>кикните пж меня. esc не работает&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как пропустить обучение</subject>
+        <category>Cheater/Moder</category>
+        <author>Oleg_Belyi</author>
+        <time>2018-04-17 15:46</time>
+        <text>Как пропустить обучение?&#x0A;</text>
+    </message>
+    <message>
+        <subject>аф</subject>
+        <category>Question</category>
+        <author>Santiago_Espanos</author>
+        <time>2018-04-18 19:38</time>
+        <text>Куда мне пойти роботать на первом уровне?!&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Че тут делать та а?</subject>
+        <category>Question</category>
+        <author>Maksim_Kuzmin</author>
+        <time>2018-04-19 15:44</time>
+        <text>Аааа?????&#x0A;</text>
+    </message>
+    <message>
+        <subject>хелп ми</subject>
+        <category>Other</category>
+        <author>Denis_Boshkin</author>
+        <time>2018-04-20 15:35</time>
+        <text>помогитеееее я застрял в обучении или как это называется&#x0A;</text>
+    </message>
+    <message>
+        <subject>что происходит</subject>
+        <category>Question</category>
+        <author>Denis_Boshkin</author>
+        <time>2018-04-20 15:46</time>
+        <text>не могу вставать на красные метки в чем проблема?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Evgenu_Novosadov</subject>
+        <category>Question</category>
+        <author>Evgenu_Novosadov</author>
+        <time>2018-04-20 19:27</time>
+        <text>Попали под текстуры&#x0A; помагите&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>12</subject>
+        <category>Question</category>
+        <author>Nakashi_Takivaroo</author>
+        <time>2018-04-20 19:32</time>
+        <text>меня дмят&#x0A;</text>
+    </message>
+    <message>
+        <subject>где гонки?</subject>
+        <category>Question</category>
+        <author>Aslan_Curlama</author>
+        <time>2018-04-21 09:06</time>
+        <text>где гонки?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Помогите</subject>
+        <category>Question</category>
+        <author>Jon_Stark</author>
+        <time>2018-04-22 20:49</time>
+        <text>&#x0A;Что делать я ток зашёл я новичёк я всех привёл на столках потом что?&#x0A;</text>
+    </message>
+    <message>
+        <subject>How to you igrati</subject>
+        <category>Question</category>
+        <author>Jon_Stark</author>
+        <time>2018-04-22 20:55</time>
+        <text>Как играть ёпта?&#x0A;</text>
+    </message>
+    <message>
+        <subject>143</subject>
+        <category>Cheater/Moder</category>
+        <author>Egor_Chistyakov</author>
+        <time>2018-04-24 18:55</time>
+        <text>Он Дон-Гандон&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Как писать в игровой чат</subject>
+        <category>Question</category>
+        <author>Alexander_Parrish</author>
+        <time>2018-04-25 12:56</time>
+        <text>Из реальной жизни&#x0A;</text>
+    </message>
+    <message>
+        <read>true</read>
+        <subject>Меню</subject>
+        <category>Other</category>
+        <author>Stefan_Salvator</author>
+        <time>2018-04-26 20:39</time>
+        <text>Как открыть меню сервера&#x0A;</text>
+    </message>
+    <message>
+        <subject>хз</subject>
+        <category>Question</category>
+        <author>Alexey_Sandtrip</author>
+        <time>2018-04-27 19:29</time>
+        <text>где /q ? не понял прикола, и почему всё так хреново на сервере в отоличии от родины и аризоны рп?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Artem_Lyasota DM</subject>
+        <category>Question</category>
+        <author>Lre_Srlt</author>
+        <time>2018-04-27 22:30</time>
+        <text>DMDMDM&#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос</subject>
+        <category>Question</category>
+        <author>David_Buller</author>
+        <time>2018-04-28 13:36</time>
+        <text>Как повысить репутацию?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>где все</subject>
+        <category>Question</category>
+        <author>Danuul_Grehov</author>
+        <time>2018-04-30 13:00</time>
+        <text>тпехните меня к вам&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>ПВП</subject>
+        <category>Question</category>
+        <author>Roma_Maslo</author>
+        <time>2018-04-30 19:13</time>
+        <text>ЛЮДИ ЧТО ПРОИХОДИТ ТП КО МНЕ&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос!</subject>
+        <category>Question</category>
+        <author>Poma_Pulemet</author>
+        <time>2018-05-01 14:15</time>
+        <text>Как говорить в голосовой чат?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>giorgio_velasco</subject>
+        <category>Question</category>
+        <author>Giorgio_Velasco</author>
+        <time>2018-05-01 15:10</time>
+        <text>Как продать машину человеку&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Giorgio_Velasco</subject>
+        <category>Other</category>
+        <author>Giorgio_Velasco</author>
+        <time>2018-05-01 15:14</time>
+        <text>Как продать машинуу игроку &#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Насчёт голосового чата</subject>
+        <category>Question</category>
+        <author>Oleg_Bulkin</author>
+        <time>2018-05-01 15:15</time>
+        <text>Как голосовой чат активируется, и он IC или OOC?&#x0A;</text>
+    </message>
+    <message>
+        <subject>Edwin_Wotkiewc</subject>
+        <category>Other</category>
+        <author>Kolyan_Bandit</author>
+        <time>2018-05-01 20:57</time>
+        <text>DM у ЛСПД&#x0A;</text>
+    </message>
+    <message>
+        <subject>11</subject>
+        <category>Question</category>
+        <author>Negan_Rose</author>
+        <time>2018-05-02 18:39</time>
+        <text>Как говорить в голосовой чат?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Вопрос</subject>
+        <category>Question</category>
+        <author>Mihail_Mendionovich</author>
+        <time>2018-05-04 16:23</time>
+        <text>Как говорить в голосовой чат?&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>Никто не даёт увал/или нет лидера</subject>
+        <category>Cheater/Moder</category>
+        <author>Maks_Belking</author>
+        <time>2018-05-04 19:21</time>
+        <text>Лидер снят .никто увал дать не может.Увольте&#x0A;</text>
+    </message>
+    <message>
+        <subject>Застрял</subject>
+        <category>Question</category>
+        <author>David_Oskin</author>
+        <time>2018-05-05 13:27</time>
+        <text>Я застрял,мне НПС прохода не дают.&#x0A;</text>
+    </message>
+    <message>
+        <subject>Пролог</subject>
+        <category>Question</category>
+        <author>Lera_Super</author>
+        <time>2018-05-05 15:38</time>
+        <text>Не могу передать блюдо в прологе&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>MPC</subject>
+        <category>Other</category>
+        <author>Lera_Super</author>
+        <time>2018-05-05 15:54</time>
+        <text>эмписи застрял в текстурах&#x0A;&#x0A;</text>
+    </message>
+    <message>
+        <subject>деньги</subject>
+        <category>Question</category>
+        <author>Maks_Ustinov</author>
+        <time>2018-05-06 15:50</time>
+        <text>админы дайте немного денег&#x0A;</text>
+    </message>
+</messages>

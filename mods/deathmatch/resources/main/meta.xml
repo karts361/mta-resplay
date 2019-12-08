@@ -1,0 +1,5 @@
+<meta>
+	<info name="MainGameMode" version="1.0.3" type="script" author="Max" description="MainGameMode"/>
+	<script src="server.lua" type="server"/>
+	<script src="client.lua" type="client"/>	
+</meta>

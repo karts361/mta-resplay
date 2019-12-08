@@ -1,0 +1,49 @@
+<map>
+    <ped id="boss" dimension="0" model="17" interior="1" rotZ="180" frozen="false" alpha="255" posX="-789.5" posY="510.09961" posZ="1367.3" rotX="0" rotY="0"></ped>
+    <ped id="cook" dimension="0" model="168" interior="1" rotZ="270" frozen="false" alpha="255" posX="-786.29999" posY="506.79999" posZ="1367.3" rotX="0" rotY="0"></ped>
+    <ped id="security1" dimension="0" model="163" interior="1" rotZ="0.003" frozen="false" alpha="255" posX="-793.7998" posY="490.2998" posZ="1376.2" rotX="0" rotY="0"></ped>
+    <ped id="security2" dimension="0" model="164" interior="1" rotZ="0.003" frozen="false" alpha="255" posX="-796" posY="490.09961" posZ="1376.2" rotX="0" rotY="0"></ped>
+    <ped id="spawn" dimension="0" model="171" interior="1" rotZ="270.001" frozen="false" alpha="255" posX="-793" posY="499.7998" posZ="1367.3" rotX="0" rotY="0"></ped>
+    <object id="campos1" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-737.29999" posY="496.60001" posZ="1378.7" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook1" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-745.59998" posY="512.40002" posZ="1380.1" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="campos2" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-741.59998" posY="494.29999" posZ="1374.1" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook2" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-769.29999" posY="495.79999" posZ="1376.2" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="campos3" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-795.09998" posY="497.60001" posZ="1376.8" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook3" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-795" posY="488.89999" posZ="1377" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="campos4" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-794.90002" posY="508" posZ="1376.6" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook4" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-788" posY="503.29999" posZ="1371.9" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="campos5" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-790.70001" posY="498.79999" posZ="1367.5" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook5" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-794.09998" posY="500.10001" posZ="1368" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="campos6" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-793.20001" posY="498.79999" posZ="1367.7" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook6" breakable="true" interior="1" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="-789.5" posY="511.10001" posZ="1368.1" rotX="0" rotY="0" rotZ="0"></object>
+    <ped id="client1" dimension="0" model="113" interior="1" rotZ="67" frozen="true" alpha="255" posX="-790.20001" posY="508.89999" posZ="1372.5" rotX="0" rotY="0"></ped>
+    <ped id="client2" dimension="0" model="113" interior="1" rotZ="65.25" frozen="true" alpha="255" posX="-787.40002" posY="508.89999" posZ="1372.5" rotX="0" rotY="0"></ped>
+    <ped id="client3" dimension="0" model="0" interior="1" rotZ="180" alpha="255" posX="-787.5" posY="505.10001" posZ="1372.5" rotX="0" rotY="0"></ped>
+    <ped id="client4" dimension="0" model="0" interior="1" rotZ="0.003" alpha="255" posX="-782.90002" posY="508.5" posZ="1372.5" rotX="0" rotY="0"></ped>
+    <ped id="client5" dimension="0" model="0" interior="1" rotZ="0.003" alpha="255" posX="-779.79999" posY="508.60001" posZ="1372.5" rotX="0" rotY="0"></ped>
+    <ped id="clientspawn" dimension="0" model="0" interior="1" rotZ="0.003" alpha="255" posX="-794.90002" posY="491.10001" posZ="1376.2" rotX="0" rotY="0"></ped>
+    <ped id="barman" dimension="0" model="194" interior="1" rotZ="30" alpha="255" posX="-784.5" posY="498.0" posZ="1371.7" rotX="0" rotY="0"></ped>
+    <vehicle id="randomveh1" paintjob="3" interior="1" alpha="255" model="420" plate="I1QY 9CH" dimension="0" posX="-740.35876" posY="492.48697" posZ="1371.8265" rotX="0" rotY="0" rotZ="145.865" color="168,129,53,245,245,245,0,0,0,0,0,0"></vehicle>
+    <vehicle id="randomveh2" paintjob="3" interior="1" alpha="255" model="415" plate="UJXS O75" dimension="0" posX="-759.40521" posY="507.15756" posZ="1371.524" rotX="0" rotY="0" rotZ="80.543" color="0,0,0,245,245,245,0,0,0,0,0,0"></vehicle>
+    <vehicle id="randomveh3" paintjob="3" interior="1" alpha="255" model="477" plate="RTGZ OO4" dimension="0" posX="-759.95978" posY="503.49744" posZ="1371.5597" rotX="0" rotY="0" rotZ="78.543" color="109,108,110,245,245,245,0,0,0,0,0,0"></vehicle>
+	<vehicle id="taxi" paintjob="3" interior="1" alpha="255" model="420" plate="0X4V K4O" dimension="0" posX="-805" posY="503.79999" posZ="1360.2" rotX="0" rotY="0" rotZ="102" color="215,142,16,245,245,245,0,0,0,0,0,0"></vehicle>
+	<object id="table1" breakable="true" interior="1" alpha="255" model="1432" doublesided="false" scale="1" dimension="0" posX="-790.70001" posY="509" posZ="1370.9" rotX="0" rotY="0" rotZ="10.5"></object>
+    <object id="table2" breakable="true" interior="1" alpha="255" model="1432" doublesided="false" scale="1" dimension="0" posX="-787.90002" posY="509" posZ="1370.9" rotX="0" rotY="0" rotZ="10.497"></object>
+    <object id="table3" breakable="true" interior="1" alpha="255" model="1432" doublesided="false" scale="1" dimension="0" posX="-783" posY="509" posZ="1370.9" rotX="0" rotY="0" rotZ="184.497"></object>
+    <object id="table4" breakable="true" interior="1" alpha="255" model="1432" doublesided="false" scale="1" dimension="0" posX="-779.90002" posY="509" posZ="1370.9" rotX="0" rotY="0" rotZ="184.493"></object>
+    <object id="table5" breakable="true" interior="1" alpha="255" model="1432" doublesided="false" scale="1" dimension="0" posX="-787.40002" posY="504.60001" posZ="1370.9" rotX="0" rotY="2" rotZ="240.493"></object>
+    <removeWorldObject id="removeTables" radius="30.5" interior="1" model="1432" lodModel="0" posX="-787.09998" posY="507" posZ="1371.7" rotX="0" rotY="0" rotZ="0"></removeWorldObject>
+    <object id="meal" breakable="true" interior="1" alpha="255" model="2353" doublesided="false" scale="1" dimension="0" posX="-785.70001" posY="504.29999" posZ="1367.6" rotX="334.464" rotY="23.401" rotZ="344.817"></object>
+	<pathpoint id="p1" neighbors="p2" posX="-795" posY="490.20001" posZ="1375.2" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p2" neighbors="p1,p4,p13" posX="-794.7998" posY="498.7002" posZ="1375.2" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p4" neighbors="p5,p2" posX="-794.79999" posY="506.39999" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p5" neighbors="p4,p7,p9" posX="-791.79999" posY="506.39999" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p7" neighbors="p5,p8,p12" posX="-791.40002" posY="501.10001" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p8" neighbors="p7,p9,p11" posX="-780.90002" posY="500.79999" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p9" neighbors="p8,p5" posX="-779.90002" posY="506" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p11" neighbors="p8,p12" posX="-781.40002" posY="497.20001" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p12" neighbors="p11,p7" posX="-791.70001" posY="497" posZ="1370.7" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p13" neighbors="p2,p14" posX="-790.5" posY="497" posZ="1375.2" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p14" neighbors="p13,p15" posX="-789.90002" posY="493.89999" posZ="1375.2" rotX="0" rotY="0" rotZ="0"></pathpoint>
+    <pathpoint id="p15" neighbors="p14" posX="-783.79999" posY="493.79999" posZ="1375.2" rotX="0" rotY="0" rotZ="0"></pathpoint>
+</map>

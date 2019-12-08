@@ -1,0 +1,38 @@
+<commands>
+	<command name="ahelp" level="1" description="/ahelp - Помощь для администрации"/>
+	<command name="kick" level="1" description="/kick [часть ника] [причина] - Кикнуть игрока"/>
+	<command name="ban" level="2" description="/ban [часть ника] [часы] [причина] - Забанить аккаунт"/>
+	<command name="banip" level="2" description="/banip [IP] [часы] [причина] - Забанить игрока по IP"/>
+	<command name="banserial" level="2" description="/banserial [серийный номер] [часы] [причина] - Забанить игрока по серийному номеру"/>
+	<command name="unban" level="2" description="/unban [часть ника] - Разбанить аккаунт"/>
+	<command name="unbanip" level="2" description="/unbanip [IP] - Разбанить игрока по IP"/>
+	<command name="unbanserial" level="2" description="/unbanserial [серийный номер] - Разбанить игрока по серийному номеру"/>
+	<command name="slap" level="1" description="/slap [часть ника] - Пнуть игрока"/>
+	<command name="warp" level="2" description="/warp [часть ника] - Переместить игрока к себе"/>
+	<command name="warpto" level="2" description="/warpto [часть ника] - Переместиться к игроку"/>
+	<command name="jail" level="2" description="/jail [часть ника] [секунды] [причина] - Посадить игрока"/>
+	<command name="acc" level="1" description="/acc [ник полностью] - Вывести информацию по аккаунту в консоль"/>
+	<command name="respect" level="3" description="/respect [ник полностью] [проценты] - Установить уважение игроку"/>
+	<command name="reports" level="1" description="/reports - Жалобы"/>
+	<command name="questions" level="1" description="/questions - Вопросы"/>
+	<command name="spec" level="1" description="/spec [часть ника] - Наблюдать за игроком"/>
+	<command name="specoff" level="1" description="/specoff - Выйти из наблюдения"/>
+	<command name="setleader" level="2" description="/setleader [ник полностью] [фракция] - Назначить лидера фракции"/>
+	<command name="sethelper" level="2" description="/sethelper [ник полностью] - Назначить хелпера"/>
+	<command name="removehelper" level="2" description="/removehelper [ник полностью] - Убрать хелпера"/>
+	<command name="setmoderator" level="3" description="/setmoderator [ник полностью] - Назначить модератора"/>
+	<command name="removemoderator" level="3" description="/removemoderator [ник полностью] - Убрать модератора"/>
+	<command name="resetpass" level="2" description="/resetpass [ник полностью] [адрес email] - Сбросить пароль"/>
+	<command name="heal" level="2" description="/heal [часть ника] - Починить транспорт и восполнить здоровье игрока"/>
+	<command name="setmoney" level="3" description="/setmoney [кол-во денег] - Обновить кол-во денег игроку (дать кол-во денег, если игрок в онлайне)"/>
+	<command name="removemoney" level="3" description="/removemoney [кол-во денег] - Обновить кол-во денег игроку (удалить кол-во денег, если игрок в онлайне)"/>
+	<command name="renameaccount" level="3" description="/renameaccount [Старый никнейм] [новый никнейм] - Переименовать никнейм на аккаунте." />
+	<command name="unjail" level="2" description="/unjail [ник полностью] - Выпустить игрока из тюрьмы."/>
+	<command name="setdefskin" level="3" description="/setdefskin [ник] [ид скина] - Изменить по умолчанию скин"/>
+	<command name="setfracskin" level="3" description="/setfracskin [ник] [ид скина] - Изменить скин (например лидерам фракций)" />
+	<command name="setrace" level="3" description="/setrace [ник] [ид] - Изменить расу" />
+	<command name="setfraction" level="2" description="/setfraction [ник] [название фракции] - принять игрока во фракцию"/>
+	<command name="removefraction" level="2" description="/removefraction [ник] - уволить игрока из фракции"/>
+	<command name="mute" level="2" description="/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)"/>
+	<command name="unmute" level="2" description="/unmute [ник] - Снять мут игроку"/>
+</commands>

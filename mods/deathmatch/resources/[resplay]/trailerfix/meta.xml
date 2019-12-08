@@ -1,0 +1,5 @@
+<meta>
+    <info author="StinGeR" type="script" name="Trailer sync fix"/>
+	<script src="trailerfix_c.lua" type="client"/>
+    <script src="trailerfix_s.lua"/>
+</meta>

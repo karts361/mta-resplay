@@ -1,0 +1,15 @@
+<meta>
+	<info author="Dr4x" version="1.1.5" name="water_level" decription="Progressive Change of the Water Level" type="script" />
+	<script src="water_gui.lua" cache="false" type="client" />
+	<script src="water_level.lua" type="server" />
+	<file src="README!.txt" />
+
+	<settings>
+		<setting name="*show_messages" value="true" />
+		<setting name="*speed" value="0.5" />
+		<setting name="*allow_negative" value="true" />
+		<setting name="*restrict_to" value="Admin" />
+		<setting name="*flood_weather" value="8" />
+		<setting name="*flood_end_weather" value="14" />
+     </settings>
+</meta>

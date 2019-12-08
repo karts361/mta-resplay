@@ -1,0 +1,49 @@
+<meta>
+<min_mta_version server="1.5.6" client="1.5.6"/>
+<info author="G&amp;T Mapping &amp; Loki" facebook="https://www.fb.com/gtmapping" name="Cinema" version="2.0" type="script"/>
+<config src="help.xml" type="client"/>
+
+<!-- Map files -->
+<map src="map/cinema.map" dimension="0"/>
+<script src="map/map_server.lua" type="server"/>
+<script src="map/map_client.lua" type="client" validate="false"/>
+
+<!-- Frameworks -->
+<script src="frameworks/dxGrid/dxGrid.lua" type="client"/>
+<script src="frameworks/dxRender/dxRender.lua" type="client"/>
+
+<!-- Fonts -->
+<file src="fonts/uni_sans_heavy.ttf"/>
+<!-- Textures -->
+<file src="img/textures.txd"/>
+<file src="screen/screen.txd"/>
+<file src="screen/models/screen.dff"/>
+<file src="screen/models/screen.col"/>
+<file src="screen/models/screen_curved.dff"/>
+<file src="screen/models/screen_curved.col"/>
+<file src="screen/screen.fx"/>
+<file src="screen/screen_frame.fx"/>
+<!-- Images -->
+<file src="img/add.png"/>
+<file src="img/bg.png"/>
+<file src="img/button.png"/>
+<file src="img/loading.png"/>
+<file src="img/checked.png"/>
+<file src="img/unchecked.png"/>
+
+<!-- Resource -->
+<script src="shared.lua" type="shared"/>
+<script src="api.lua"/>
+<script src="settings.lua"/>
+<script src="main.lua"/>
+<script src="binds.lua"/>
+
+<script src="img/textures.lua" type="client"/>
+<!-- Shaders / screen -->
+<script src="screen/screen.lua" type="client"/>
+
+<script src="client_settings.lua" type="client"/>
+<script src="client_main.lua" type="client"/>
+<script src="client_gui.lua" type="client"/>
+
+</meta>

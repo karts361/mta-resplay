@@ -1,0 +1,22 @@
+# Compiled Lua sources
+luac.out
+
+# luarocks build files
+*.src.rock
+
+# Object files
+*.o
+*.os
+*.ko
+*.obj
+*.elf
+
+# Precompiled Headers
+*.gch
+*.pch
+
+*.log
+
+/mods/deathmatch/logs
+
+.DS_Store

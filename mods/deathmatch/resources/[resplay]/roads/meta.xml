@@ -1,0 +1,15 @@
+<meta>  
+<info author='Zver-CR' description='Tutorial | Adding custom objects' version='1.0' type='script'/>  
+<script src='client.lua' type='client'/>  
+<file src='sand.txd' type='client'/>  
+<file src='bolka.txd' type='client'/>  
+<file src='ZDLS.txd' type='client'/>  
+<file src='sand.dff' type='client'/>
+<file src='bolka.dff' type='client'/>
+<file src='ZDLS.dff' type='client'/>
+<file src='ZDLS2.dff' type='client'/>
+<file src='sand.col' type='client'/>  
+<file src='bolka.col' type='client'/>
+<file src='ZDLS.col' type='client'/>
+<file src='ZDLS2.col' type='client'/>
+</meta>

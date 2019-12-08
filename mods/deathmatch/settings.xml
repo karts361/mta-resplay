@@ -1,0 +1,8 @@
+<settings>
+    <setting name="admin.ip2cUpdateTime" value="[1525576230]"></setting>
+    <setting name="*antiflood.muteTime" value="[30]"></setting>
+    <setting name="*voice.autoassign_to_teams" value="[false]"></setting>
+    <setting name="*resplay.respectDiffPositive" value='[&quot;4.0&quot;]'></setting>
+    <setting name="*resplay.respectDiffNegative" value='[&quot;4.0&quot;]'></setting>
+    <setting name="*resplay.playersPerSpawn" value='[&quot;1&quot;]'></setting>
+</settings>

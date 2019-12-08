@@ -1,0 +1,5 @@
+<meta>
+     <info author="Ilya1337, D.D.M." type="script" name="Airports" description="Airports transport support"/>
+     <script src="script.lua"/>
+	 <script src="client.lua" type="client"/>
+</meta>

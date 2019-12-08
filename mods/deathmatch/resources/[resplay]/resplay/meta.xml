@@ -1,0 +1,398 @@
+<meta>
+    <info author="Resplay" type="gamemode" name="Resplay" description="Resplay game mode"/>
+	<script src="script.lua" type="client" cache="false"/>
+    <script src="script_server.lua"/>
+	<script src="exports_c.luac" type="client"/>
+	<script src="exports_s.lua"/>
+	<include resource="ai"/>
+	<include resource="airports"/>
+	<include resource="adminpp"/>
+	<include resource="att"/>
+	<include resource="admcht"/>
+	<include resource="anticmdflood"/>
+	<include resource="hummerarmor"/>
+	<include resource="blocksmi"/>
+	<include resource="bone_attach"/>
+	<include resource="camera"/>
+	<include resource="cinema"/>
+	<include resource="citymaps"/>
+	<include resource="damage"/>
+	<include resource="freecam"/>
+	<include resource="gasmask"/>
+	<include resource="hdradar"/>
+	<include resource="heligrab"/>
+	<include resource="jailfix"/>
+	<include resource="npchlc_traffic" />
+	<include resource="server_coldata"/>
+	<include resource="nitro"/>
+	<include resource="roads"/>
+	<include resource="reload"/>
+	<include resource="realdriveby"/>
+	<include resource="spawnls"/>
+	<include resource="shader_carreflect"/>
+	<include resource="shader_watershine"/>
+	<include resource="trailerfix"/>
+	<include resource="voicechat" cache="false"/>
+	<include resource="wheels"/>
+	<include resource="work_bus"/>
+	<include resource="zones"/>
+	
+	<!-- МАП ФАЙЛ -->
+	<map src="resplay.map"/>
+	
+	<file src="fonts/PricedownC.ttf" download="true"/>
+
+  <file src="images/logo.png" download="true"/>
+    <file src="images/intro_start_ls.png" download="true"/>
+	<file src="images/hp.png" download="true"/>
+    <file src="images/408.png" download="true"/>
+    <file src="images/572.png" download="true"/>
+    <file src="images/timer.png" download="true"/>
+    <file src="images/money.png" download="true"/>
+    <file src="images/progress_plus.png" download="true"/>
+    <file src="images/progress_minus.png" download="true"/>
+    <file src="images/fuel.png" download="true"/>
+    <file src="images/wanted_on.png" download="true"/>
+    <file src="images/wanted_off.png" download="true"/>
+    <file src="images/respectline.png" download="true"/>
+	<file src="images/clr.png" download="true"/>
+    <file src="audio/intro_out.wav" download="true"/>
+    <file src="audio/job_trashcollect.wav" download="true"/>
+    <file src="audio/phonering.wav" download="true"/>
+    <file src="audio/phonepickup.wav" download="true"/>
+    <file src="audio/incmoney.wav" download="true"/>
+    <file src="audio/decmoney.wav" download="true"/>
+    <file src="audio/bushorn.wav" download="true"/>
+    <file src="audio/furris_wheel.wav" download="true"/>
+    <file src="audio/starving.wav" download="true"/>
+    <file src="audio/fuelwarn.wav" download="true"/>
+	<file src="audio/message.wav" download="true"/>
+	<file src="audio/police.wav" download="true"/>
+	<file src="audio/flyability.wav" download="true"/>
+	<file src="audio/construction.wav" download="true"/>
+	<file src="audio/genwork.wav" download="true"/>
+	<file src="audio/genon.wav" download="true"/>
+	<file src="audio/genoff.wav" download="true"/>
+	<file src="audio/banhammer.wav" download="true"/>
+	<file src="audio/alarm.wav" download="true"/>
+	<file src="audio/m60.wav" download="true"/>
+	<file src="audio/priceonyourhead.wav" download="true"/>
+    <file src="images/inv_health.dds" download="true"/>
+    <file src="images/inv_boombox.dds" download="true"/>
+    <file src="images/inv_beer.dds" download="true"/>
+    <file src="images/inv_chicken.dds" download="true"/>
+    <file src="images/inv_pizza.dds" download="true"/>
+    <file src="images/inv_burger.dds" download="true"/>
+    <file src="images/inv_sprunk.dds" download="true"/>
+    <file src="images/inv_petrolcan.dds" download="true"/>
+    <file src="images/inv_donut.dds" download="true"/>
+    <file src="images/inv_box.dds" download="true"/>
+    <file src="images/inv_nuts.dds" download="true"/>
+	<file src="images/inv_jimmy.dds" download="true"/>
+	<file src="images/inv_1518.dds" download="true"/>
+    <file src="images/inv_1718.dds" download="true"/>
+    <file src="images/inv_1719.dds" download="true"/>
+    <file src="imgres/fbicheetah.dff" download="true"/>
+    <file src="imgres/fbicheetah.txd" download="true"/>
+    <file src="images/inv_1748.dds" download="true"/>
+    <file src="images/inv_1749.dds" download="true"/>
+    <file src="images/inv_1752.dds" download="true"/>
+    <file src="images/inv_1781.dds" download="true"/>
+    <file src="images/inv_1782.dds" download="true"/>
+    <file src="images/inv_1783.dds" download="true"/>
+    <file src="images/inv_1785.dds" download="true"/>
+    <file src="images/inv_1786.dds" download="true"/>
+    <file src="images/inv_1788.dds" download="true"/>
+    <file src="images/inv_1791.dds" download="true"/>
+    <file src="images/inv_1792.dds" download="true"/>
+    <file src="images/inv_1809.dds" download="true"/>
+    <file src="images/inv_2028.dds" download="true"/>
+    <file src="images/inv_2102.dds" download="true"/>
+    <file src="images/inv_2103.dds" download="true"/>
+    <file src="images/inv_2190.dds" download="true"/>
+    <file src="images/inv_2226.dds" download="true"/>
+    <file src="images/inv_2316.dds" download="true"/>
+    <file src="images/inv_2332.dds" download="true"/>
+    <file src="images/inv_2966.dds" download="true"/>
+    <file src="images/inv_2967.dds" download="true"/>
+    <file src="images/inv_null.dds" download="true"/>
+	<file src="images/drunk16.dds" download="true"/>
+	<file src="images/map.png" download="true"/>
+	<file src="images/lowrider_up.png" download="true"/>
+	<file src="images/lowrider_down.png" download="true"/>
+	<file src="images/lowrider_left.png" download="true"/>
+	<file src="images/lowrider_right.png" download="true"/>
+	<file src="images/lowrider_ring.png" download="true"/>
+	<file src="images/lowrider_chit.png" download="true"/>
+	<file src="images/moneyicon.png" download="true"/>
+	<file src="images/blankicon.png" download="true"/>
+	<file src="images/selcircle.png" download="true"/>
+	<file src="images/think_drink.dds" download="true"/>
+	<file src="images/think_food.dds" download="true"/>
+	<file src="images/chatbubble.dds" download="true"/>
+	<file src="images/tutorial1.png" download="true"/>
+	<file src="images/tutorial2.png" download="true"/>
+	<file src="images/tutorial3.png" download="true"/>
+	<file src="images/tutorial4.png" download="true"/>
+	<file src="images/tutorial5.png" download="true"/>
+	<file src="images/tutorial6.png" download="true"/>
+	<file src="images/tutorial7.png" download="true"/>
+	<file src="images/tutorial8.png" download="true"/>
+	<file src="images/tutorial9.png" download="true"/>
+	<file src="images/tutorial10.png" download="true"/>
+	<file src="images/tutorial11.png" download="true"/>
+	<file src="images/tutorial12.png" download="true"/>
+	<file src="images/tutorial_news.png" download="true"/>
+	<file src="images/tutorial_fbi.png" download="true"/>
+	<file src="images/stats.dds" download="true"/>
+
+      <file src="imgres/torus.dff" download="true"/>
+    <file src="imgres/torus.txd" download="true"/>
+	<file src="imgres/polmav.dff" download="true"/>
+    <file src="imgres/polmav.txd" download="true"/>
+	<file src="imgres/rhino.dff" download="true"/>
+	<file src="imgres/road_lawn03.dff" download="true"/>
+	<file src="imgres/fbi.col" download="true"/>
+	<file src="imgres/FBI.dff" download="true"/>
+	<file src="imgres/fbi.txd" download="true"/>
+    <file src="imgres/rhino.txd" download="true"/>
+	<file src="imgres/hunter.dff" download="true"/>
+    <file src="imgres/hunter.txd" download="true"/>
+	<file src="imgres/patriot.dff" download="true"/>
+	<file src="imgres/bandito.dff" download="true"/>
+    <file src="imgres/bandito.txd" download="true"/>
+	<file src="imgres/hotknife.dff" download="true"/>
+    <file src="imgres/hotknife.txd" download="true"/>
+	<file src="imgres/chopper.dff" download="true"/>
+    <file src="imgres/chopper.txd" download="true"/>
+	<file src="imgres/landstalker.dff" download="true"/>
+    <file src="imgres/landstalker.txd" download="true"/>
+	<file src="imgres/minigun.dff" download="true"/>
+    <file src="imgres/minigun.txd" download="true"/>
+	<file src="imgres/machette.dff" download="true"/>
+    <file src="imgres/machette.txd" download="true"/>
+	<file src="imgres/micro_uzi.dff" download="true"/>
+    <file src="imgres/micro_uzi.txd" download="true"/>
+	<file src="imgres/sawnoff.dff" download="true"/>
+    <file src="imgres/sawnoff.txd" download="true"/>
+	<file src="imgres/python.dff" download="true"/>
+    <file src="imgres/python.txd" download="true"/>
+	<file src="imgres/ak47.dff" download="true"/>
+    <file src="imgres/ak47.txd" download="true"/>
+    <file src="imgres/sniper.dff" download="true"/>
+    <file src="imgres/sniper.txd" download="true"/>
+	<file src="imgres/camera.dff" download="true"/>
+    <file src="imgres/camera.txd" download="true"/>
+	<file src="imgres/tv_stand_by.dff" download="true"/>
+	<file src="imgres/des_byofficeint.txd" download="true"/>
+	<file src="imgres/furn2.dff" download="true"/>
+    <file src="imgres/furn2.txd" download="true"/>
+	<file src="imgres/furn2.col" download="true"/>
+	<file src="imgres/furn4.dff" download="true"/>
+    <file src="imgres/furn4.txd" download="true"/>
+	<file src="imgres/furn4.col" download="true"/>
+	<file src="imgres/furn1.dff" download="true"/>
+    <file src="imgres/furn1.txd" download="true"/>
+	<file src="imgres/furn1.col" download="true"/>
+	<file src="imgres/furn3.dff" download="true"/>
+    <file src="imgres/furn3.txd" download="true"/>
+	<file src="imgres/furn3.col" download="true"/>
+	<file src="imgres/furn5.dff" download="true"/>
+    <file src="imgres/furn5.txd" download="true"/>
+	<file src="imgres/furn5.col" download="true"/>
+	<file src="imgres/furn6.dff" download="true"/>
+    <file src="imgres/furn6.txd" download="true"/>
+	<file src="imgres/furn6.col" download="true"/>
+    <file src="imgres/6490.col" download="true"/>
+	<file src="imgres/6490.dff" download="true"/>
+	<file src="imgres/6490.txd" download="true"/>
+    <file src="imgres/14483.col" download="true"/>
+	<file src="imgres/14483.dff" download="true"/>
+	<file src="imgres/14483.txd" download="true"/>
+    <file src="imgres/2656.col" download="true"/>
+	<file src="imgres/2656.dff" download="true"/>
+	<file src="imgres/2656.txd" download="true"/>
+	<file src="imgres/lasntrk1im03.col" download="true"/>
+    <file src="imgres/mp.txd" download="true"/>
+	<file src="imgres/hp.txd" download="true"/>
+	<file src="imgres/hp.dff" download="true"/>
+	<file src="imgres/hp.col" download="true"/>
+	<file src="imgres/door.dff" download="true"/>
+	<file src="imgres/door.col" download="true"/>
+    <file src="imgres/stt_prop_track_straight_s.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_5d.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_5d_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_15d.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_15d_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_30d.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_180d.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_180d_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_bar_l.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend_bar_l_b.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend2_l.dff" download="true"/>
+    <file src="imgres/stt_prop_track_bend2_l_b.dff" download="true"/>
+    <file src="imgres/stt_prop_track_block_01.dff" download="true"/>
+    <file src="imgres/stt_prop_track_block_02.dff" download="true"/>
+    <file src="imgres/stt_prop_track_block_03.dff" download="true"/>
+    <file src="imgres/stt_prop_track_chicane_l.dff" download="true"/>
+    <file src="imgres/stt_prop_track_chicane_l_02.dff" download="true"/>
+    <file src="imgres/stt_prop_track_chicane_r.dff" download="true"/>
+    <file src="imgres/stt_prop_track_chicane_r_02.dff" download="true"/>
+    <file src="imgres/stt_prop_track_cross.dff" download="true"/>
+    <file src="imgres/stt_prop_track_cross_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_fork.dff" download="true"/>
+    <file src="imgres/stt_prop_track_fork_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_funnel.dff" download="true"/>
+    <file src="imgres/stt_prop_track_link.dff" download="true"/>
+    <file src="imgres/stt_prop_track_start.dff" download="true"/>
+    <file src="imgres/stt_prop_track_start_02.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_bar_l.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_bar_m.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_bar_s.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_l.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_lm.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_lm_bar.dff" download="true"/>
+    <file src="imgres/stt_prop_track_straight_m.dff" download="true"/>
+    <file src="imgres/1.col" download="true"/>
+    <file src="imgres/2.col" download="true"/>
+    <file src="imgres/3.col" download="true"/>
+    <file src="imgres/4.col" download="true"/>
+    <file src="imgres/5.col" download="true"/>
+    <file src="imgres/6.col" download="true"/>
+    <file src="imgres/7.col" download="true"/>
+    <file src="imgres/8.col" download="true"/>
+    <file src="imgres/9.col" download="true"/>
+    <file src="imgres/10.col" download="true"/>
+    <file src="imgres/11.col" download="true"/>
+    <file src="imgres/12.col" download="true"/>
+    <file src="imgres/13.col" download="true"/>
+    <file src="imgres/14.col" download="true"/>
+    <file src="imgres/15.col" download="true"/>
+    <file src="imgres/16.col" download="true"/>
+    <file src="imgres/17.col" download="true"/>
+    <file src="imgres/18.col" download="true"/>
+    <file src="imgres/19.col" download="true"/>
+    <file src="imgres/20.col" download="true"/>
+    <file src="imgres/21.col" download="true"/>
+    <file src="imgres/22.col" download="true"/>
+    <file src="imgres/23.col" download="true"/>
+    <file src="imgres/24.col" download="true"/>
+    <file src="imgres/25.col" download="true"/>
+    <file src="imgres/26.col" download="true"/>
+    <file src="imgres/27.col" download="true"/>
+    <file src="imgres/28.col" download="true"/>
+    <file src="imgres/29.col" download="true"/>
+    <file src="imgres/30.col" download="true"/>
+    <file src="imgres/31.col" download="true"/>
+    <file src="imgres/32.col" download="true"/>
+    <file src="imgres/33.col" download="true"/>
+    <file src="imgres/34.col" download="true"/>
+    <file src="imgres/35.col" download="true"/>
+    <file src="imgres/5403.dff" download="true"/>
+    <file src="imgres/5403.txd" download="true"/>
+    <file src="imgres/5403.col" download="true"/>
+    <file src="imgres/5708.dff" download="true"/>
+    <file src="imgres/5708.txd" download="true"/>
+    <file src="imgres/5708.col" download="true"/>
+    <file src="imgres/8035.dff" download="true"/>
+    <file src="imgres/8035.txd" download="true"/>
+    <file src="imgres/8035.col" download="true"/>
+    <file src="imgres/8079.dff" download="true"/>
+    <file src="imgres/8079.txd" download="true"/>
+    <file src="imgres/8079.col" download="true"/>
+    <file src="imgres/9593.dff" download="true"/>
+    <file src="imgres/9593.txd" download="true"/>
+    <file src="imgres/9593.col" download="true"/>
+	<file src="imgres/copcarsa.txd" download="true"/>
+	<file src="imgres/copcar.dff" download="true"/>
+	<file src="imgres/copcar.txd" download="true"/>
+	<file src="imgres/polaris.dff" download="true"/>
+	<file src="imgres/polaris.txd" download="true"/>
+	<file src="imgres/polaris_turbo.dff" download="true"/>
+	<file src="imgres/polaris_turbo.txd" download="true"/>
+	<file src="imgres/hellraiser.dff" download="true"/>
+	<file src="imgres/hellraiser.txd" download="true"/>
+	<file src="imgres/deluxo.dff" download="true"/>
+	<file src="imgres/deluxo.txd" download="true"/>
+	<file src="imgres/cheetah.dff" download="true"/>
+	<file src="imgres/cheetah.txd" download="true"/>
+	<file src="imgres/apc.dff" download="true"/>
+	<file src="imgres/apc.txd" download="true"/>
+	<file src="imgres/dodo.dff" download="true"/>
+	<file src="imgres/shamal.dff" download="true"/>
+	<file src="imgres/9585.dff" download="true"/>
+	<file src="imgres/9585.col" download="true"/>
+	<file src="imgres/BTOLAND8_LAS.dff" download="true" />
+	<file src="imgres/LApedhusrea_LAs.dff" download="true" />
+	<file src="imgres/snpedland2_LAS.dff" download="true" />
+	<file src="imgres/snpedteew3_LAS.dff" download="true" />	
+	<file src="imgres/TRNTRK5_LAS.dff" download="true" />	
+	<file src="imgres/BTOLAND8_LAS.col" download="true" />
+	<file src="imgres/LApedhusrea_LAs.col" download="true" />
+	<file src="imgres/lstrud_las.dff" download="true" />	
+	<file src="imgres/lstrud_las.col" download="true" />
+    <file src="imgres/snpedland2_LAS.col" download="true" />
+    <file src="imgres/snpedteew3_LAS.col" download="true" />
+    <file src="imgres/TRNTRK5_LAS.col" download="true" />
+    <file src="imgres/traintrack_las.txd" download="true" />
+
+	
+	<export function='webGetDonateRecordsNum' http='true'/>
+	<export function='webGetDonateInfo' http='true'/>
+	<export function='webApplyDonate' http='true'/>
+	<export function='webGetAccountInfo' http='true'/>
+	<export function='webGetServerId' http='true'/>
+	<export function='soundPlaySFX3D'/>
+	<export function='workNew'/>
+	<export function='workStart'/>
+	<export function='workFinish'/>
+	<export function='workRemoveAllWorkers'/>
+	<export function='workAttachVehicleToWork'/>
+	<export function='workAddWorkerParam'/>
+	<export function='workSetWorkerParam'/>
+	<export function='workGetWorkerParam'/>
+	<export function='workSetState'/>
+	<export function='workGetState'/>
+	<export function='workCollectItem'/>
+	<export function='workWasItemCollected'/>
+	<export function='workGetWorkerByVehicle'/>
+	<export function='workGetWorkVehicle'/>
+	<export function='playerGiveMoney'/>
+	<export function='playerTakeMoney'/>
+	<export function='playerGetMoney'/>
+	<export function='playerShowMessage'/>
+	<export function='playerSendAdminMessage'/>
+	<export function='playerTransferMoney'/>
+	<export function='playerOutputLog'/>
+	<export function='playerRespectChange'/>
+	<export function='playerGetDefaultSpawn'/>
+	<export function='elementSetGhostMode'/>
+	<export function='pickupSetText'/>
+	<export function='groupAttachVehicleToGroup'/>
+	<export function='createAction'/>
+	<export function='isActionAvailableTo'/>
+	<export function='clearActionAvailableTo'/>
+	<export function='setActionAvailableTo'/>
+	<export function='attachActionToPosition'/>
+	<export function='detachActionFromPosition'/>
+	<export function='attachActionToElement'/>
+	<export function='detachActionFromElement'/>
+	<export function='attachActionToSelf'/>
+	<export function='detachActionFromSelf'/>
+	<export function='clearActions'/>
+	<export function='showMissionTitle'/>
+	<export function='showPlace'/>
+	<export function='moveCamera'/>
+	<export function='toggleResplayMessages'/>
+	<export function='getNearbyElementsByType'/>
+	
+	<settings>
+		<setting name="*raceAutoLaunch" value="Yes" friendlyname="Races auto launch" group="" accept="Yes,No" examples="" desc=""/>
+		<setting name="*militaryCanStealWeapons" value="Yes" friendlyname="Stealing weapons from base" group="" accept="Yes,No" examples="" desc=""/>
+		<setting name="*respectDiffPositive" value="10.0" friendlyname="Positive respect multiplier (0.1-10.0)" group="" accept="" examples="" desc=""/>
+		<setting name="*respectDiffNegative" value="10.0" friendlyname="Negative respect multiplier (0.1-10.0)" group="" accept="" examples="" desc=""/>
+		<setting name="*playersPerSpawn" value="20" friendlyname="Players per spawn in current city" group="" accept="" examples="" desc=""/>
+	</settings>
+	
+    <min_mta_version server="1.5.6" client="1.5.6"></min_mta_version>
+</meta>

@@ -1,0 +1,190 @@
+<acl>
+    <group name="Everyone">
+        <acl name="Default"></acl>
+        <object name="user.*"></object>
+        <object name="resource.*"></object>
+    </group>
+    <group name="Moderator">
+        <acl name="Default"></acl>
+        <object name="resource.mapcycler"></object>
+        <object name="resource.mapmanager"></object>
+        <object name="resource.resourcemanager"></object>
+        <object name="resource.votemanager"></object>
+        <object name="user.Admin_Jengas"></object>
+        <object name="resource.adminpp"></object>
+        <object name="user.Admin_Karts"></object>
+        <object name="user.Nikolay_Petrushkin"></object>
+        <object name="user.Test_Account"></object>
+        <object name="user.MrJengas"></object>
+        <object name="user.Pagan_Suarez"></object>
+        <object name="user.Alex_Merser"></object>
+        <object name="user.Xabib_Kytyashvili"></object>
+        <object name="user.Artem_Eliseev"></object>
+        <object name="user.Admin_Aksov"></object>
+        <object name="user.Sergei_Kovalev"></object>
+    </group>
+    <group name="Helper">
+        <acl name="Default"></acl>
+        <object name="user.Pagan_Suarez"></object>
+        <object name="user.Alex_Merser"></object>
+        <object name="user.Usher_Holt"></object>
+        <object name="user.Reimu_Hakurei"></object>
+        <object name="user.Miles_Power"></object>
+        <object name="user.Mike_Wockeez"></object>
+        <object name="user.Miler_Power"></object>
+        <object name="user.Aksov_Goodman"></object>
+        <object name="user.Ramil_Yakubow"></object>
+        <object name="user.Tommy_Merlin"></object>
+        <object name="user.Adrian_Shephard"></object>
+        <object name="user.Den_Jaeger"></object>
+        <object name="user.Toby_Davis"></object>
+        <object name="user.Wiliam_Jonson"></object>
+        <object name="user.Sirius_Snake"></object>
+        <object name="user.Leon_Lombardi"></object>
+        <object name="user.Artur_Molodcov"></object>
+    </group>
+    <group name="Admin">
+        <acl name="Default"></acl>
+        <acl name="RPC"></acl>
+        <acl name="Admin"></acl>
+        <object name="resource.cinema"></object>
+        <object name="resource.anticmdspam"></object>
+        <object name="user.Admin_Deaglos"></object>
+        <object name="user.Karts"></object>
+        <object name="user.Dmitry_Dudarenko"></object>
+        <object name="user.Nikolay_Petrushkin"></object>
+    </group>
+    <group name="Console">
+        <acl name="Default"></acl>
+        <acl name="Console"></acl>
+        <acl name="RPC"></acl>
+        <object name="user.Console"></object>
+        <object name="resource.resplay"></object>
+        <object name="resource.webadmin"></object>
+        <object name="resource.mis_tutorial"></object>
+        <object name="user.Ka_Rts"></object>
+        <object name="user.Dmitry_Dudarenko"></object>
+        <object name="resource.npc_hlc"></object>
+    </group>
+    <group name="Website">
+        <acl name="Default"></acl>
+        <acl name="Website"></acl>
+        <object name="user.resplayru"></object>
+        <object name="resource.performancebrowser"></object>
+    </group>
+    <group name="autoGroup_acpanel">
+        <acl name="autoACL_acpanel"></acl>
+        <object name="resource.acpanel"></object>
+    </group>
+    <acl name="Website">
+        <right name="general.http" access="true"></right>
+        <right name="function.webGetDonateRecordsNum" access="true"></right>
+        <right name="function.webGetDonateInfo" access="true"></right>
+        <right name="function.webApplyDonate" access="true"></right>
+        <right name="function.webGetAccountInfo" access="true"></right>
+        <right name="function.webGetServerId" access="true"></right>
+    </acl>
+    <acl name="Default">
+        <right name="general.http" access="false"></right>
+        <right name="general.ModifyOtherObjects" access="false"></right>
+        <right name="function.callRemote" access="false"></right>
+        <right name="function.fetchRemote" access="false"></right>
+        <right name="command.report" access="false"></right>
+        <right name="command.aexec" access="false"></right>
+        <right name="command.addaccount" access="true"></right>
+        <right name="command.chgpass" access="false"></right>
+        <right name="command.delaccount" access="false"></right>
+        <right name="command.reloadbans" access="false"></right>
+        <right name="command.authserial" access="false"></right>
+        <right name="command.check" access="false"></right>
+        <right name="command.info" access="false"></right>
+        <right name="command.list" access="false"></right>
+        <right name="command.refresh" access="false"></right>
+        <right name="command.refreshall" access="false"></right>
+        <right name="command.restart" access="false"></right>
+        <right name="command.start" access="false"></right>
+        <right name="command.stop" access="false"></right>
+        <right name="command.stopall" access="false"></right>
+        <right name="command.upgrade" access="false"></right>
+        <right name="command.aclrequest" access="false"></right>
+        <right name="command.reloadacl" access="false"></right>
+        <right name="command.ase" access="false"></right>
+        <right name="command.debugdb" access="false"></right>
+        <right name="command.debugjoinflood" access="false"></right>
+        <right name="command.debuguptime" access="false"></right>
+        <right name="command.help" access="false"></right>
+        <right name="command.loadmodule" access="false"></right>
+        <right name="command.unloadmodule" access="false"></right>
+        <right name="command.reloadmodule" access="false"></right>
+        <right name="command.openports" access="false"></right>
+        <right name="command.sfakelag" access="false"></right>
+        <right name="command.shutdown" access="false"></right>
+        <right name="command.sver" access="false"></right>
+        <right name="command.whois" access="false"></right>
+        <right name="command.whowas" access="false"></right>
+        <right name="command.chgmypass" access="false"></right>
+        <right name="command.debugscript" access="false"></right>
+        <right name="command.register" access="false"></right>
+        <right name="command.login" access="true"></right>
+        <right name="command.logout" access="true"></right>
+        <right name="command.nick" access="false"></right>
+        <right name="command.a" access="true"></right>
+        <right name="command.me" access="true"></right>
+        <right name="command.try" access="true"></right>
+        <right name="command.ahelp" access="true"></right>
+        <right name="command.kick" access="true"></right>
+        <right name="command.ban" access="true"></right>
+        <right name="command.banip" access="true"></right>
+        <right name="command.banserial" access="true"></right>
+        <right name="command.unban" access="true"></right>
+        <right name="command.unbanip" access="true"></right>
+        <right name="command.unbanserial" access="true"></right>
+        <right name="command.slap" access="true"></right>
+        <right name="command.warp" access="true"></right>
+        <right name="command.warpto" access="true"></right>
+        <right name="command.jail" access="true"></right>
+        <right name="command.acc" access="true"></right>
+        <right name="command.respect" access="true"></right>
+        <right name="command.reports" access="true"></right>
+        <right name="command.questions" access="true"></right>
+        <right name="command.spec" access="true"></right>
+        <right name="command.specoff" access="true"></right>
+        <right name="command.setleader" access="true"></right>
+        <right name="command.sethelper" access="true"></right>
+        <right name="command.removehelper" access="true"></right>
+        <right name="command.resetpass" access="true"></right>
+        <right name="command.heal" access="true"></right>
+    </acl>
+    <acl name="Console">
+        <right name="command.authserial" access="true"></right>
+        <right name="command.chgpass" access="true"></right>
+        <right name="command.upgrade" access="true"></right>
+        <right name="command.stop" access="true"></right>
+        <right name="command.start" access="true"></right>
+        <right name="command.restart" access="true"></right>
+        <right name="command.refresh" access="true"></right>
+    </acl>
+    <acl name="Admin">
+        <right name="command.authserial" access="true"></right>
+        <right name="command.chgpass" access="true"></right>
+        <right name="command.delaccount" access="true"></right>
+        <right name="command.debugscript" access="true"></right>
+        <right name="command.upgrade" access="true"></right>
+        <right name="command.start" access="true"></right>
+        <right name="command.stop" access="true"></right>
+        <right name="command.restart" access="true"></right>
+        <right name="command.refresh" access="true"></right>
+        <right name="command.refreshall" access="true"></right>
+        <right name="command.aclrequest" access="true"></right>
+        <right name="command.reloadacl" access="true"></right>
+    </acl>
+    <acl name="RPC">
+        <right name="function.callRemote" access="true"></right>
+        <right name="function.fetchRemote" access="true"></right>
+    </acl>
+    <acl name="autoACL_acpanel">
+        <right name="function.setServerConfigSetting" access="false" who="" pending="true" date=""></right>
+        <right name="function.kickPlayer" access="false" who="" pending="true" date=""></right>
+        <right name="function.fetchRemote" access="false" who="" pending="true" date=""></right>
+    </acl>
+</acl>
