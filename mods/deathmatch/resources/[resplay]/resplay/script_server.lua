@@ -10367,8 +10367,8 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-		--db = dbConnect("mysql", "dbname=resplay;host=127.0.0.1;port=3306", "resplaymta", "westre0305")
-		db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
+		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
 	until db
 	
 	loadMapFile()
