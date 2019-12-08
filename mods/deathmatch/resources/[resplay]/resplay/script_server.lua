@@ -16233,7 +16233,6 @@ function executeAction(aplr, actionId, params)
 				end
 			end
 
-
 		-- Клиентские действия(с 10001)
 		elseif(actionId == 10001) then
 			local slotId = inventoryCheckForSlot(aplr, 1)
@@ -18101,7 +18100,7 @@ end
 
 function isTestServer()
 	local serverName = getServerName()
-	local i, j = string.find(serverName, "[DEV-CLOSED BETA]")
+	local i, j = string.find(serverName, "[DEV-CLOSED]")
 
 	if i then
 		return true
@@ -25422,7 +25421,7 @@ function gangInit()
 
 	local gbaseHash, baseOwner
 	
-	for i,gbase in ipairs(gangBases) do
+--[[	for i,gbase in ipairs(gangBases) do
 		gbaseHash = base[1]
 		
 		repeat
@@ -25430,7 +25429,7 @@ function gangInit()
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
-	end
+	end]]
 end
 
 function gangSetLeader(gId, gLeader)
