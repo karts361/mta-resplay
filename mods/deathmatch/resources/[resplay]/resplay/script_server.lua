@@ -516,7 +516,7 @@ availableActions = {
 	"Колесо обозрения - Прокатиться",
 	"Колесо обозрения - Покинуть",
 	"Цена за голову - Назначить",
-	"Банда - открыть меню фракции",
+	"Банда - открыть меню",
 	"Банда - Расформировать",
 	"Банда - Пригласить игрока",
 	"Банда - Принять приглашение",
@@ -12705,6 +12705,7 @@ function requestActionsList(aplr)
 		local objs = getNearbyElementsByType(aplr, "object", nearbyPlayersRadius)
 		local clan = getPlayerClan(aplr)
 		local fId = fractionGetPlayerFraction(aplr)
+		local gId = gangGetPlayerGang(aplr)
 		local pHelper = isHelper(aplr)
 		local pAdmin = isAdmin(aplr)
 		local pModerator = isModerator(aplr)
