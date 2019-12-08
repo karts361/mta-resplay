@@ -25744,6 +25744,12 @@ function gangUpdate(gId, updatePlayers, updateRanks)
 	end
 end
 
+GangsOrig = {
+	{ "BLOODS", 19 },
+	{ "CRIPS", 20 },
+	{ "Latin Kings", 21 }
+}
+
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
 addEvent("onPlayerGetHash", true)
