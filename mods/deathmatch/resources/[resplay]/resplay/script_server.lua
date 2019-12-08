@@ -406,7 +406,28 @@ playerGroups = {
 			{{46}, {216}}, -- latino
 			{{120}, {216}} -- asian
 		}
-	}
+	},
+	{ "Ballas", {
+			{{102, 103, 104}, {195}}, -- white
+			{{102, 103, 104}, {195}}, -- black
+			{{102, 103, 104}, {195}}, -- latino
+			{{102, 103, 104}, {195}} -- asian
+		}
+	},
+	{ "Groove", {
+			{{105, 106, 107}, {304}}, -- white
+			{{105, 106, 107}, {304}}, -- black
+			{{105, 106, 107}, {304}}, -- latino
+			{{105, 106, 107}, {304}} -- asian
+		}
+	},
+	{ "Vagos", {
+			{{108, 109, 110}, {152}}, -- white
+			{{108, 109, 110}, {152}}, -- black
+			{{108, 109, 110}, {152}}, -- latino
+			{{108, 109, 110}, {152}} -- asian
+		}
+	},
 }
 
 playerGroupSkills = {
@@ -9439,6 +9460,7 @@ function loadMapFile()
 		elemrz = getElementData(respawn, "rotZ")
 		oint = tonumber(getElementData(respawn, "interior"))
 		local fId = tonumber(getElementData(respawn, "fraction"))
+		local gId = tonumber(getElementData(respawn, "gang"))
 		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId })
 		destroyElement(respawn)
 	end
@@ -12524,6 +12546,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		checkPlayerGroup(source)
 		dbqueryresult[1]["usergroup"] = getElementData(source, "usergroup")
 		local fId, pId = fractionGetPlayerFraction(source)
+		local gId, ppId = gangGetPlayerGang(source)
 		
 		if fId then
 			local rankName
@@ -12534,6 +12557,15 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			end
 			setElementData(source, "usergroupname", fractions[fId][1].." - "..rankName)
 			fractionUpdate(fId, true, true)
+		elseif gId then
+			local rankName
+			if(ppId == 0) then
+				rankName = "Лидер"
+			else
+				rankName = gangGetRankName(gId, gangGetPlayerRank(gId, ppId))
+			end
+			setElementData(source, "usergroupname", gangs[gId][1].." - "..rankName)
+			gangUpdate(gId, true, true)
 		else
 			setElementData(source, "usergroupname", playerGroups[dbqueryresult[1]["usergroup"]][1])
 		end
@@ -13526,6 +13558,10 @@ function requestActionsList(aplr)
 			end
 		end
 		
+		if gId then 
+			table.insert(alist, { 33, availableActions[33], {}, nil, 255, 255, 255 })
+		end
+		
 		if fId then
 			table.insert(alist, { 125, availableActions[125], {}, nil, 255, 255, 255 })
 		end
@@ -13537,7 +13573,7 @@ function requestActionsList(aplr)
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
 				table.insert(alist, { 126, availableActions[126], {}, { "Фракция", "Игрок" }, 255, 0, 0 })
-				--table.insert(alist, { 703, "Фракция - Cнять лидера", {}, { "Фракция", "Игрок" }, 255, 0, 0 })
+				table.insert(alist, { 703, "Банда - назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
 				table.insert(alist, { 133, availableActions[133], { "player" }, { "Игрок" }, 255, 0, 0 })
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
 				if pAdmin then 
@@ -14200,7 +14236,10 @@ function executeAction(aplr, actionId, params)
 			end
 		
 		elseif(actionId == 33) then
-			-- BLANK
+			local gId = gangGetPlayerGang(aplr)
+			if gId then
+				triggerClientEvent(aplr, "onGangOpenMenu", aplr)
+			end
 		
 		elseif(actionId == 34) then
 			-- BLANK
@@ -16164,30 +16203,35 @@ function executeAction(aplr, actionId, params)
 			end
 			
 		elseif(actionId == 703) then
-			local fFound = false
+			local gFound = false
 			local pFound = false
 			
-			for fId,fInfo in ipairs(fractions) do
-				if(string.lower(fInfo[1]) == string.lower(params[1])) then
+			for gId,gInfo in ipairs(gangs) do
+				if(string.lower(gInfo[1]) == string.lower(params[1])) then
 					local plr = getPlayerFromName(params[2])
-					fFound = true
+					gFound = true
 					
 					if plr then
 						pFound = true
-						local setResult = fractionRemoveLeader(fId, plr)
+						local setResult = gangSetPlayerGang(plr, gId)
 						
 						if(setResult == true) then
-							playerShowMessage(aplr, "Вы сняли игрока "..params[2].." с лидера")
-							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." снял вас с лидера фракции '"..params[1].."'.")
+							setResult = gangSetLeader(gId, plr)
+						end
+						
+						if(setResult == true) then
+							playerShowMessage(aplr, "Вы назначили игрока "..params[2].." лидером банды '"..params[1].."'.")
+							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." назначил вас лидером банды '"..params[1].."'.")
 						
 						else
-							playerShowMessage(aplr, "Не удалось снять данного игрока с лидера. Причина: "..tostring(setResult)..".")
+							playerShowMessage(aplr, "Не удалось назначить данного игрока лидером. Причина: "..tostring(setResult)..".")
 						end
 					end
 					
 					break
 				end
 			end
+
 
 		-- Клиентские действия(с 10001)
 		elseif(actionId == 10001) then
@@ -25299,6 +25343,406 @@ end
 
 addEvent("onHouseSellGosDecline", true)
 addEventHandler("onHouseSellGosDecline", root, houseSellGosDecline)
+
+------- ФРАКЦИИ БАНД ----------
+
+function gangGetAllGroups()
+	local groups = {}
+	
+	for _,gang in ipairs(gangs) do
+		groups[gang[2]] = true
+	end
+	
+	return groups
+end
+
+function gangInit()
+	dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(2, 4, 5, 17, 18 )", getRealTime().timestamp-1814400)
+	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	
+	local gHash
+	gangs = gangsOrig
+	
+	for i,gInfo in ipairs(gangs) do
+		gHash = getHash(gInfo[1])
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT gleader, granks FROM gangs WHERE name = ?", gHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		
+		if(#dbqueryresult < 1) then
+			dbExec(db, "INSERT INTO gangs(name,gleader,granks) VALUES(?,0,3)", gHash)
+			dbqueryresult[1] = {}
+			dbqueryresult[1]["gleader"] = 0
+			dbqueryresult[1]["granks"] = 3
+		end
+		
+		table.insert(gangs[i], dbqueryresult[1]["gleader"])
+		table.insert(gangs[i], dbqueryresult[1]["granks"])
+		table.insert(gangs[i], {})
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT name, grank FROM users WHERE gang = ?", gHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		for _,rec in ipairs(dbqueryresult) do
+			table.insert(gangs[i][5], { rec["name"], rec["grank"] })
+		end
+	end
+
+	local gbaseHash, baseOwner
+	
+	for i,gbase in ipairs(gangBases) do
+		gbaseHash = base[1]
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT gang, FROM gangBases WHERE id=?", gbaseHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+	end
+end
+
+function gangSetLeader(gId, gLeader)
+	local curGang, pId = gangGetPlayerGang(gLeader)
+	
+	if(curGang == gId) then
+		local gHash = getHash(gangs[gId][1])
+		local gLeaderHash = getHash(getPlayerName(gLeader))
+		
+		if dbExec(db, "UPDATE gangs SET gleader = ? WHERE name = ?", gLeaderHash, gHash) then
+			local curGLeader = gangs[gId][3]
+			addNewEventToLog(curLeader, "Банда - Снят с лидера - "..gangs[gId][1])
+			gangs[gId][3] = gLeaderHash
+			table.remove(gangs[gId][5], pId)
+			
+			if curLeader and(curLeader ~= 0) then
+				local players = getElementsByType("player")
+				table.insert(gangs[gId][5], { curLeader, gangs[gId][4] })
+				
+				for _,curPlr in ipairs(players) do
+					if(getHash(getPlayerName(curPlr)) == curLeader) then
+						setElementData(curPlr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gangs[gId][4]))
+						break
+					end
+				end
+			end
+			
+			setElementData(gLeader, "usergroupname", gangs[gId][1].." - Лидер")
+			addNewEventToLog(gLeaderHash, "Банда - Назначен лидером - "..gangs[gId][1])
+			gangUpdate(gId, true, false)
+			
+			return true
+		end
+	end
+	return false
+end
+
+function gangGetGangByHash(gHash)
+	for gId,gangInfo in ipairs(gangsOrig) do
+		if getHash(gangInfo[1]) == gHash then
+			return gId, gangInfo[1]
+		end
+	end
+	
+	return nil
+end
+
+function gangGetLeader(gId)
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		if(getHash(getPlayerName(plr)) == gangs[gId][3]) then
+			return plr
+		end
+	end
+	
+	return nil
+end
+
+function gangGetGroup(gId)
+	return gangs[gId][2]
+end
+
+function gangGetPlayersOnline(gId)
+	local pHash
+	local gangPlayers = {}
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		pHash = getHash(getPlayerName(plr))
+		
+		if(pHash == gangs[gId][3]) then
+			table.insert(gangPlayers, { getPlayerName(plr), "Лидер" })
+		
+		else
+			for _,pInfo in ipairs(gangs[gId][5]) do
+				if(pHash == pInfo[1]) then
+					table.insert(gangPlayers, { getPlayerName(plr), gangGetRankName(gId, pInfo[2]) })
+					break
+				end
+			end
+		end
+		
+	end
+	
+	return gangPlayers
+end
+
+function gangGetPlayerGang(plr)
+	for gId,gInfo in ipairs(gangs) do
+		if(getHash(getPlayerName(plr)) == gangs[gId][3]) then
+			return gId, 0
+		end
+		
+		for pId,pInfo in ipairs(gInfo[5]) do
+			if(getHash(getPlayerName(plr)) == pInfo[1]) then
+				return gId, pId
+			end
+		end
+		
+	end
+	
+	return nil
+end
+
+function gangSetPlayerGang(plr, gId)
+	local curGang = gangGetPlayerGang(plr)
+	
+	if(not curGang) and(not isPlayerBusy(plr)) then
+		local pHash = getHash(getPlayerName(plr))
+		local gHash = getHash(gangs[gId][1])
+		local setResult = setPlayerNewGroup(plr, gangs[gId][2], true)
+		
+		if(setResult == true) then
+			if dbExec(db, "UPDATE users SET gang=?,grank=1 WHERE name = ?", gHash, pHash) then
+				setElementData(plr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, 1))
+				table.insert(gangs[gId][5], { pHash, 1 })
+				addNewEventToLog(pHash, "Банда - Принят - "..gangs[gId][1])
+				return true
+			end
+			
+			return "ошибка базы данных. Свяжитесь с администрацией, сообщив все подробности ошибки"
+		
+		else
+		
+			return setResult
+		end
+	end
+	
+	return "игрок занят на данный момент или находится в другой банде"
+end
+
+function gangRemovePlayerFromGang(plr)
+	local gId, pId = gangGetPlayerGang(plr)
+	
+	if gId and(not isPlayerBusy(plr)) then
+		local grank = gangs[gId][5][pId][2]
+		
+		if(grank > 0) then
+			local pHash = getHash(getPlayerName(plr))
+			
+			if dbExec(db, "UPDATE users SET gang=0,grank=0 WHERE name = ?", pHash) then
+				table.remove(gangs[gId][5], pId)
+				addNewEventToLog(pHash, "Банда - Исключён - "..gangs[gId][1])
+				gangUpdate(gId, true, false)
+				return true
+			end
+			
+		end
+		
+	end
+	
+	return false
+end
+
+function gangSetPlayerRank(gId, pId, gRank)
+	local pInfo = gangs[gId][5][pId]
+	local curPlayer
+	
+	if not pInfo then
+		return false
+	end
+	
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		if(getHash(getPlayerName(plr)) == pInfo[1]) then
+			if isPlayerBusy(plr) then
+				return false
+			else
+				curPlayer = plr
+				setElementData(curPlayer, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gRank))
+				break
+			end
+		end
+	end
+	
+	if(pInfo[2] ~= gRank) then
+		if not dbExec(db, "UPDATE users SET grank = ? WHERE name = ?", gRank, pInfo[1]) then
+			return false
+		end
+		
+		gangs[gId][5][pId][2] = gRank
+	end
+	
+	addNewEventToLog(gangs[gId][5][pId][1], "Банда - Установлен ранг - "..gangs[gId][1]..", Ранг "..gRank)
+	
+	return true
+end
+
+function gangGetPlayerRank(gId, pId)
+	local pInfo = gangs[gId][5][pId]
+	
+	if not pInfo then
+		return nil
+	end
+	
+	return pInfo[2]
+end
+
+function gangSetMaxRank(gId, gRank)
+	local gHash = getHash(gangs[gId][1])
+	
+	if not dbExec(db, "UPDATE gangs SET granks = ? WHERE name = ?", gRank, gHash) then
+		return false
+	end
+	
+	gangs[gId][4] = gRank
+	local gHash = getHash(gangs[gId][1])
+	local players = getElementsByType("player")
+	
+	for pId,pInfo in ipairs(gangs[gId][5]) do
+		if(pInfo[2] > gRank) then
+			dbExec(db, "UPDATE users SET grank = ? WHERE name = ?", gRank, gangs[gId][5][pId][1])
+			gangs[gId][5][pId][2] = gRank
+			
+			for _,plr in ipairs(players) do
+				if(getHash(getPlayerName(plr)) == gangs[gId][5][pId][1]) then
+					setElementData(plr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gRank))
+					break
+				end
+			end
+			
+		end
+	end
+	
+	return true
+end
+
+function gangSetRankName(gId, gRank, rName)
+	local gHash = getHash(gangs[gId][1])
+	
+	if not dbExec(db, "UPDATE gangRanks SET name = ? WHERE gang = ? AND grank = ?", rName, gHash, gRank) then
+		return false
+	end
+	
+	--local players = getElementsByType("player")
+	
+	for pId,pInfo in ipairs(gangs[gId][5]) do
+		if(pInfo[2] == gRank) then
+			gangSetPlayerRank(gId, pId, gRank)
+		end
+	end
+	
+	return true
+end
+
+function gangGetRankName(gId, gRank)
+	local gHash = getHash(gangs[gId][1])
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT name FROM gangRanks WHERE gang = ? AND grank = ?", gHash, gRank)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if(#dbqueryresult < 1) then
+		local newName = "Ранг "..tostring(gRank)
+		
+		if not dbExec(db, "INSERT INTO gangRanks(gang,grank,name) VALUES(?,?,?)", gHash, gRank, newName) then
+			return nil
+		end
+		
+		dbqueryresult[1] = {}
+		dbqueryresult[1]["name"] = newName
+	end
+	return dbqueryresult[1]["name"]
+end
+
+function gangDoesMemberHaveRight(gId, member, rightName)
+	local mGang, mId = gangGetPlayerGang(member)
+	
+	if(mGang ~= gId) then
+		return false
+	end
+	
+	local mRank
+	
+	if(mId ~= 0) then
+		mRank = gangGetPlayerRank(gId, mId)
+		if not mRank then
+			return false
+		end
+	end
+	
+	local mHash = getHash(getPlayerName(member))
+	
+	if(rightName == "AddRank") or (rightName == "RemoveRank") or (rightName == "RenameRank") then
+		return(gangs[gId][3] == mHash)
+	
+	elseif(rightName == "AddMember") or (rightName == "UpgradeMember") or (rightName == "DowngradeMember") then
+		return((gangs[gId][3] == mHash) or (mRank >=(gangs[gId][4] - 2)))
+	end
+	
+	return false
+end
+
+function gangGetRanks(gId)
+	local gangRanks = {}
+	
+	for i=1,gangs[gId][4] do
+		table.insert(gangRanks, { tostring(i), gangGetRankName(gId, i) })
+	end
+	
+	return gangRanks
+end
+
+function gangUpdate(gId, updatePlayers, updateRanks)
+	local newInfo = {}
+	local players = getElementsByType("player")
+	local members = {}
+	local curgang
+	--if updatePlayers then
+	
+	if true then
+		newInfo[1] = gangGetPlayersOnline(gId)
+	end
+	
+	--if updateRanks then
+	
+	if true then
+		newInfo[2] = gangGetRanks(gId)
+	end
+	
+	for _,plr in ipairs(players) do
+		if getElementData(plr, "spawned") then
+			curgang = gangGetPlayerGang(plr)
+			if(curgang == gId) then
+				table.insert(members, plr)
+			end
+		end
+	end
+	
+	if(#members > 0) then
+		triggerClientEvent(members, "onGangRefreshMenu", resourceRoot, newInfo)
+	end
+end
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

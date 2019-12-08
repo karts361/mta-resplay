@@ -51,7 +51,10 @@ playerGroups = {
 	{ "Администрация", 255, 0, 0 },
 	{ "Продавец", 255, 64, 16 },
 	{ "ФБР", 0, 255, 220 },
-	{ "СМИ", 0, 255, 147}	
+	{ "СМИ", 0, 255, 147},
+	{ "Ballas", 193, 5, 201},	
+	{ "Groove", 7, 200, 0},
+	{ "Vagos", 253, 182, 3}
 }
 
 
@@ -10168,6 +10171,223 @@ function disableAlarmLSA()
 	destroyElement(alarmlsa)
 end
 addEventHandler("lsaAlarmDisable", getRootElement(), disableAlarmLSA)
+
+-- функционал банд --
+
+gangWin = nil
+gangMembersList = nil
+gangMembersColName = nil
+gangMembersColRank = nil
+gangPlayerName = nil
+gangRankList = nil
+gangRankColId = nil
+gangRankColName = nil
+gangRankName = nil
+
+function gangInitMenu()
+	if not gangWin then
+		local wW = 600
+		gangWin = guiCreateWindow(sW/2-wW/2, sH/2-300, wW, 600, "Банда", false)
+		guiWindowSetMovable(gangWin, false)
+		guiWindowSetSizable(gangWin, false)
+		guiSetVisible(gangWin, false)
+		guiCreateLabel(10, 25, wW-20, 20, "Члены банды(онлайн):", false, gangWin)
+		gangMembersList = guiCreateGridList(10, 45, wW-20, 255, false, gangWin)
+		guiGridListSetSortingEnabled(gangMembersList, false)
+		gangMembersColName = guiGridListAddColumn(gangMembersList, "Член", 0.3)
+		gangMembersColRank = guiGridListAddColumn(gangMembersList, "Ранг", 0.55)
+		gangPlayerName = guiCreateEdit(10, 310, wW/4-20, 20, "Имя игрока", false, gangWin)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/4, 310, wW/4-40, 20, "Добавить", false, gangWin), gangAddMember, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2-10, 310, wW/4-20, 20, "Повысить", false, gangWin), gangUpgradeMember, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/4*3-20, 310, wW/4-20, 20, "Понизить", false, gangWin), gangDowngradeMember, false)
+		guiCreateLabel(10, 340, wW/2-15, 20, "Члены банды(онлайн):", false, gangWin)
+		gangRankList = guiCreateGridList(10, 360, wW/2-15, 190, false, gangWin)
+		gangRankColId = guiGridListAddColumn(gangRankList, "#", 0.1)
+		gangRankColName = guiGridListAddColumn(gangRankList, "Ранг", 0.75)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 360, wW/2-15, 20, "Добавить ранг", false, gangWin), gangAddRank, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 385, wW/2-15, 20, "Удалить ранг", false, gangWin), gangRemoveRank, false)
+		gangRankName = guiCreateEdit(wW/2+5, 435, wW/2-15, 20, "Имя ранга", false, gangWin)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 460, wW/2-15, 20, "Переименовать", false, gangWin), gangRenameRank, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(10, 570, wW-20, 20, "Закрыть", false, gangWin), gangBtnClose, false)
+	end
+end
+
+function gangOpenMenu()
+	if gangWin and(not guiGetVisible(gangWin)) then
+		guiSetVisible(gangWin, true)
+		guiSetInputMode("no_binds_when_editing")
+		showCursor(true)
+	end
+end
+
+function gangBtnClose(btn)
+	if(btn == "left") then
+		gangCloseMenu()
+	end
+end
+
+function gangCloseMenu()
+	if gangWin and guiGetVisible(gangWin) then
+		guiSetVisible(gangWin, false)
+		guiSetInputMode("no_binds_when_editing")
+		checkCursor()
+	end
+end
+
+function gangRefreshMenu(newInfo)
+	if gangWin then
+		local row, rowText
+		if newInfo[1] then
+			row = guiGridListGetSelectedItem(gangMembersList)
+			
+			if row and(row >= 0) then
+				rowText = guiGridListGetItemText(gangMembersList, row, gangMembersColName)
+			end
+			
+			guiGridListClear(gangMembersList)
+			
+			for _,memberInfo in ipairs(newInfo[1]) do
+				row = guiGridListAddRow(gangMembersList, memberInfo[1], memberInfo[2])
+				
+				if rowText and(rowText == memberInfo[1]) then
+					guiGridListSetSelectedItem(gangMembersList, row, gangMembersColName)
+				end
+				
+			end
+			
+		end
+		rowText = nil
+		
+		if newInfo[2] then
+			row = guiGridListGetSelectedItem(gangRankList)
+			
+			if row and(row >= 0) then
+				rowText = guiGridListGetItemText(gangRankList, row, gangRankColId)
+			end
+			guiGridListClear(gangRankList)
+			
+			for _,rankInfo in ipairs(newInfo[2]) do
+				row = guiGridListAddRow(gangRankList, rankInfo[1], rankInfo[2])
+				
+				if rowText and(rowText == rankInfo[1]) then
+					guiGridListSetSelectedItem(gangRankList, row, gangRankColId)
+				end
+				
+			end
+			
+		end
+	end
+end
+
+function gangAddMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangAddMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangUpgradeMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangUpgradeMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangDowngradeMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangDowngradeMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangAddRank(btn)
+	if(btn == "left") then
+		triggerServerEvent("onGangAddRank", resourceRoot, localPlayer)
+	end
+end
+
+function gangRemoveRank(btn)
+	if(btn == "left") then
+		local row = guiGridListGetSelectedItem(gangRankList)
+		
+		if(not row) or (row < 0) then
+			msgAdd("Выберите ранг для удаления.")
+			return false
+		end
+		
+		local rankId = tonumber(guiGridListGetItemText(gangRankList, row, gangRankColId))
+		
+		if not rankId then
+			return false
+		end
+		
+		triggerServerEvent("onGangRemoveRank", resourceRoot, localPlayer, rankId)
+	end
+end
+
+function gangRenameRank(btn)
+	if(btn == "left") then
+		local row = guiGridListGetSelectedItem(gangRankList)
+		
+		if(not row) or (row < 0) then
+			msgAdd("Выберите ранг для переименования.")
+			return false
+		end
+		
+		local rankId = tonumber(guiGridListGetItemText(gangRankList, row, gangRankColId))
+		
+		if not rankId then
+			return false
+		end
+		
+		local rankName = guiGetText(gangRankName)
+		
+		if(string.len(rankName) == 0) then
+			msgAdd("Введите имя ранга.")
+			return false
+		end
+		
+		triggerServerEvent("onGangRenameRank", resourceRoot, localPlayer, rankId, rankName)
+	end
+end
 
 
 addEvent("onSaNewsShow", true)
