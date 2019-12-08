@@ -19,7 +19,7 @@ luac.out
 *.db
 
 # MTA files
-#/mods/deathmatch/acl.xml
+/mods/deathmatch/acl.xml
 /mods/deathmatch/logs
 /mods/deathmatch/backups
 /mods/deathmatch/resource-cache
