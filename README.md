@@ -1,4 +1,4 @@
-# Resplay Server (РЕПОЗИТОРИЙ ДЛЯ ПРОДАКШН СЕРВЕРА)
+# Resplay Server 
 
 MTA Resplay Server
 
