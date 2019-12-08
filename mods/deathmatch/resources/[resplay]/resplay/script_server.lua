@@ -18056,7 +18056,7 @@ end
 
 function isTestServer()
 	local serverName = getServerName()
-	local i, j = string.find(serverName, "TEST")
+	local i, j = string.find(serverName, "[DEV-CLOSED BETA]")
 
 	if i then
 		return true
