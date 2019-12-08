@@ -10,38 +10,10 @@
         <object name="resource.mapmanager"></object>
         <object name="resource.resourcemanager"></object>
         <object name="resource.votemanager"></object>
-        <object name="user.Admin_Jengas"></object>
         <object name="resource.adminpp"></object>
-        <object name="user.Admin_Karts"></object>
-        <object name="user.Nikolay_Petrushkin"></object>
-        <object name="user.Test_Account"></object>
-        <object name="user.MrJengas"></object>
-        <object name="user.Pagan_Suarez"></object>
-        <object name="user.Alex_Merser"></object>
-        <object name="user.Xabib_Kytyashvili"></object>
-        <object name="user.Artem_Eliseev"></object>
-        <object name="user.Admin_Aksov"></object>
-        <object name="user.Sergei_Kovalev"></object>
     </group>
     <group name="Helper">
         <acl name="Default"></acl>
-        <object name="user.Pagan_Suarez"></object>
-        <object name="user.Alex_Merser"></object>
-        <object name="user.Usher_Holt"></object>
-        <object name="user.Reimu_Hakurei"></object>
-        <object name="user.Miles_Power"></object>
-        <object name="user.Mike_Wockeez"></object>
-        <object name="user.Miler_Power"></object>
-        <object name="user.Aksov_Goodman"></object>
-        <object name="user.Ramil_Yakubow"></object>
-        <object name="user.Tommy_Merlin"></object>
-        <object name="user.Adrian_Shephard"></object>
-        <object name="user.Den_Jaeger"></object>
-        <object name="user.Toby_Davis"></object>
-        <object name="user.Wiliam_Jonson"></object>
-        <object name="user.Sirius_Snake"></object>
-        <object name="user.Leon_Lombardi"></object>
-        <object name="user.Artur_Molodcov"></object>
     </group>
     <group name="Admin">
         <acl name="Default"></acl>
@@ -49,10 +21,7 @@
         <acl name="Admin"></acl>
         <object name="resource.cinema"></object>
         <object name="resource.anticmdspam"></object>
-        <object name="user.Admin_Deaglos"></object>
         <object name="user.Karts"></object>
-        <object name="user.Dmitry_Dudarenko"></object>
-        <object name="user.Nikolay_Petrushkin"></object>
     </group>
     <group name="Console">
         <acl name="Default"></acl>
@@ -62,8 +31,7 @@
         <object name="resource.resplay"></object>
         <object name="resource.webadmin"></object>
         <object name="resource.mis_tutorial"></object>
-        <object name="user.Ka_Rts"></object>
-        <object name="user.Dmitry_Dudarenko"></object>
+        <object name="user.Karts"></object>
         <object name="resource.npc_hlc"></object>
     </group>
     <group name="Website">
