@@ -25744,7 +25744,7 @@ function gangUpdate(gId, updatePlayers, updateRanks)
 	end
 end
 
-GangsOrig = {
+gangsOrig = {
 	{ "BLOODS", 19 },
 	{ "CRIPS", 20 },
 	{ "Latin Kings", 21 }
