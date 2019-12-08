@@ -407,21 +407,21 @@ playerGroups = {
 			{{120}, {216}} -- asian
 		}
 	},
-	{ "Ballas", {
+	{ "Bloods", {
 			{{102, 103, 104}, {195}}, -- white
 			{{102, 103, 104}, {195}}, -- black
 			{{102, 103, 104}, {195}}, -- latino
 			{{102, 103, 104}, {195}} -- asian
 		}
 	},
-	{ "Groove", {
+	{ "Crips", {
 			{{105, 106, 107}, {304}}, -- white
 			{{105, 106, 107}, {304}}, -- black
 			{{105, 106, 107}, {304}}, -- latino
 			{{105, 106, 107}, {304}} -- asian
 		}
 	},
-	{ "Vagos", {
+	{ "Latin Kings", {
 			{{108, 109, 110}, {152}}, -- white
 			{{108, 109, 110}, {152}}, -- black
 			{{108, 109, 110}, {152}}, -- latino
@@ -24584,6 +24584,30 @@ function adminCMDacc(plr, nickname)
 			end
 			
 			infoStr = infoStr..tostring(fName).."\r\nРанг во фракции: "..rName.."\r\nИгроков во фракции: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
+		else
+			infoStr = infoStr.."нет\r\n"
+		end
+		
+		infoStr = infoStr.."Банда: "
+		dbInfo["gang"] = tonumber(dbInfo["gang"])
+		dbInfo["grank"] = tonumber(dbInfo["grank"])
+		
+		if dbInfo["gang"] ~= 0 then
+			repeat
+				local dbq = dbQuery(db, "SELECT gangs.gleader,gangs.granks,COUNT(users.name) AS pCount FROM gangs JOIN users ON users.gang=gangs.name WHERE gangs.name=?", dbInfo["gang"])
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+			local gId, fName = gangGetgangByHash(dbInfo["gang"])
+			local rName
+			
+			if(tonumber(dbqueryresult[1]["gleader"]) == pHash) then
+				rName = "Лидер"
+			else
+				rName = gangGetgrankName(gId, dbInfo["grank"]).."("..tostring(dbInfo["grank"]).."/"..tostring(dbqueryresult[1]["granks"])..")"
+			end
+			
+			infoStr = infoStr..tostring(fName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
 		else
 			infoStr = infoStr.."нет\r\n"
 		end
