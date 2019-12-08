@@ -25,12 +25,8 @@ luac.out
 /mods/deathmatch/resource-cache
 /mods/deathmatch/dumps
 /mods/deathmatch/databases
-/mods/deathmatch/mtaserver.conf
 /mods/deathmatch/resources/[resplay]/resplay/banlist.xml 
-/mods/deathmatch/resources/[resplay]/resplay/resplay.map
 /mods/deathmatch/internal.db 
 /mods/deathmatch/registry.db
 /mods/deathmatch/resources/[admin]/adminpp/admin.db
-/mods/deathmatch/mtaserver.conf
-
 .DS_Store
