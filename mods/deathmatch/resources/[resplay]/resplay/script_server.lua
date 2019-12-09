@@ -12353,11 +12353,15 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	
+	lastSerial = getPlayerSerial(source)
+	
 	if(playerShouldBeSpawned) then
 		local curTime = getRealTime()
 		addNewEventToLog(getPlayerName(source), "Аккаунты - Вход - nil", true)
 		outputServerLog("RESPLAY: "..getPlayerName(source).." has logged in")
+		
 		dbExec(db, "UPDATE users SET lastLogin=? WHERE name=?", curTime.timestamp, sHash)
+		dbExec(db, "UPDATE users SET lastSerial=? WHERE name=?", lastSerial, sHash)
 		setElementData(source, "usergroup", dbqueryresult[1]["usergroup"])
 
 		
@@ -24604,7 +24608,7 @@ function adminCMDacc(plr, nickname)
 				dbqueryresult = dbPoll(dbq, 30000)
 				dbFree(dbq)
 			until dbqueryresult
-			local gId, fName = gangGetgangByHash(dbInfo["gang"])
+			local gId, gName = gangGetGangByHash(dbInfo["gang"])
 			local rName
 			
 			if(tonumber(dbqueryresult[1]["gleader"]) == pHash) then
@@ -24613,7 +24617,7 @@ function adminCMDacc(plr, nickname)
 				rName = gangGetgrankName(gId, dbInfo["grank"]).."("..tostring(dbInfo["grank"]).."/"..tostring(dbqueryresult[1]["granks"])..")"
 			end
 			
-			infoStr = infoStr..tostring(fName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
+			infoStr = infoStr..tostring(gName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
 		else
 			infoStr = infoStr.."нет\r\n"
 		end
