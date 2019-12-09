@@ -10814,6 +10814,12 @@ addEventHandler("onPlayerFurnitureRemove", resourceRoot, furnitureRemove, false)
 addEventHandler("onMessageBox", resourceRoot, messageBox, false)
 addEventHandler("onWeaponDataSync", resourceRoot, weaponDataSync, false)
 addEventHandler("onSaNewsShow", root, saNewsShow)
+addEvent("onGangOpenMenu", true)
+addEvent("onGangCloseMenu", true)
+addEvent("onGangRefreshMenu", true)
+addEventHandler("onGangOpenMenu", root, gangOpenMenu)
+addEventHandler("onGangCloseMenu", root, gangCloseMenu)
+addEventHandler("onGangRefreshMenu", root, gangRefreshMenu)
 
 setTimer(collectgarbage, 200, 0, "collect")
 

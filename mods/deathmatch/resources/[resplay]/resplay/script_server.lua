@@ -474,7 +474,10 @@ playerGroupRPLevels = {
 	{ 0.0, 1.0 },
 	{ 10.0, 10.0 },
 	{ -1.0, 1.0 },
-	{ 0.0, 0.25 }
+	{ 0.0, 0.25 },
+	{ 0.0, 0.25 },
+	{ -1.0, 1.0 },
+	{ -1.0, 1.0 },
 }
 workStartMarkers = {}
 
@@ -16540,9 +16543,10 @@ function checkPlayerGroup(plr)
 	end
 
 	local fId = fractionGetPlayerFraction(plr)
+	local gId = gangGetPlayerGang(plr)
 	local respectCur = getElementData(plr, "respect")
 	
-	if not fId then
+	if not fId or gId then
 		local curGrp = getElementData(plr, "usergroup")
 		local respectNeedMin, respectNeedMax = playerGroupRPLevels[curGrp][1], playerGroupRPLevels[curGrp][2]
 		local moneyAmount = getMoney(plr)
@@ -25803,6 +25807,14 @@ addEvent("onJobEvacuatorNowInVehicle", true)
 addEvent("onJobTruckerLeftVehicle", true)
 addEvent("onJobTruckerNowInVehicle", true)
 addEvent("onJobTruckerTimesup", true)
+
+addEvent("onGangAddMember", true)
+addEvent("onGangUpgradeMember", true)
+addEvent("onGangDowngradeMember", true)
+addEvent("onGangAddRank", true)
+addEvent("onGangRemoveRank", true)
+addEvent("onGangRenameRank", true)
+
 addEvent("onFriendRequestAdd", true)
 addEvent("onFriendDel", true)
 addEvent("onAcceptFriendRequest", true)
@@ -26025,6 +26037,13 @@ addEventHandler("onPlayerModInfo", root, playerModInfo)
 addEventHandler("onPlayerFurnitureAccept", resourceRoot, furnitureAccept, false)
 addEventHandler("onPlayerFurnitureDecline", resourceRoot, furnitureDecline, false)
 addEventHandler("onWeaponDataReceive", resourceRoot, receiveClientWeaponData, false)
+
+addEventHandler("onGangAddMember", resourceRoot, gangClientAddMember, false)
+addEventHandler("onGangUpgradeMember", resourceRoot,gangClientUpgradeMember, false)
+addEventHandler("onGangDowngradeMember", resourceRoot, gangClientDowngradeMember, false)
+addEventHandler("onGangAddRank", resourceRoot, gangClientAddRank, false)
+addEventHandler("onGangRemoveRank", resourceRoot, gangClientRemoveRank, false)
+addEventHandler("onGangRenameRank", resourceRoot, gangClientRenameRank, false)
 --addEventHandler("onPlayerCommand", root, playerCmd)
 
 addCommandHandler("a", chatCmdMessage, true, false) -- Admin command for announcements to global chat
