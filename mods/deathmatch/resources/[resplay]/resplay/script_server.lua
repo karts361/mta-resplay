@@ -13586,7 +13586,7 @@ function requestActionsList(aplr)
 				table.insert(alist, { 703, "Банда - назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
 				table.insert(alist, { 133, availableActions[133], { "player" }, { "Игрок" }, 255, 0, 0 })
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
-				table.insert(alist, { 83, "Модерация - создать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
+				table.insert(alist, { 83, "Модерация - Cоздать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
 					table.insert(alist, { 702, "Модерация - Удалить аккаунт", {}, { "ID аккаунта" }, 255, 0, 0 })
