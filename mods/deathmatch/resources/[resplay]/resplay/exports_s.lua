@@ -122,12 +122,12 @@ function playerSendAdminMessage(plr, msgtext)
 	
 	if isElement(plr) then
 		plrName = getPlayerName(plr)
-		if isAdmin(plr) then
-			plrRole = "Administrator"
-		else
-			plrRole = "Moderator"
-		end
 	
+		if isAdmin(plr) then
+			plrRole = "Администратор"
+		else isModerator(plr)
+			plrRole = "Модератор"
+	    end
 	else
 		plrName = "RESPLAY"
 		plrRole = "[Server]"
