@@ -3912,12 +3912,13 @@ function militaryBasesProcessCoroutine()
 							addNewEventToLog(getPlayerName(playerInZone), "Военная база - Проникновение - "..cityName, true)
 							criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(playerInZone))
 							wantedLevelInc(playerInZone)
+							triggerClientEvent(playerInZone, "onServerMsgAdd", playerInZone, "Вас объявили в розыск за проникновение на военную базу.")
 						end
 					end
 				end
 				
 			end
-			militaryBaseAlarm(i, enableAlarm) -- Тревога на базе
+			--militaryBaseAlarm(i, enableAlarm) -- Тревога на базе
 		end
 		coroutine.yield()
 	end
