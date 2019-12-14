@@ -13541,8 +13541,8 @@ function requestActionsList(aplr)
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
 				table.insert(alist, { 126, availableActions[126], {}, { "Фракция", "Игрок" }, 255, 0, 0 })
-				--table.insert(alist, { 703, "Фракция - Cнять лидера", {}, { "Фракция", "Игрок" }, 255, 0, 0 })
-				table.insert(alist, { 133, availableActions[133], { "player" }, { "Игрок" }, 255, 0, 0 })
+				table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
+				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
