@@ -12324,12 +12324,15 @@ end
 function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
+	lastSerial = getPlayerSerial(source)
 	
 	if(playerShouldBeSpawned) then
 		local curTime = getRealTime()
 		addNewEventToLog(getPlayerName(source), "Аккаунты - Вход - nil", true)
 		outputServerLog("RESPLAY: "..getPlayerName(source).." has logged in")
+		
 		dbExec(db, "UPDATE users SET lastLogin=? WHERE name=?", curTime.timestamp, sHash)
+		dbExec(db, "UPDATE users SET lastSerial=? WHERE name=?", lastSerial, sHash)
 		setElementData(source, "usergroup", dbqueryresult[1]["usergroup"])
 
 		
@@ -24110,10 +24113,10 @@ function adminCMDkick(plr, nickname, ...)
 	outputChatBox(generateTimeString().."KICK: "..kickName.." кикнут игроком "..getPlayerName(plr).." по причине "..table.concat({...}, " ").. ".", getRootElement(), 255, 0, 0)
 end
 
-function adminCMDban(plr, nickname, hours, ...)
+function adminCMDban(plr, nickname, serial, hours, ...)
     banHours = tonumber(hours)
     local banTime = getTimeString(banHours*3600000, "v", true)
-	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "player", nickname, table.concat({...}, " "), hours })
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "serial", serial, table.concat({...}, " "), hours })
     if (banHours > 0) then
 	    outputChatBox(generateTimeString().."BAN: "..nickname.." забанен игроком "..getPlayerName(plr).." по причине "..table.concat({...}, " ").. " на "..banTime..".", getRootElement(), 255, 0, 0)
 	else
@@ -24121,24 +24124,26 @@ function adminCMDban(plr, nickname, hours, ...)
 	end
 end
 
+
 function adminCMDbanip(plr, ip, hours, ...)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "ip", ip, table.concat({...}, " "), hours })
 end
 
-function adminCMDbanserial(plr, serial, hours, ...)
-	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "serial", serial, table.concat({...}, " "), hours })
+
+function adminCMDbanaccount(plr, nickname, hours, ...)
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "player", nickname, table.concat({...}, " "), hours })
 end
 
-function adminCMDunban(plr, nickname)
-	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "player", nickname })
+function adminCMDunban(plr, serial)
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "serial", serial })
 end
 
 function adminCMDunbanip(plr, ip)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "ip", ip })
 end
 
-function adminCMDunbanserial(plr, serial)
-	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "serial", serial })
+function adminCMDunbanaccount(plr, nickname)
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "player", nickname })
 end
 
 function adminCMDslap(plr, nickname)
@@ -24475,7 +24480,7 @@ function adminCMDacc(plr, nickname)
 		local plrBansCount = #plrBans
 		local infoStr = "ID: "..tostring(pHash).."\r\nСтатус: "..(infoPlr and "онлайн" or "оффлайн").."\r\nПоследняя авторизация: "..timeToString(getRealTime(tonumber(dbInfo["lastLogin"]))).."\r\n"
 		infoStr = infoStr.."IP при регистрации: "..dbInfo["regip"].."\r\nСерийный номер при регистрации: "..dbInfo["serial"].."\r\n"
-		infoStr = infoStr.."Текущий IP: "..(plrIP or "нет").."\r\nТекущий серийный номер: "..(plrSerial or "нет").."\r\n"
+		infoStr = infoStr.."Текущий IP: "..(plrIP or "нет").."\r\nПоследний использованный с/н: "..dbInfo["lastSerial"].."\r\n"
 		
 		if plrIP then
 			infoStr = infoStr.."Аккаунтов с этим IP: "
