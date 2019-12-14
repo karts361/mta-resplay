@@ -1,12 +1,13 @@
 <commands>
 	<command name="ahelp" level="1" description="/ahelp - Помощь для администрации"/>
 	<command name="kick" level="1" description="/kick [часть ника] [причина] - Кикнуть игрока"/>
-	<command name="ban" level="2" description="/ban [часть ника] [часы] [причина] - Забанить аккаунт"/>
+	<command name="ban" level="2" description="/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока"/>
 	<command name="banip" level="2" description="/banip [IP] [часы] [причина] - Забанить игрока по IP"/>
-	<command name="banserial" level="2" description="/banserial [серийный номер] [часы] [причина] - Забанить игрока по серийному номеру"/>
+	<command name="banaccount" level="2" description="/banserial [серийный номер] [часы] [причина] - Забанить аккаунт"/>
 	<command name="unban" level="2" description="/unban [часть ника] - Разбанить аккаунт"/>
 	<command name="unbanip" level="2" description="/unbanip [IP] - Разбанить игрока по IP"/>
-	<command name="unbanserial" level="2" description="/unbanserial [серийный номер] - Разбанить игрока по серийному номеру"/>
+	<command name="unbanserial" level="2" description="/unban [серийный номер] - Разбанить игрока"/>
+	<command name="unbanaccount" level="2" description="/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока"/>
 	<command name="slap" level="1" description="/slap [часть ника] - Пнуть игрока"/>
 	<command name="warp" level="2" description="/warp [часть ника] - Переместить игрока к себе"/>
 	<command name="warpto" level="2" description="/warpto [часть ника] - Переместиться к игроку"/>
