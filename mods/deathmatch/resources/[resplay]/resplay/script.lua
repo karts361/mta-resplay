@@ -2918,6 +2918,7 @@ function startIntro()
 	bindKey("pgup", "down", "Move up")
 	bindKey("pgdn", "down", "Move down")
 	fractionInitMenu()
+	gangInitMenu()
 	local newdff, newtxd, newcol, origdff, origtxd, success
 	
 	for i=1,table.getn(customCol) do
