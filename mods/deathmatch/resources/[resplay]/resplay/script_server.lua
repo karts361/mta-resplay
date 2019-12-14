@@ -25781,6 +25781,244 @@ function gangUpdate(gId, updatePlayers, updateRanks)
 	end
 end
 
+function gangClientAddMember(curMember, newMember)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		local respect = getElementData(newMember, "respect")
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в фракции.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "AddMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на добавление нового члена банды.")
+			return false
+		end
+		
+		if(not respect) or (respect < gangGroupRPLevels[gangGetGroup(gId)]) then
+			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% отрицательного уважения.")
+			return false
+		end
+		
+		local setResult = gangSetPlayerGang(newMember, gId)
+		
+		if(setResult ~= true) then
+			playerShowMessage(curMember, "Не удалось добавить данного игрока в состав банды. Причина: "..tostring(setResult)..".")
+			return false
+		end
+		
+		playerShowMessage(newMember, "Вы были приняты в банду '"..gangs[gId][1].."' игроком "..getPlayerName(curMember)..".")
+		addNewEventToLog(getPlayerName(curMember), "Банда - Принял - "..gangs[gId][1]..", "..getPlayerName(newMember))
+		gangUpdate(gId, true, true)
+		
+		return true
+	end
+	
+	return false
+end
+
+function gangClientUpgradeMember(curMember, member)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "UpgradeMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри фракции на повышение члена банды.")
+			return false
+		end
+		
+		if(curMember == member) then
+			playerShowMessage(curMember, "Вы не можете повышать сами себя.")
+			return false
+		end
+		
+		local curGang, pId = gangGetPlayerGang(member)
+		
+		if(gId ~= curGang) then
+			playerShowMessage(curMember, "Этого игрока нет в составе вашей банды.")
+			return false
+		end
+		
+		if(pId == 0) then
+			playerShowMessage(curMember, "Вы не можете повысить лидера.")
+			return false
+		end
+		
+		local curRank = gangGetPlayerRank(gId, pId)
+		
+		if(curRank >= gangs[gId][4]) then
+			playerShowMessage(curMember, "Вы не можете повысить члена высшего ранга.")
+			return false
+		else
+			local newRank = math.max(1, curRank+1)
+			
+			if gangSetPlayerRank(gId, pId, newRank) then
+				playerShowMessage(member, "Вы были повышены в банде игроком "..getPlayerName(curMember)..". Ваш новый ранг - "..gangGetRankName(gId, newRank)..".")
+				addNewEventToLog(getPlayerName(curMember), "Бвнда - Повысил - "..gangs[gId][1]..", "..getPlayerName(member))
+				gangUpdate(gId, true, false)
+				return true
+			end
+			
+		end
+	end
+	
+	return false
+end
+
+function gangClientDowngradeMember(curMember, member)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "DowngradeMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри фракции на понижение члена банды.")
+			return false
+		end
+		
+		if(curMember == member) then
+			playerShowMessage(curMember, "Вы не можете понижать сами себя.")
+			return false
+		end
+		
+		local curGang, pId = gangGetPlayerGang(member)
+		
+		if(gId ~= curGang) then
+			playerShowMessage(curMember, "Этого игрока нет в составе вашей банды.")
+			return false
+		end
+		
+		if(pId == 0) then
+			playerShowMessage(curMember, "Вы не можете понизить лидера. Необходимо назначить нового лидера для снятия текущего.")
+			return false
+		end
+		
+		local curRank = gangGetPlayerRank(gId, pId)
+		
+		if(curRank > 1) then
+			local newRank = math.max(1, curRank-1)
+			
+			if gangSetPlayerRank(gId, pId, newRank) then
+				playerShowMessage(member, "Вы были понижены в банде игроком "..getPlayerName(curMember)..". Ваш новый ранг - "..gangGetRankName(gId, newRank)..".")
+				gangUpdate(gId, true, false)
+				addNewEventToLog(getPlayerName(curMember), "Банда - Понизил - "..gangs[gId][1]..", "..getPlayerName(member))
+				return true
+			end
+			
+		else
+			if setPlayerNewGroup(member, groupCommonGet(member), true) then
+				playerShowMessage(member, "Вы были исключены из банды игроком "..getPlayerName(curMember)..".")
+				addNewEventToLog(getPlayerName(curMember), "Банда - Исключил - "..gangs[gId][1]..", "..getPlayerName(member))
+				return true
+			end
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientAddRank(curMember)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "AddRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на добавление ранга.")
+			return false
+		end
+		
+		if(gangs[gId][4] >= 10) then
+			playerShowMessage(curMember, "Внутри банды не может быть более 10 рангов.")
+			return false
+		end
+		
+		if gangSetMaxRank(gId, gangs[gId][4]+1) then
+			gangUpdate(gId, false, true)
+			return true
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientRemoveRank(curMember, delRankId)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "RemoveRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на удаление ранга.")
+			return false
+		end
+		
+		if(gangs[gId][4] <= 1) then
+			playerShowMessage(curMember, "Нельзя удалить единственный ранг.")
+			return false
+		end
+		
+		if(delRankId < gangs[gId][4]) then
+			for i=delRankId,(gangs[gId][4]-1) do
+				gangSetRankName(gId, i, gangGetRankName(gId, i+1))
+			end
+		end
+		
+		for pId,pInfo in ipairs(gangs[gId][5]) do
+			if(pInfo[2] >= delRankId) and(pInfo[2] > 1) then
+				gangSetPlayerRank(gId, pId, pInfo[2]-1)
+			end
+		end
+		
+		if gangSetMaxRank(gId, gangs[gId][4]-1) then
+			gangUpdate(gId, true, true)
+			return true
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientRenameRank(curMember, renRankId, rankName)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "RenameRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на переименование ранга.")
+			return false
+		end
+		
+		if gangSetRankName(gId, renRankId, rankName) then
+			gangUpdate(gId, true, true)
+			return true
+		end
+	end
+	
+	return false
+end
+
 gangsOrig = {
 	{ "BLOODS", 19 },
 	{ "CRIPS", 20 },
@@ -26047,7 +26285,7 @@ addEventHandler("onPlayerFurnitureDecline", resourceRoot, furnitureDecline, fals
 addEventHandler("onWeaponDataReceive", resourceRoot, receiveClientWeaponData, false)
 
 addEventHandler("onGangAddMember", resourceRoot, gangClientAddMember, false)
-addEventHandler("onGangUpgradeMember", resourceRoot,gangClientUpgradeMember, false)
+addEventHandler("onGangUpgradeMember", resourceRoot, gangClientUpgradeMember, false)
 addEventHandler("onGangDowngradeMember", resourceRoot, gangClientDowngradeMember, false)
 addEventHandler("onGangAddRank", resourceRoot, gangClientAddRank, false)
 addEventHandler("onGangRemoveRank", resourceRoot, gangClientRemoveRank, false)
