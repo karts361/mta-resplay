@@ -22755,7 +22755,7 @@ checkModList = {
 -- Изменение описания игрового режима
 addEventHandler("onResourceStart", resourceRoot, 
     function() 
-        setGameType ("[ГОЛОСОВОЙ ЧАТ, БОНУСЫ, МИССИИ]") 
+        setGameType ("[Lite RP, Голосовой чат]") 
         resetMapInfo() 
         for i,player in ipairs(getElementsByType("player")) do 
             spawn(player) 
