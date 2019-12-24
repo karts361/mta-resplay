@@ -3593,7 +3593,7 @@ function jobTaxiRemoveClient(tid, success)
 			
 			if serviceId and serviceRegister(client, jobWorkers[10][tid][1], serviceId) then
 				local respect = getElementData(jobWorkers[10][tid][1], "respect")
-				respectSet(jobWorkers[10][tid][1], respect+0.000006, -1.0, 0.55, true)
+				respectSet(jobWorkers[10][tid][1], respect+0.0001, -1.0, 0.25, true)
 			end
 			
 			local price = jobWorkers[10][tid][5]
@@ -3776,7 +3776,7 @@ function militaryGeneralFinish(plr, success)
 	if success then
 		giveMoney(plr, 2000)
 		local respect = getElementData(plr, "respect")
-		respectSet(plr, respect+0.000027, -1.0, 1.0, true)
+		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
 	
 	else
@@ -3899,7 +3899,7 @@ function militaryCargoDeliver(hitElem)
 			militaryCargoRemove(hitElem)
 			giveMoney(driver, 35)
 			local respect = getElementData(driver, "respect")
-			respectSet(driver, respect+0.0000035, -1.0, 1.0, true)
+			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
 		end
 	end
@@ -4307,7 +4307,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.000004, -1.0, 0.05, true)
+						respectSet(hitElem, respect+0.0001, -1.0, 0.1, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
@@ -4463,7 +4463,7 @@ function jobAmbulanceAccept(ambPlr)
 			
 			if serviceId and serviceRegister(source, ambPlr, serviceId) then
 				local respect = getElementData(ambPlr, "respect")
-				respectSet(ambPlr, respect+0.000005, -1.0, 1.0, true)
+				respectSet(ambPlr, respect+0.00005, -1.0, 1.0, true)
 			end
 			
 			takeMoney(source, jobAmbulancePriceForHP)
@@ -6688,7 +6688,7 @@ function jobEvacuatorFillAccept(evacPlr)
 						local serviceId = getElementData(evacPlr, "usergroup")
 						if serviceId and serviceRegister(source, evacPlr, serviceId) then
 							local respect = getElementData(evacPlr, "respect")
-							respectSet(evacPlr, respect+0.000002, -1.0, 0.1, true)
+							respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
 						end
 					end
 					
@@ -6766,9 +6766,9 @@ function jobEvacuatorFixAccept(evacPlr)
 						
 						if hp then
 							if(hp < 500.0) then
-								respectSet(evacPlr, respect+0.000005, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
 							elseif(hp < 750.0) then
-								respectSet(evacPlr, respect+0.000003, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0001, -1.0, 0.1, true)
 							end
 						end
 						
@@ -6898,7 +6898,7 @@ function jobLawnmowDoneWithLawn()
 			addNewEventToLog(getPlayerName(source), "Газонокосилка - Кошение газона - ID "..tostring(worker[4]), true)
 			giveMoney(worker[1], jobLawnmowMoneyForGrass*table.getn(jobLawnmowLawnCoords[worker[4]][4]))
 			local respect = getElementData(source, "respect")
-			respectSet(source, respect+0.000005, -1.0, 0.1, true)
+			respectSet(source, respect+0.00005, -1.0, 0.1, true)
 			--destroyElement(jobLawnmowLawns[worker[4]][1])
 			--jobLawnmowLawns[worker[4]][1] = nil
 			--destroyElement(jobLawnmowLawns[worker[4]][2])
@@ -7105,7 +7105,7 @@ function jobWashroadsMarkerHit(hitElem)
 							triggerClientEvent(hitElem, "onJobProgress", hitElem, jobWashroadsIncTime, playerVeh)
 							giveMoney(hitElem, jobWashroadsIncMoneyPerCp)
 							local respect = getElementData(hitElem, "respect")
-							respectSet(hitElem, respect+0.000001, -1.0, 0.1, true)
+							respectSet(hitElem, respect+0.00001, -1.0, 0.1, true)
 						end
 					end
 					
@@ -9287,8 +9287,17 @@ function generateMapFile()
 			xmlNodeSetAttribute(childNode, "rotY", "0")
 			xmlNodeSetAttribute(childNode, "rotZ", "0")
 			xmlNodeSetAttribute(childNode, "radius", tostring(racecp[4]))
-		end
-		
+		end		
+	end
+	
+	for i,gbase in ipairs(gangBases) do
+		childNode = xmlCreateChild(rootNode, "object")
+		xmlNodeSetAttribute(childNode, "id", "object"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(gbase[2]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(gbase[3]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(gbase[4]))
+		xmlNodeSetAttribute(childNode, "sizeX", tostring(gbase[5]))
+		xmlNodeSetAttribute(childNode, "sizeY", tostring(gbase[6]))
 	end
 	
 	xmlSaveFile(rootNode)
@@ -10377,6 +10386,21 @@ function loadMapFile()
 		
 		destroyElement(groupgate)
 	end
+
+    local elements = getElementsByType("gbase")
+	
+	for i,gbase in ipairs(elements) do
+		local gbasesName = getElementData(gbase, "id")	
+		local gbaseHash = getHash(gbasesName)
+		elemx, elemy, elemz = getElementPosition(gbase)
+		sizeEX = getElementData(gbase, "sizeX")
+		sizeEY = getElementData(gbase, "sizeY")
+		local gbaseInfo = { gbaseHash, elemx, elemy, elemz, sizeEX, sizeEY, nil, nil, nil, nil }
+		gbaseInfo[10] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 165, 167, 166, 150)
+		gbaseInfo[11] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 255, 255, 255, 150)
+		table.insert(gangBases, gbaseInfo)
+		destroyElement(gbase)
+	end
 end
 
 function resourceStart(startedResource)
@@ -10395,7 +10419,6 @@ function resourceStart(startedResource)
 		--3LcJm524jr
 		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -12352,6 +12375,7 @@ end
 function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
+	
 	lastSerial = getPlayerSerial(source)
 	
 	if(playerShouldBeSpawned) then
@@ -14870,7 +14894,7 @@ function executeAction(aplr, actionId, params)
 								
 								if serviceId and serviceRegister(aplr, workerInfo[1], serviceId) then
 									local respect = getElementData(workerInfo[1], "respect")
-									respectSet(workerInfo[1], respect+0.000002, -1.0, 0.1, true)
+									respectSet(workerInfo[1], respect+0.00002, -1.0, 0.1, true)
 								end
 								
 								triggerEvent("onPlayerChat", aplr, "купил еду у игрока "..getPlayerName(workerInfo[1]), 1)
@@ -16269,6 +16293,55 @@ function executeAction(aplr, actionId, params)
 			else
 				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "В инвентаре нет доступных слотов для газировки.")
 			end
+			
+		elseif(actionId == 704) then
+			local gFound = false
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+				if(string.lower(gInfo[1]) == string.lower(params[1])) then
+					local plr = getPlayerFromName(params[2])
+					gFound = true
+					if plr then
+						pFound = true
+						local setResult = gangSetPlayerGang(plr, gId)
+						if( setResult == true ) then
+							playerShowMessage(aplr, "Вы приняли игрока "..params[2].." в банду '"..params[1].."'.")
+							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." принял вас в банду '"..params[1].."'.")
+							gangUpdate(gId, true, false)
+						else
+							playerShowMessage(aplr, "Не удалось принять игрока в банду. Причина: "..tostring( setResult )..".")
+						end
+					end
+					break
+				end
+			end
+			if not gFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Банда с таким именем отсутствует.")
+			elseif not pFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Игрок с таким никнеймом отсутствует на сервере.")
+			end
+
+		elseif(actionId == 705) then
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+			    local plr = getPlayerFromName(params[2])
+				--fFound = true
+				if plr then
+					pFound = true
+					local setResult = gangRemovePlayerFromGang(plr, gId)
+					if( setResult == true ) then
+					    playerShowMessage(aplr, "Вы исключили игрока "..params[2].." из банды ")
+					    playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." исключил вас из банды.")
+						setPlayerNewGroup(plr, groupCommonGet(plr), true)
+					else
+						playerShowMessage(aplr, "Не удалось исключить игрока из банды. Причина: "..tostring( setResult )..".")
+					end
+				end
+				break
+			end
+			if not pFound then
+				playerShowMessage(aplr, "Не удалось исключить игрока. Игрок с таким никнеймом отсутствует на сервере.")
+			end
 		
 		elseif(actionId == 10002) then
 			local houseid = getElementDimension(aplr)-1
@@ -17153,7 +17226,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				
 				if serviceId and serviceRegister(source, killer, serviceId) then
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect+0.000002*sourceWanted, 0.0, 1.0, true)
+					respectSet(killer, respect+0.00002*sourceWanted, 0.0, 1.0, true)
 				end
 				
 				local money = math.max(0, math.min(wantedKillPrices[sourceWanted], getMoney(source)))
@@ -17179,7 +17252,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				
 				if(clan and sclan and(clan ~= sclan)) or isPlayerFromPolice(source) then
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect-0.000005, -1.0, 1.0, true)
+					respectSet(killer, respect-0.0002, -1.0, 1.0, true)
 					killWithoutReason = false
 				end
 				local killPrice = gangsterKillOrders[getPlayerName(source)]
@@ -17188,7 +17261,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 					addNewEventToLog(getPlayerName(source), "Цена за голову - Смерть - $"..tostring(killPrice).." для "..getPlayerName(killer), true)
 					addNewEventToLog(getPlayerName(killer), "Цена за голову - Убийство - $"..tostring(killPrice).." за "..getPlayerName(source), true)
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect-0.000008, -1.0, 1.0, true)
+					respectSet(killer, respect-0.0005, -1.0, 1.0, true)
 					giveMoney(killer, killPrice)
 					triggerClientEvent(killer, "onServerMsgAdd", killer, string.format("Вы получили $%d как вознаграждение за голову игрока %s.", killPrice, sName))
 					gangsterKillOrders[getPlayerName(source)] = nil
@@ -17435,9 +17508,9 @@ function playerShoot(weapon, ammo, ammoInClip, hitX, hitY, hitZ, hitElement, sta
 						setElementInterior(money, otbInfo[5])
 						setElementDimension(money, i)
 						local respect = getElementData(source, "respect")
-						respectSet(source, respect-0.000005, -1.0, 1.0, true)
-						wantedLevelInc(source)
-						sendPoliceMessage(source, "ограбление букмекерской конторы")
+						respectSet(source, respect-0.00002, -1.0, 1.0, true)
+						--wantedLevelInc(source)
+						--sendPoliceMessage(source, "ограбление букмекерской конторы")
 						break
 					end
 				end
@@ -17551,7 +17624,7 @@ function chatCmdMessage(plr, cmdName, ...)
 		elseif(cmdName == "mm") and PlayerFromSaNews(plr) then
 		    playerSendSMIMessage(plr, msg)
 			giveMoney(plr, saNewsPrice)
-			respectSet(plr, respect+0.0000030, -1.0, 1.0, true)
+			respectSet(plr, respect+0.000010, -1.0, 1.0, true)
 		
 		elseif(cmdName == "do") then
 			triggerEvent("onPlayerChat", plr, msg.." #FFFFFF"..getPlayerName(plr), 3)
@@ -20994,7 +21067,7 @@ function gangsterStealSellCar(veh)
 		local respect = getElementData(seller, "respect")
 		
 		if respect then
-			respectSet(seller, respect-0.000010, -1.0, 1.0, true)
+			respectSet(seller, respect-0.00015, -1.0, 1.0, true)
 		end
 		
 		return true
@@ -22808,7 +22881,7 @@ checkModList = {
 -- Изменение описания игрового режима
 addEventHandler("onResourceStart", resourceRoot, 
     function() 
-        setGameType ("[Lite RP, Голосовой чат]") 
+        setGameType ("[Lite RP, Голосовой чат]")
         resetMapInfo() 
         for i,player in ipairs(getElementsByType("player")) do 
             spawn(player) 
@@ -23100,7 +23173,7 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "AKSOV") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts")
 	
 	if adminNicknames then
 		return true
@@ -25012,7 +25085,7 @@ function adminCMDmute(plr, nickname, secondsText, ...)
 		local muted = getElementData(mutePlr, "muted")
 		
 		if muted and(muted > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "Этому игрок уже замучен и мут будет снят через "..getTimeString(muted*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Этому игрок уже заглушен чат и мут будет снят через "..getTimeString(muted*1000, "r"))
 			return
 		end
 		
@@ -25067,6 +25140,14 @@ function adminCMDunmute(plr, nickname)
 	end
 end
 
+function adminCMDsetgang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 704, { table.concat( {...}, " " ), nickname })
+end
+
+function adminCMDremovegang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 705, { table.concat( {...}, " " ), nickname })
+end
+
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
 	for _,curCmd in pairs(adminCmds) do
@@ -25084,12 +25165,12 @@ end
 
 --[[ ADMIN COMMANDS ( Админские комманды )
 	/kick [часть ника] [причина] - Кикнуть игрока
-	/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока
+	/ban [часть ника] [часы] [причина] - Забанить аккаунт
 	/banip [IP] [часы] [причина] - Забанить игрока по IP
-	/banaccount [ник аккаунта] [часы] [причина] - Забанить аккаунт
-	/unban [серийный номер] - Разбанить игрока
+	/banserial [серийный номер] [часы] [причина] - Забанить игрока по серийному номеру
+	/unban [часть ника] - Разбанить аккаунт
 	/unbanip [IP] - Разбанить игрока по IP
-	/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока
+	/unbanserial [серийный номер] - Разбанить игрока по серийному номеру
 	/slap [часть ника] - Пнуть игрока
 	/warp [часть ника] - Переместить игрока к себе
 	/warpto [часть ника] - Переместиться к игроку
@@ -25118,6 +25199,8 @@ end
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
 	/unmute [ник] - Снять мут игроку
+	/setgang [ник] [банда] - принять игрока в банду
+	/removegang [ник] - исключить игрока из банды
 ]]
 
 mutedTime = nil
@@ -25391,19 +25474,25 @@ function gangGetAllGroups()
 	for _,gang in ipairs(gangs) do
 		groups[gang[2]] = true
 	end
-	
+
 	return groups
 end
 
+
 function gangInit()
-	dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(2, 4, 5, 17, 18 )", getRealTime().timestamp-1814400)
-	--dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21 )", getRealTime().timestamp-1814400)
+	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	
+    crips = createTeam("CRIPS", 1, 81, 136)
+	bloods = createTeam("BLOODS", 167, 0, 0)
+	lkings = createTeam("Latin Kings", 253, 182, 3)
 	
 	local gHash
 	gangs = gangsOrig
 	
 	for i,gInfo in ipairs(gangs) do
 		gHash = getHash(gInfo[1])
+
 		
 		repeat
 			local dbq = dbQuery(db, "SELECT gleader, granks FROM gangs WHERE name = ?", gHash)
@@ -25431,12 +25520,12 @@ function gangInit()
 		
 		for _,rec in ipairs(dbqueryresult) do
 			table.insert(gangs[i][5], { rec["name"], rec["grank"] })
-		end
+		end		
 	end
 
 	local gbaseHash, baseOwner
 	
---[[	for i,gbase in ipairs(gangBases) do
+	--[[for i,gbase in ipairs(gangBases) do
 		gbaseHash = base[1]
 		
 		repeat
@@ -25445,6 +25534,37 @@ function gangInit()
 			dbFree(dbq)
 		until dbqueryresult
 	end]]
+	
+    for i,gbase in ipairs(gangBases) do
+		gbaseHash = gbase[1]
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		while(table.getn(dbqueryresult) == 0) do
+			dbExec(db, "INSERT INTO gangBases(id) VALUES(?)", gbaseHash)
+			repeat
+				local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+		end
+		
+		
+		if(dbqueryresult[1]["gang"] == 649732560) then
+		    local r, g, b = getTeamColor(crips)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+		    local r, g, b = getTeamColor(bloods)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+		    local r, g, b = getTeamColor(lkings)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		end
+	end
 end
 
 function gangSetLeader(gId, gLeader)
@@ -25488,7 +25608,6 @@ function gangGetGangByHash(gHash)
 			return gId, gangInfo[1]
 		end
 	end
-	
 	return nil
 end
 
@@ -25503,6 +25622,21 @@ function gangGetLeader(gId)
 	
 	return nil
 end
+
+--[[
+function gangSetPlayerTeamGang(plr)
+    local plrGrp = getElementData(plr, "usergroup")
+	if plrGrp == 19 then
+	    setPlayerTeam(plr, bloods)
+	elseif plrGrp == 20 then
+	    setPlayerTeam(plr, crips)
+	elseif plrGrp == 21 then
+	    setPlayerTeam(plr, lkings)
+	else
+	    setPlayerTeam(plr, clanDefault)
+	end
+end
+]]
 
 function gangGetGroup(gId)
 	return gangs[gId][2]
@@ -26026,6 +26160,11 @@ gangsOrig = {
 	{ "CRIPS", 20 },
 	{ "Latin Kings", 21 }
 }
+
+gangBases = {}
+gangBaseCaptures = {}
+gangBaseCaptureMinPlr = 7
+gangBaseCaptureTimeSec = 900
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

@@ -53,7 +53,7 @@ playerGroups = {
 	{ "ФБР", 0, 255, 220 },
 	{ "СМИ", 0, 255, 147},
 	{ "Bloods", 167, 0, 0},	
-	{ "Crips", 1, 81, 136,},
+	{ "Crips", 1, 81, 136},
 	{ "Latin Kings", 253, 182, 3}
 }
 
@@ -1162,7 +1162,8 @@ furnitureHeightMult = 0.02
 msgSounds = {
 	["назначил за вашу голову награду"] = "priceonyourhead.wav",
 	["сработала тревога"] = "alarm.wav",
-	["Одна из ваших баз подверглась нападению"] = "alarm.wav"
+	["Одна из ваших баз подверглась нападению"] = "alarm.wav",
+	["Вашу территорию начали захватывать"] = "alarm.wav"
 }
 
 -- Render variables blob
@@ -10389,6 +10390,65 @@ function gangRenameRank(btn)
 	end
 end
 
+gangBaseCaptureInfo = nil
+
+function gangBaseCaptureRender()
+	if gangBaseCaptureInfo then
+		captureInProc = gangBaseCaptureInfo[4]
+		
+		if captureInProc then
+			statusColorStr = "#00FF00"
+			statusStr = "#FFFFFFСтатус: #00FF00захват"
+		else
+			statusColorStr = "#FF0000"
+			statusStr = "#FFFFFFСтатус: #FF0000ожидание"
+		end
+		
+		statusW = dxGetTextWidth(statusStr, 1, "default-bold", true)
+		statusH = dxGetFontHeight(1, "default-bold")
+		ownerR, ownerG, ownerB = getTeamColor(gangBaseCaptureInfo[1])
+		clanR, clanG, clanB = getTeamColor(gangBaseCaptureInfo[2])
+		teamsStr = "#"..RGBToHex(ownerR, ownerG, ownerB)..getTeamName(gangBaseCaptureInfo[1]).." #FFFFFFvs. #"..RGBToHex(clanR, clanG, clanB)..getTeamName(gangBaseCaptureInfo[2])
+		teamsW = dxGetTextWidth(teamsStr, 2, "default-bold", true)
+		teamsH = dxGetFontHeight(2, "default-bold")
+		timeVal = "#FFFFFFВремя: "..msecToStringTime(gangBaseCaptureInfo[3])
+		timeW = dxGetTextWidth(timeVal, 1, "default-bold", true)
+		timeH = dxGetFontHeight(1, "default-bold")
+		playersNumStr = "Захватчики: "..statusColorStr..tostring(gangBaseCaptureInfo[5]).."/"..tostring(gangBaseCaptureInfo[6])
+		playersNumW = dxGetTextWidth(playersNumStr, 1, "default-bold", true)
+		playersNumH = dxGetFontHeight(1, "default-bold")
+		rW = 20+math.max(math.max(math.max(teamsW, statusW), timeW), playersNumW)
+		rH = 25+teamsH+statusH+timeH+playersNumH
+		rX = sW/2-rW/2
+		rY = 10
+		dxDrawRectangle(rX, rY, rW, rH, tocolor(0, 0, 0, 128))
+		dxDrawLine(rX, rY, rX+rW, rY, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX, rY, rX, rY+rH, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX+rW, rY, rX+rW, rY+rH, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX, rY+rH, rX+rW, rY+rH, tocolor(0, 0, 0, 255))
+		rX = rX+10
+		rY = rY+5
+		rW = rX+teamsW
+		rH = rY+teamsH
+		dxDrawText(teamsStr, rX, rY, rW, rH, tocolor(255,255,255,255), 2, "default-bold", "center", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+statusW
+		rH = rY+statusH
+		dxDrawText(statusStr, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+timeW
+		rH = rY+timeH
+		dxDrawText(timeVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+playersNumW
+		rH = rY+playersNumH
+		dxDrawText(playersNumStr, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+	end
+end
+
+function gangBaseCaptureUpdate(info)
+	gangBaseCaptureInfo = info
+end
 
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
@@ -10818,9 +10878,12 @@ addEventHandler("onSaNewsShow", root, saNewsShow)
 addEvent("onGangOpenMenu", true)
 addEvent("onGangCloseMenu", true)
 addEvent("onGangRefreshMenu", true)
+addEvent("onGangBaseCaptureUpdate", true)
 addEventHandler("onGangOpenMenu", root, gangOpenMenu)
 addEventHandler("onGangCloseMenu", root, gangCloseMenu)
 addEventHandler("onGangRefreshMenu", root, gangRefreshMenu)
+addEventHandler("onClientRender", root, gangBaseCaptureRender)
+addEventHandler("onClanBaseCaptureUpdate", root, gangBaseCaptureUpdate)
 
 setTimer(collectgarbage, 200, 0, "collect")
 
