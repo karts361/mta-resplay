@@ -9289,6 +9289,17 @@ function generateMapFile()
 			xmlNodeSetAttribute(childNode, "radius", tostring(racecp[4]))
 		end
 		
+		
+	end
+	
+	for i,gbase in ipairs(gangBases) do
+		childNode = xmlCreateChild(rootNode, "object")
+		xmlNodeSetAttribute(childNode, "id", "object"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(gbase[2]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(gbase[3]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(gbase[4]))
+		xmlNodeSetAttribute(childNode, "sizeX", tostring(gbase[5]))
+		xmlNodeSetAttribute(childNode, "sizeY", tostring(gbase[6]))
 	end
 	
 	xmlSaveFile(rootNode)
@@ -10376,6 +10387,21 @@ function loadMapFile()
 		end
 		
 		destroyElement(groupgate)
+	end
+	
+    local elements = getElementsByType("gbase")
+	
+	for i,gbase in ipairs(elements) do
+		local gbasesName = getElementData(gbase, "id")	
+		local gbaseHash = getHash(gbasesName)
+		elemx, elemy, elemz = getElementPosition(gbase)
+		sizeEX = getElementData(gbase, "sizeX")
+		sizeEY = getElementData(gbase, "sizeY")
+		local gbaseInfo = { gbaseHash, elemx, elemy, elemz, sizeEX, sizeEY, nil, nil, nil, nil }
+		gbaseInfo[10] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 165, 167, 166, 150)
+		gbaseInfo[11] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 255, 255, 255, 150)
+		table.insert(gangBases, gbaseInfo)
+		destroyElement(gbase)
 	end
 end
 
@@ -16242,6 +16268,55 @@ function executeAction(aplr, actionId, params)
 					
 					break
 				end
+			end
+			
+		elseif(actionId == 704) then
+			local gFound = false
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+				if(string.lower(gInfo[1]) == string.lower(params[1])) then
+					local plr = getPlayerFromName(params[2])
+					gFound = true
+					if plr then
+						pFound = true
+						local setResult = gangSetPlayerGang(plr, gId)
+						if( setResult == true ) then
+							playerShowMessage(aplr, "Вы приняли игрока "..params[2].." в банду '"..params[1].."'.")
+							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." принял вас в банду '"..params[1].."'.")
+							gangUpdate(gId, true, false)
+						else
+							playerShowMessage(aplr, "Не удалось принять игрока в банду. Причина: "..tostring( setResult )..".")
+						end
+					end
+					break
+				end
+			end
+			if not gFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Банда с таким именем отсутствует.")
+			elseif not pFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Игрок с таким никнеймом отсутствует на сервере.")
+			end
+
+		elseif(actionId == 705) then
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+			    local plr = getPlayerFromName(params[2])
+				--fFound = true
+				if plr then
+					pFound = true
+					local setResult = gangRemovePlayerFromGang(plr, gId)
+					if( setResult == true ) then
+					    playerShowMessage(aplr, "Вы исключили игрока "..params[2].." из банды ")
+					    playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." исключил вас из банды.")
+						setPlayerNewGroup(plr, groupCommonGet(plr), true)
+					else
+						playerShowMessage(aplr, "Не удалось исключить игрока из банды. Причина: "..tostring( setResult )..".")
+					end
+				end
+				break
+			end
+			if not pFound then
+				playerShowMessage(aplr, "Не удалось исключить игрока. Игрок с таким никнеймом отсутствует на сервере.")
 			end
 
 		-- Клиентские действия(с 10001)
@@ -25067,6 +25142,14 @@ function adminCMDunmute(plr, nickname)
 	end
 end
 
+function adminCMDsetgang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 704, { table.concat( {...}, " " ), nickname })
+end
+
+function adminCMDremovegang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 705, { table.concat( {...}, " " ), nickname })
+end
+
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
 	for _,curCmd in pairs(adminCmds) do
@@ -25118,6 +25201,8 @@ end
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
 	/unmute [ник] - Снять мут игроку
+	/setgang [ник] [банда] - принять игрока в банду
+	/removegang [ник] - исключить игрока из банды
 ]]
 
 mutedTime = nil
@@ -25396,14 +25481,19 @@ function gangGetAllGroups()
 end
 
 function gangInit()
-	dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(2, 4, 5, 17, 18 )", getRealTime().timestamp-1814400)
-	--dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21 )", getRealTime().timestamp-1814400)
+	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	
+    crips = createTeam("CRIPS", 1, 81, 136)
+	bloods = createTeam("BLOODS", 167, 0, 0)
+	lkings = createTeam("Latin Kings", 253, 182, 3)
 	
 	local gHash
 	gangs = gangsOrig
 	
 	for i,gInfo in ipairs(gangs) do
 		gHash = getHash(gInfo[1])
+
 		
 		repeat
 			local dbq = dbQuery(db, "SELECT gleader, granks FROM gangs WHERE name = ?", gHash)
@@ -25431,20 +25521,42 @@ function gangInit()
 		
 		for _,rec in ipairs(dbqueryresult) do
 			table.insert(gangs[i][5], { rec["name"], rec["grank"] })
-		end
+		end		
 	end
 
 	local gbaseHash, baseOwner
 	
---[[	for i,gbase in ipairs(gangBases) do
-		gbaseHash = base[1]
+	
+    for i,gbase in ipairs(gangBases) do
+		gbaseHash = gbase[1]
 		
 		repeat
-			local dbq = dbQuery(db, "SELECT gang, FROM gangBases WHERE id=?", gbaseHash)
+			local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
-	end]]
+		
+		while(table.getn(dbqueryresult) == 0) do
+			dbExec(db, "INSERT INTO gangBases(id) VALUES(?)", gbaseHash)
+			repeat
+				local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+		end
+		
+		
+		if(dbqueryresult[1]["gang"] == 649732560) then
+		    local r, g, b = getTeamColor(crips)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+		    local r, g, b = getTeamColor(bloods)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+		    local r, g, b = getTeamColor(lkings)
+			setRadarAreaColor(gbase[11], r, g, b, 150)
+		end
+	end
 end
 
 function gangSetLeader(gId, gLeader)
@@ -26026,6 +26138,11 @@ gangsOrig = {
 	{ "CRIPS", 20 },
 	{ "Latin Kings", 21 }
 }
+
+gangBases = {}
+gangBaseCaptures = {}
+gangBaseCaptureMinPlr = 7
+gangBaseCaptureTimeSec = 900
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

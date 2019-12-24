@@ -35,4 +35,6 @@
 	<command name="removefraction" level="2" description="/removefraction [ник] - уволить игрока из фракции"/>
 	<command name="mute" level="2" description="/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)"/>
 	<command name="unmute" level="2" description="/unmute [ник] - Снять мут игроку"/>
+	<command name="setgang" level="2" description="/setgang [ник] [название банды] - принять игрока в банду"/>
+	<command name="removegang" level="2" description="/removegang [ник] - исключить игрока из банды"/>
 </commands>
