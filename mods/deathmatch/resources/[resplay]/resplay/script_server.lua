@@ -3567,7 +3567,7 @@ function jobTaxiRemoveClient(tid, success)
 			
 			if serviceId and serviceRegister(client, jobWorkers[10][tid][1], serviceId) then
 				local respect = getElementData(jobWorkers[10][tid][1], "respect")
-				respectSet(jobWorkers[10][tid][1], respect+0.000006, -1.0, 0.55, true)
+				respectSet(jobWorkers[10][tid][1], respect+0.0001, -1.0, 0.25, true)
 			end
 			
 			local price = jobWorkers[10][tid][5]
@@ -3750,7 +3750,7 @@ function militaryGeneralFinish(plr, success)
 	if success then
 		giveMoney(plr, 2000)
 		local respect = getElementData(plr, "respect")
-		respectSet(plr, respect+0.000027, -1.0, 1.0, true)
+		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
 	
 	else
@@ -3873,7 +3873,7 @@ function militaryCargoDeliver(hitElem)
 			militaryCargoRemove(hitElem)
 			giveMoney(driver, 35)
 			local respect = getElementData(driver, "respect")
-			respectSet(driver, respect+0.0000035, -1.0, 1.0, true)
+			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
 		end
 	end
@@ -4283,7 +4283,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.000004, -1.0, 0.05, true)
+						respectSet(hitElem, respect+0.0001, -1.0, 0.1, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
@@ -4439,7 +4439,7 @@ function jobAmbulanceAccept(ambPlr)
 			
 			if serviceId and serviceRegister(source, ambPlr, serviceId) then
 				local respect = getElementData(ambPlr, "respect")
-				respectSet(ambPlr, respect+0.000005, -1.0, 1.0, true)
+				respectSet(ambPlr, respect+0.00005, -1.0, 1.0, true)
 			end
 			
 			takeMoney(source, jobAmbulancePriceForHP)
@@ -6664,7 +6664,7 @@ function jobEvacuatorFillAccept(evacPlr)
 						local serviceId = getElementData(evacPlr, "usergroup")
 						if serviceId and serviceRegister(source, evacPlr, serviceId) then
 							local respect = getElementData(evacPlr, "respect")
-							respectSet(evacPlr, respect+0.000002, -1.0, 0.1, true)
+							respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
 						end
 					end
 					
@@ -6742,9 +6742,9 @@ function jobEvacuatorFixAccept(evacPlr)
 						
 						if hp then
 							if(hp < 500.0) then
-								respectSet(evacPlr, respect+0.000005, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
 							elseif(hp < 750.0) then
-								respectSet(evacPlr, respect+0.000003, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0001, -1.0, 0.1, true)
 							end
 						end
 						
@@ -6874,7 +6874,7 @@ function jobLawnmowDoneWithLawn()
 			addNewEventToLog(getPlayerName(source), "Газонокосилка - Кошение газона - ID "..tostring(worker[4]), true)
 			giveMoney(worker[1], jobLawnmowMoneyForGrass*table.getn(jobLawnmowLawnCoords[worker[4]][4]))
 			local respect = getElementData(source, "respect")
-			respectSet(source, respect+0.000005, -1.0, 0.1, true)
+			respectSet(source, respect+0.00005, -1.0, 0.1, true)
 			--destroyElement(jobLawnmowLawns[worker[4]][1])
 			--jobLawnmowLawns[worker[4]][1] = nil
 			--destroyElement(jobLawnmowLawns[worker[4]][2])
@@ -7081,7 +7081,7 @@ function jobWashroadsMarkerHit(hitElem)
 							triggerClientEvent(hitElem, "onJobProgress", hitElem, jobWashroadsIncTime, playerVeh)
 							giveMoney(hitElem, jobWashroadsIncMoneyPerCp)
 							local respect = getElementData(hitElem, "respect")
-							respectSet(hitElem, respect+0.000001, -1.0, 0.1, true)
+							respectSet(hitElem, respect+0.00001, -1.0, 0.1, true)
 						end
 					end
 					
@@ -10370,7 +10370,6 @@ function resourceStart(startedResource)
 		--3LcJm524jr
 		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -14824,7 +14823,7 @@ function executeAction(aplr, actionId, params)
 								
 								if serviceId and serviceRegister(aplr, workerInfo[1], serviceId) then
 									local respect = getElementData(workerInfo[1], "respect")
-									respectSet(workerInfo[1], respect+0.000002, -1.0, 0.1, true)
+									respectSet(workerInfo[1], respect+0.00002, -1.0, 0.1, true)
 								end
 								
 								triggerEvent("onPlayerChat", aplr, "купил еду у игрока "..getPlayerName(workerInfo[1]), 1)
@@ -17102,7 +17101,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				
 				if serviceId and serviceRegister(source, killer, serviceId) then
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect+0.000002*sourceWanted, 0.0, 1.0, true)
+					respectSet(killer, respect+0.00002*sourceWanted, 0.0, 1.0, true)
 				end
 				
 				local money = math.max(0, math.min(wantedKillPrices[sourceWanted], getMoney(source)))
@@ -17128,7 +17127,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				
 				if(clan and sclan and(clan ~= sclan)) or isPlayerFromPolice(source) then
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect-0.000005, -1.0, 1.0, true)
+					respectSet(killer, respect-0.0002, -1.0, 1.0, true)
 					killWithoutReason = false
 				end
 				local killPrice = gangsterKillOrders[getPlayerName(source)]
@@ -17137,7 +17136,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 					addNewEventToLog(getPlayerName(source), "Цена за голову - Смерть - $"..tostring(killPrice).." для "..getPlayerName(killer), true)
 					addNewEventToLog(getPlayerName(killer), "Цена за голову - Убийство - $"..tostring(killPrice).." за "..getPlayerName(source), true)
 					local respect = getElementData(killer, "respect")
-					respectSet(killer, respect-0.000008, -1.0, 1.0, true)
+					respectSet(killer, respect-0.0005, -1.0, 1.0, true)
 					giveMoney(killer, killPrice)
 					triggerClientEvent(killer, "onServerMsgAdd", killer, string.format("Вы получили $%d как вознаграждение за голову игрока %s.", killPrice, sName))
 					gangsterKillOrders[getPlayerName(source)] = nil
@@ -17384,9 +17383,9 @@ function playerShoot(weapon, ammo, ammoInClip, hitX, hitY, hitZ, hitElement, sta
 						setElementInterior(money, otbInfo[5])
 						setElementDimension(money, i)
 						local respect = getElementData(source, "respect")
-						respectSet(source, respect-0.000005, -1.0, 1.0, true)
-						wantedLevelInc(source)
-						sendPoliceMessage(source, "ограбление букмекерской конторы")
+						respectSet(source, respect-0.00002, -1.0, 1.0, true)
+						--wantedLevelInc(source)
+						--sendPoliceMessage(source, "ограбление букмекерской конторы")
 						break
 					end
 				end
@@ -17500,7 +17499,7 @@ function chatCmdMessage(plr, cmdName, ...)
 		elseif(cmdName == "mm") and PlayerFromSaNews(plr) then
 		    playerSendSMIMessage(plr, msg)
 			giveMoney(plr, saNewsPrice)
-			respectSet(plr, respect+0.0000030, -1.0, 1.0, true)
+			respectSet(plr, respect+0.000010, -1.0, 1.0, true)
 		
 		elseif(cmdName == "do") then
 			triggerEvent("onPlayerChat", plr, msg.." #FFFFFF"..getPlayerName(plr), 3)
@@ -20942,7 +20941,7 @@ function gangsterStealSellCar(veh)
 		local respect = getElementData(seller, "respect")
 		
 		if respect then
-			respectSet(seller, respect-0.000010, -1.0, 1.0, true)
+			respectSet(seller, respect-0.00015, -1.0, 1.0, true)
 		end
 		
 		return true
@@ -23048,7 +23047,7 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "AKSOV") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "Pagan")
 	
 	if adminNicknames then
 		return true
