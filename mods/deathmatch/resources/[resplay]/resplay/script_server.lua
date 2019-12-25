@@ -3567,7 +3567,7 @@ function jobTaxiRemoveClient(tid, success)
 			
 			if serviceId and serviceRegister(client, jobWorkers[10][tid][1], serviceId) then
 				local respect = getElementData(jobWorkers[10][tid][1], "respect")
-				respectSet(jobWorkers[10][tid][1], respect+0.0001, -1.0, 0.25, true)
+				respectSet(jobWorkers[10][tid][1], respect+0.0001, -1.0, 0.55, true)
 			end
 			
 			local price = jobWorkers[10][tid][5]
@@ -4283,7 +4283,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.0001, -1.0, 0.1, true)
+						respectSet(hitElem, respect+0.0001, -1.0, 0.5, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
@@ -10370,6 +10370,7 @@ function resourceStart(startedResource)
 		--3LcJm524jr
 		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -17384,8 +17385,8 @@ function playerShoot(weapon, ammo, ammoInClip, hitX, hitY, hitZ, hitElement, sta
 						setElementDimension(money, i)
 						local respect = getElementData(source, "respect")
 						respectSet(source, respect-0.00002, -1.0, 1.0, true)
-						--wantedLevelInc(source)
-						--sendPoliceMessage(source, "ограбление букмекерской конторы")
+						wantedLevelInc(source)
+						sendPoliceMessage(source, "ограбление букмекерской конторы")
 						break
 					end
 				end
@@ -23047,7 +23048,7 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "AKSOV") or string.find(pName, "Pagan")
 	
 	if adminNicknames then
 		return true
