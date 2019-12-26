@@ -3442,7 +3442,7 @@ end
 
 function jobTaxiOrder(orderer, place)
 	addNewEventToLog(getPlayerName(orderer), "Такси - Вызов - "..place, true)
-	local taxiMsg = string.format(generateTimeString().."[Такси] %s вызывает такси. Местоположение: %s.", getPlayerName(orderer), place)
+	local taxiMsg = string.format(generateTimeString().."[Такси] %s[%s] вызывает такси. Местоположение: %s.", getPlayerName(orderer), getPlayerID(orderer), place)
 	local ox,oy,oz = getElementPosition(orderer)
 	local tx,ty,tz,tint,tdim
 	local taxiCount = 0
@@ -4384,7 +4384,7 @@ end
 
 function jobAmbulanceNewOrder(orderer)
 	addNewEventToLog(getPlayerName(orderer), "Скорая помощь - Вызов - nil", true)
-	local ambMsg = string.format(generateTimeString().."[Скорая помощь] ДИСПЕТЧЕР: #FFFFFF%s вызывает скорую помощь. Местоположение обозначено на карте.", getPlayerName(orderer))
+	local ambMsg = string.format(generateTimeString().."[Скорая помощь] ДИСПЕТЧЕР: #FFFFFF%s[%s] вызывает скорую помощь. Местоположение обозначено на карте.", getPlayerName(orderer), getPlayerID(orderer))
 	local ox,oy,oz = getElementPosition(orderer)
 	local ax,ay,az,agrp
 	local ambCount = 0
@@ -6589,7 +6589,7 @@ end
 
 function jobEvacuatorNewOrder(orderer)
 	addNewEventToLog(getPlayerName(orderer), "Эвакуация - Вызов - nil", true)
-	local ambMsg = string.format(generateTimeString().."[Эвакуация] %s вызывает эвакуатор. Местоположение обозначено на карте.", getPlayerName(orderer))
+	local ambMsg = string.format(generateTimeString().."[Эвакуация] %s[%s] вызывает эвакуатор. Местоположение обозначено на карте.", getPlayerName(orderer), getPlayerID(orderer))
 	local ox,oy,oz = getElementPosition(orderer)
 	local ex,ey,ez,eint,edim
 	local evacCount = 0
@@ -14121,7 +14121,7 @@ function executeAction(aplr, actionId, params)
 			if(string.len(turnText) > 0) then
 				local players = getElementsByType("player")
 				local saNewsCount = 0
-				local saNewsMsg = generateTimeString().."СМИ: Игрок "..getPlayerName(aplr).." обратился: "..turnText
+				local saNewsMsg = generateTimeString().."СМИ: Игрок "..getPlayerName(aplr).."["..getPlayerID(aplr).."] обратился: "..turnText
 					
 				for i=1,table.getn(players) do
 					if PlayerFromSaNews(players[i]) then
@@ -14869,7 +14869,7 @@ function executeAction(aplr, actionId, params)
 				if(string.len(questionText) > 0) then
 					local players = getElementsByType("player")
 					local adminsCount = 0
-					local reportMsg = generateTimeString().."ВОПРОС: Игрок "..getPlayerName(aplr).." спрашивает: "..questionText
+					local reportMsg = generateTimeString().."ВОПРОС: Игрок "..getPlayerName(aplr).."["..getPlayerID(aplr).."] спрашивает: "..questionText
 					
 					for i=1,table.getn(players) do
 						if isAdmin(players[i]) or isModerator(players[i]) or isHelper(players[i]) then
@@ -16950,7 +16950,7 @@ end
 
 function jobPoliceNewOrder(orderer)
 	addNewEventToLog(getPlayerName(orderer), "Полиция - Вызов - nil", true)
-	local polMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s вызывает полицию. Местоположение обозначено на карте.", getPlayerName(orderer))
+	local polMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s[%s] вызывает полицию. Местоположение обозначено на карте.", getPlayerName(orderer), getPlayerID(orderer))
 	local ox,oy,oz = getElementPosition(orderer)
 	local ax,ay,az,agrp
 	local polCount = 0
@@ -17407,10 +17407,10 @@ function sendPoliceMessage(suspect, crimeText)
 	local sx, sy, sz
 	
 	if(getElementDimension(suspect) == 0) then
-		crimeMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s только что совершил %s. Место: %s(%s)", getPlayerName(suspect), crimeText, getElementZoneName(suspect, false), getElementZoneName(suspect, true))
+		crimeMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s[%s] только что совершил %s. Место: %s(%s)", getPlayerName(suspect), getPlayerID(suspect), crimeText, getElementZoneName(suspect, false), getElementZoneName(suspect, true))
 		sx, sy, sz = getElementPosition(suspect)
 	else
-		crimeMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s только что совершил %s. Место: неизвестно", getPlayerName(suspect), crimeText)
+		crimeMsg = string.format(generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFF%s[%s] только что совершил %s. Место: неизвестно", getPlayerName(suspect), getPlayerID(suspect), crimeText)
 		sx = nil
 	end
 	
@@ -20345,7 +20345,7 @@ function questionAnswer(qnum, admin, answerText)
 		
 		if plr then
 			addNewEventToLog(getPlayerName(plr), "Аккаунты - Ответ на вопрос - Админ "..getPlayerName(client)..", Ответ: "..answerText, true)
-			local answerTextFull = generateTimeString().."ОТВЕТ: Ответ #"..tostring(qnum).." от "..getPlayerName(client)..": "..answerText
+			local answerTextFull = generateTimeString().."ОТВЕТ: Ответ #"..tostring(qnum).." от "..getPlayerName(client).."["..getPlayerID(client)..]": "..answerText
 			local players = getElementsByType("player")
 			local answerReceivers = { plr }
 			
@@ -20385,7 +20385,7 @@ function questionDenyEx(qnum, admin)
 	
 	if plr then
 		addNewEventToLog(getPlayerName(plr), "Аккаунты - Вопрос без ответа - Админ "..getPlayerName(admin), true)
-		local answerTextFull = generateTimeString().."ОТВЕТ: Модератор "..getPlayerName(admin).." оставил вопрос #"..tostring(qnum).." без ответа."
+		local answerTextFull = generateTimeString().."ОТВЕТ: Модератор "..getPlayerName(admin).."["..getPlayerID(admin).."] оставил вопрос #"..tostring(qnum).." без ответа."
 		local players = getElementsByType("player")
 		local answerReceivers = { plr }
 		
