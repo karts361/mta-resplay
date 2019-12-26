@@ -1490,8 +1490,9 @@ function removeHex(text, digits)
     return string.gsub(text, "#" ..(digits and string.rep("%x", digits) or "%x+"), "")
 end
 
-function chatMsgAdd(timeStr, isAdmin, msg, isMeFunc, isRpFunc)
+function chatMsgAdd(timeStr, playerid, isAdmin, msg, isMeFunc, isRpFunc)
 	local sendMsg = true
+	local playerid = getElementData(source, "ID")
 	
 	if(source ~= localPlayer) then
 		local sx, sy, sz = getElementPosition(source)
@@ -1512,10 +1513,10 @@ function chatMsgAdd(timeStr, isAdmin, msg, isMeFunc, isRpFunc)
 			outputChatBox(timeStr..getPlayerName(source).." "..msg, 200, 130, 210, true)
 		
 		elseif isAdmin then
-			outputChatBox(timeStr..getPlayerName(source)..": #FFFFFF"..msg, 255, 160, 160, true)
+			outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
 		
 		else
-			outputChatBox(timeStr..getPlayerName(source)..": #FFFFFF"..msg, 255, 255, 255, true)
+			outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 255, 255, true)
 		end
 		
 	end
@@ -6429,6 +6430,7 @@ function drawNicknames()
 							pname = getPlayerName(nearbyPlr)
 							protected = getElementData(nearbyPlr, "protected")
 							teamname = getTeamName(uteam)
+							playerid = getElementData(nearbyPlr, "ID")
 							
 							if(teamname ~= "Граждане") and(getElementData(nearbyPlr, "usergroup") == 10) then
 								grpstr = "Клан ["..teamname.."]"
@@ -6440,14 +6442,14 @@ function drawNicknames()
 							end
 							
 							dxDrawText(grpstr, x-2*scaleWanted, y-17*scaleWanted, x-2*scaleWanted, y-17*scaleWanted, tocolor(0,0,0,128), 0.5*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname, x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname, "["..playerid.."]", x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x-2*scaleWanted, y+8*scaleWanted, x-2*scaleWanted, y+8*scaleWanted, tocolor(0,0,0,128), 0.4*scaleWanted, "bankgothic", "center", "center")
 							end
 							
 							dxDrawText(grpstr, x, y-15*scaleWanted, x, y-15*scaleWanted, tocolor(grpr,grpg,grpb,255), 0.5*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname, x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname, "["..playerid.."]", x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x, y+10*scaleWanted, x, y+10*scaleWanted, tocolor(64,255,64,255), 0.4*scaleWanted, "bankgothic", "center", "center")
@@ -6490,6 +6492,7 @@ function drawNicknames()
 		dxDrawText(grpstr, 0, 7*scaleWanted, sW-5*scaleWanted, sH, tocolor(grpr,grpg,grpb,160), 2.5*scaleWanted, "default-bold", "right", "top")
 	end
 end
+
 
 function drawRespect()
 	if(respectDrawTime > 0) then
@@ -8580,19 +8583,20 @@ function answerClose()
 	end
 end
 
-function playerTeamChat(timeStr, grp, msg, clrr, clrg, clrb)
+function playerTeamChat(timeStr, playerid, grp, msg, clrr, clrg, clrb)
+    local playerid = getElementData(source, "ID")
 	if isElement(grp) then
 		local r, g, b = getTeamColor(grp)
-		outputChatBox(timeStr.."["..getTeamName(grp).."] "..getPlayerName(source)..": #FFFFFF"..msg, r, g, b, true)
+		outputChatBox(timeStr.."["..getTeamName(grp).."] "..getPlayerName(source).."["..playerid.."]: #FFFFFF"..msg, r, g, b, true)
 	
 	elseif playerGroups[grp] then
-		outputChatBox(timeStr.."РАЦИЯ["..playerGroups[grp][1].."] "..getPlayerName(source)..": #FFFFFF"..msg, playerGroups[grp][2], playerGroups[grp][3], playerGroups[grp][4], true)
+		outputChatBox(timeStr.."РАЦИЯ: ["..playerGroups[grp][1].."] "..getPlayerName(source).."["..playerid.."]: #FFFFFF"..msg, playerGroups[grp][2], playerGroups[grp][3], playerGroups[grp][4], true)
 	
 	elseif clrr and clrg and clrb then
-		outputChatBox(timeStr.."["..tostring(grp).."] "..getPlayerName(source)..": #FFFFFF"..msg, clrr, clrg, clrb, true)
+		outputChatBox(timeStr.."["..tostring(grp).."] "..getPlayerName(source).."["..playerid.."]: #FFFFFF"..msg, clrr, clrg, clrb, true)
 	
 	else
-		outputChatBox(timeStr.."["..tostring(grp).."] "..getPlayerName(source)..": #FFFFFF"..msg, 255, 255, 255, true)
+		outputChatBox(timeStr.."["..tostring(grp).."] "..getPlayerName(source).."["..playerid.."]: #FFFFFF"..msg, 255, 255, 255, true)
 	end
 end
 
