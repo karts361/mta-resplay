@@ -12797,7 +12797,7 @@ function requestActionsList(aplr)
 		
 		if isPlayerFromPolice(aplr) then
 			table.insert(alist, { 63, availableActions[63], {}, nil, 0, 255, 0 })
-			table.insert(alist, { 129, availableActions[129], {}, { "Имя", "Кол-во звезд", "Причина" }, 0, 255, 0 })
+			table.insert(alist, { 129, availableActions[129], {}, { "ID Игрока", "Кол-во звезд", "Причина" }, 0, 255, 0 })
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
 			
 			for _,plr in ipairs(players) do
@@ -15782,10 +15782,15 @@ function executeAction(aplr, actionId, params)
 			playerShowMessage(aplr, "Вы предложили купить данную недвижимость игроку "..getPlayerName(newOwner)..".")
 		
 		elseif(actionId == 129) then
-			local gangster = findPlayerByNamePattern(params[1])
+			--local gangster = findPlayerByNamePattern(params[1])
+			local gangster = getPlayerFromID(params[1])
 			
-			if not isElement(gangster) then
+			--[[if not isElement(gangster) then
 				playerShowMessage(aplr, gangster)
+				return false
+			end]]
+			if not isElement(gangster) then
+				playerShowMessage(aplr, "Игрок с таким ID не найден")
 				return false
 			end
 			
@@ -15795,7 +15800,8 @@ function executeAction(aplr, actionId, params)
 				playerShowMessage(aplr, "Неправильно введен уровень розыска")
 				return false
 			end
-			policeSetWantedLevel(aplr, gangster, wantedLvl, params[3])
+			
+			    policeSetWantedLevel(aplr, gangster, wantedLvl, params[3])
 		
 		elseif(actionId == 130) then
 			if gangsterStealPlayers[aplr] then
@@ -17531,6 +17537,7 @@ function playerChat(msg, msgType)
 	if not isPlayerMuted(source) then
 		local sint = getElementInterior(source)
 		local sdim = getElementDimension(source)
+		local plrid = getElementData(source, "ID")
 		
 		if(msgType == 0) then
 			local sx,sy,sz = getElementPosition(source)
@@ -17553,13 +17560,13 @@ function playerChat(msg, msgType)
 			allPlayersBase = nil
 			
 			if(string.len(localMsg) > 0) then
-				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), isAdmin(source) or isModerator(source), localMsg)
+				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, isAdmin(source) or isModerator(source), localMsg)
 			end
 			
 		elseif(msgType == 1) then
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, msg, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, msg, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), plrid, false, msg, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), plrid, false, msg, true)
 		
 		elseif(msgType == 2) then
 			local cR, cG, cB
@@ -17624,15 +17631,15 @@ function playerChat(msg, msgType)
 			end
 			
 			if tcAvailable then
-				triggerClientEvent(allPlayers, "onPlayerTeamChat", source, generateTimeString(), sGrp, msg, cR, cG, cB)
+				triggerClientEvent(allPlayers, "onPlayerTeamChat", source, generateTimeString(), plrid, sGrp, msg, cR, cG, cB)
 			else
 				triggerClientEvent(source, "onServerMsgAdd", resourceRoot, "Ваш текущий статус не имеет поддержку командного чата")
 			end
 			
 		elseif(msgType == 3) then -- Rp
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, msg, false, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, msg, false, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), plrid, false, msg, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), plrid, false, msg, false, true)
 		end
 		
 	end
@@ -24480,7 +24487,7 @@ function adminCMDacc(plr, nickname)
 		end
 		
 		local plrBansCount = #plrBans
-		local infoStr = "ID: "..tostring(pHash).."\r\nСтатус: "..(infoPlr and "онлайн" or "оффлайн").."\r\nПоследняя авторизация: "..timeToString(getRealTime(tonumber(dbInfo["lastLogin"]))).."\r\n"
+		local infoStr = "ID от аккаунта: "..tostring(pHash).."\r\nСтатус: "..(infoPlr and "онлайн" or "оффлайн").."\r\nПоследняя авторизация: "..timeToString(getRealTime(tonumber(dbInfo["lastLogin"]))).."\r\n"
 		infoStr = infoStr.."IP при регистрации: "..dbInfo["regip"].."\r\nСерийный номер при регистрации: "..dbInfo["serial"].."\r\n"
 		infoStr = infoStr.."Текущий IP: "..(plrIP or "нет").."\r\nПоследний использованный с/н: "..dbInfo["lastSerial"].."\r\n"
 		
@@ -25273,6 +25280,62 @@ function playerDisconnectLocal(playerNick, reason) -- локальные соо�
 	
 end
 
+-- ID для игроков
+ID = {}
+
+exports["scoreboard"]:scoreboardAddColumn("ID", root, 20, "ID", 1)
+
+
+addEventHandler("onPlayerJoin", root, 
+function()
+    for i = 1, getMaxPlayers() do
+	    if not ID[i] then
+		   ID[i] = source
+		   setElementData(source, "ID", i)
+		   break
+		end
+	end
+end)
+
+--
+
+addEventHandler("onPlayerQuit", root, 
+function()
+    ID[getPlayerID(source)] = nil
+end)
+
+--
+
+addEventHandler("onResourceStart", resourceRoot, 
+function()
+    for _, v in ipairs(getElementsByType("player")) do
+	    for i = 1, getMaxPlayers() do
+		    if not ID[i] then
+			   ID[i] = v
+			   setElementData(v, "ID", i)
+			   break
+			end
+		end
+	end
+end)
+
+
+function getPlayerID(player)
+    if player and isElement(player) and getElementType(player) == "player" then
+	   return getElementData(player, "ID")
+	end
+	return false
+end
+addEvent("onGetPlayerID", true)
+addEventHandler("onGetPlayerID", root, getPlayerID)
+
+function getPlayerFromID(id)
+    if id and tonumber(id)  then
+	   return ID[tonumber(id)]
+	end
+	return false
+end
+
 --Покупка дома
 function houseBuyGosAccept(plr, houseId)
 	-- Триггер actionid == 1
@@ -25306,6 +25369,8 @@ end
 
 addEvent("onHouseSellGosDecline", true)
 addEventHandler("onHouseSellGosDecline", root, houseSellGosDecline)
+
+
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
