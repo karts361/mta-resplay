@@ -12797,7 +12797,7 @@ function requestActionsList(aplr)
 		
 		if isPlayerFromPolice(aplr) then
 			table.insert(alist, { 63, availableActions[63], {}, nil, 0, 255, 0 })
-			table.insert(alist, { 129, availableActions[129], {}, { "Имя", "Кол-во звезд", "Причина" }, 0, 255, 0 })
+			table.insert(alist, { 129, availableActions[129], {}, { "ID Игрока", "Кол-во звезд", "Причина" }, 0, 255, 0 })
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
 			
 			for _,plr in ipairs(players) do
