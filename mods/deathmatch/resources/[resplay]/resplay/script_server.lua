@@ -20345,7 +20345,7 @@ function questionAnswer(qnum, admin, answerText)
 		
 		if plr then
 			addNewEventToLog(getPlayerName(plr), "Аккаунты - Ответ на вопрос - Админ "..getPlayerName(client)..", Ответ: "..answerText, true)
-			local answerTextFull = generateTimeString().."ОТВЕТ: Ответ #"..tostring(qnum).." от "..getPlayerName(client).."["..getPlayerID(client)..]": "..answerText
+			local answerTextFull = generateTimeString().."ОТВЕТ: Ответ #"..tostring(qnum).." от "..getPlayerName(client).."["..getPlayerID(client).."]: "..answerText
 			local players = getElementsByType("player")
 			local answerReceivers = { plr }
 			
