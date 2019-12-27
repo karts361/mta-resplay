@@ -10378,7 +10378,7 @@ function resourceStart(startedResource)
 	--generateMapFile()
 	fractionInit()
 	criminalActivityInit()
-	--missionsInit()
+	missionsInit()
 	colorNames = fromJSON(colorNamesJSON)
 	--outputServerLog(string.format("RESPLAY: %d colors found", table.getn(colorNames)))
 	
@@ -12588,13 +12588,13 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		
 		setTimer(specialEventLoadPlayer, 1500, 1, source, true)
 		
-		--[[if firstTime then
+		if firstTime then
 			triggerEvent("onMissionStart", resourceRoot, source, "mis_tutorial")
-		end]]
-		
-		if isAdmin(source) or isModerator(source) then
-			dbExec(db, "UPDATE users SET jetpack=1000 WHERE name=?", sHash)
 		end
+		
+		--[[if isAdmin(source) or isModerator(source) then
+			dbExec(db, "UPDATE users SET jetpack=1000 WHERE name=?", sHash)
+		end]]
 		
 		attachActionToSelf(defaultActions[86], source)
 		attachActionToSelf(defaultActions[63], source)
