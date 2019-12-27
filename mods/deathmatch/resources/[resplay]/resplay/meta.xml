@@ -14,7 +14,6 @@
 	<include resource="blocksmi"/>
 	<include resource="bone_attach"/>
 	<include resource="camera"/>
-	<include resource="cinema"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
 	<include resource="freecam"/>
