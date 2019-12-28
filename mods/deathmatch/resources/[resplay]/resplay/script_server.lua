@@ -19,6 +19,11 @@ greenZonesRadius = 20.0
 
 loginTimers = {}
 
+startMenSkins = {7, 18, 19, 20, 21, 22, 25, 66, 67, 142, 143, 249, 47, 48, 98, 
+59, 60, 170, 187, 210, 23, 26, 34, 37, 45, 72, 96, 97, 100, 101, 188, 206, 217, 240, 241, 242}
+
+startWomenSkins = {12, 13, 40, 69, 139, 238, 41, 55, 211, 56, 224, 226, 93, 138, 140,192, 251}
+
 -- HANDLING
 
 local predefinedHandling = {
@@ -276,137 +281,25 @@ playersInsideHouses = {}
 
 workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18 }
 
--- playerGroups[type_id][race][gender][skin_id], pryklad - playerGroups[1][4][1][1] - гражданин-азиат-мужчина-скин_1
 playerGroups = {
-	{ "Гражданин", {
-			-- men, woman
-			{{23, 26, 34, 37, 45, 72, 96, 97, 100, 101, 188, 206, 217, 240, 241, 242}, {93, 138, 140,192, 251}}, -- white
-			{{7, 18, 19, 20, 21, 22, 25, 66, 67, 142, 143, 249}, {12, 13, 40, 69, 139, 238}}, -- black
-			{{47, 48, 98}, {41, 55, 211}}, -- latino
-			{{59, 60, 170, 187, 210}, {224, 226}} -- asian
-		}
- 	},
-	{ "Полицейский", {
-			{{280, 281}, {145}}, -- white
-			{{265, 284}, {38}}, -- black
-			{{267}, {39}}, -- latino
-			{{266}, {31}} -- asian
-		}
- 	},
-	{ "Пожарный", {
-		-- не отсортированы
-			{{277, 278, 279}, {277, 278, 279}}, -- white
-			{{277, 278, 279}, {277, 278, 279}}, -- black
-			{{277, 278, 279}, {277, 278, 279}}, -- latino
-			{{277, 278, 279}, {277, 278, 279}} -- asian
-		}
- 	}, -- unused (неиспользуемый статус)
-	{ "Медик", {
-			{{276}, {276}}, -- white
-			{{274}, {274}}, -- black
-			{{275}, {275}}, -- latino
-			{{276}, {276}} -- asian
-		}
- 	},
-	{ "Военный", {
-			{{287}, {191}}, -- white
-			{{287}, {191}}, -- black
-			{{287}, {191}}, -- latino
-			{{287}, {191}} -- asian
-		}
-	},
-	{ "Спортсмен", {
-		-- не отсортированы
-			{{18, 45, 51, 52, 154, 96, 97, 99}, {18, 45, 51, 52, 154, 96, 97, 99}}, -- white
-			{{18, 45, 51, 52, 154, 96, 97, 99}, {18, 45, 51, 52, 154, 96, 97, 99}}, -- black
-			{{18, 45, 51, 52, 154, 96, 97, 99}, {18, 45, 51, 52, 154, 96, 97, 99}}, -- latino
-			{{18, 45, 51, 52, 154, 96, 97, 99}, {18, 45, 51, 52, 154, 96, 97, 99}} -- asian
-		}
-	}, -- unused (неиспользуемый статус)
-	{ "Пилот", {
-			{{61}, {61}}, -- white
-			{{253}, {253}}, -- black
-			{{61}, {61}}, -- latino
-			{{61}, {61}} -- asian
-		}
-	},
-	{ "Фермер", {
-			{{133, 161, 202, 206}, {157, 198, 201}}, -- white
-			{{134, 136}, {10}}, -- black
-			{{133, 161, 202, 206}, {131}}, -- latino
-			{{133, 161, 202, 206}, {131}} -- asian
-		}
-	},
-	{ "Водитель", {
-			{{133, 161, 202, 206}, {157, 198, 201}}, -- white
-			{{134, 136}, {190}}, -- black
-			{{133, 161, 202, 206}, {131}}, -- latino
-			{{133, 161, 202, 206}, {131}} -- asian
-		}
-	},
-	{ "Бандит", {
-			{{29, 111, 112, 124, 125, 126, 127}, {192}}, -- white
-			{{28, 101, 102, 103, 104, 105, 106, 107}, {195}}, -- black
-			{{30, 108, 109, 110, 114, 115, 116}, {298}}, -- latino
-			{{117, 118, 120, 121, 122, 123}, {169}} -- asian
-		}
-	},
-	{ "Коммунальные службы", {
-			{{27}, {151}}, -- white
-			{{16}, {218}}, -- black
-			{{144}, {9}}, -- latino
-			{{309}, {56}} -- asian
-		}
-	},
-	{ "Бомж", {
-			{{78, 137, 135, 239, 162}, {199}}, -- white
-			{{79, 230}, {195}}, -- black
-			{{200}, {199}}, -- latino
-			{{132}, {199}} -- asian
-		}
-	},
-	{ "Бизнесмен", {
-			{{111, 147}, {141}}, -- white
-			{{296}, {148, 219}}, -- black
-			{{185, 223}, {150}}, -- latino
-			{{228, 249, 186}, {263}} -- asian
-		}
-	},
-	{ "Спецназ", {
-		{{285}, {285}}, -- white
-		{{285}, {285}}, -- black
-		{{285}, {285}}, -- latino
-		{{285}, {285}} -- asian
-	}
-	}, --unused (неиспользуемый статус, скин спецназовца есть пока что у полицейского статуса)
-	{ "Администрация", {
-			{{295}, {91}}, -- white
-			{{17}, {190}}, -- black
-			{{113}, {91}}, -- latino
-			{{294}, {91}} -- asian
-		}
-	},
-	{ "Продавец", {
-			{{155, 167}, {205}}, -- white
-			{{168}, {304}}, -- black
-			{{113}, {205}}, -- latino
-			{{229}, {205}} -- asian
-		}
-	},
-	{ "ФБР", {
-			{{286, 165}, {286, 165}}, -- white
-			{{166}, {166}}, -- black
-			{{163}, {163}}, -- latino
-			{{294}, {294}} -- asian
-		}
-	},
-	{ "СМИ", {
-			{{303}, {216}}, -- white
-			{{24}, {215}}, -- black
-			{{46}, {216}}, -- latino
-			{{120}, {216}} -- asian
-		}
-	}
+	{ "Гражданин", 23, 26, 34, 37, 45, 72, 96, 97, 100, 101, 188, 206, 217, 240, 241, 242 },
+	{ "Полицейский", 280, 281, 265, 266, 267, 283, 285 },
+	{ "Пожарный", 277, 278, 279 }, -- unused (неиспользуемый статус)
+	{ "Медик", 274, 275, 276 },
+	{ "Военный", 287, 179 },
+	{ "Спортсмен", 18, 45, 51, 52, 154, 96, 97, 99 }, -- unused (неиспользуемый статус)
+	{ "Пилот", 253, 255 },
+	{ "Фермер", 202, 206, 32, 34, 36, 37, 158, 159 },
+	{ "Водитель", 95, 72, 73, 32, 128, 133, 24, 302 },
+	{ "Бандит", 30, 28, 29, 124, 125, 126, 127, 85, 173, 174, 175 },
+	{ "Коммунальные службы", 27, 260, 16 },
+	{ "Бомж", 200, 212, 230, 239, 78, 79, 134, 137, 135 },
+	{ "Бизнесмен", 227, 228, 147, 186, 187, 219 },
+	{ "Спецназ", 285 }, --unused (неиспользуемый статус, скин спецназовца есть пока что у полицейского статуса)
+	{ "Администрация", 295, 294 },
+	{ "Продавец", 168, 209 },
+	{ "ФБР", 286, 166, 163, 164, 165 },
+	{ "СМИ", 250, 240, 170, 188, 60, 217, 296, 46, 295, 306, 76 }
 }
 
 playerGroupSkills = {
@@ -11071,11 +10964,50 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
 			local sHash = getHash(getPlayerName(plr))
-	
-			if(dbExec(db, "UPDATE users SET usergroup=? WHERE name=?", grpid, sHash)) then
-				--setElementModel(plr, sknid)
+			local sknid = playerGroups[grpid][math.random(table.getn(playerGroups[grpid])-1)+1]
+
+			repeat
+				dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", sHash)
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+
+			-- Set civil skin --
+			if dbqueryresult then
+				if grpid == 1 or grpid == 13 --[[ or grpid == 10 or grpid == 12 or grpid == 13]] then
+					-- Fetch default civil skin --
+					local skinFromDb = dbqueryresult[1]["default_skin"]
+					if skinFromDb == 0 then
+						-- REFRESH CIVIL SKIN IF NOT INITED --
+						local gender = dbqueryresult[1]["gender"]
+						if (gender == 1) then
+							-- man
+							sknid = startMenSkins[math.random(table.getn(startMenSkins))] -- random man's skin
+						else
+							-- woman
+							sknid = startWomenSkins[math.random(table.getn(startWomenSkins))] -- random woman's skin
+						end
+
+						dbExec(db, "UPDATE users SET default_skin=?, skin_inited=1 WHERE name=?", sknid, sHash)
+					else
+						sknid = skinFromDb
+					end	
+				elseif grpid == 10  then
+					-- Fetch fraction skin
+					local skinFromDb = dbqueryresult[1]["skin2"]
+					if skinFromDb == 0 then
+						-- init fraction skin
+						dbExec(db, "UPDATE users SET skin2=? WHERE name=?", sknid, sHash)
+					else
+						sknid = skinFromDb
+					end
+				end
+			end
+			-------
+			
+			if(dbExec(db, "UPDATE users SET usergroup=?, skin=? WHERE name=?", grpid, sknid, sHash)) then
+				setElementModel(plr, sknid)
 				setElementData(plr, "usergroup", grpid)
-				refreshSkin(plr, grpid)
 				
 				if isPlayerGroupCommon(grpid) then
 					for jobId=1,table.getn(jobWorkers) do
@@ -11136,8 +11068,6 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 			return "игрок-банкрот"
 		end
 	end
-
-	refreshSkin(plr, grpid)
 	return "NIL"
 end
 
@@ -11230,7 +11160,7 @@ function payoutProcAdmin()
 	end
 end
 
-function registerPlayer(plr, pass, email, referrer, userGender, userRace)
+function registerPlayer(plr, pass, email, referrer, userGender)
 	if(source == resourceRoot) and (plr == client) then
 		local accName = getPlayerName(plr)
 		
@@ -11245,14 +11175,14 @@ function registerPlayer(plr, pass, email, referrer, userGender, userRace)
 		
 		if serverId and md5Pass then
 			local sserial = getPlayerSerial(plr)
-			dbQuery(registerPlayerSerial, {accName, pass, email, referrer, sserial, userGender, userRace}, db, "SELECT COUNT(*) AS count FROM users WHERE serial = ?", sserial)
+			dbQuery(registerPlayerSerial, {accName, pass, email, referrer, sserial, userGender}, db, "SELECT COUNT(*) AS count FROM users WHERE serial = ?", sserial)
 		else
 			triggerClientEvent(plr, "onRegisterFinished", plr, false, 6)
 		end
 	end
 end
 
-function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, userGender, userRace)
+function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, userGender)
 	local source = getPlayerFromName(accName)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
@@ -11260,9 +11190,9 @@ function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, user
 	if isElement(source) then
 		if(dbqueryresult[1]["count"] < 3) or isTestServer() then
 			if(string.len(referrer) > 0) then
-				dbQuery(registerPlayerReferrer, {accName, pass, email, referrer, sserial, userGender, userRace}, db, "SELECT * FROM users WHERE name = ?", getHash(referrer))
+				dbQuery(registerPlayerReferrer, {accName, pass, email, referrer, sserial, userGender}, db, "SELECT * FROM users WHERE name = ?", getHash(referrer))
 			else
-				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender, userRace }
+				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender }
 				registerPlayerResult(accName, 0)
 			end
 		
@@ -11273,7 +11203,7 @@ function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, user
 	end
 end
 
-function registerPlayerReferrer(dbq, accName, pass, email, referrer, sserial, userGender, userRace)
+function registerPlayerReferrer(dbq, accName, pass, email, referrer, sserial, userGender)
 	local source = getPlayerFromName(accName)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
@@ -11294,7 +11224,7 @@ function registerPlayerReferrer(dbq, accName, pass, email, referrer, sserial, us
 				triggerClientEvent(source, "onRegisterFinished", source, false, 11)
 			
 			else
-				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender, userRace }
+				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender }
 				registerPlayerResult(accName, 0)
 			end
 		
@@ -11313,16 +11243,17 @@ function registerPlayerResult(accName, res)
 		local referrer = webAccountsTmp[accName][3]
 		local sserial = webAccountsTmp[accName][4]
 		local userGender = webAccountsTmp[accName][5]
-		local userRace = webAccountsTmp[accName][6]
 		webAccountsTmp[accName] = nil
 		if res and(res == 0) then
 			if isElement(source) then
 				local curTime = getRealTime()
 				local sIP = getPlayerIP(source)
+				local defaultSkin = startMenSkins[1]
+				if userGender == 2 then -- woman
+					defaultSkin = startWomenSkins[1]
+				end
 
-				local defaultSkin = playerGroups[1][2][userRace+1][userGender][1]
-
-				if dbExec(db, "INSERT INTO users (name, pass, usergroup, skin, lastLogin, email, referrer, serial, regip, gender, race) VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?)", getHash(accName), getHash(pass, true), defaultSkin, curTime.timestamp, email, getHash(referrer), sserial, sIP, userGender, userRace) then
+				if dbExec(db, "INSERT INTO users (name, pass, usergroup, skin, lastLogin, email, referrer, serial, regip, gender) VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?, ?)", getHash(accName), getHash(pass, true), defaultSkin, curTime.timestamp, email, getHash(referrer), sserial, sIP, userGender) then
 
 					addNewEventToLog(accName, "Аккаунты - Регистрация - IP "..sIP..", с/н "..sserial, true)
 					outputServerLog("RESPLAY: A new registered player - "..accName)
@@ -12454,18 +12385,22 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 
 		--- REFRESH SKIN IF NOT INITED ---
 		local skinInited = dbqueryresult[1]["skin_inited"]
-		local gender = dbqueryresult[1]["gender"]
-		local race = dbqueryresult[1]["race"] + 1
-
 		if (skinInited == 0) and not firstTime then
 			local fractionId = dbqueryresult[1]["fraction"]
 			local usergroupId = dbqueryresult[1]["usergroup"]
 
 			if fractionId == 0 and usergroupId == 1 then
-		
+				local gender = dbqueryresult[1]["gender"]
+				local skin = startMenSkins[1]
 
-				local skin = playerGroups[1][2][race][gender][math.random(table.getn(playerGroups[1][2][race][gender])-1)+1]
-
+				if (gender == 1) then
+					-- man
+					skin = startMenSkins[math.random(table.getn(startMenSkins))] -- random man's skin
+				else
+					-- woman
+					skin = startWomenSkins[math.random(table.getn(startWomenSkins))] -- random woman's skin
+				end
+				
 				if dbExec(db, "UPDATE users SET skin=?, default_skin=?, skin_inited=1 WHERE name=?", skin, skin, sHash) then
 					outputServerLog("RESPLAY: Player has changed his/her skin - "..sHash)
 					setPedSkin(source, skin)
@@ -12476,17 +12411,17 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		end
 
 		local grp = dbqueryresult[1]["usergroup"]
-		if grp > 1 then
-			local fractionSkin = dbqueryresult[1]["fraction_skin"]
+		if grp == 10 or grp == 12 or grp == 13 then
+			local fractionSkin = dbqueryresult[1]["skin2"]
 			-- Set Fraction Skin
 			if fractionSkin == 0 then
 				local currentSkn = dbqueryresult[1]["skin"]
-				if hasValueInTable(currentSkn, playerGroups[grp][2][race][gender]) then
-					dbExec(db, "UPDATE users SET fraction_skin=? WHERE name=?", currentSkn, sHash)
+				if hasValueInTable(currentSkn, playerGroups[grp]) then
+					dbExec(db, "UPDATE users SET skin2=? WHERE name=?", currentSkn, sHash)
 					setPedSkin(source, currentSkn)
 				else
-					local newSkn = playerGroups[grp][2][race][gender][math.random(table.getn(playerGroups[grp][2][race][gender])-1)+1]
-					dbExec(db, "UPDATE users SET fraction_skin=?, skin=? WHERE name=?", newSkn, skin, sHash)
+					local newSkn = playerGroups[grp][math.random(table.getn(playerGroups[grp])-1)+1]
+					dbExec(db, "UPDATE users SET skin2=?, skin=? WHERE name=?", newSkn, skin, sHash)
 					setPedSkin(source, newSkn)
 				end
 			else
@@ -16504,7 +16439,7 @@ function checkPlayerGroup(plr)
 	if not getElementData(plr, "spawned") then
 		return false
 	end
-
+	
 	local fId = fractionGetPlayerFraction(plr)
 	local respectCur = getElementData(plr, "respect")
 	
@@ -16527,22 +16462,6 @@ function checkPlayerGroup(plr)
 				setPlayerNewGroup(plr, commonGrp)
 			end
 		end
-
-		-- change skin
-		local sHash = getHash(getPlayerName(plr))
-		repeat
-			dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", sHash)
-			dbqueryresult = dbPoll(dbq, 30000)
-			dbFree(dbq)
-		until dbqueryresult
-		local grpId = dbqueryresult[1]["usergroup"]
-		local gender = dbqueryresult[1]["gender"]
-		local race = dbqueryresult[1]["race"] + 1
-		local sknId = dbqueryresult[1]["skin"]
-
-		if not hasValueInTable(sknId, playerGroups[grpId][2][race][gender]) then
-			refreshSkin(plr, curGrp)
-		end
 	end
 	
 	if(isModerator(plr) or isAdmin(plr)) and(respectCur < 1.0) then
@@ -16553,61 +16472,6 @@ function checkPlayerGroup(plr)
 	end
 end
 
-function refreshSkin(plr, grpid)
-	local sHash = getHash(getPlayerName(plr))
-	repeat
-		dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", sHash)
-		dbqueryresult = dbPoll(dbq, 30000)
-		dbFree(dbq)
-	until dbqueryresult
-
-	
-	local gender = dbqueryresult[1]["gender"]
-	local race = dbqueryresult[1]["race"] + 1
-
-	-- outputServerLog("grpid "..tostring(grpid)..")")
-	-- outputServerLog("race "..tostring(race)..")")
-	-- outputServerLog("gender "..tostring(gender)..")")
-	-- outputServerLog("table.getn "..tostring(table.getn(playerGroups[grpid][2][race][gender]))..")")
-	-- outputServerLog("math.random "..tostring(math.random(table.getn(playerGroups[grpid][2][race][gender])))..")")
-
-	local sknid = playerGroups[grpid][2][race][gender][math.random(table.getn(playerGroups[grpid][2][race][gender]))]
-	-- outputServerLog("sknid"..tostring(sknid)..")")
-
-	-- Set civil skin --
-	if grpid == 1 then
-		-- Fetch default civil skin --
-		local skinFromDb = dbqueryresult[1]["default_skin"]
-		if skinFromDb == 0 then
-			-- REFRESH CIVIL SKIN IF NOT INITED --
-			local randNum = math.random(table.getn(playerGroups[1][2][race][gender]))
-			sknid = playerGroups[1][2][race][gender][randNum]
-			dbExec(db, "UPDATE users SET default_skin=?, skin_inited=1, skin=? WHERE name=?", sknid, sknid, sHash)
-		else
-			sknid = skinFromDb
-		end	
-	else
-		-- Fetch fraction skin
-		local skinFromDb = dbqueryresult[1]["fraction_skin"]
-		if skinFromDb == 0 then
-			-- init fraction skin
-			dbExec(db, "UPDATE users SET fraction_skin=?, skin=? WHERE name=?", sknid, sknid, sHash)
-		else
-			if hasValueInTable(skinFromDb, playerGroups[grpid][2][race][gender]) then -- Check if userGroup remains the same
-				-- userGroup has changed, change the skin 
-				sknid = skinFromDb
-			end
-			dbExec(db, "UPDATE users SET fraction_skin=?, skin=? WHERE name=?", sknid, sknid, sHash)
-		end
-	end
-	
-	-------
-	-- outputServerLog("New skin"..tostring(sknid)..")")
-
-	if(dbExec(db, "UPDATE users SET skin=? WHERE name=?", sknid, sHash)) then
-		setElementModel(plr, sknid)
-	end
-end
 
 function checkMoney(plr)
 	if isElement(plr) then
@@ -24864,8 +24728,8 @@ function adminCMDheal(plr, nickname)
 
 end
 
--- Команда на смену скинов (бандиты, бизнесмены и др)
-function adminCMDsetfracskin(plr, nickname, newSkin)
+-- Команда на смену скинов (бандиты)
+function adminCMDsetgskin(plr, nickname, newSkin)
 	local pHash = getHash(nickname)
 	
 	repeat
@@ -24879,7 +24743,7 @@ function adminCMDsetfracskin(plr, nickname, newSkin)
 		local sknPlr = getPlayerFromName(nickname)
 		setPedSkin(sknPlr, skin)
 		triggerClientEvent(sknPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." обновил вам cкин")
-		dbExec(db, "UPDATE users SET skin=?, fraction_skin=? WHERE name=?", skin, skin, pHash)
+		dbExec(db, "UPDATE users SET skin=?, skin2=? WHERE name=?", skin, skin, pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили скин на аккаунте "..nickname)	
 	else
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
@@ -24910,8 +24774,9 @@ function adminCMDsetdefskin(plr, nickname, newSkin)
 
 end
 
-function adminCMDsetrace(plr, nickname, newRace)
+function adminCMDsetskin(plr, nickname, newSkin)
 	local pHash = getHash(nickname)
+	
 	repeat
 		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
 		dbqueryresult = dbPoll(dbq, 30000)
@@ -24919,14 +24784,18 @@ function adminCMDsetrace(plr, nickname, newRace)
 	until dbqueryresult
 	
 	if dbqueryresult[1] then
-		local race = tonumber(newRace)
-		dbExec(db, "UPDATE users SET race=? WHERE name=?", race, pHash)
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили расу на аккаунте "..nickname)
+		local skin = tonumber(newSkin)
+		local sknPlr = getPlayerFromName(nickname)
+		setPedSkin(sknPlr, skin)
+		triggerClientEvent(sknPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." обновил вам cкин")
+		dbExec(db, "UPDATE users SET skin=?, WHERE name=?", skin, pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили скин на аккаунте "..nickname)
 	else
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
 
 end
+
 
 function adminCMDsetfraction(plr, nickname, ... )
     triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 700, { table.concat( {...}, " " ), nickname })
@@ -25042,9 +24911,9 @@ end
     /removemoney [кол-во денег] - Обновить кол-во денег игроку (удалить кол-во денег, если игрок в онлайне)
     /removemoderator [ник полностью] - Убрать модератора
     /setmoderator [ник полностью] - Назначить модератора
-    /setdefskin [ник] [ид скина] - Изменить скин на гражданский статус
-	/setfracskin [ник] [ид скина] - Изменить фракционный скин (бандит, бизнесмен и др.)
-	/setrace [ник] [ид] - изменить расу
+	/setskin [ник] [ид скина]
+    /setdefaultskin [ник] [ид скина] - Изменить скин по умолчанию у гражданских
+	/setgskin [ник] [ид скина] - Изменить скин у бандитов
 	/setfraction [ник] [название фракции] - принять игрока во фракцию
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
@@ -25115,23 +24984,25 @@ addCommandHandler("jailtime", JailTimer)
 
 
 gender = 1
-race = 1
 ------------ SKIN SELECTOR --------
 function startSkinSelectorCamera(plr)
 	--- Find gender ---
 	local sHash = getHash(getPlayerName(plr))
 	repeat
-		dbq = dbQuery(db, "SELECT gender, race FROM users WHERE name=?", sHash)
+		dbq = dbQuery(db, "SELECT gender FROM users WHERE name=?", sHash)
 		dbqueryresult = dbPoll(dbq, 30000)
 		dbFree(dbq)
 	until dbqueryresult
 	gender = dbqueryresult[1]["gender"]
-	race = dbqueryresult[1]["race"] + 1
 
 	--- Start selection ---
 	if (client) then
-		setPedSkin(plr, playerGroups[1][2][race][gender][1])
-		
+		if gender == 1 then
+			setPedSkin(plr, startMenSkins[1])
+		else
+			setPedSkin(plr, startWomenSkins[1])
+		end
+
         local px, py, pz = getElementPosition( plr )
         local rot = setPedRotation(plr, 1)
         setCameraMatrix(plr, px, py+4, pz, px, py, pz)
@@ -25160,8 +25031,13 @@ addEventHandler("SkinSelected", getRootElement(), skinSelected)
 
 function skinRight()
 	local skin = getPedSkin(client)
-	local skinArray = playerGroups[1][2][race][gender]
-	
+	local skinArray = startMenSkins
+
+	-- Woman
+	if gender == 2 then
+		skinArray = startWomenSkins
+	end
+
 	-- Next skin
 	local nextSkin = indexOf(skinArray, skin)
 	if (nextSkin ~= nil) and (nextSkin < table.getn(skinArray)) then
@@ -25179,7 +25055,12 @@ addEventHandler("SkinRight", getRootElement(), skinRight)
 
 function skinLeft()	
 	local skin = getPedSkin(client)
-	local skinArray = playerGroups[1][2][race][gender]
+	local skinArray = startMenSkins
+
+	-- Woman
+	if gender == 2 then
+		skinArray = startWomenSkins
+	end
 
 	-- Previous skin
 	local nextSkin = indexOf(skinArray, skin)
@@ -25223,8 +25104,9 @@ function savePos(player, command, ...)
     local x, y, z = getElementPosition(player)
     local rot = getPedRotation(player)
 	local str = "x: " .. tostring(x) .. ", y: " .. tostring(y) .. ", z: " .. tostring(z) .. ", rot: " .. tostring(rot) .. " ";
-
-	outputChatBox(str, source)
+    if isTestServer then
+	    outputChatBox(str, source)
+	end
 end
 addCommandHandler("position", savePos)
 
