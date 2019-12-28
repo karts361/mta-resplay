@@ -28,9 +28,9 @@
 	<command name="removemoney" level="3" description="/removemoney [кол-во денег] - Обновить кол-во денег игроку (удалить кол-во денег, если игрок в онлайне)"/>
 	<command name="renameaccount" level="3" description="/renameaccount [Старый никнейм] [новый никнейм] - Переименовать никнейм на аккаунте." />
 	<command name="unjail" level="2" description="/unjail [ник полностью] - Выпустить игрока из тюрьмы."/>
-	<command name="setdefskin" level="3" description="/setdefskin [ник] [ид скина] - Изменить по умолчанию скин"/>
-	<command name="setfracskin" level="3" description="/setfracskin [ник] [ид скина] - Изменить скин (например лидерам фракций)" />
-	<command name="setrace" level="3" description="/setrace [ник] [ид] - Изменить расу" />
+	<command name="setskin" level="3" description="/setskin [ник] [ид скина] - Изменить cкин"/>
+	<command name="setdefaultskin" level="3" description="/setdefaultskin [ник] [ид скина] - Изменить по умолчанию скин"/>	
+	<command name="setgskin" level="3" description="/setgskin [ник] [ид скина] - Изменить скин бандитам" />
 	<command name="setfraction" level="2" description="/setfraction [ник] [название фракции] - принять игрока во фракцию"/>
 	<command name="removefraction" level="2" description="/removefraction [ник] - уволить игрока из фракции"/>
 	<command name="mute" level="2" description="/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)"/>

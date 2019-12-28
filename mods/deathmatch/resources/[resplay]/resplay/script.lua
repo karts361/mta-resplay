@@ -3192,11 +3192,11 @@ function register(button, state)
 				guiSetEnabled(womanRadioButton, false)
 				guiLabelSetColor(msgLoginReg, 255, 255, 255)
 				guiSetText(msgLoginReg, "Регистрирую...")
-				-- triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curEMail, curReferrer, gender)
+			    triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curEMail, curReferrer, curGender)
 
 				guiSetVisible(loginRegWin, false)
 
-				showRegister2Dialog()
+				--showRegister2Dialog()
 			end
 			
 		else
@@ -3473,8 +3473,8 @@ function startGame()
 	removeEventHandler("onClientGUIClick", btnLoginReg, register)
 	removeEventHandler("onClientKey", root, login)
 	removeEventHandler("onClientKey", root, register)
-	removeEventHandler("onClientGUIClick", btnLoginReg2, register2)
-	removeEventHandler("onClientKey", root, register2)
+	--removeEventHandler("onClientGUIClick", btnLoginReg2, register2)
+	--removeEventHandler("onClientKey", root, register2)
 	--removeEventHandler("onClientRender", root, updateLogo)
 	msgQueue = {}
 	tickStart = getTickCount()
@@ -3519,7 +3519,7 @@ function startGame()
 
 				-- Start skin selection if first time entering
 				if firstTime and not startSkinChosen then
-					setTimer(enableSkinChooser, 2500, 1)
+					setTimer(enableSkinChooser, 30000, 1)
 				end
 
 			 end, 5250, 1)
