@@ -22,11 +22,9 @@ end
 function groupAttachVehicleToGroup(vehId, groupId)
 	if groupVehicles[vehId] then
 		table.insert(groupVehicles[vehId], groupId)
-	
 	else
 		groupVehicles[vehId] = { groupId }
 	end
-	
 	return true
 end
 
@@ -113,27 +111,32 @@ function playerGetMoney(plr)
 	return getMoney(plr)
 end
 
-function playerShowMessage(plr, msgtext)
-	return triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, msgtext)
+function playerShowMessage(plr, msgtext, fromResource)
+	local sourceRoot = fromResource
+	if not sourceRoot then
+		sourceRoot = resourceRoot
+	end
+	return triggerClientEvent(plr, "onServerMsgAdd", sourceRoot, msgtext)
 end
 
 function playerSendAdminMessage(plr, msgtext)
 	local plrName, plrRole
-	
 	if isElement(plr) then
 		plrName = getPlayerName(plr)
-	
 		if isAdmin(plr) then
 			plrRole = "Администратор"
-		else isModerator(plr)
+		else
 			plrRole = "Модератор"
-	    end
+		end
 	else
 		plrName = "RESPLAY"
-		plrRole = "[Server]"
+		plrRole = "[Сервер]"
 	end
-	
 	return outputChatBox(generateTimeString()..plrName.." ["..plrRole.."]: "..msgtext, root, 255, 160, 160, false)
+end
+
+function toggleSkinChooser(plr)
+	return triggerClientEvent(plr, "onSkinChooser", resourceRoot)
 end
 
 function playerSendSMIMessage(plr, msgtext)
@@ -143,13 +146,10 @@ end
 
 function playerTransferMoney(fromPlr, toPlr, amount)
 	local money = playerGetMoney(fromPlr)
-	
 	if(money < amount) then
 		return false
 	end
-	
 	playerTakeMoney(fromPlr, amount)
-	
 	if isElement(toPlr) then
 		playerGiveMoney(toPlr, amount)
 	end
@@ -162,17 +162,23 @@ end
 
 function playerRespectChange(plr, incVal, minBorder, maxBorder, diffMultEnabled)
 	local respect = getElementData(plr, "respect")
-	
 	if respect then
 		respectSet(plr, respect+incVal, minBorder, maxBorder, diffMultEnabled)
 	end
+end
+
+function playerGetDefaultSpawn( plr )
+	return getPlayerDefaultSpawn( plr )
+end
+
+function elementSetGhostMode( elem, timeMs )
+	setElementGhostMode( elem, timeMs )
 end
 
 function soundPlaySFX3D(sLib, sBank, sId, sX, sY, sZ, sLoop, sDist, sToAttach, sPos, sTime)
 	if sToAttach then
 		sX, sY, sZ = getElementPosition(sToAttach)
 	end
-	
 	local curCol = createColSphere(sX, sY, sZ, sDist+50)
 	local players = getElementsWithinColShape(curCol, "player")
 	destroyElement(curCol)
