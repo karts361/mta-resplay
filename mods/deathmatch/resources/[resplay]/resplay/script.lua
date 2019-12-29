@@ -10370,7 +10370,7 @@ function buy_the_skin()
 	cost = tonumber(cost)
 	if (not id) and (not cost) then return end
 	if id == model then
-	exports.PopupSys:Draw("Вы уже купили эту одежду!")
+	msgAdd("Вы уже купили эту одежду!")
 	return
 	end
 	setElementModel(localPlayer, model)
