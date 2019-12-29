@@ -19,10 +19,9 @@ greenZonesRadius = 20.0
 
 loginTimers = {}
 
-startMenSkins = {7, 18, 19, 20, 21, 22, 25, 66, 67, 142, 143, 249, 47, 48, 98, 
-59, 60, 170, 187, 210, 23, 26, 34, 37, 45, 72, 96, 97, 100, 101, 188, 206, 217, 240, 241, 242}
+startMenSkins = {20, 23, 24, 26}
 
-startWomenSkins = {12, 13, 40, 69, 139, 238, 41, 55, 211, 56, 224, 226, 93, 138, 140,192, 251}
+startWomenSkins = {12, 69, 41}
 
 -- HANDLING
 
@@ -291,15 +290,15 @@ playerGroups = {
 	{ "Пилот", 253, 255 },
 	{ "Фермер", 202, 206, 32, 34, 36, 37, 158, 159 },
 	{ "Водитель", 95, 72, 73, 32, 128, 133, 24, 302 },
-	{ "Бандит", 30, 28, 29, 124, 125, 126, 127, 85, 173, 174, 175 },
+	{ "Бандит", 30, 28, 29, 117, 118, 120, 122, 123, 124, 125, 126, 127, 173, 85, 56, 64, 67, 249 },
 	{ "Коммунальные службы", 27, 260, 16 },
 	{ "Бомж", 200, 212, 230, 239, 78, 79, 134, 137, 135 },
 	{ "Бизнесмен", 227, 228, 147, 186, 187, 219 },
 	{ "Спецназ", 285 }, --unused (неиспользуемый статус, скин спецназовца есть пока что у полицейского статуса)
-	{ "Администрация", 295, 294 },
+	{ "Администрация", 295 },
 	{ "Продавец", 168, 209 },
 	{ "ФБР", 286, 166, 163, 164, 165 },
-	{ "СМИ", 250, 240, 170, 188, 60, 217, 296, 46, 295, 306, 76 }
+	{ "СМИ", 240, 60, 217, 296, 46, 306, 76 },
 }
 
 playerGroupSkills = {
@@ -12288,6 +12287,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		setElementData(source, "heaverCargo", nil)
 		setElementData(source, "jetpackFuel", dbqueryresult[1]["jetpack"])
 		setElementData(source, "muted", dbqueryresult[1]["muted"])	
+		setElementData(source, "gender", dbqueryresult[1]["gender"])
 		
 		if(dbqueryresult[1]["fireproof"] == 1) then
 			setElementData(source, "fireproof", true)
@@ -12389,7 +12389,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			local fractionId = dbqueryresult[1]["fraction"]
 			local usergroupId = dbqueryresult[1]["usergroup"]
 
-			if fractionId == 0 and usergroupId == 1 then
+			if fractionId == 0 and usergroupId == 1 or usergroupId == 13 then
 				local gender = dbqueryresult[1]["gender"]
 				local skin = startMenSkins[1]
 
@@ -12411,7 +12411,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		end
 
 		local grp = dbqueryresult[1]["usergroup"]
-		if grp == 10 or grp == 12 or grp == 13 then
+		if grp == 10 then
 			local fractionSkin = dbqueryresult[1]["skin2"]
 			-- Set Fraction Skin
 			if fractionSkin == 0 then
@@ -24793,6 +24793,24 @@ function adminCMDsetskin(plr, nickname, newSkin)
 
 end
 
+function adminCMDsetgender(plr, nickname, newGender)
+	local pHash = getHash(nickname)
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if dbqueryresult[1] then
+		local gender = tonumber(newGender)
+		dbExec(db, "UPDATE users SET gender=? WHERE name=?", gender, pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили пол на аккаунте "..nickname)
+		setElementData(plr, "gender", gender)
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
+	end
+
+end
 
 function adminCMDsetfraction(plr, nickname, ... )
     triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 700, { table.concat( {...}, " " ), nickname })
@@ -24911,6 +24929,7 @@ end
 	/setskin [ник] [ид скина]
     /setdefaultskin [ник] [ид скина] - Изменить скин по умолчанию у гражданских
 	/setgskin [ник] [ид скина] - Изменить скин у бандитов
+	/setgender [ник] [пол] - изменить пол у игрока 1 - мужчина 2 - женчина
 	/setfraction [ник] [название фракции] - принять игрока во фракцию
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
@@ -25248,6 +25267,85 @@ end
 
 addEvent("onHouseSellGosDecline", true)
 addEventHandler("onHouseSellGosDecline", root, houseSellGosDecline)
+
+------ МАГАЗИНЫ СКИНОВ --------
+
+SkinShops = {
+	--x, y, z, dimension, interior
+	{ x = 2244.47, y = -1665.36, z = 14.4839, dim = 0, int = 0 },
+	{ x = 1456.77, y = -1138.02, z = 23.2872, dim = 0, int = 0 },	
+	{ x = -1883.2, y = 865.473, z = 34.2601, dim = 0, int = 0 },
+	{ x = 2572.07, y = 1904.83, z = 10.0231, dim = 0, int = 0 },	
+	{ x = 2090.58, y = 2224.2, z = 10.0579, dim = 0, int = 0 },
+	{ x = -2375.32, y = 910.293, z = 44.4578, dim = 0, int = 0 },	
+	{ x = 1657.01, y = 1733.33, z = 10.0209, dim = 0, int = 0 },
+	{ x = 2102.69, y = 2257.49, z = 10.0579, dim = 0, int = 0 },	
+}
+SkinShop_blips = {
+	{ x = 2244.47, y = -1665.36, z = 14.4839 },
+	{ x = 1456.77, y = -1138.02, z = 23.2872 },	
+	{ x = -1883.2, y = 865.473, z = 34.2601 },
+	{ x = 2572.07, y = 1904.83, z = 10.0231 },
+	{ x = 2090.58, y = 2224.2, z = 10.0579 },
+	{ x = -2375.32, y = 910.293, z = 44.4578 },	
+	{ x = 1657.01, y = 1733.33, z = 10.0209 },
+	{ x = 2102.69, y = 2257.49, z = 10.0579 },
+}
+
+function skinShop()
+	for i, shop in pairs(SkinShops) do
+		local x, y, z, int, dim, type = shop.x, shop.y, shop.z, shop.int, shop.dim, shop.type
+		marker = createMarker(x, y, z, "cylinder", 1.5, 255, 255, 0, 60)
+		setElementInterior(marker, int)
+		setElementDimension(marker, dim)
+		pickupSetText(marker, "Магазин одежды", 255, 255, 0)
+		if type == 2 then
+			setElementAlpha(marker,0)
+		end
+		addEventHandler("onMarkerHit", marker, on_marker_hit)
+	end
+	for i2, shop_blip in pairs(SkinShop_blips) do
+		local x, y, z = shop_blip.x, shop_blip.y, shop_blip.z
+		blip = createBlip( x, y, z, 45, 2, 0, 0, 0, 255, 2, 180 )
+	end
+end
+addEventHandler("onResourceStart", resourceRoot, skinShop)
+
+function on_marker_hit(plr, matchingDim)
+local pGrp = getElementData(plr, "usergroup")
+	if (plr and getElementType(plr) == "player" and matchingDim) then
+		if pGrp == 1 or pGrp == 10 or pGrp == 13 then
+		    triggerClientEvent(plr, "showSkin", plr)
+		end
+	end
+end
+
+function onBuySkin(model,money)
+local pHash = getHash(getPlayerName(client))
+local pGrp = getElementData(client, "usergroup")
+
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+
+	if getPlayerMoney(client) > money and pGrp == 1 or pGrp == 13 then
+		playerTakeMoney(client, money)
+		playerShowMessage(client, "Вы купили новую одежду!")
+		setElementModel(client, model)
+	    dbExec(db, "UPDATE users SET skin=?, default_skin=? WHERE name=?", model, model, pHash)
+	elseif getPlayerMoney(client) > money and pGrp == 10 then
+	    playerTakeMoney(client, money)
+		playerShowMessage(client, "Вы купили новую одежду!")
+		setElementModel(client, model)
+	    dbExec(db, "UPDATE users SET skin=?, skin2=? WHERE name=?", model, model, pHash)
+	else
+		playerShowMessage(client, "У вас недостаточно денег!")
+	end
+end
+addEvent("onBuySkin", true)
+addEventHandler("onBuySkin", root, onBuySkin)
 
 
 
