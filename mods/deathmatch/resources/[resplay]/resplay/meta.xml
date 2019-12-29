@@ -54,6 +54,12 @@
     <file src="images/wanted_on.png" download="true"/>
     <file src="images/wanted_off.png" download="true"/>
     <file src="images/respectline.png" download="true"/>
+    <file src="imgres/213.dff" download="true"/>
+    <file src="imgres/129.dff" download="true"/>
+    <file src="imgres/264.dff" download="true"/>
+    <file src="imgres/213.txd" download="true"/>
+    <file src="imgres/129.txd" download="true"/>
+    <file src="imgres/264.txd" download="true"/>
 	<file src="images/clr.png" download="true"/>
     <file src="audio/intro_out.wav" download="true"/>
     <file src="audio/job_trashcollect.wav" download="true"/>

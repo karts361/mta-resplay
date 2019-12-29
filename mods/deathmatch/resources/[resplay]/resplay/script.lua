@@ -105,6 +105,9 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	{ "75", { 75 } },
 	{ "88", { 88 } },
 	{ "62", { 62 } },
+	{ "213", {213} },
+	{ "129", {129} },
+	{ "264", {264} },
 	{ "146", { 146 } },
 	{ "14", { 14 } },
 	{ "empty", { 5083 } },
@@ -199,6 +202,9 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "8035", { 1638 } },
 	{ "8079", { 2144 } },
 	{ "9593", { 2228 } },
+	{ "213", {213} },
+	{ "129", {129} },
+	{ "264", {264} },
 	{ "copcarsa", { 596 } },
 	{ "copcar", { 598 } },
 	{ "polaris", { 604 } },
@@ -10175,6 +10181,204 @@ function disableAlarmLSA()
 end
 addEventHandler("lsaAlarmDisable", getRootElement(), disableAlarmLSA)
 
+------- магазин скинов ----------
+
+skinMale = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 19 ,"Male", 5000 },
+		{1, 20 ,"Male", 7000 },
+		{1, 21 ,"Male", 3000 },
+		{1, 22 ,"Male", 7100 },
+		{1, 23 ,"Male", 4000 },
+		{1, 25 ,"Male", 8000 },
+		{1, 26 ,"Male", 3400 },
+		{1, 47 ,"Male", 9000 },
+		{1, 48 ,"Male", 10000 },
+		{1, 98 ,"Male", 17000 },
+		{1, 59 ,"Male", 14000 },
+		{1, 187 ,"Male", 40000 },
+		{1, 36 ,"Male", 8000 },
+		{1, 72 ,"Male", 3500 },
+		{1, 96 ,"Male", 3000 },
+		{1, 240 ,"Male", 25000 },
+		{1, 299 ,"Male", 300000 },
+		{1, 296 ,"Male", 500000 },
+		{1, 111, "Male", 80000},
+}
+
+skinFemale = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 40,"Girl", 10000 },
+	{1, 12,"Girl", 3000 },
+	{1, 69,"Girl", 4500 },
+	{1, 211,"Girl", 7000  },
+	{1, 56,"Girl", 2000  },
+	{1, 93,"Girl", 7200  },
+	{1, 219,"Girl", 20000  },
+	{1, 172, "Girl", 25000 },
+	{1, 216, "Girl", 35000},
+}
+
+skinGangMale = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 28 ,"Male", 5000 },
+		{1, 29 ,"Male", 7000 },
+		{1, 30 ,"Male", 8000 },
+		{1, 117 ,"Male", 10000 },
+		{1, 118 ,"Male", 10100 },
+		{1, 120 ,"Male", 9500 },
+		{1, 122 ,"Male", 3400 },
+		{1, 123 ,"Male", 4000 },
+    	{1, 67, "Male", 4000 },
+		{1, 124 ,"Male", 5000 },
+		{1, 125 ,"Male", 11000 },
+		{1, 126 ,"Male", 11100 },
+		{1, 127 ,"Male", 12000 },
+		{1, 173 ,"Male", 4000 },
+		{1, 72 ,"Male", 3500 },
+		{1, 249 ,"Male", 40000 },
+		{1, 186 ,"Male", 25000 },
+		{1, 213, "Male", 80000},
+}
+
+skinGangFemale = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0 , "Женщины"},
+	{1, 238, "Girl", 15000 },
+	{1, 85, "Girl", 30000 },
+	{1, 56, "Girl", 2000 },
+	{1, 64, "Girl", 5000 },
+	{1, 169, "Girl", 10000 },
+	{1, 192, "Girl", 6000 },
+	{1, 194, "Girl", 25000 },
+	{1, 129, "Girl", 50000 },
+	{1, 243 ,"Male", 5600 },
+}
+
+local sWidth, sHeight = guiGetScreenSize()
+local model
+function initialize_skin_shop()
+	window = guiCreateWindow(sWidth-340, (sHeight-500)/2, 340, 500, "Магазин Одежды", false)
+	skin_list_gui = guiCreateGridList(10, 25, 320, 425, false, window)
+	col_name = guiGridListAddColumn(skin_list_gui, "ID", 0.25)
+	col_cost = guiGridListAddColumn(skin_list_gui, "Цена", 0.25)
+	btn_buy = guiCreateButton(10, 456, 158, 40, "Купить", false, window)
+	btn_close = guiCreateButton(172, 456, 158, 40, "Закрыть", false, window)
+	guiSetVisible(window, false)
+	addEventHandler("onClientGUIClick", btn_close, function( )
+		guiSetVisible(window, false)
+		showCursor(false)
+		setElementModel(localPlayer, model)
+		setElementFrozen(localPlayer, false)
+	end, false)
+	addEventHandler("onClientGUIClick", btn_buy, buy_the_skin, false)
+	addEventHandler("onClientGUIClick", skin_list_gui, preview_skin, false)
+end
+addEventHandler("onClientResourceStart", resourceRoot, initialize_skin_shop)
+
+t_skins 			= { }
+t_skins.name 	= { }
+t_skins.price = { }
+t_skins.id    = { }
+
+function showSkin()
+    usergrp = getElementData(localPlayer, "usergroup")
+	gender = getElementData(localPlayer, "gender")
+	guiGridListClear(skin_list_gui)
+    if usergrp == 1 or usergrp == 13 and gender == 1 then
+	    for i,colum in ipairs(skinMale) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+    elseif usergrp == 1 or usergrp == 13 and gender == 2 then
+	    for i,colum in ipairs(skinFemale) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 10 and gender == 1 then
+	    for i,colum in ipairs(skinGangMale) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 10 and gender == 2 then
+	    for i,colum in ipairs(skinGangFemale) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	end
+	setElementFrozen(localPlayer, true)
+	guiSetVisible(window, true)
+	showCursor(true)
+	local rx,ry,rz = getElementRotation(localPlayer)
+	fadeCamera(false)
+	setTimer(setCameraTarget, 900, 1, localPlayer)
+	setTimer(setElementRotation, 1000, 1, localPlayer, rx,ry, rz-180)
+	setTimer(fadeCamera, 1200, 1, true)
+	model = getElementModel(localPlayer)
+end
+addEvent("showSkin", true)
+addEventHandler("showSkin", root, showSkin)
+
+function preview_skin()
+	local row = guiGridListGetSelectedItem(skin_list_gui)
+	if (not row or row == -1) then return end
+	local id = guiGridListGetItemText(skin_list_gui, row, 1)
+	id = tonumber(id)
+	if (not id) then return end
+	setElementModel(localPlayer, id)
+end
+
+function buy_the_skin()
+	local row = guiGridListGetSelectedItem(skin_list_gui)
+	if (not row or row == -1) then return end
+	local id = guiGridListGetItemText(skin_list_gui, row, 1)
+	local cost = guiGridListGetItemText(skin_list_gui, row, 2)
+	id = tonumber(id)
+	cost = tonumber(cost)
+	if (not id) and (not cost) then return end
+	if id == model then
+	exports.PopupSys:Draw("Вы уже купили эту одежду!")
+	return
+	end
+	setElementModel(localPlayer, model)
+	setElementFrozen(localPlayer, false)
+	guiSetVisible(window, false)
+	showCursor(false)
+	triggerServerEvent("onBuySkin", root, id, cost)
+end
 
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
