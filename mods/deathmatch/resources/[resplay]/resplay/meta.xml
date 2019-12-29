@@ -346,6 +346,7 @@
 	<export function='workStart'/>
 	<export function='workFinish'/>
 	<export function='workRemoveAllWorkers'/>
+	<export function='toggleSkinChooser'/>
 	<export function='workAttachVehicleToWork'/>
 	<export function='workAddWorkerParam'/>
 	<export function='workSetWorkerParam'/>

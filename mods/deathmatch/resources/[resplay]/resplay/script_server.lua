@@ -23461,9 +23461,6 @@ function toggleResplayMessages(plr, bToggle)
 	triggerClientEvent(plr, "onResplayMessagesToggle", resourceRoot, bToggle)
 end
 
-function toggleSkinChooser(plr)
-	triggerClientEvent(plr, "onSkinChooser", resourceRoot)
-end
 
 playerActions = {}
 actionsAvailability = {}
