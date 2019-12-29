@@ -37,4 +37,5 @@
 	<command name="unmute" level="2" description="/unmute [ник] - Снять мут игроку"/>
 	<command name="setgang" level="2" description="/setgang [ник] [название банды] - принять игрока в банду"/>
 	<command name="removegang" level="2" description="/removegang [ник] - исключить игрока из банды"/>
+	<command name="setgender" level="3" description="/setgender [ник] [пол] изменить пол игроку 1 - мужчина 2 - женчина"/>	
 </commands>
