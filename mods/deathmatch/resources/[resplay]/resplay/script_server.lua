@@ -5,7 +5,7 @@ dbqueryresult = nil
 playerLastInfo = {}
 
 outsideSpawnsArray = {
-	{ 1751.436, -1949.659, 13.54, 358.767, 0, 0 },
+	{ 1686.92847, -2326.21167, 13.5, 358.767, 0, 0 },
 	{ -1422.5, -288.5, 14.1, 135.0, 0, 0 },
 	{ 1689.9, 1447.7, 10.8, 270.0, 0, 0 }
 }
@@ -1411,6 +1411,8 @@ tutorialImages = {
 	["Колесо обозрения"] = 	{ "tutorial10.png" },
 	["Ферма"] =				{ "tutorial11.png" },
 	["Больница"] =			{ "tutorial12.png" }
+	["ФБР"]  =              { "tutorial_fbi.png"},
+	["СМИ"]  =              { "tutorial_news.png"}
 }
 tutorialMdl = 211
 
@@ -2117,7 +2119,7 @@ queryQuestions = {
 }
 queryMoneyForAnswer = 300
 queryPeds = {
-	{ 1808.3, -1911.8, 13.6, 90.0, nil },
+	{ 1696.69, -2332.1, 13.6, 90.0, nil }
 	{ -1445.2, -275.5, 14.1, 205.0, nil },
 	{ 1691.2, 1464.6, 10.8, 135.0, nil }
 }
@@ -10452,7 +10454,7 @@ function resourceStart(startedResource)
 	end
 	
 	table.insert(jobTaxiLocations, { "Аммуниция", curTaxiLocations })
-	curTaxiLocations = { {}, {}, {}, {}, {} }
+	curTaxiLocations = { {}, {}, {}, {}, {}, {}, {} }
 	local locIndex
 	
 	for i,eatLoc in ipairs(eatLocations) do
@@ -10465,19 +10467,25 @@ function resourceStart(startedResource)
 		if((eatLoc[1] == 7) or (eatLoc[1] == 8) or (eatLoc[1] == 9)) then
 			locIndex = 1
 		
-		elseif(eatLoc[1] == 11) then
-			locIndex = 2
-		
 		elseif(eatLoc[1] == 5) then
 			locIndex = 3
-		
+
+
+		elseif(eatLoc[1] == 16 ) then
+		    locIndex = 4
+
+		elseif(eatLoc[1] == 37 ) then
+		    locIndex = 5
+
 		elseif((eatLoc[1] == 6) or (eatLoc[1] == 12)) then
 			locIndex = 4
-		
+			locIndex = 6
+
 		else
 			locIndex = 5
+			locIndex = 7
 		end
-		
+
 		if(eatTypes[eatLoc[1]][14] > 0) then
 			attachActionToElement(defaultActions[3], eatLocations[i][6])
 			attachActionToElement(defaultActions[4], eatLocations[i][6])
@@ -10490,8 +10498,10 @@ function resourceStart(startedResource)
 	table.insert(jobTaxiLocations, { "Магазин 24/7", curTaxiLocations[1] })
 	table.insert(jobTaxiLocations, { "Магазин RC Zero", curTaxiLocations[2] })
 	table.insert(jobTaxiLocations, { "Бар", curTaxiLocations[3] })
-	table.insert(jobTaxiLocations, { "Клуб", curTaxiLocations[4] })
-	table.insert(jobTaxiLocations, { "Кафе или столовая", curTaxiLocations[5] })
+	table.insert(jobTaxiLocations, { "ФБР", curTaxiLocations[4] })
+	table.insert(jobTaxiLocations, { "СМИ", curTaxiLocations[5] })
+	table.insert(jobTaxiLocations, { "Клуб", curTaxiLocations[6] })
+	table.insert(jobTaxiLocations, { "Кафе или столовая", curTaxiLocations[7] })
 	
 	if(get("raceAutoLaunch") == "Yes") then
 		setTimer(raceCreate, timeBetweenRaces, 1, math.random(table.getn(raceInfo)))
