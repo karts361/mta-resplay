@@ -1375,7 +1375,7 @@ militaryGeneralPedBlip = nil
 militaryGeneralTargetMarker = nil
 militaryGeneralTargetBlip = nil
 militaryGeneralArrived = false
-militaryGeneralTimeBetween = 300000
+militaryGeneralTimeBetween = 150000
 
 weaponsInBox = {
 	{ 22, 17, "пистолет и одну обойму" },
