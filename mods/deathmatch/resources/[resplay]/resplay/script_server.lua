@@ -354,6 +354,8 @@ HealthMarkers = {}
 housePickupModelAvailable = 1273
 housePickupModelNotAvailable = 1272
 
+drugMarkers = {}
+
 availableActions = {
 	"Дом - Купить",
 	"Дом - Продать",
@@ -1282,7 +1284,8 @@ inventoryItemNames = {
 	{ "Средняя девичья кровать", 1100, 1802 },
 	{ "Средняя девичья кровать + навес", 1300, 1803 },
 	{ "Кровать + шкаф", 2000, 2301 },
-	{ "Кровать из массива", 3000, 2302 }
+	{ "Кровать из массива", 3000, 2302 },
+	{ "Наркотики", 3000, 1575 }
 }
 inventoryFurnitureItems = {
 	[41]=true, [42]=true, [43]=true, [44]=true, [45]=true, [46]=true, [47]=true, [48]=true, [49]=true, [50]=true, [51]=true, [52]=true, [53]=true, [54]=true, [55]=true, [56]=true, [57]=true,
@@ -1320,7 +1323,7 @@ playersSelectedFurniture = {}
 spawnedFurniture = {}
 inventoryIllegalItems = {
 	[16]=true, [17]=true, [18]=true, [19]=true, [20]=true, [21]=true, [22]=true, [23]=true, [24]=true, [25]=true, [26]=true, [27]=true, [28]=true, [29]=true, [30]=true, [31]=true, [32]=true,
-	[33]=true, [34]=true, [35]=true, [36]=true, [37]=true, [38]=true, [39]=true, [40]=true
+	[33]=true, [34]=true, [35]=true, [36]=true, [37]=true, [38]=true, [39]=true, [40]=true, [267]=true
 }
 inventorySellableOnly = {}
 inventoryCarTrunkSlots = 18
@@ -8640,7 +8643,18 @@ function generateMapFile()
 		xmlNodeSetAttribute(childNode, "rotX", "0")
 		xmlNodeSetAttribute(childNode, "rotY", "0")
 		xmlNodeSetAttribute(childNode, "rotZ", "0")
-	    end
+	end
+	
+	for i,drugmarker in ipairs(drugMarkers) do -- 
+		childNode = xmlCreateChild(rootNode, "drugmarker")
+		xmlNodeSetAttribute(childNode, "id", "drugmarker"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(drugmarker[2]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(drugmarker[3]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(drugmarker[4]))
+		xmlNodeSetAttribute(childNode, "rotX", "0")
+		xmlNodeSetAttribute(childNode, "rotY", "0")
+		xmlNodeSetAttribute(childNode, "rotZ", "0")
+	end
 
 	for i,trashmastercp in ipairs(jobTrashmasterCpCoords) do
 		childNode = xmlCreateChild(rootNode, "trashmastercp")
@@ -9658,6 +9672,16 @@ function loadMapFile()
 		table.insert(HealthMarkers, { id, elemx, elemy, elemz, nil})
 		destroyElement(healplayer)
 	end
+
+	
+	elements = getElementsByType("drugmarker") 
+	
+	for i,drugmarker in ipairs(elements) do
+		elemx, elemy, elemz = getElementPosition(drugmarker)
+		local id = tonumber(getElementData(drugmarker, "id"))
+		table.insert(drugMarkers, { id, elemx, elemy, elemz, nil})
+		destroyElement(drugmarker)
+	end
 	
 	elements = getElementsByType("trashmastercp")
 	
@@ -10541,6 +10565,12 @@ function resourceStart(startedResource)
 		setPickupText(workStartMarkers[i][5], "Работа", 255, 0, 0)
 		createBlip(cp[2], cp[3], cp[4], cp[6], 2, 255, 255, 255, 255, 0, 300)
 		table.insert(curTaxiLocations[cp[1]], { cp[2], cp[3], cp[4] })
+	end
+	
+	for i,cp in ipairs(drugMarkers) do 
+		drugMarkers[i][5] = createMarker(cp[2], cp[3], cp[4], "cylinder", 1.6, 0, 0, 0, 0)
+		attachActionToElement( defaultActions[22], drugMarkers[i][5] )
+		attachActionToElement( defaultActions[23], drugMarkers[i][5] )
 	end
 	
 	for wg=1,table.getn(playerGroups) do
@@ -11805,16 +11835,36 @@ function inventoryUseSlot(slotId)
 			end
 		
 		elseif(slotItem == 8) then
-			--[[
-			local curHp = getElementHealth(source)
-			if(curHp > 0) and(curHp < 100) then
-				setElementHealth(source, math.min(100, curHp+50))
-				triggerClientEvent("onCreateProgressPopup", source, "images/health.png", source, true)
-				triggerClientEvent("onServerPlaySFX3D", source, "genrl", 52, 17, 0, 0, 0, false, 40, source)
-				slotUsed = true
+			if isPedOnGround(source) and not isPedInVehicle(source) then
+				if isPlayerBusy(source) then
+					triggerClientEvent(source, "onServerMsgAdd", source, "Закончите остальные дела, прежде чем начать лечение аптечкой")
+					return false
+				end
+			    local curHp = getElementHealth(source)
+				
+			    if(curHp > 100) then
+				    triggerClientEvent(source, "onServerMsgAdd", source, "Закончите остальные дела, прежде чем начать лечение аптечкой")
+					return false
+				end
+				
+				if(curHp > 0) and(curHp < 100) then
+				    setPedAnimation(source, "CASINO", "dealone", 10000, true, false, false, false)
+			        setTimer(function(source)
+					    if isElement(source) then
+						    setElementHealth(source, math.min(130, curHp+35))
+						    local cx, cy, cz = getElementPosition(source)
+						    local curCol = createColSphere(cx, cy, cz, 150)
+						    local players = getElementsWithinColShape(curCol, "player")
+						    destroyElement(curCol)
+						    triggerClientEvent(players, "onCreateProgressPopup", source, "images/health.png", source, true)
+						    triggerClientEvent(players, "onServerPlaySFX3D", source, "genrl", 52, 17, 0, 0, 0, false, 40, source)
+							animStop(source)
+
+					    end
+				    end, 10000, 1, source)
+					slotUsed = true
+				end
 			end
-			]]
-			slotUsed = true
 		
 		elseif(slotItem == 9) then
 			if((not isPedInVehicle(source)) and isPedOnGround(source)) or isPedInVehicle(source) then
@@ -11942,8 +11992,16 @@ function inventoryUseSlot(slotId)
 					end
 				end
 			end
+		elseif(slotItem == 267) then
+			local curHp = getElementHealth(source)
+			if(curHp > 0) and(curHp < 100) then
+                setPedAnimation(source, "FOOD", "EAT_Burger", 1500, false, false, false, false)
+				setElementHealth(source, math.min(100, curHp+10))
+				triggerClientEvent(source, "onPlayerIncDrunkiness", source, 255)
+				slotUsed = true
+			end
 		end
-		
+
 		if(slotUsed) then
 			slotItem = 0
 		end
@@ -13079,6 +13137,7 @@ function requestActionsList(aplr)
 			for i,HealthMarker in ipairs(HealthMarkers) do -- лечение в больнице с помощью маркера с ботом
 				if(isElementWithinMarker(aplr, HealthMarker[5])) then		
 					table.insert(alist, { 47, string.format("%s ($%d)", availableActions[47], hospitalHealthPrice), { i }, nil, 0, 255, 0 } )
+					table.insert(alist, { 152, "Аптечка - купить $500", { i }, nil, 0, 255, 0 } )
 				end
             end
 			
@@ -13104,6 +13163,12 @@ function requestActionsList(aplr)
 			end
 			
 			table.insert(alist, { 105, availableActions[105], {}, { "Кол-во" }, 255, 255, 255 })
+			
+			for i,drugMarker in ipairs(drugMarkers) do 
+				if(isElementWithinMarker(aplr, drugMarker[5])) then		
+					table.insert(alist, { 153, "Таблетки - купить $3000", { i }, nil, 0, 255, 0 } )
+				end
+            end
 			
 			for droppedWeap,timerDest in pairs(weaponsDropped) do
 				if timerDest and isElement(droppedWeap) and(getElementDimension(droppedWeap) == getElementDimension(aplr)) and((getElementInterior(droppedWeap) == getElementInterior(aplr))) then
@@ -16035,7 +16100,54 @@ function executeAction(aplr, actionId, params)
 			else
 		        triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы должны быть военным чтобы выключить тревогу")
 			end
-
+			
+		elseif(actionId == 152) then
+		    local slotId = inventoryCheckForSlot(aplr, 8)
+			
+			if(slotId) then
+				local money = getMoney(aplr)
+				local price = 500
+				
+				if(money >= price) then
+					if(inventoryNewItem(aplr, 8, slotId)) then
+						triggerEvent("onPlayerChat", aplr, "купил аптечку", 1)
+						addNewEventToLog(getPlayerName(aplr), "Аптечка - покупка", true)
+						takeMoney(aplr, price)
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
+				end
+				
+			else
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "В инвентаре нет доступных слотов для Аптечки.")
+			end
+			
+        elseif(actionId == 153) then
+		    local slotId = inventoryCheckForSlot(aplr, 267)
+			
+			if(getElementData(aplr, "usergroup") == 10) then
+			
+			    if(slotId) then
+				    local money = getMoney(aplr)
+				    local price = 3000
+				
+				    if(money >= price) then
+					    if(inventoryNewItem(aplr, 267, slotId)) then
+						    triggerEvent("onPlayerChat", aplr, "купил наркотики", 1)
+						    addNewEventToLog(getPlayerName(aplr), "Наркотики - покупка", true)
+						    takeMoney(aplr, price)
+					    end
+				    else
+					    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
+				    end
+				
+			    else
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "В инвентаре нет доступных слотов.")
+			    end
+				
+			else
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Только бандиты могут покупать наркотики.")
+			end
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -25347,11 +25459,13 @@ local pGrp = getElementData(client, "usergroup")
 	if getPlayerMoney(client) > money and pGrp == 1 or pGrp == 13 then
 		playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
+		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
 		setElementModel(client, model)
 	    dbExec(db, "UPDATE users SET skin=?, default_skin=? WHERE name=?", model, model, pHash)
 	elseif getPlayerMoney(client) > money and pGrp == 10 then
 	    playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
+		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
 		setElementModel(client, model)
 	    dbExec(db, "UPDATE users SET skin=?, skin2=? WHERE name=?", model, model, pHash)
 	else
