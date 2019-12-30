@@ -8036,15 +8036,19 @@ function addWorker(jobId, newWorker)
 					if not (plr == newWorker) then
 						pGrp = getElementData(plr, "usergroup")
 						
-						if pGrp and((pGrp == 5) or (pGrp == 10)) then
+						--if pGrp and((pGrp == 5) or (pGrp == 10)) then
+						if pGrp and((pGrp == 5)) then
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..". Он обозначен оранжевым человечком на радаре.")
 							setElementVisibleTo(militaryGeneralPedBlip, plr, true)
-							if(pGrp == 5) then
-								triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Убедитесь, что генерал доберется до места назначения живым.")
+							--if(pGrp == 5) then
+							    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Убедитесь, что генерал доберется до места назначения живым.")
 							
-							elseif(pGrp == 10) then
-								triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
-							end
+							--elseif(pGrp == 10) then
+								--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
+							--end
+						elseif pGrp and ((pGrp == 10)) then
+						    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
+							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 						end
 					end
 				end
