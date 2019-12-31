@@ -24879,7 +24879,7 @@ function adminCMDsetgskin(plr, nickname, newSkin)
 end
 
 -- Команда на смену скина у гражданских.
-function adminCMDsetdefskin(plr, nickname, newSkin)
+function adminCMDsetdefaultskin(plr, nickname, newSkin)
 	local pHash = getHash(nickname)
 	
 	repeat
