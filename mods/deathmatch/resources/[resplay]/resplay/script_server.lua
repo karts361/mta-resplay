@@ -24915,8 +24915,8 @@ function adminCMDsetskin(plr, nickname, newSkin)
 		local sknPlr = getPlayerFromName(nickname)
 		setPedSkin(sknPlr, skin)
 		triggerClientEvent(sknPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." обновил вам cкин")
-		dbExec(db, "UPDATE users SET skin=?, WHERE name=?", skin, pHash)
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили скин на аккаунте "..nickname)
+		dbExec(db, "UPDATE users SET skin=? WHERE name=?", skin, pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили скин на аккаунте "..nickname)	
 	else
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
