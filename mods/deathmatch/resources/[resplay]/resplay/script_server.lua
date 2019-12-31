@@ -11843,7 +11843,7 @@ function inventoryUseSlot(slotId)
 			    local curHp = getElementHealth(source)
 				
 			    if(curHp > 100) then
-				    triggerClientEvent(source, "onServerMsgAdd", source, "Закончите остальные дела, прежде чем начать лечение аптечкой")
+				    triggerClientEvent(source, "onServerMsgAdd", source, "Вы больше не нуждаетесь в лечении аптечкой!")
 					return false
 				end
 				
