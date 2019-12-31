@@ -11997,7 +11997,11 @@ function inventoryUseSlot(slotId)
 			if(curHp > 0) and(curHp < 100) then
                 setPedAnimation(source, "FOOD", "EAT_Burger", 1500, false, false, false, false)
 				setElementHealth(source, math.min(100, curHp+10))
-				triggerClientEvent(source, "onPlayerIncDrunkiness", source, 255)
+				setTimer(function(drinker)
+							if(isElement(drinker)) then
+								triggerClientEvent(drinker, "onPlayerIncDrunkiness", drinker, 255)
+							end
+						 end, 1500, 1, source)
 				slotUsed = true
 			end
 		end
