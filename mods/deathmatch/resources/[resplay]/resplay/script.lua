@@ -521,7 +521,7 @@ inventoryItems = {
 	{ "Тортилья", "images/inv_chicken.dds", 25 },
 	{ "Пиво", "images/inv_beer.dds", 10 },
 	{ "Магнитола", "images/inv_boombox.dds", 100 },
-	{ "Здоровье(+50%)", "images/inv_health.dds", 200 },
+	{ "Аптечка", "images/inv_health.dds", 500 },
 	{ "Пончик", "images/inv_donut.dds", 20 },
 	{ "Коробка с оружием", "images/inv_box.dds", 200 },
 	{ "Орешки", "images/inv_nuts.dds", 5 },
@@ -779,7 +779,8 @@ inventoryItems = {
 	{ "Средняя девичья кровать", "images/inv_box.dds", 1100 },
 	{ "Средняя девичья кровать + навес", "images/inv_box.dds", 1300 },
 	{ "Кровать + шкаф", "images/inv_box.dds", 2000 },
-	{ "Кровать из массива", "images/inv_box.dds", 3000 }
+	{ "Кровать из массива", "images/inv_box.dds", 3000 },
+	{ "Наркотики", "images/drugs.png", 3000}
 }
 
 inventoryEmptyItem = { "Пусто", "images/inv_null.dds" }
