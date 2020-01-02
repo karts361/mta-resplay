@@ -2221,7 +2221,10 @@ playerTeamChats = {
 	[14] = { 2, 5, 14, 15, 17 },
 	[15] = { 2, 4, 5, 15, 17, 18 },
 	[17] = { 2, 5, 14, 15, 17 },
-	[18] = { 18, 15 }
+	[18] = { 18, 15 },
+	[19] = { 19 },
+	[20] = { 20 },
+	[21] = { 21 }
 }
 
 groupGateObjs = {}
@@ -26329,6 +26332,14 @@ gangBases = {}
 gangBaseCaptures = {}
 gangBaseCaptureMinPlr = 1
 gangBaseCaptureTimeSec = 20
+
+---- требования в банду -------
+
+gangGroupRPLevels = {
+	[19] = -0.07,
+	[20] = -0.07,
+	[21] = -0.07
+}
 
 function gangBaseCaptureProcess(baseId)
 	local capture = gangBaseCaptures[baseId]
