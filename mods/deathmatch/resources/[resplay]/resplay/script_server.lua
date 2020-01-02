@@ -397,8 +397,8 @@ availableActions = {
 	"Колесо обозрения - Прокатиться",
 	"Колесо обозрения - Покинуть",
 	"Цена за голову - Назначить",
-	"Банда - открыть меню",
-	"Банда - Расформировать",
+	"Банда - Открыть меню",
+	"Банда - Начать захват территории",
 	"Банда - Пригласить игрока",
 	"Банда - Принять приглашение",
 	"Банда - Отклонить приглашение",
@@ -10303,7 +10303,6 @@ function loadMapFile()
 		sizeEY = getElementData(gbase, "sizeY")
 		local gbaseInfo = { gbaseHash, elemx, elemy, elemz, sizeEX, sizeEY, nil, nil, nil, nil }
 		gbaseInfo[10] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 165, 167, 166, 150)
-		gbaseInfo[11] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 255, 255, 255, 150)
 		table.insert(gangBases, gbaseInfo)
 		destroyElement(gbase)
 	end
@@ -11037,7 +11036,16 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 		end
 		
 		fractionRemovePlayerFromFraction(plr)
+		gangRemovePlayerFromGang(plr)
 		local moneyAmount = getMoney(plr)
+		
+        if grpid == 19 then
+            setPlayerTeam(plr, bloods)
+	    elseif grpid == 20 then
+	        setPlayerTeam(plr, crips)
+	    elseif grpid == 21 then
+            setPlayerTeam(plr, lkings)
+	    end
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
 			local sHash = getHash(getPlayerName(plr))
@@ -12492,6 +12500,15 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		local money = dbqueryresult[1]["money"]
 		local wantedLvl = dbqueryresult[1]["wantedLevel"]
 		weapons[0] = { dbqueryresult[1]["w0"], dbqueryresult[1]["w0ammo"] }
+		local grp = dbqueryresult[1]["usergroup"]
+        if grp == 19 then
+            setPlayerTeam(source, bloods)
+	    elseif grp == 20 then
+	        setPlayerTeam(source, crips)
+	    elseif grp == 21 then
+            setPlayerTeam(source, lkings)
+	    end
+		
 
 		--- REFRESH SKIN IF NOT INITED ---
 		local skinInited = dbqueryresult[1]["skin_inited"]
@@ -13570,6 +13587,7 @@ function requestActionsList(aplr)
 			--table.insert(alist, { 83, availableActions[83], {}, { "Название", "Цвет" }, 255, 255, 255 })
 		end
 		
+		
 		table.insert(alist, { 52, availableActions[52], {}, { "Местоположение" }, 255, 255, 255 })
 		--table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
 		table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
@@ -13595,6 +13613,11 @@ function requestActionsList(aplr)
 		end
 		
 		if gId then 
+		    for i,gbase in ipairs(gangBases) do
+			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr)) then
+				    table.insert(alist, { 34, availableActions[34], { i }, nil, 0, 255, 0 })
+			    end
+			end
 			table.insert(alist, { 33, availableActions[33], {}, nil, 255, 255, 255 })
 		end
 		
@@ -14280,7 +14303,7 @@ function executeAction(aplr, actionId, params)
 			end
 		
 		elseif(actionId == 34) then
-			-- BLANK
+			gangBaseCaptureStart(params[1], aplr)
 		
 		elseif(actionId == 35) then
 			-- BLANK
@@ -19068,6 +19091,9 @@ function clanInviteAccept(plr, clan)
 	local invite = clanInviteFind(plr, clan)
 	if fracGrp and (fracGrp == 2) or (fracGrp == 4) or (fracGrp == 5) or (fracGrp == 17) or (fracGrp == 18) then
 	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в гос.фракции.")
+		return
+	elseif fracGrp and (fracGrp == 19) or (fracGrp == 20) or (fracGrp == 21) then
+	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в банде.")
 		return
 	end	
 	
@@ -25702,13 +25728,13 @@ function gangInit()
 		
 		if(dbqueryresult[1]["gang"] == 649732560) then
 		    local r, g, b = getTeamColor(crips)
-			setRadarAreaColor(gbase[11], r, g, b, 150)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
 		elseif(dbqueryresult[1]["gang"] == -1012291675) then
 		    local r, g, b = getTeamColor(bloods)
-			setRadarAreaColor(gbase[11], r, g, b, 150)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
 		elseif(dbqueryresult[1]["gang"] == 326034535) then
 		    local r, g, b = getTeamColor(lkings)
-			setRadarAreaColor(gbase[11], r, g, b, 150)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
 		end
 	end
 end
@@ -25818,7 +25844,12 @@ end
 
 function gangSetPlayerGang(plr, gId)
 	local curGang = gangGetPlayerGang(plr)
-	
+    local clan = getPlayerClan(plr)
+	if clan then
+	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете принять игрока в банду. Игрок находится в клане.")
+		return
+	end
+
 	if(not curGang) and(not isPlayerBusy(plr)) then
 		local pHash = getHash(getPlayerName(plr))
 		local gHash = getHash(gangs[gId][1])
@@ -25856,6 +25887,7 @@ function gangRemovePlayerFromGang(plr)
 				table.remove(gangs[gId][5], pId)
 				addNewEventToLog(pHash, "Банда - Исключён - "..gangs[gId][1])
 				gangUpdate(gId, true, false)
+				setPlayerTeam(plr, clanDefault)
 				return true
 			end
 			
@@ -26295,8 +26327,279 @@ gangsOrig = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 7
-gangBaseCaptureTimeSec = 900
+gangBaseCaptureMinPlr = 1
+gangBaseCaptureTimeSec = 20
+
+function gangBaseCaptureProcess(baseId)
+	local capture = gangBaseCaptures[baseId]
+	local area = gangBases[baseId][10]
+	local owner = nil
+	if(dbqueryresult[1]["gang"] == 649732560) then
+		owner = getTeamFromName("CRIPS")
+	elseif(dbqueryresult[1]["gang"] == -1012291675) then
+		owner = getTeamFromName("BLOODS")
+	elseif(dbqueryresult[1]["gang"] == 326034535) then
+		owner = getTeamFromName("Latin Kings")
+	end
+	local posz = gangBases[baseId][4]
+	local gang = capture[1]
+	local gangPlayers = getPlayersInTeam(gang)
+	local ownerPlayers = getPlayersInTeam(owner)
+	local areaPlayers = {}
+	local px, py, pz, veh
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	for _,plr in ipairs(capture[6]) do
+		if isElement(plr) then
+			px, py, pz = getElementPosition(plr)
+			if not (isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) and((getPlayerTeam(plr) == gang) or (getPlayerTeam(plr) == owner))) then
+				triggerClientEvent(plr, "onGangBaseCaptureUpdate", resourceRoot, nil)
+			end
+		end
+	end
+	
+	for _,plr in ipairs(gangPlayers) do
+		px, py, pz = getElementPosition(plr)
+		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) then
+			table.insert(areaPlayers, plr)
+		end
+	end
+	
+	local capturePlayersCount = table.getn(areaPlayers)
+	
+	if(capturePlayersCount < gangBaseCaptureMinPlr) then
+		if capture[2] then
+			gangBaseCaptures[baseId][2] = false
+			
+			if isTimer(capture[5]) then
+				killTimer(capture[5])
+			end
+			
+			gangBaseCaptures[baseId][5] = setTimer(gangBaseCaptureFinish, 60000, 1, baseId, false)
+			triggerClientEvent(areaPlayers, "onServerMsgAdd", resourceRoot, "Захват территории остановлен из-за недостатка игроков на её территории. Необходимо минимум "..tostring(gangBaseCaptureMinPlr).." игроков. Иначе захват территории будет прекращён через 60 секунд.")
+		end
+	
+	else
+		if not capture[2] then
+			gangBaseCaptures[baseId][2] = true
+			if isTimer(capture[5]) then
+				killTimer(capture[5])
+			end
+			gangBaseCaptures[baseId][5] = nil
+		end
+		gangBaseCaptures[baseId][3] = capture[3]-1
+	end
+	
+	for _,plr in ipairs(ownerPlayers) do
+		px, py = getElementPosition(plr)
+		
+		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) then
+			table.insert(areaPlayers, plr)
+		end
+		
+	end
+	gangBaseCaptures[baseId][6] = areaPlayers
+	setRadarAreaFlashing(area, true)
+	
+	for _,plr in ipairs(areaPlayers) do
+		veh = getPedOccupiedVehicle(plr)
+		
+		if veh and(getPedOccupiedVehicleSeat(plr) == 0) and(getVehicleType(veh) == "Helicopter") then
+			blowVehicle(veh)
+		end
+		
+	end
+	
+	if(gangBaseCaptures[baseId][3] > 0) then
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr })
+	else
+		gangBaseCaptureFinish(baseId, true)
+	end
+end
+
+function gangBaseCaptureStart(baseId, initiator)
+	local gang = getPlayerTeam(initiator)
+    local owner = nil
+
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			owner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			owner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			owner = getTeamFromName("Latin Kings")
+		end
+
+	repeat
+		local dbq = dbQuery(db, "SELECT lastCapture FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	local curTime = getRealTime()
+	local lastCapture = dbqueryresult[1]["lastCapture"]
+	local timeLeft = lastCapture+64800-curTime.timestamp
+	
+	if gang and(not gangBaseCaptures[baseId]) then
+		
+		if(gang == owner) then
+			triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эта территория принадлежит вашей банде.")
+		
+		elseif(timeLeft > 0) then 
+			triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эту территория можно будет захватить только через "..getTimeString(timeLeft*1000, "v")..".")
+		
+		else
+			local gangPlayers = getPlayersInTeam(gang)
+			local ownerPlayers = getPlayersInTeam(owner)
+			local pcount = 0
+			local px, py
+			
+			for _,plr in ipairs(gangPlayers) do
+				px, py = getElementPosition(plr)
+				if isInsideRadarArea(gangBases[baseId][10], px, py) and(not isPedDead(plr)) then
+					pcount = pcount + 1
+				end
+			end
+			
+			if(pcount < gangBaseCaptureMinPlr) then
+				triggerClientEvent(initiator, "onServerMsgAdd", initiator, "На территории находится недостаточное количество игроков(необходимо "..tostring(gangBaseCaptureMinPlr)..").")
+			
+			else
+				gangBaseCaptures[baseId] = { gang, true, gangBaseCaptureTimeSec, setTimer(gangBaseCaptureProcess, 1000, 0, baseId), nil, {} }
+				triggerClientEvent(gangPlayers, "onServerMsgAdd", initiator, "Ваша банда начала захват территории банды '"..getTeamName(owner).."' по инициативе игрока "..getPlayerName(initiator)..".")
+				triggerClientEvent(ownerPlayers, "onServerMsgAdd", initiator, "Одна из ваших территорий подверглась нападению банды '"..getTeamName(gang).."'.")
+
+			end
+			
+		end
+	
+	else
+		triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эта территория уже захватывается на данный момент.")
+	end
+end
+
+function gangBaseChangeOwner(baseId, newOwner)
+	local oldOwner = nil
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			oldOwner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			oldOwner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			oldOwner = getTeamFromName("Latin Kings")
+		end
+	
+	if(oldOwner ~= newOwner) then
+		if newOwner then
+			local r, g, b = getTeamColor(newOwner)
+
+            setRadarAreaFlashing(gangBases[baseId][10], false)
+			setRadarAreaColor(gangBases[baseId][10], r, g, b, 150)
+			dbExec(db, "UPDATE gangBases SET gang=? WHERE id=?", getHash(getTeamName(newOwner)), gangBases[baseId][1])
+		end
+	end
+end
+
+function gangBaseCaptureFinish(baseId, success)
+	local capture = gangBaseCaptures[baseId]
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if capture then
+		local owner = nil
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			owner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			owner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			owner = getTeamFromName("Latin Kings")
+		end
+		local gang = capture[1]
+		local gangPlayers = getPlayersInTeam(gang)
+		local ownerPlayers = getPlayersInTeam(owner)
+		local area = gangBases[baseId][10]
+		local areaPlayers = {}
+		local evtStr = "Банда - Захват территории - ID "..tostring(baseId)
+	
+		
+		for _,plr in ipairs(gangPlayers) do
+			addNewEventToLog(getPlayerName(plr), evtStr, success)
+		end
+		
+		if success then
+			local px, py
+			
+			for _,plr in ipairs(gangPlayers) do
+				px, py, pz = getElementPosition(plr)
+				if isInsideRadarArea(area, px, py) then
+					table.insert(areaPlayers, plr)
+				end
+			end
+			
+            local r,g,b = getTeamColor(gang)
+			gangBaseChangeOwner(baseId, gang)
+			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(gang).."' захватила одну из ваших территорий.")
+			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда захватила территорию банды '"..getTeamName(owner).."'.")
+			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+		
+		else
+			local px, py
+			
+			for _,plr in ipairs(ownerPlayers) do
+				px, py = getElementPosition(plr)
+				if isInsideRadarArea(area, px, py) then
+					table.insert(areaPlayers, plr)
+				end
+			end
+			
+			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
+			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Захват территории банды '"..getTeamName(owner).."' был прекращён.")
+			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+		end
+		
+		if isTimer(capture[4]) then
+			killTimer(capture[4])
+		end
+		
+		if isTimer(capture[5]) then
+			killTimer(capture[5])
+		end
+
+		triggerClientEvent(capture[6], "onGangBaseCaptureUpdate", resourceRoot, nil)
+		local curTime = getRealTime()
+		dbExec(db, "UPDATE gangBases SET lastCapture=? WHERE id=?", curTime.timestamp, gangBases[baseId][1])
+		gangBaseCaptures[baseId] = nil
+	end
+end
+
+function gangBaseIsInCapture(baseId)
+	if gangBaseCaptures[baseId] then
+		return true
+	end
+	
+	return false
+end
+
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

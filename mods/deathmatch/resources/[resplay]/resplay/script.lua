@@ -11095,7 +11095,7 @@ addEventHandler("onGangOpenMenu", root, gangOpenMenu)
 addEventHandler("onGangCloseMenu", root, gangCloseMenu)
 addEventHandler("onGangRefreshMenu", root, gangRefreshMenu)
 addEventHandler("onClientRender", root, gangBaseCaptureRender)
-addEventHandler("onClanBaseCaptureUpdate", root, gangBaseCaptureUpdate)
+addEventHandler("onGangBaseCaptureUpdate", root, gangBaseCaptureUpdate)
 
 setTimer(collectgarbage, 200, 0, "collect")
 
