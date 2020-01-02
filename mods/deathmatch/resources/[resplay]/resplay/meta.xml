@@ -343,6 +343,73 @@
     <file src="imgres/snpedteew3_LAS.col" download="true" />
     <file src="imgres/TRNTRK5_LAS.col" download="true" />
     <file src="imgres/traintrack_las.txd" download="true" />
+	
+	<file src="imgres/9.dff" download="true" />
+	<file src="imgres/9.txd" download="true" />
+	<file src="imgres/56.dff" download="true" />
+	<file src="imgres/56.txd" download="true" />
+	<file src="imgres/151.dff" download="true" />
+	<file src="imgres/151.txd" download="true" />
+	<file src="imgres/218.dff" download="true" />
+	<file src="imgres/218.txd" download="true" />
+	<file src="imgres/309.dff" download="true" />
+	<file src="imgres/309.txd" download="true" />
+	<file src="imgres/27.dff" download="true" />
+	<file src="imgres/27.txd" download="true" />
+	<file src="imgres/144.dff" download="true" />
+	<file src="imgres/144.txd" download="true" />
+	<file src="imgres/266.txd" download="true" />
+	<file src="imgres/266.dff" download="true" />
+	<file src="imgres/145.txd" download="true" />
+	<file src="imgres/145.dff" download="true" />
+	<file src="imgres/39.txd" download="true" />
+	<file src="imgres/39.dff" download="true" />
+	<file src="imgres/38.txd" download="true" />
+	<file src="imgres/38.dff" download="true" />
+	<file src="imgres/31.txd" download="true" />
+	<file src="imgres/31.dff" download="true" />
+	<file src="imgres/14.txd" download="true" />
+	<file src="imgres/14.dff" download="true" />
+	<file src="imgres/146.txd" download="true" />
+	<file src="imgres/146.dff" download="true" />
+	<file src="imgres/62.txd" download="true" />
+	<file src="imgres/62.dff" download="true" />
+	<file src="imgres/88.txd" download="true" />
+	<file src="imgres/88.dff" download="true" />
+	<file src="imgres/77.txd" download="true" />
+	<file src="imgres/77.dff" download="true" />
+	<file src="imgres/75.txd" download="true" />
+	<file src="imgres/75.dff" download="true" />
+	<file src="imgres/53.txd" download="true" />
+	<file src="imgres/53.dff" download="true" />
+	<file src="imgres/empty.dff" download="true" />
+	<file src="imgres/276.txd" download="true" />
+	<file src="imgres/231.txd" download="true" />
+	<file src="imgres/231.dff" download="true" />
+	<file src="imgres/182.txd" download="true" />
+	<file src="imgres/182.dff" download="true" />
+	<file src="imgres/232.dff" download="true" />
+	<file src="imgres/232.txd" download="true" />
+	<file src="imgres/275.txd" download="true" />
+	<file src="imgres/197.dff" download="true" />
+	<file src="imgres/197.txd" download="true" />
+	<file src="imgres/274.dff" download="true" />
+	<file src="imgres/196.dff" download="true" />
+	<file src="imgres/196.txd" download="true" />
+	<file src="imgres/92.txd" download="true" />
+	<file src="imgres/92.dff" download="true" />
+	<file src="imgres/54.txd" download="true" />
+	<file src="imgres/54.dff" download="true" />
+	<file src="imgres/255.txd" download="true" />
+	<file src="imgres/255.dff" download="true" />
+	<file src="imgres/49.txd" download="true" />
+	<file src="imgres/49.dff" download="true" />
+	<file src="imgres/89.txd" download="true" />
+	<file src="imgres/89.dff" download="true" />
+	<file src="imgres/253.txd" download="true" />
+	<file src="imgres/253.dff" download="true" />
+	<file src="imgres/130.txd" download="true" />
+	<file src="imgres/130.dff" download="true" />
 
 	
 	<export function='webGetDonateRecordsNum' http='true'/>
