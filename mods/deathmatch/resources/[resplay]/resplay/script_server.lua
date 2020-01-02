@@ -301,7 +301,8 @@ playerGroups = {
 	{ "СМИ", 250, 240, 170, 188, 60, 217, 296, 46, 295, 306, 76 },
 	{ "Bloods", 102, 103, 104, 195},
 	{ "Crips", 105, 106, 107, 304},
-	{ "Latin Kings", 108, 109, 110, 152}
+	{ "Latin Kings", 108, 109, 110, 152},
+	{ "MS-13", 114, 115, 116}
 }
 
 playerGroupSkills = {
@@ -2224,7 +2225,8 @@ playerTeamChats = {
 	[18] = { 18, 15 },
 	[19] = { 19 },
 	[20] = { 20 },
-	[21] = { 21 }
+	[21] = { 21 },
+	[22] = { 22 }
 }
 
 groupGateObjs = {}
@@ -3575,7 +3577,7 @@ function militaryGeneralDead()
 			for _,plr in ipairs(allPlayers) do
 				pGrp = getElementData(plr, "usergroup")
 				
-				if(pGrp == 10) then
+				if(pGrp == 10) or (pGrp == 19) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) then
 					table.insert(gangsters, plr)
 				end
 			end
@@ -3985,9 +3987,9 @@ function gangsterKillOrderNew(killPlr, killPrice, killOrderer)
 end
 
 function gangsterKillOrderRandomSort(a, b)
-	local bgngstr = (getElementData(b, "usergroup") == 10)
+	local bgngstr = (getElementData(b, "usergroup") == 10 or getElementData(a, "usergroup") == 19 or getElementData(a, "usergroup") == 20 or getElementData(a, "usergroup") == 21 or getElementData(a, "usergroup") == 22)
 	
-	if((getElementData(a, "usergroup") == 10) ~= bgngstr) then
+	if((getElementData(a, "usergroup") == 10 or getElementData(a, "usergroup") == 19 or getElementData(a, "usergroup") == 20 or getElementData(a, "usergroup") == 21 or getElementData(a, "usergroup") == 22) ~= bgngstr) then
 		return bgngstr
 	
 	else
@@ -4005,7 +4007,7 @@ function gangsterKillOrderRandomProc()
 		for _,plr in ipairs(players) do
 			pUserGrp = getElementData(plr, "usergroup")
 			
-			if pUserGrp and(getElementData(plr, "usergroup") == 10) then
+			if pUserGrp and(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then
 				pRespect = (getElementData(plr, "respect"))
 				
 				if getElementData(plr, "spawned") and(getPlayerMoney(plr) >= 5000) and((pRespect >= 0.05) or (pRespect <= -0.0001)) then
@@ -8058,7 +8060,7 @@ function addWorker(jobId, newWorker)
 							--elseif(pGrp == 10) then
 								--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 							--end
-						elseif pGrp and ((pGrp == 10)) then
+						elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
 						    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 						end
@@ -11048,6 +11050,8 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 	        setPlayerTeam(plr, crips)
 	    elseif grpid == 21 then
             setPlayerTeam(plr, lkings)
+		elseif grpid == 22 then
+		    setPlayerTeam(plr, ms13)
 	    end
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
@@ -11993,7 +11997,7 @@ function inventoryUseSlot(slotId)
 				if isPlayerBusy(source) then
 					playerShowMessage(source, "Вы должны закончить остальные дела, прежде чем сможете начать ограбление.")
 				
-				elseif(getElementData(source, "usergroup") ~= 10) then
+				elseif(getElementData(source, "usergroup") ~= 10 or getElementData(source, "usergroup") ~= 19 or getElementData(source, "usergroup") ~= 20 or getElementData(source, "usergroup") ~= 21  or getElementData(source, "usergroup") ~= 22) then
 					playerShowMessage(source, "Ограбление доступно только бандитам.")
 				
 				elseif(getElementInterior(source) == 0) and(getElementDimension(source) == 0) then
@@ -13214,7 +13218,7 @@ function requestActionsList(aplr)
 				if(isElementWithinMarker(aplr, fuelStation[4])) then
 					table.insert(alist, { 16, string.format("%s($%d)", availableActions[16], fuelPrice/10+10), {}, nil, 0, 255, 0 })
 					
-					if(aplrGrp == 10) then
+					if(aplrGrp == 10 or aplrGrp == 19 or aplrGrp == 20 or aplrGrp == 21 or aplrGrp == 22) then
 						table.insert(alist, { 10006, string.format("Купить %s($%d)", getWeaponNameFromID(18), 10), { 418, 10 }, nil, 0, 255, 0 })
 					end
 				end
@@ -15486,7 +15490,7 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 109) then
 			local pGrp = getElementData(aplr, "usergroup")
 			
-			if pGrp and(pGrp == 10) then
+			if pGrp and(pGrp == 10 or pGrp == 19 or pGrp == 20 or pGrp == 21 or pGrp == 22) then
 				local players = getElementsByType("player")
 				local ax, ay, az = getElementPosition(aplr)
 				local px, py, pz, pdist, pelem, curelem, curdist, pprice
@@ -16209,7 +16213,7 @@ function executeAction(aplr, actionId, params)
         elseif(actionId == 153) then
 		    local slotId = inventoryCheckForSlot(aplr, 267)
 			
-			if(getElementData(aplr, "usergroup") == 10) then
+			if(getElementData(aplr, "usergroup") == 10 or getElementData(aplr, "usergroup") == 19 or getElementData(aplr, "usergroup") == 20 or getElementData(aplr, "usergroup") == 21 or getElementData(aplr, "usergroup") == 22) then
 			
 			    if(slotId) then
 				    local money = getMoney(aplr)
@@ -17252,7 +17256,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				evtStr = evtStr.."Убил игрока - "..getPlayerName(source)
 				local ugrp = getElementData(source, "usergroup")
 				
-				if(ugrp ~= 10) then
+				if(ugrp ~= 10) or (ugrp ~= 19) or (ugrp ~= 20) or (ugrp ~= 21) or (ugrp ~= 22) then
 					sendPoliceMessage(killer, "убийство")
 					criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(killer))
 					wantedLevelInc(killer)
@@ -21136,7 +21140,7 @@ function gangsterStealStartCar(veh, plr)
 		return false
 	end
 	
-	if(getElementData(plr, "usergroup") ~= 10) then
+	if(getElementData(plr, "usergroup") ~= 10 or getElementData(plr, "usergroup") ~= 19 or getElementData(plr, "usergroup") ~= 20 or getElementData(plr, "usergroup") ~= 21 or getElementData(plr, "usergroup") ~= 22) then
 		playerShowMessage(plr, "Взлом автомобилей доступен только бандитам.")
 	
 	elseif not gangsterStealCars[veh] then
@@ -25670,6 +25674,7 @@ function gangInit()
     crips = createTeam("CRIPS", 1, 81, 136)
 	bloods = createTeam("BLOODS", 167, 0, 0)
 	lkings = createTeam("Latin Kings", 253, 182, 3)
+	ms13 = createTeam("MS-13", 0, 243, 224)
 	
 	local gHash
 	gangs = gangsOrig
@@ -25728,7 +25733,6 @@ function gangInit()
 			until dbqueryresult
 		end
 		
-		
 		if(dbqueryresult[1]["gang"] == 649732560) then
 		    local r, g, b = getTeamColor(crips)
 			setRadarAreaColor(gbase[10], r, g, b, 150)
@@ -25737,6 +25741,9 @@ function gangInit()
 			setRadarAreaColor(gbase[10], r, g, b, 150)
 		elseif(dbqueryresult[1]["gang"] == 326034535) then
 		    local r, g, b = getTeamColor(lkings)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+		    local r, g, b = getTeamColor(ms13)
 			setRadarAreaColor(gbase[10], r, g, b, 150)
 		end
 	end
@@ -26325,7 +26332,8 @@ end
 gangsOrig = {
 	{ "BLOODS", 19 },
 	{ "CRIPS", 20 },
-	{ "Latin Kings", 21 }
+	{ "Latin Kings", 21 },
+	{ "MS-13", 22}
 }
 
 gangBases = {}
@@ -26338,7 +26346,8 @@ gangBaseCaptureTimeSec = 20
 gangGroupRPLevels = {
 	[19] = -0.07,
 	[20] = -0.07,
-	[21] = -0.07
+	[21] = -0.07,
+	[22] = -0.07
 }
 
 function gangBaseCaptureProcess(baseId)
@@ -26351,6 +26360,8 @@ function gangBaseCaptureProcess(baseId)
 		owner = getTeamFromName("BLOODS")
 	elseif(dbqueryresult[1]["gang"] == 326034535) then
 		owner = getTeamFromName("Latin Kings")
+	elseif(dbqueryresult[1]["gang"] == 2107913640) then
+		owner = getTeamFromName("MS-13")
 	end
 	local posz = gangBases[baseId][4]
 	local gang = capture[1]
@@ -26449,6 +26460,8 @@ function gangBaseCaptureStart(baseId, initiator)
 			owner = getTeamFromName("BLOODS")
 		elseif(dbqueryresult[1]["gang"] == 326034535) then
 			owner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			owner = getTeamFromName("MS-13")
 		end
 
 	repeat
@@ -26514,6 +26527,8 @@ function gangBaseChangeOwner(baseId, newOwner)
 			oldOwner = getTeamFromName("BLOODS")
 		elseif(dbqueryresult[1]["gang"] == 326034535) then
 			oldOwner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			oldOwner = getTeamFromName("MS-13")
 		end
 	
 	if(oldOwner ~= newOwner) then
@@ -26544,6 +26559,8 @@ function gangBaseCaptureFinish(baseId, success)
 			owner = getTeamFromName("BLOODS")
 		elseif(dbqueryresult[1]["gang"] == 326034535) then
 			owner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			owner = getTeamFromName("MS-13")
 		end
 		local gang = capture[1]
 		local gangPlayers = getPlayersInTeam(gang)
@@ -26582,7 +26599,8 @@ function gangBaseCaptureFinish(baseId, success)
 					table.insert(areaPlayers, plr)
 				end
 			end
-			
+
+			setRadarAreaFlashing(gangBases[baseId][10], false)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Захват территории банды '"..getTeamName(owner).."' был прекращён.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
