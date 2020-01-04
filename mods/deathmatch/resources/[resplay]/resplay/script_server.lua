@@ -26339,7 +26339,9 @@ gangsOrig = {
 gangBases = {}
 gangBaseCaptures = {}
 gangBaseCaptureMinPlr = 1
-gangBaseCaptureTimeSec = 20
+gangBaseCaptureTimeSec = 1000
+gangBaseKillGang = 0
+gangBaseKillOwnerGang = 0
 
 ---- требования в банду -------
 
@@ -26354,6 +26356,13 @@ function gangBaseCaptureProcess(baseId)
 	local capture = gangBaseCaptures[baseId]
 	local area = gangBases[baseId][10]
 	local owner = nil
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
 	if(dbqueryresult[1]["gang"] == 649732560) then
 		owner = getTeamFromName("CRIPS")
 	elseif(dbqueryresult[1]["gang"] == -1012291675) then
@@ -26417,6 +26426,13 @@ function gangBaseCaptureProcess(baseId)
 		gangBaseCaptures[baseId][3] = capture[3]-1
 	end
 	
+	------ДОДЕЛАТЬ, СЧЕТЧИКИ
+	if gangPlayers then
+		addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
+    elseif ownerPlayers then 
+		addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
+	end
+	
 	for _,plr in ipairs(ownerPlayers) do
 		px, py = getElementPosition(plr)
 		
@@ -26438,11 +26454,16 @@ function gangBaseCaptureProcess(baseId)
 	end
 	
 	if(gangBaseCaptures[baseId][3] > 0) then
-		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr })
-	else
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr, gangBaseKillGang, gangBaseKillOwnerGang })
+	elseif(gangBaseCaptures[baseId][7] > 2) then
 		gangBaseCaptureFinish(baseId, true)
+	elseif(gangBaseCapture[baseId][8] > 2 ) then
+	    gangBaseCaptureFinish(baseId, false)
+	elseif(gangBaseCaptures[baseId][3] < 0) then
+	    gangBaseCaptureFinish(baseId, false)
 	end
 end
+
 
 function gangBaseCaptureStart(baseId, initiator)
 	local gang = getPlayerTeam(initiator)
@@ -26499,7 +26520,7 @@ function gangBaseCaptureStart(baseId, initiator)
 				triggerClientEvent(initiator, "onServerMsgAdd", initiator, "На территории находится недостаточное количество игроков(необходимо "..tostring(gangBaseCaptureMinPlr)..").")
 			
 			else
-				gangBaseCaptures[baseId] = { gang, true, gangBaseCaptureTimeSec, setTimer(gangBaseCaptureProcess, 1000, 0, baseId), nil, {} }
+				gangBaseCaptures[baseId] = { gang, true, gangBaseCaptureTimeSec, setTimer(gangBaseCaptureProcess, 1000, 0, baseId), nil, {}, gangBaseKillGang, gangBaseKillOwnerGang }
 				triggerClientEvent(gangPlayers, "onServerMsgAdd", initiator, "Ваша банда начала захват территории банды '"..getTeamName(owner).."' по инициативе игрока "..getPlayerName(initiator)..".")
 				triggerClientEvent(ownerPlayers, "onServerMsgAdd", initiator, "Одна из ваших территорий подверглась нападению банды '"..getTeamName(gang).."'.")
 
@@ -26602,7 +26623,7 @@ function gangBaseCaptureFinish(baseId, success)
 
 			setRadarAreaFlashing(gangBases[baseId][10], false)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
-			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Захват территории банды '"..getTeamName(owner).."' был прекращён.")
+			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(owner).."' отбила свою территорию.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
 		end
 		
