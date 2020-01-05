@@ -14,6 +14,9 @@ eMailLoginReg = nil
 referrerLoginReg = nil
 manRadioButton = nil
 womanRadioButton = nil
+lsRadioButton = nil
+sfRadioButton = nil
+lvRadioButton = nil
 btnLoginReg = nil
 msgLoginReg = nil
 actionsList = nil
@@ -3094,7 +3097,7 @@ function receiveRegisterCheck(pass)
 		end
 		
 	else
-		loginRegWin = guiCreateWindow(sW/2-150, sH/2-97, 300, 280, "Регистрация", false)
+		loginRegWin = guiCreateWindow(sW/2-150, sH/2-127, 300, 300, "Регистрация", false)
 		msgLoginReg = guiCreateLabel(10, 20, 280, 30, "Добро пожаловать! Введите данные для регистрации.", false, loginRegWin)
 		guiLabelSetColor(msgLoginReg, 255, 255, 255)
 		guiLabelSetHorizontalAlign(msgLoginReg, "center", true)
@@ -3174,6 +3177,7 @@ curPass = nil
 curEMail = nil
 curReferrer = nil
 curGender = nil
+curCity = nil
 function register(button, state)
 	if((button == "left") or (button == "enter")) and state then
 		curPass = guiGetText(passLoginReg)
@@ -3184,6 +3188,13 @@ function register(button, state)
 		if (guiRadioButtonGetSelected(womanRadioButton)) then
 			curGender = 2
 		end
+		
+		--[[curCity = 1
+		if (guiRadioButtonGetSelected(sfRadioButton)) then
+			curCity = 2
+		elseif (guiRadioButtonGetSelected(lvRadioButton)) then
+			curCity = 3
+		end]]
 
 		if((string.len(curPass) > 0) and (string.len(curEMail) > 0)) then
 			if(string.lower(curReferrer) == string.lower(getPlayerName(localPlayer))) then
@@ -3199,11 +3210,11 @@ function register(button, state)
 				guiSetEnabled(womanRadioButton, false)
 				guiLabelSetColor(msgLoginReg, 255, 255, 255)
 				guiSetText(msgLoginReg, "Регистрирую...")
-			    triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curEMail, curReferrer, curGender)
+			    --triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curCity, curEMail, curReferrer, curGender)
 
 				guiSetVisible(loginRegWin, false)
 
-				--showRegister2Dialog()
+				showRegister2Dialog()
 			end
 			
 		else
@@ -3213,26 +3224,22 @@ function register(button, state)
 	end
 end
 
-whiteRaceRadioButton = nil
-blackRaceRadioButton = nil
-latinoRaceRadioButton = nil
-asianRaceRadioButton = nil
 loginRegWin2 = nil
 msgLoginReg2 = nil
 btnLoginReg2 = nil
 
+
 function showRegister2Dialog() 
 	loginRegWin2 = guiCreateWindow(sW/2-150, sH/2-97, 300, 230, "Регистрация", false)
-	msgLoginReg2 = guiCreateLabel(10, 20, 280, 30, "Ваша раса:", false, loginRegWin2)
+	msgLoginReg2 = guiCreateLabel(10, 20, 280, 30, "Выберите город:", false, loginRegWin2)
 	guiLabelSetColor(msgLoginReg2, 255, 255, 255)
 	guiLabelSetHorizontalAlign(msgLoginReg2, "center", true)
 	guiLabelSetVerticalAlign(msgLoginReg2, "center")
 
-	whiteRaceRadioButton = guiCreateRadioButton(10, 50, 280, 20, "Белый", false, loginRegWin2)
-	guiRadioButtonSetSelected(whiteRaceRadioButton, true)
-	blackRaceRadioButton = guiCreateRadioButton(10, 80, 280, 20, "Афроамериканец", false, loginRegWin2)
-	latinoRaceRadioButton = guiCreateRadioButton(10, 110, 280, 20, "Латиноамериканец", false, loginRegWin2)
-	asianRaceRadioButton = guiCreateRadioButton(10, 140, 280, 20, "Азиат", false, loginRegWin2)
+	lsRadioButton = guiCreateRadioButton(10, 50, 280, 20, "Лос-Сантос", false, loginRegWin2)
+	guiRadioButtonSetSelected(lsRadioButton, true)
+	sfRadioButton = guiCreateRadioButton(10, 80, 280, 20, "Сан-Фиерро", false, loginRegWin2)
+	lvRadioButton = guiCreateRadioButton(10, 110, 280, 20, "Лас-Вентурас", false, loginRegWin2)
 
 	btnLoginReg2 = guiCreateButton(50, 180, 200, 34, "Зарегистрироваться", false, loginRegWin2)
 	addEventHandler("onClientGUIClick", btnLoginReg2, register2, false)
@@ -3247,23 +3254,20 @@ end
 
 function register2(button, state)
 	if((button == "left") or (button == "enter")) and state then
-		local race = 0
-		if (guiRadioButtonGetSelected(blackRaceRadioButton)) then
-			race = 1
-		elseif (guiRadioButtonGetSelected(latinoRaceRadioButton)) then
-			race = 2
-		elseif (guiRadioButtonGetSelected(asianRaceRadioButton)) then
-			race = 3
+		curCity = 1
+		if (guiRadioButtonGetSelected(sfRadioButton)) then
+			curCity = 2
+		elseif (guiRadioButtonGetSelected(lvRadioButton)) then
+			curCity = 3
 		end
 
-		guiSetEnabled(blackRaceRadioButton, false)
-		guiSetEnabled(latinoRaceRadioButton, false)
-		guiSetEnabled(asianRaceRadioButton, false)
-		guiSetEnabled(whiteRaceRadioButton, false)
+		guiSetEnabled(lsRadioButton, false)
+		guiSetEnabled(sfRadioButton, false)
+		guiSetEnabled(lvRadioButton, false)
 		guiLabelSetColor(msgLoginReg2, 255, 255, 255)
 		guiSetText(msgLoginReg2, "Регистрирую...")
 
-		triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curEMail, curReferrer, curGender, race)
+		triggerServerEvent("onPlayerReg", resourceRoot, localPlayer, curPass, curCity, curEMail, curReferrer, curGender)
 	end
 end
 
@@ -3415,7 +3419,7 @@ function finishRegistration(success, errorCode)
 		guiSetEnabled(eMailLoginReg, true)
 		guiSetEnabled(referrerLoginReg, true)
 		guiSetEnabled(btnLoginReg, true)
-		guiLabelSetColor(msgLoginReg, 255, 0, 0)
+		guiLabelSetColor(msgLoginReg2, 255, 0, 0)
 		local errorText = "Ошибка"
 		
 		if errorCode then
@@ -3460,7 +3464,7 @@ function finishRegistration(success, errorCode)
 			end
 			
 		end
-		guiSetText(msgLoginReg, errorText)
+		guiSetText(msgLoginReg2, errorText)
 	end
 end
 
@@ -3480,8 +3484,8 @@ function startGame()
 	removeEventHandler("onClientGUIClick", btnLoginReg, register)
 	removeEventHandler("onClientKey", root, login)
 	removeEventHandler("onClientKey", root, register)
-	--removeEventHandler("onClientGUIClick", btnLoginReg2, register2)
-	--removeEventHandler("onClientKey", root, register2)
+	removeEventHandler("onClientGUIClick", btnLoginReg2, register2)
+	removeEventHandler("onClientKey", root, register2)
 	--removeEventHandler("onClientRender", root, updateLogo)
 	msgQueue = {}
 	tickStart = getTickCount()
@@ -10181,6 +10185,77 @@ function disableAlarmLSA()
 	destroyElement(alarmlsa)
 end
 addEventHandler("lsaAlarmDisable", getRootElement(), disableAlarmLSA)
+
+------- Смена городов ----------
+-- LV
+function cityChangeRequestLV()
+	createRequestWindow("Игрок", string.format("Вы подтверждаете смену точки спавна на Лас-Вентурас?."), source, cityChangeAcceptLV, cityChangeDeclineLV)
+end
+
+addEvent("onCityChangeRequestLV", true)
+addEventHandler("onCityChangeRequestLV", root, cityChangeRequestLV)
+
+function cityChangeAcceptLV()
+	destroyRequestWindow()
+	triggerServerEvent("onCityChangeServerAcceptLV", localPlayer, requestSrc)
+end
+
+addEvent("onCityChangeAcceptLV", true)
+addEventHandler("onCityChangeAcceptLV", root, cityChangeAcceptLV)
+
+function cityChangeDeclineLV()
+	destroyRequestWindow()
+end
+
+addEvent("onCityChangeDeclineLV", true)
+addEventHandler("onCityChangeDeclineLV", root, cityChangeDeclineLV)
+
+--SF
+function cityChangeRequestSF()
+	createRequestWindow("Игрок", string.format("Вы подтверждаете смену точки спавна на Сан-Фиерро?."), source, cityChangeAcceptSF, cityChangeDeclineSF)
+end
+
+addEvent("onCityChangeRequestSF", true)
+addEventHandler("onCityChangeRequestSF", root, cityChangeRequestSF)
+
+function cityChangeAcceptSF()
+	destroyRequestWindow()
+	triggerServerEvent("onCityChangeServerAcceptSF", localPlayer, requestSrc)
+end
+
+addEvent("onCityChangeAcceptSF", true)
+addEventHandler("onCityChangeAcceptSF", root, cityChangeAcceptSF)
+
+function cityChangeDeclineSF()
+	destroyRequestWindow()
+end
+
+addEvent("onCityChangeDeclineSF", true)
+addEventHandler("onCityChangeDeclineSF", root, cityChangeDeclineSF)
+--LS
+function cityChangeRequestLS()
+	createRequestWindow("Игрок", string.format("Вы подтверждаете смену точки спавна на Лос-Сантос?."), source, cityChangeAcceptLS, cityChangeDeclineLS)
+end
+
+addEvent("onCityChangeRequestLS", true)
+addEventHandler("onCityChangeRequestLS", root, cityChangeRequestLS)
+
+function cityChangeAcceptLS()
+	destroyRequestWindow()
+	triggerServerEvent("onCityChangeServerAcceptLS", localPlayer, requestSrc)
+end
+
+addEvent("onCityChangeAcceptLS", true)
+addEventHandler("onCityChangeAcceptLS", root, cityChangeAcceptLS)
+
+function cityChangeDeclineLS()
+	destroyRequestWindow()
+end
+
+addEvent("onCityChangeDeclineLS", true)
+addEventHandler("onCityChangeDeclineLS", root, cityChangeDeclineLS)
+
+
 
 ------- магазин скинов ----------
 
