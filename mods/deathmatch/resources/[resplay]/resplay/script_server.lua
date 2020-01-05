@@ -11203,7 +11203,7 @@ function payoutProcAdmin()
 	end
 end
 
-function registerPlayer(plr, pass, email, referrer, userGender)
+function registerPlayer(plr, pass, city, email, referrer, userGender)
 	if(source == resourceRoot) and (plr == client) then
 		local accName = getPlayerName(plr)
 		
@@ -11218,14 +11218,14 @@ function registerPlayer(plr, pass, email, referrer, userGender)
 		
 		if serverId and md5Pass then
 			local sserial = getPlayerSerial(plr)
-			dbQuery(registerPlayerSerial, {accName, pass, email, referrer, sserial, userGender}, db, "SELECT COUNT(*) AS count FROM users WHERE serial = ?", sserial)
+			dbQuery(registerPlayerSerial, {accName, pass, city, email, referrer, sserial, userGender}, db, "SELECT COUNT(*) AS count FROM users WHERE serial = ?", sserial)
 		else
 			triggerClientEvent(plr, "onRegisterFinished", plr, false, 6)
 		end
 	end
 end
 
-function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, userGender)
+function registerPlayerSerial(dbq, accName, pass, city, email, referrer, sserial, userGender)
 	local source = getPlayerFromName(accName)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
@@ -11233,9 +11233,9 @@ function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, user
 	if isElement(source) then
 		if(dbqueryresult[1]["count"] < 3) or isTestServer() then
 			if(string.len(referrer) > 0) then
-				dbQuery(registerPlayerReferrer, {accName, pass, email, referrer, sserial, userGender}, db, "SELECT * FROM users WHERE name = ?", getHash(referrer))
+				dbQuery(registerPlayerReferrer, {accName, pass, city, email, referrer, sserial, userGender}, db, "SELECT * FROM users WHERE name = ?", getHash(referrer))
 			else
-				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender }
+				webAccountsTmp[accName] = { pass, city, email, referrer, sserial, userGender }
 				registerPlayerResult(accName, 0)
 			end
 		
@@ -11246,7 +11246,7 @@ function registerPlayerSerial(dbq, accName, pass, email, referrer, sserial, user
 	end
 end
 
-function registerPlayerReferrer(dbq, accName, pass, email, referrer, sserial, userGender)
+function registerPlayerReferrer(dbq, accName, pass, city, email, referrer, sserial, userGender)
 	local source = getPlayerFromName(accName)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
@@ -11267,7 +11267,7 @@ function registerPlayerReferrer(dbq, accName, pass, email, referrer, sserial, us
 				triggerClientEvent(source, "onRegisterFinished", source, false, 11)
 			
 			else
-				webAccountsTmp[accName] = { pass, email, referrer, sserial, userGender }
+				webAccountsTmp[accName] = { pass, city, email, referrer, sserial, userGender }
 				registerPlayerResult(accName, 0)
 			end
 		
@@ -11282,10 +11282,11 @@ function registerPlayerResult(accName, res)
 	if accName and(accName ~= "ERROR") and webAccountsTmp[accName] then
 		local source = getPlayerFromName(accName)
 		local pass = webAccountsTmp[accName][1]
-		local email = webAccountsTmp[accName][2]
-		local referrer = webAccountsTmp[accName][3]
-		local sserial = webAccountsTmp[accName][4]
-		local userGender = webAccountsTmp[accName][5]
+		local city = webAccountsTmp[accName][2]
+		local email = webAccountsTmp[accName][3]
+		local referrer = webAccountsTmp[accName][4]
+		local sserial = webAccountsTmp[accName][5]
+		local userGender = webAccountsTmp[accName][6]
 		webAccountsTmp[accName] = nil
 		if res and(res == 0) then
 			if isElement(source) then
@@ -11296,7 +11297,7 @@ function registerPlayerResult(accName, res)
 					defaultSkin = startWomenSkins[1]
 				end
 
-				if dbExec(db, "INSERT INTO users (name, pass, usergroup, skin, lastLogin, email, referrer, serial, regip, gender) VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?, ?)", getHash(accName), getHash(pass, true), defaultSkin, curTime.timestamp, email, getHash(referrer), sserial, sIP, userGender) then
+				if dbExec(db, "INSERT INTO users (name, pass, usergroup, skin, city, lastLogin, email, referrer, serial, regip, gender) VALUES (?, ?, 1, ?, ?, ?, ?, ?, ?, ?, ?)", getHash(accName), getHash(pass, true), defaultSkin, city, curTime.timestamp, email, getHash(referrer), sserial, sIP, userGender) then
 
 					addNewEventToLog(accName, "Аккаунты - Регистрация - IP "..sIP..", с/н "..sserial, true)
 					outputServerLog("RESPLAY: A new registered player - "..accName)
@@ -25397,6 +25398,75 @@ end
 
 addEvent("onHouseSellGosDecline", true)
 addEventHandler("onHouseSellGosDecline", root, houseSellGosDecline)
+
+------ Смена города -------
+
+local markerlv = createMarker(1667.01953125, 1471.8740234375, 9.775049, "cylinder", 1.5, 255, 255, 0, 64)
+local markersf = createMarker(-1402.2666015625, -309.3896484375, 13.1484375, "cylinder", 1.5, 255, 255, 0, 64)
+local markerls = createMarker(1685.6015625, -2333.353515625, 12.546875, "cylinder", 1.5, 255, 255, 0, 64)
+setPickupText(markerlv, "Установить точку спавна", 255, 255, 0)
+setPickupText(markersf, "Установить точку спавна", 255, 255, 0)
+setPickupText(markerls, "Установить точку спавна", 255, 255, 0)
+
+function markerCityChangeHitLS(hitElem)
+	triggerClientEvent("onCityChangeRequestLS", hitElem)
+end
+addEventHandler("onMarkerHit", markerls, markerCityChangeHitLS)
+
+function markerCityChangeHitSF(hitElem)
+	triggerClientEvent("onCityChangeRequestSF", hitElem)
+end
+addEventHandler("onMarkerHit", markersf, markerCityChangeHitSF)
+
+function markerCityChangeHitLV(hitElem)
+	triggerClientEvent("onCityChangeRequestLV", hitElem)
+end
+addEventHandler("onMarkerHit", markerlv, markerCityChangeHitLV)
+
+
+function cityChangeLV(plr)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+
+	triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сменили точку спавна на Лас Вентурас.")
+	dbExec(db, "UPDATE users SET city=3 WHERE name=?", pHash)
+end
+addEvent("onCityChangeServerAcceptLV", true)
+addEventHandler("onCityChangeServerAcceptLV", root, cityChangeLV)
+
+function cityChangeSF(plr)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+    triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сменили точку спавна на Сан-Фиерро.")
+	dbExec(db, "UPDATE users SET city=2 WHERE name=?", pHash)
+end
+addEvent("onCityChangeServerAcceptSF", true)
+addEventHandler("onCityChangeServerAcceptSF", root, cityChangeSF)
+
+function cityChangeLS(plr)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+
+	triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сменили точку спавна на Лос-Сантос.")
+    dbExec(db, "UPDATE users SET city=1 WHERE name=?", pHash)
+end
+addEvent("onCityChangeServerAcceptLS", true)
+addEventHandler("onCityChangeServerAcceptLS", root, cityChangeLS)
+
+
 
 ------ МАГАЗИНЫ СКИНОВ --------
 
