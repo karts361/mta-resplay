@@ -22145,12 +22145,14 @@ function fractionRemovePlayerFromFraction(plr)
 				table.remove(fractions[fId][5], pId)
 				addNewEventToLog(pHash, "Фракция - Уволен - "..fractions[fId][1])
 				fractionUpdate(fId, true, false)
+				takeAllWeapons(plr)
 				return true
 			end
 			
 		end
 		
 	end
+
 	return false
 end
 
@@ -25625,18 +25627,18 @@ setPickupText(markerlv, "Установить точку спавна", 255, 255
 setPickupText(markersf, "Установить точку спавна", 255, 255, 0)
 setPickupText(markerls, "Установить точку спавна", 255, 255, 0)
 
-function markerCityChangeHitLS(hitElem)
-	triggerClientEvent("onCityChangeRequestLS", hitElem)
+function markerCityChangeHitLS(plr)
+	triggerClientEvent("onCityChangeRequestLS", plr)
 end
 addEventHandler("onMarkerHit", markerls, markerCityChangeHitLS)
 
-function markerCityChangeHitSF(hitElem)
-	triggerClientEvent("onCityChangeRequestSF", hitElem)
+function markerCityChangeHitSF(plr)
+	triggerClientEvent("onCityChangeRequestSF", plr)
 end
 addEventHandler("onMarkerHit", markersf, markerCityChangeHitSF)
 
-function markerCityChangeHitLV(hitElem)
-	triggerClientEvent("onCityChangeRequestLV", hitElem)
+function markerCityChangeHitLV(plr)
+	triggerClientEvent("onCityChangeRequestLV", plr)
 end
 addEventHandler("onMarkerHit", markerlv, markerCityChangeHitLV)
 
