@@ -25541,7 +25541,7 @@ function enterVehicleRank(plr, seat)
 	local vehModel = getElementModel(source)
 	local fId = fractionGetPlayerFraction(plr)
 
-	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 or then
+	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 then
 	    local eventCancelled = false
 		
 	    repeat
