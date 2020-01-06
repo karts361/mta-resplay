@@ -22151,8 +22151,6 @@ function fractionRemovePlayerFromFraction(plr)
 		end
 		
 	end
-	takeAllWeapons(plr)
-
 	return false
 end
 
@@ -26513,10 +26511,12 @@ gangsOrig = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 1
-gangBaseCaptureTimeSec = 1000
+gangBaseCaptureMinPlr = 7
+gangBaseCaptureTimeSec = 600
+
+--[[счетчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
-gangBaseKillOwnerGang = 0
+gangBaseKillOwnerGang = 0]]
 
 ---- требования в банду -------
 
@@ -26563,7 +26563,7 @@ function gangBaseCaptureProcess(baseId)
 	for _,plr in ipairs(capture[6]) do
 		if isElement(plr) then
 			px, py, pz = getElementPosition(plr)
-			if not (isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) and((getPlayerTeam(plr) == gang) or (getPlayerTeam(plr) == owner))) then
+			if not (isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 100.0) and(not isPedDead(plr)) and((getPlayerTeam(plr) == gang) or (getPlayerTeam(plr) == owner))) then
 				triggerClientEvent(plr, "onGangBaseCaptureUpdate", resourceRoot, nil)
 			end
 		end
@@ -26571,7 +26571,7 @@ function gangBaseCaptureProcess(baseId)
 	
 	for _,plr in ipairs(gangPlayers) do
 		px, py, pz = getElementPosition(plr)
-		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) then
+		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 100.0) and(not isPedDead(plr)) then
 			table.insert(areaPlayers, plr)
 		end
 	end
@@ -26601,12 +26601,16 @@ function gangBaseCaptureProcess(baseId)
 		gangBaseCaptures[baseId][3] = capture[3]-1
 	end
 	
-	------ДОДЕЛАТЬ, СЧЕТЧИКИ
-	if gangPlayers then
-		addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
+	--[[ДОДЕЛАТЬ, СЧЕТЧИКИ
+	if gangPlayers then 
+	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == gangPlayers) then gangBaseCaptures[baseId][7] = capture[7]+1 end end)
+		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][7]+1 })
     elseif ownerPlayers then 
-		addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
-	end
+	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == ownerPlayers) then gangBaseCaptures[baseId][8] = capture[8]+1 end end)
+		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][8]+1 })
+	end]]
 	
 	for _,plr in ipairs(ownerPlayers) do
 		px, py = getElementPosition(plr)
@@ -26630,12 +26634,15 @@ function gangBaseCaptureProcess(baseId)
 	
 	if(gangBaseCaptures[baseId][3] > 0) then
 		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr, gangBaseKillGang, gangBaseKillOwnerGang })
-	elseif(gangBaseCaptures[baseId][7] > 2) then
+	---- СЧЕТЧИКИ
+	--[[elseif(gangBaseCaptures[baseId][7] > 2) then
 		gangBaseCaptureFinish(baseId, true)
 	elseif(gangBaseCapture[baseId][8] > 2 ) then
 	    gangBaseCaptureFinish(baseId, false)
 	elseif(gangBaseCaptures[baseId][3] < 0) then
-	    gangBaseCaptureFinish(baseId, false)
+	    gangBaseCaptureFinish(baseId, false)]]
+	else
+	    gangBaseCaptureFinish(baseId, true)
 	end
 end
 

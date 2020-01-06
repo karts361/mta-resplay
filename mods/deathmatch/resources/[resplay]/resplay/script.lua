@@ -10726,17 +10726,19 @@ function gangBaseCaptureRender()
 		timeVal = "#FFFFFFВремя: "..msecToStringTime(gangBaseCaptureInfo[3])
 		timeW = dxGetTextWidth(timeVal, 1, "default-bold", true)
 		timeH = dxGetFontHeight(1, "default-bold")
-		teamOwnerKillsVal = "#"..RGBToHex(ownerR, ownerG, ownerB)..getTeamName(gangBaseCaptureInfo[1])..": #FFFFFF"..gangBaseCaptureInfo[8]
+		--[[teamOwnerKillsVal = "#"..RGBToHex(ownerR, ownerG, ownerB)..getTeamName(gangBaseCaptureInfo[1])..": #FFFFFF"..gangBaseCaptureInfo[8]
 		teamOwnerKillsW = dxGetTextWidth(timeVal, 1, "default-bold", true)
 		teamOwnerKillsH = dxGetFontHeight(1, "default-bold")
 		teamGangKillsVal = "#"..RGBToHex(clanR, clanG, clanB)..getTeamName(gangBaseCaptureInfo[2])..": #FFFFFF"..gangBaseCaptureInfo[7]
 		teamGangKillsW = dxGetTextWidth(timeVal, 1, "default-bold", true)
-		teamGangKillsH = dxGetFontHeight(1, "default-bold")
+		teamGangKillsH = dxGetFontHeight(1, "default-bold")]]
 		playersNumStr = "Захватчики: "..statusColorStr..tostring(gangBaseCaptureInfo[5]).."/"..tostring(gangBaseCaptureInfo[6])
 		playersNumW = dxGetTextWidth(playersNumStr, 1, "default-bold", true)
 		playersNumH = dxGetFontHeight(1, "default-bold")
-		rW = 40+math.max(math.max(math.max(teamsW, statusW), timeW), teamOwnerKillsW, teamGangKillsW, playersNumW)
-		rH = 35+teamsH+statusH+timeH+teamOwnerKillsH+teamGangKillsH+playersNumH
+		--rW = 40+math.max(math.max(math.max(teamsW, statusW), timeW), teamOwnerKillsW, teamGangKillsW, playersNumW)
+		rW = 40+math.max(math.max(math.max(teamsW, statusW), timeW), playersNumW)
+		--rH = 35+teamsH+statusH+timeH+teamOwnerKillsH+teamGangKillsH+playersNumH
+		rH = 25+teamsH+statusH+timeH+playersNumH
 		rX = sW/2-rW/2
 		rY = 10
 		dxDrawRectangle(rX, rY, rW, rH, tocolor(0, 0, 0, 128))
@@ -10758,14 +10760,14 @@ function gangBaseCaptureRender()
 		rW = rX+timeW
 		rH = rY+timeH
 		dxDrawText(timeVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
-		rY = rH+5
+		--[[rY = rH+5
 		rW = rX+teamOwnerKillsW
 		rH = rY+teamOwnerKillsH
 		dxDrawText(teamOwnerKillsVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
 		rY = rH+5
 		rW = rX+teamGangKillsW
 		rH = rY+teamGangKillsH
-		dxDrawText(teamGangKillsVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		dxDrawText(teamGangKillsVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)]]
 		rY = rH+5
 		rW = rX+playersNumW
 		rH = rY+playersNumH
