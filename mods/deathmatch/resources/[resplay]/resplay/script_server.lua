@@ -13212,6 +13212,11 @@ function requestActionsList(aplr)
 				if(isElementWithinMarker(aplr, HealthMarker[5])) then		
 					table.insert(alist, { 47, string.format("%s ($%d)", availableActions[47], hospitalHealthPrice), { i }, nil, 0, 255, 0 } )
 					table.insert(alist, { 152, "Аптечка - купить $500", { i }, nil, 0, 255, 0 } )
+					if getElementData(aplr, "gender") == 1 then
+					    table.insert(alist, { 154, "Пол - сменить пол на женский ($500000)", { i }, nil, 0, 255, 0 } )
+					elseif getElementData(aplr, "gender") == 2 then
+					    table.insert(alist, { 154, "Пол - сменить пол на мужской ($500000)", { i }, nil, 0, 255, 0 } ) 
+					end
 				end
             end
 			
@@ -15753,7 +15758,8 @@ function executeAction(aplr, actionId, params)
 						if(setResult == true) then
 							playerShowMessage(aplr, "Вы назначили игрока "..params[2].." лидером фракции '"..params[1].."'.")
 							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." назначил вас лидером фракции '"..params[1].."'.")
-						
+						    dbExec(db, "UPDATE users SET rank=10 WHERE name=?", getHash(getPlayerName(plr)))
+
 						else
 							playerShowMessage(aplr, "Не удалось назначить данного игрока лидером. Причина: "..tostring(setResult)..".")
 						end
@@ -16237,6 +16243,9 @@ function executeAction(aplr, actionId, params)
 			else
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Только бандиты могут покупать наркотики.")
 			end
+		elseif(actionId == 154) then
+		    triggerClientEvent(aplr, "onGenderChangeRequest", aplr)
+	
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -22142,7 +22151,8 @@ function fractionRemovePlayerFromFraction(plr)
 		end
 		
 	end
-	
+	takeAllWeapons(plr)
+
 	return false
 end
 
@@ -25575,6 +25585,39 @@ end
 addEvent("onHouseSellGosDecline", true)
 addEventHandler("onHouseSellGosDecline", root, houseSellGosDecline)
 
+
+------ смена пола ---------
+function changeGenderHospital(plr)
+    local pHash = getHash(getPlayerName(plr))
+	local curGender = getElementData(plr, "gender")
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if (getPlayerMoney(plr) < 500000) then
+	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
+	elseif curGender == 2 then
+		dbExec(db, "UPDATE users SET gender=1 WHERE name=?", pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сменили пол на мужской ")
+		takeMoney(plr, 500000)
+		addNewEventToLog(getPlayerName(plr), "Пол - Смена - Мужской", true)
+		setElementData(plr, "gender", 1)
+		setPedSkin(plr, startMenSkins[1])
+	elseif curGender == 1 then
+		dbExec(db, "UPDATE users SET gender=2 WHERE name=?", pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сменили пол на женский ")
+		addNewEventToLog(getPlayerName(plr), "Пол - Смена - Женский", true)
+		takeMoney(plr, 500000)
+		setElementData(plr, "gender", 2)
+		setPedSkin(plr, startWomenSkins[1])
+	end
+end
+addEvent("onGenderChangeServer", true)
+addEventHandler("onGenderChangeServer", root, changeGenderHospital)
+
+
 ------ Смена города -------
 
 local markerlv = createMarker(1667.01953125, 1471.8740234375, 9.775049, "cylinder", 1.5, 255, 255, 0, 64)
@@ -25642,6 +25685,68 @@ end
 addEvent("onCityChangeServerAcceptLS", true)
 addEventHandler("onCityChangeServerAcceptLS", root, cityChangeLS)
 
+
+----- Ограничения на технику по рангам --------
+
+rankVehicles = {
+	[433] = { 2 },
+	[470] = { 2 },
+	[432] = { 8 },
+	[595] = { 2 },
+	[425] = { 8 },
+	[520] = { 8 },
+	[548] = { 4 },
+	[427] = { 5 },
+	[523] = { 2 },
+	[596] = { 2 },
+	[597] = { 2 },
+	[598] = { 2 },
+	[599] = { 2 },
+	[601] = { 7 },
+	[497] = { 8 },
+	[447] = { 4 },
+	[563] = { 6 },
+	[490] = { 2 },
+	[528] = { 2 },
+	[413] = { 7 }
+}
+
+function enterVehicleRank(plr, seat)
+    local grp = getElementData(plr, "usergroup")
+	local pHash = getHash(getPlayerName(plr))
+	local vehModel = getElementModel(source)
+	local fId = fractionGetPlayerFraction(plr)
+
+	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 or then
+	    local eventCancelled = false
+		
+	    repeat
+		    local dbq = dbQuery(db, "SELECT rank FROM users WHERE name=?", pHash)
+		    dbqueryresult = dbPoll(dbq, 30000)
+		    dbFree(dbq)
+	    until dbqueryresult
+
+        if rankVehicles[vehModel] then
+		    eventCancelled = true
+				
+			    for _,rnkVeh in ipairs(rankVehicles[vehModel]) do
+				    if(rnkVeh < dbqueryresult[1]["rank"]) then
+					    eventCancelled = false
+					    break
+				    end
+			    end
+				
+			    if eventCancelled then
+				    eventCancelled = cancelEvent()
+			    end
+		end
+			
+		if eventCancelled then
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы ещё не достигли определённого звания, чтобы воспользоваться данным транспортным средством.")
+		end
+	end 
+end
+addEventHandler ( "onVehicleStartEnter", getRootElement(), enterVehicleRank)
 
 
 ------ МАГАЗИНЫ СКИНОВ --------
