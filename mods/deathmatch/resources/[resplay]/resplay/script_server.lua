@@ -15674,7 +15674,8 @@ function executeAction(aplr, actionId, params)
 						if(setResult == true) then
 							playerShowMessage(aplr, "Вы назначили игрока "..params[2].." лидером фракции '"..params[1].."'.")
 							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." назначил вас лидером фракции '"..params[1].."'.")
-						
+						    dbExec(db, "UPDATE users SET rank=10 WHERE name=?", getHash(getPlayerName(plr)))
+
 						else
 							playerShowMessage(aplr, "Не удалось назначить данного игрока лидером. Причина: "..tostring(setResult)..".")
 						end
@@ -25508,6 +25509,68 @@ end
 addEvent("onCityChangeServerAcceptLS", true)
 addEventHandler("onCityChangeServerAcceptLS", root, cityChangeLS)
 
+
+----- Ограничения на технику по рангам --------
+
+rankVehicles = {
+	[433] = { 2 },
+	[470] = { 2 },
+	[432] = { 8 },
+	[595] = { 2 },
+	[425] = { 8 },
+	[520] = { 8 },
+	[548] = { 4 },
+	[427] = { 5 },
+	[523] = { 2 },
+	[596] = { 2 },
+	[597] = { 2 },
+	[598] = { 2 },
+	[599] = { 2 },
+	[601] = { 7 },
+	[497] = { 8 },
+	[447] = { 4 },
+	[563] = { 6 },
+	[490] = { 2 },
+	[528] = { 2 },
+	[413] = { 7 }
+}
+
+function enterVehicleRank(plr, seat)
+    local grp = getElementData(plr, "usergroup")
+	local pHash = getHash(getPlayerName(plr))
+	local vehModel = getElementModel(source)
+	local fId = fractionGetPlayerFraction(plr)
+
+	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 or then
+	    local eventCancelled = false
+		
+	    repeat
+		    local dbq = dbQuery(db, "SELECT rank FROM users WHERE name=?", pHash)
+		    dbqueryresult = dbPoll(dbq, 30000)
+		    dbFree(dbq)
+	    until dbqueryresult
+
+        if rankVehicles[vehModel] then
+		    eventCancelled = true
+				
+			    for _,rnkVeh in ipairs(rankVehicles[vehModel]) do
+				    if(rnkVeh < dbqueryresult[1]["rank"]) then
+					    eventCancelled = false
+					    break
+				    end
+			    end
+				
+			    if eventCancelled then
+				    eventCancelled = cancelEvent()
+			    end
+		end
+			
+		if eventCancelled then
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы ещё не достигли определённого звания, чтобы воспользоваться данным транспортным средством.")
+		end
+	end 
+end
+addEventHandler ( "onVehicleStartEnter", getRootElement(), enterVehicleRank)
 
 
 ------ МАГАЗИНЫ СКИНОВ --------
