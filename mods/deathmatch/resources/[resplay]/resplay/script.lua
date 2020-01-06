@@ -10186,6 +10186,30 @@ function disableAlarmLSA()
 end
 addEventHandler("lsaAlarmDisable", getRootElement(), disableAlarmLSA)
 
+------ Смена пола -----------
+
+function genderChangeRequest()
+	createRequestWindow("Игрок", string.format("Вы действительно хотите изменить пол?"), source, genderChangeAccept, genderChangeDecline)
+end
+
+addEvent("onGenderChangeRequest", true)
+addEventHandler("onGenderChangeRequest", root, genderChangeRequest)
+
+function genderChangeAccept()
+	destroyRequestWindow()
+	triggerServerEvent("onGenderChangeServer", localPlayer, requestSrc)
+end
+
+addEvent("onGenderChangeAccept", true)
+addEventHandler("onGenderChangeAccept", root, genderChangeAccept)
+
+function genderChangeDecline()
+	destroyRequestWindow()
+end
+
+addEvent("onGenderChangeDecline", true)
+addEventHandler("onGenderChangeDecline", root, genderChangeDecline)
+
 ------- Смена городов ----------
 -- LV
 function cityChangeRequestLV()
