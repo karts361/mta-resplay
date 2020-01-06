@@ -22008,7 +22008,8 @@ function fractionRemovePlayerFromFraction(plr)
 		end
 		
 	end
-	
+	takeAllWeapons(plr)
+
 	return false
 end
 
