@@ -410,6 +410,31 @@
 	<file src="imgres/253.dff" download="true" />
 	<file src="imgres/130.txd" download="true" />
 	<file src="imgres/130.dff" download="true" />
+	
+	<file src="imgres/ballas1.txd" download="true" />
+	<file src="imgres/ballas1.dff" download="true" />
+	<file src="imgres/ballas2.dff" download="true" />
+	<file src="imgres/ballas2.txd" download="true" />
+	<file src="imgres/ballas3.dff" download="true" />
+	<file src="imgres/ballas3.txd" download="true" />
+	<file src="imgres/fam1.txd" download="true" />
+	<file src="imgres/fam1.dff" download="true" />
+	<file src="imgres/fam2.dff" download="true" />
+	<file src="imgres/fam2.txd" download="true" />
+	<file src="imgres/fam3.dff" download="true" />
+	<file src="imgres/fam3.dff" download="true" />
+	<file src="imgres/lsv1.txd" download="true" />
+	<file src="imgres/lsv1.dff" download="true" />
+	<file src="imgres/lsv2.dff" download="true" />
+	<file src="imgres/lsv2.txd" download="true" />
+	<file src="imgres/lsv3.dff" download="true" />
+	<file src="imgres/lsv3.txd" download="true" />
+	<file src="imgres/sfr1.dff" download="true" />
+	<file src="imgres/sfr1.txd" download="true" />
+	<file src="imgres/sfr2.dff" download="true" />
+	<file src="imgres/sfr2.txd" download="true" />
+	<file src="imgres/sfr3.dff" download="true" />
+	<file src="imgres/sfr3.txd" download="true" />
 
 	
 	<export function='webGetDonateRecordsNum' http='true'/>

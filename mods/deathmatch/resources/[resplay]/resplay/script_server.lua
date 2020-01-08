@@ -299,6 +299,10 @@ playerGroups = {
 	{ "Продавец", 168, 209 },
 	{ "ФБР", 286, 166, 163, 164, 165 },
 	{ "СМИ", 240, 60, 217, 296, 46, 306, 76 },
+	{ "Bloods", 105, 106, 107 },
+	{ "Crips", 102, 103, 104 },
+	{ "Latin Kings", 108, 109, 110 },
+	{ "MS-13", 173, 174, 175 }
 }
 
 playerGroupSkills = {
@@ -345,7 +349,13 @@ playerGroupRPLevels = {
 	{ 0.0, 1.0 },
 	{ 10.0, 10.0 },
 	{ -1.0, 1.0 },
-	{ 0.0, 0.25 }
+	{ 0.0, 0.25 },
+	{ 0.0, 0.25 },
+	{ 0.0, 0.25 },
+	{ -1.0, 1.0 },
+	{ -1.0, 1.0 },
+	{ -1.0, 1.0 },
+	{ -1.0, 1.0 },
 }
 workStartMarkers = {}
 
@@ -389,8 +399,8 @@ availableActions = {
 	"Колесо обозрения - Прокатиться",
 	"Колесо обозрения - Покинуть",
 	"Цена за голову - Назначить",
-	"Банда - Создать",
-	"Банда - Расформировать",
+	"Банда - Открыть меню",
+	"Банда - Начать захват территории",
 	"Банда - Пригласить игрока",
 	"Банда - Принять приглашение",
 	"Банда - Отклонить приглашение",
@@ -2213,7 +2223,11 @@ playerTeamChats = {
 	[14] = { 2, 5, 14, 15, 17 },
 	[15] = { 2, 4, 5, 15, 17, 18 },
 	[17] = { 2, 5, 14, 15, 17 },
-	[18] = { 18, 15 }
+	[18] = { 18, 15 },
+	[19] = { 19 },
+	[20] = { 20 },
+	[21] = { 21 },
+	[22] = { 22 }
 }
 
 groupGateObjs = {}
@@ -3564,7 +3578,7 @@ function militaryGeneralDead()
 			for _,plr in ipairs(allPlayers) do
 				pGrp = getElementData(plr, "usergroup")
 				
-				if(pGrp == 10) then
+				if(pGrp == 10) or (pGrp == 19) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) then
 					table.insert(gangsters, plr)
 				end
 			end
@@ -3813,7 +3827,6 @@ function militaryBasesProcessCoroutine()
 						end
 					end
 				end
-				
 			end
 			--militaryBaseAlarm(i, enableAlarm) -- Тревога на базе
 		end
@@ -3976,9 +3989,9 @@ function gangsterKillOrderNew(killPlr, killPrice, killOrderer)
 end
 
 function gangsterKillOrderRandomSort(a, b)
-	local bgngstr = (getElementData(b, "usergroup") == 10)
+	local bgngstr = (getElementData(b, "usergroup") == 10 or getElementData(a, "usergroup") == 19 or getElementData(a, "usergroup") == 20 or getElementData(a, "usergroup") == 21 or getElementData(a, "usergroup") == 22)
 	
-	if((getElementData(a, "usergroup") == 10) ~= bgngstr) then
+	if((getElementData(a, "usergroup") == 10 or getElementData(a, "usergroup") == 19 or getElementData(a, "usergroup") == 20 or getElementData(a, "usergroup") == 21 or getElementData(a, "usergroup") == 22) ~= bgngstr) then
 		return bgngstr
 	
 	else
@@ -3996,7 +4009,7 @@ function gangsterKillOrderRandomProc()
 		for _,plr in ipairs(players) do
 			pUserGrp = getElementData(plr, "usergroup")
 			
-			if pUserGrp and(getElementData(plr, "usergroup") == 10) then
+			if pUserGrp and(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then
 				pRespect = (getElementData(plr, "respect"))
 				
 				if getElementData(plr, "spawned") and(getPlayerMoney(plr) >= 5000) and((pRespect >= 0.05) or (pRespect <= -0.0001)) then
@@ -8049,7 +8062,7 @@ function addWorker(jobId, newWorker)
 							--elseif(pGrp == 10) then
 								--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 							--end
-						elseif pGrp and ((pGrp == 10)) then
+						elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
 						    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 						end
@@ -9177,6 +9190,17 @@ function generateMapFile()
 			xmlNodeSetAttribute(childNode, "radius", tostring(racecp[4]))
 		end
 		
+		
+	end
+	
+	for i,gbase in ipairs(gangBases) do
+		childNode = xmlCreateChild(rootNode, "object")
+		xmlNodeSetAttribute(childNode, "id", "object"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(gbase[2]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(gbase[3]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(gbase[4]))
+		xmlNodeSetAttribute(childNode, "sizeX", tostring(gbase[5]))
+		xmlNodeSetAttribute(childNode, "sizeY", tostring(gbase[6]))
 	end
 	
 	xmlSaveFile(rootNode)
@@ -9352,6 +9376,7 @@ function loadMapFile()
 		elemrz = getElementData(respawn, "rotZ")
 		oint = tonumber(getElementData(respawn, "interior"))
 		local fId = tonumber(getElementData(respawn, "fraction"))
+		local gId = tonumber(getElementData(respawn, "gang"))
 		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId })
 		destroyElement(respawn)
 	end
@@ -10274,6 +10299,20 @@ function loadMapFile()
 		
 		destroyElement(groupgate)
 	end
+	
+    local elements = getElementsByType("gbase")
+	
+	for i,gbase in ipairs(elements) do
+		local gbasesName = getElementData(gbase, "id")	
+		local gbaseHash = getHash(gbasesName)
+		elemx, elemy, elemz = getElementPosition(gbase)
+		sizeEX = getElementData(gbase, "sizeX")
+		sizeEY = getElementData(gbase, "sizeY")
+		local gbaseInfo = { gbaseHash, elemx, elemy, elemz, sizeEX, sizeEY, nil, nil, nil, nil }
+		gbaseInfo[10] = createRadarArea(elemx, elemy, sizeEX, sizeEY, 165, 167, 166, 150)
+		table.insert(gangBases, gbaseInfo)
+		destroyElement(gbase)
+	end
 end
 
 function resourceStart(startedResource)
@@ -10299,6 +10338,7 @@ function resourceStart(startedResource)
 	clanInit()
 	--generateMapFile()
 	fractionInit()
+	gangInit()
 	criminalActivityInit()
 	missionsInit()
 	colorNames = fromJSON(colorNamesJSON)
@@ -11003,7 +11043,18 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 		end
 		
 		fractionRemovePlayerFromFraction(plr)
+		gangRemovePlayerFromGang(plr)
 		local moneyAmount = getMoney(plr)
+		
+        if grpid == 19 then
+            setPlayerTeam(plr, bloods)
+	    elseif grpid == 20 then
+	        setPlayerTeam(plr, crips)
+	    elseif grpid == 21 then
+            setPlayerTeam(plr, lkings)
+		elseif grpid == 22 then
+		    setPlayerTeam(plr, ms13)
+	    end
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
 			local sHash = getHash(getPlayerName(plr))
@@ -11949,7 +12000,7 @@ function inventoryUseSlot(slotId)
 				if isPlayerBusy(source) then
 					playerShowMessage(source, "Вы должны закончить остальные дела, прежде чем сможете начать ограбление.")
 				
-				elseif(getElementData(source, "usergroup") ~= 10) then
+				elseif(getElementData(source, "usergroup") ~= 10 or getElementData(source, "usergroup") ~= 19 or getElementData(source, "usergroup") ~= 20 or getElementData(source, "usergroup") ~= 21  or getElementData(source, "usergroup") ~= 22) then
 					playerShowMessage(source, "Ограбление доступно только бандитам.")
 				
 				elseif(getElementInterior(source) == 0) and(getElementDimension(source) == 0) then
@@ -12459,6 +12510,15 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		local money = dbqueryresult[1]["money"]
 		local wantedLvl = dbqueryresult[1]["wantedLevel"]
 		weapons[0] = { dbqueryresult[1]["w0"], dbqueryresult[1]["w0ammo"] }
+		local grp = dbqueryresult[1]["usergroup"]
+        if grp == 19 then
+            setPlayerTeam(source, bloods)
+	    elseif grp == 20 then
+	        setPlayerTeam(source, crips)
+	    elseif grp == 21 then
+            setPlayerTeam(source, lkings)
+	    end
+		
 
 		--- REFRESH SKIN IF NOT INITED ---
 		local skinInited = dbqueryresult[1]["skin_inited"]
@@ -12541,6 +12601,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		checkPlayerGroup(source)
 		dbqueryresult[1]["usergroup"] = getElementData(source, "usergroup")
 		local fId, pId = fractionGetPlayerFraction(source)
+		local gId, ppId = gangGetPlayerGang(source)
 		
 		if fId then
 			local rankName
@@ -12551,6 +12612,15 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			end
 			setElementData(source, "usergroupname", fractions[fId][1].." - "..rankName)
 			fractionUpdate(fId, true, true)
+		elseif gId then
+			local rankName
+			if(ppId == 0) then
+				rankName = "Лидер"
+			else
+				rankName = gangGetRankName(gId, gangGetPlayerRank(gId, ppId))
+			end
+			setElementData(source, "usergroupname", gangs[gId][1].." - "..rankName)
+			gangUpdate(gId, true, true)
 		else
 			setElementData(source, "usergroupname", playerGroups[dbqueryresult[1]["usergroup"]][1])
 		end
@@ -12689,6 +12759,7 @@ function requestActionsList(aplr)
 		local objs = getNearbyElementsByType(aplr, "object", nearbyPlayersRadius)
 		local clan = getPlayerClan(aplr)
 		local fId = fractionGetPlayerFraction(aplr)
+		local gId = gangGetPlayerGang(aplr)
 		local pHelper = isHelper(aplr)
 		local pAdmin = isAdmin(aplr)
 		local pModerator = isModerator(aplr)
@@ -13155,7 +13226,7 @@ function requestActionsList(aplr)
 				if(isElementWithinMarker(aplr, fuelStation[4])) then
 					table.insert(alist, { 16, string.format("%s($%d)", availableActions[16], fuelPrice/10+10), {}, nil, 0, 255, 0 })
 					
-					if(aplrGrp == 10) then
+					if(aplrGrp == 10 or aplrGrp == 19 or aplrGrp == 20 or aplrGrp == 21 or aplrGrp == 22) then
 						table.insert(alist, { 10006, string.format("Купить %s($%d)", getWeaponNameFromID(18), 10), { 418, 10 }, nil, 0, 255, 0 })
 					end
 				end
@@ -13528,8 +13599,9 @@ function requestActionsList(aplr)
 				end
 			end
 			
-			table.insert(alist, { 83, availableActions[83], {}, { "Название", "Цвет" }, 255, 255, 255 })
+			--table.insert(alist, { 83, availableActions[83], {}, { "Название", "Цвет" }, 255, 255, 255 })
 		end
+		
 		
 		table.insert(alist, { 52, availableActions[52], {}, { "Местоположение" }, 255, 255, 255 })
 		--table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
@@ -13555,6 +13627,15 @@ function requestActionsList(aplr)
 			end
 		end
 		
+		if gId then 
+		    for i,gbase in ipairs(gangBases) do
+			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr)) then
+				    table.insert(alist, { 34, availableActions[34], { i }, nil, 0, 255, 0 })
+			    end
+			end
+			table.insert(alist, { 33, availableActions[33], {}, nil, 255, 255, 255 })
+		end
+		
 		if fId then
 			table.insert(alist, { 125, availableActions[125], {}, nil, 255, 255, 255 })
 		end
@@ -13566,9 +13647,11 @@ function requestActionsList(aplr)
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
 				table.insert(alist, { 126, availableActions[126], {}, { "Фракция", "Игрок" }, 255, 0, 0 })
+				table.insert(alist, { 703, "Банда - Назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
 				--[[table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
 				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })]]
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
+				table.insert(alist, { 83, "Модерация - Cоздать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
 					table.insert(alist, { 702, "Модерация - Удалить аккаунт", {}, { "ID аккаунта" }, 255, 0, 0 })
@@ -14229,10 +14312,13 @@ function executeAction(aplr, actionId, params)
 			end
 		
 		elseif(actionId == 33) then
-			-- BLANK
+			local gId = gangGetPlayerGang(aplr)
+			if gId then
+				triggerClientEvent(aplr, "onGangOpenMenu", aplr)
+			end
 		
 		elseif(actionId == 34) then
-			-- BLANK
+			gangBaseCaptureStart(params[1], aplr)
 		
 		elseif(actionId == 35) then
 			-- BLANK
@@ -15027,9 +15113,9 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 83) then
 			local respect = getElementData(aplr, "respect")
 
-			if(respect > -0.1 ) then
+			--[[if(respect > -0.1 ) then
 				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Для создания клана необходимо иметь 10% отрицательной репутации.")
-			else
+			else]]
 				local clanName = params[1]
 				local clanR, clanG, clanB
 				
@@ -15049,7 +15135,7 @@ function executeAction(aplr, actionId, params)
 				else
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Неправильно введены данные.")
 				end
-			end
+			--end
 		
 		elseif(actionId == 84) then
 			local baseId = params[1]
@@ -15412,7 +15498,7 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 109) then
 			local pGrp = getElementData(aplr, "usergroup")
 			
-			if pGrp and(pGrp == 10) then
+			if pGrp and(pGrp == 10 or pGrp == 19 or pGrp == 20 or pGrp == 21 or pGrp == 22) then
 				local players = getElementsByType("player")
 				local ax, ay, az = getElementPosition(aplr)
 				local px, py, pz, pdist, pelem, curelem, curdist, pprice
@@ -16136,7 +16222,7 @@ function executeAction(aplr, actionId, params)
         elseif(actionId == 153) then
 		    local slotId = inventoryCheckForSlot(aplr, 267)
 			
-			if(getElementData(aplr, "usergroup") == 10) then
+			if(getElementData(aplr, "usergroup") == 10 or getElementData(aplr, "usergroup") == 19 or getElementData(aplr, "usergroup") == 20 or getElementData(aplr, "usergroup") == 21 or getElementData(aplr, "usergroup") == 22) then
 			
 			    if(slotId) then
 				    local money = getMoney(aplr)
@@ -16250,29 +16336,82 @@ function executeAction(aplr, actionId, params)
 			end
 			
 		elseif(actionId == 703) then
-			local fFound = false
+			local gFound = false
 			local pFound = false
 			
-			for fId,fInfo in ipairs(fractions) do
-				if(string.lower(fInfo[1]) == string.lower(params[1])) then
+			for gId,gInfo in ipairs(gangs) do
+				if(string.lower(gInfo[1]) == string.lower(params[1])) then
 					local plr = getPlayerFromName(params[2])
-					fFound = true
+					gFound = true
 					
 					if plr then
 						pFound = true
-						local setResult = fractionRemoveLeader(fId, plr)
+						local setResult = gangSetPlayerGang(plr, gId)
 						
 						if(setResult == true) then
-							playerShowMessage(aplr, "Вы сняли игрока "..params[2].." с лидера")
-							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." снял вас с лидера фракции '"..params[1].."'.")
+							setResult = gangSetLeader(gId, plr)
+						end
+						
+						if(setResult == true) then
+							playerShowMessage(aplr, "Вы назначили игрока "..params[2].." лидером банды '"..params[1].."'.")
+							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." назначил вас лидером банды '"..params[1].."'.")
 						
 						else
-							playerShowMessage(aplr, "Не удалось снять данного игрока с лидера. Причина: "..tostring(setResult)..".")
+							playerShowMessage(aplr, "Не удалось назначить данного игрока лидером. Причина: "..tostring(setResult)..".")
 						end
 					end
 					
 					break
 				end
+			end
+			
+		elseif(actionId == 704) then
+			local gFound = false
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+				if(string.lower(gInfo[1]) == string.lower(params[1])) then
+					local plr = getPlayerFromName(params[2])
+					gFound = true
+					if plr then
+						pFound = true
+						local setResult = gangSetPlayerGang(plr, gId)
+						if( setResult == true ) then
+							playerShowMessage(aplr, "Вы приняли игрока "..params[2].." в банду '"..params[1].."'.")
+							playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." принял вас в банду '"..params[1].."'.")
+							gangUpdate(gId, true, false)
+						else
+							playerShowMessage(aplr, "Не удалось принять игрока в банду. Причина: "..tostring( setResult )..".")
+						end
+					end
+					break
+				end
+			end
+			if not gFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Банда с таким именем отсутствует.")
+			elseif not pFound then
+				playerShowMessage(aplr, "Не удалось принять игрока в банду. Игрок с таким никнеймом отсутствует на сервере.")
+			end
+
+		elseif(actionId == 705) then
+			local pFound = false
+			for gId,gInfo in ipairs(gangs) do
+			    local plr = getPlayerFromName(params[2])
+				--fFound = true
+				if plr then
+					pFound = true
+					local setResult = gangRemovePlayerFromGang(plr, gId)
+					if( setResult == true ) then
+					    playerShowMessage(aplr, "Вы исключили игрока "..params[2].." из банды ")
+					    playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." исключил вас из банды.")
+						setPlayerNewGroup(plr, groupCommonGet(plr), true)
+					else
+						playerShowMessage(aplr, "Не удалось исключить игрока из банды. Причина: "..tostring( setResult )..".")
+					end
+				end
+				break
+			end
+			if not pFound then
+				playerShowMessage(aplr, "Не удалось исключить игрока. Игрок с таким никнеймом отсутствует на сервере.")
 			end
 
 		-- Клиентские действия(с 10001)
@@ -16581,9 +16720,10 @@ function checkPlayerGroup(plr)
 	end
 	
 	local fId = fractionGetPlayerFraction(plr)
+	local gId = gangGetPlayerGang(plr)
 	local respectCur = getElementData(plr, "respect")
 	
-	if not fId then
+	if not fId or gId then
 		local curGrp = getElementData(plr, "usergroup")
 		local respectNeedMin, respectNeedMax = playerGroupRPLevels[curGrp][1], playerGroupRPLevels[curGrp][2]
 		local moneyAmount = getMoney(plr)
@@ -17128,7 +17268,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				evtStr = evtStr.."Убил игрока - "..getPlayerName(source)
 				local ugrp = getElementData(source, "usergroup")
 				
-				if(ugrp ~= 10) then
+				if(ugrp ~= 10) or (ugrp ~= 19) or (ugrp ~= 20) or (ugrp ~= 21) or (ugrp ~= 22) then
 					sendPoliceMessage(killer, "убийство")
 					criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(killer))
 					wantedLevelInc(killer)
@@ -18072,7 +18212,7 @@ end
 
 function isTestServer()
 	local serverName = getServerName()
-	local i, j = string.find(serverName, "[DEV-CLOSED BETA]")
+	local i, j = string.find(serverName, "[DEV-CLOSED]")
 
 	if i then
 		return true
@@ -18674,9 +18814,10 @@ function clanCreateNew(creator, clanName, clanR, clanG, clanB)
 	elseif getPlayerClan(creator) then
 		triggerClientEvent(creator, "onServerMsgAdd", creator, "Вы уже находитесь в клане.")
 		
-	elseif (curMoney < clanCreatePrice) then
+	--[[elseif (curMoney < clanCreatePrice) then
 		triggerClientEvent(creator, "onServerMsgAdd", creator, "У вас недостаточно денег.")
-		
+	]]
+	
 	else
 		local pHash = getHash(getPlayerName(creator))
 		local newClan = clanCreate(clanNameUpper, math.min(225, math.max(30, clanR)), math.min(225, math.max(30, clanG)), math.min(225, math.max(30, clanB)), pHash, {})
@@ -18688,8 +18829,8 @@ function clanCreateNew(creator, clanName, clanR, clanG, clanB)
 		clanColeaders[newClan] = {}
 		clanPlayerInfoUpdate(newClan)
 		local respect = getElementData(creator, "respect")
-		respectSet(creator, math.min(respect, -0.0001), -1.0, 1.0)
-		takeMoney(creator, clanCreatePrice)
+		--[[respectSet(creator, math.min(respect, -0.0001), -1.0, 1.0)
+		takeMoney(creator, clanCreatePrice)]]
 		local crResult = dbExec(db, "INSERT INTO clans(id,name,clrr,clrg,clrb) VALUES(?,?,?,?,?)", cHash, clanNameUpper, clanR, clanG, clanB)
 		
 		if crResult then
@@ -18969,6 +19110,9 @@ function clanInviteAccept(plr, clan)
 	local invite = clanInviteFind(plr, clan)
 	if fracGrp and (fracGrp == 2) or (fracGrp == 4) or (fracGrp == 5) or (fracGrp == 17) or (fracGrp == 18) then
 	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в гос.фракции.")
+		return
+	elseif fracGrp and (fracGrp == 19) or (fracGrp == 20) or (fracGrp == 21) then
+	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в банде.")
 		return
 	end	
 	
@@ -21008,7 +21152,7 @@ function gangsterStealStartCar(veh, plr)
 		return false
 	end
 	
-	if(getElementData(plr, "usergroup") ~= 10) then
+	if(getElementData(plr, "usergroup") ~= 10 or getElementData(plr, "usergroup") ~= 19 or getElementData(plr, "usergroup") ~= 20 or getElementData(plr, "usergroup") ~= 21 or getElementData(plr, "usergroup") ~= 22) then
 		playerShowMessage(plr, "Взлом автомобилей доступен только бандитам.")
 	
 	elseif not gangsterStealCars[veh] then
@@ -24559,6 +24703,30 @@ function adminCMDacc(plr, nickname)
 			infoStr = infoStr.."нет\r\n"
 		end
 		
+		infoStr = infoStr.."Банда: "
+		dbInfo["gang"] = tonumber(dbInfo["gang"])
+		dbInfo["grank"] = tonumber(dbInfo["grank"])
+		
+		if dbInfo["gang"] ~= 0 then
+			repeat
+				local dbq = dbQuery(db, "SELECT gangs.gleader,gangs.granks,COUNT(users.name) AS pCount FROM gangs JOIN users ON users.gang=gangs.name WHERE gangs.name=?", dbInfo["gang"])
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+			local gId, gName = gangGetGangByHash(dbInfo["gang"])
+			local rName
+			
+			if(tonumber(dbqueryresult[1]["gleader"]) == pHash) then
+				rName = "Лидер"
+			else
+				rName = gangGetgrankName(gId, dbInfo["grank"]).."("..tostring(dbInfo["grank"]).."/"..tostring(dbqueryresult[1]["granks"])..")"
+			end
+			
+			infoStr = infoStr..tostring(gName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
+		else
+			infoStr = infoStr.."нет\r\n"
+		end
+		
 		infoStr = infoStr.."Клан: "
 		dbInfo["clan"] = tonumber(dbInfo["clan"])
 		
@@ -25023,6 +25191,14 @@ function adminCMDunmute(plr, nickname)
 	end
 end
 
+function adminCMDsetgang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 704, { table.concat( {...}, " " ), nickname })
+end
+
+function adminCMDremovegang(plr, nickname, ... )
+    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 705, { table.concat( {...}, " " ), nickname })
+end
+
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
 	for _,curCmd in pairs(adminCmds) do
@@ -25075,6 +25251,8 @@ end
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
 	/unmute [ник] - Снять мут игроку
+	/setgang [ник] [банда] - принять игрока в банду
+	/removegang [ник] - исключить игрока из банды
 ]]
 
 mutedTime = nil
@@ -25654,6 +25832,1009 @@ end
 addEvent("onBuySkin", true)
 addEventHandler("onBuySkin", root, onBuySkin)
 
+------- ФРАКЦИИ БАНД ----------
+
+function gangGetAllGroups()
+	local groups = {}
+	
+	for _,gang in ipairs(gangs) do
+		groups[gang[2]] = true
+	end
+	
+	return groups
+end
+
+function gangInit()
+	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21 )", getRealTime().timestamp-1814400)
+	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
+	
+    crips = createTeam("CRIPS", 1, 81, 136)
+	bloods = createTeam("BLOODS", 167, 0, 0)
+	lkings = createTeam("Latin Kings", 253, 182, 3)
+	ms13 = createTeam("MS-13", 0, 243, 224)
+	
+	local gHash
+	gangs = gangsOrig
+	
+	for i,gInfo in ipairs(gangs) do
+		gHash = getHash(gInfo[1])
+
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT gleader, granks FROM gangs WHERE name = ?", gHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		
+		if(#dbqueryresult < 1) then
+			dbExec(db, "INSERT INTO gangs(name,gleader,granks) VALUES(?,0,3)", gHash)
+			dbqueryresult[1] = {}
+			dbqueryresult[1]["gleader"] = 0
+			dbqueryresult[1]["granks"] = 3
+		end
+		
+		table.insert(gangs[i], dbqueryresult[1]["gleader"])
+		table.insert(gangs[i], dbqueryresult[1]["granks"])
+		table.insert(gangs[i], {})
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT name, grank FROM users WHERE gang = ?", gHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		for _,rec in ipairs(dbqueryresult) do
+			table.insert(gangs[i][5], { rec["name"], rec["grank"] })
+		end		
+	end
+
+	local gbaseHash, baseOwner
+	
+	
+    for i,gbase in ipairs(gangBases) do
+		gbaseHash = gbase[1]
+		
+		repeat
+			local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
+			dbqueryresult = dbPoll(dbq, 30000)
+			dbFree(dbq)
+		until dbqueryresult
+		
+		while(table.getn(dbqueryresult) == 0) do
+			dbExec(db, "INSERT INTO gangBases(id) VALUES(?)", gbaseHash)
+			repeat
+				local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gbaseHash)
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+		end
+		
+		if(dbqueryresult[1]["gang"] == 649732560) then
+		    local r, g, b = getTeamColor(crips)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+		    local r, g, b = getTeamColor(bloods)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+		    local r, g, b = getTeamColor(lkings)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+		    local r, g, b = getTeamColor(ms13)
+			setRadarAreaColor(gbase[10], r, g, b, 150)
+		end
+	end
+end
+
+function gangSetLeader(gId, gLeader)
+	local curGang, pId = gangGetPlayerGang(gLeader)
+	
+	if(curGang == gId) then
+		local gHash = getHash(gangs[gId][1])
+		local gLeaderHash = getHash(getPlayerName(gLeader))
+		
+		if dbExec(db, "UPDATE gangs SET gleader = ? WHERE name = ?", gLeaderHash, gHash) then
+			local curGLeader = gangs[gId][3]
+			addNewEventToLog(curLeader, "Банда - Снят с лидера - "..gangs[gId][1])
+			gangs[gId][3] = gLeaderHash
+			table.remove(gangs[gId][5], pId)
+			
+			if curLeader and(curLeader ~= 0) then
+				local players = getElementsByType("player")
+				table.insert(gangs[gId][5], { curLeader, gangs[gId][4] })
+				
+				for _,curPlr in ipairs(players) do
+					if(getHash(getPlayerName(curPlr)) == curLeader) then
+						setElementData(curPlr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gangs[gId][4]))
+						break
+					end
+				end
+			end
+			
+			setElementData(gLeader, "usergroupname", gangs[gId][1].." - Лидер")
+			addNewEventToLog(gLeaderHash, "Банда - Назначен лидером - "..gangs[gId][1])
+			gangUpdate(gId, true, false)
+			
+			return true
+		end
+	end
+	return false
+end
+
+function gangGetGangByHash(gHash)
+	for gId,gangInfo in ipairs(gangsOrig) do
+		if getHash(gangInfo[1]) == gHash then
+			return gId, gangInfo[1]
+		end
+	end
+	
+	return nil
+end
+
+function gangGetLeader(gId)
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		if(getHash(getPlayerName(plr)) == gangs[gId][3]) then
+			return plr
+		end
+	end
+	
+	return nil
+end
+
+function gangGetGroup(gId)
+	return gangs[gId][2]
+end
+
+function gangGetPlayersOnline(gId)
+	local pHash
+	local gangPlayers = {}
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		pHash = getHash(getPlayerName(plr))
+		
+		if(pHash == gangs[gId][3]) then
+			table.insert(gangPlayers, { getPlayerName(plr), "Лидер" })
+		
+		else
+			for _,pInfo in ipairs(gangs[gId][5]) do
+				if(pHash == pInfo[1]) then
+					table.insert(gangPlayers, { getPlayerName(plr), gangGetRankName(gId, pInfo[2]) })
+					break
+				end
+			end
+		end
+		
+	end
+	
+	return gangPlayers
+end
+
+function gangGetPlayerGang(plr)
+	for gId,gInfo in ipairs(gangs) do
+		if(getHash(getPlayerName(plr)) == gangs[gId][3]) then
+			return gId, 0
+		end
+		
+		for pId,pInfo in ipairs(gInfo[5]) do
+			if(getHash(getPlayerName(plr)) == pInfo[1]) then
+				return gId, pId
+			end
+		end
+		
+	end
+	
+	return nil
+end
+
+function gangSetPlayerGang(plr, gId)
+	local curGang = gangGetPlayerGang(plr)
+    local clan = getPlayerClan(plr)
+	if clan then
+	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете принять игрока в банду. Игрок находится в клане.")
+		return
+	end
+
+	if(not curGang) and(not isPlayerBusy(plr)) then
+		local pHash = getHash(getPlayerName(plr))
+		local gHash = getHash(gangs[gId][1])
+		local setResult = setPlayerNewGroup(plr, gangs[gId][2], true)
+		
+		if(setResult == true) then
+			if dbExec(db, "UPDATE users SET gang=?,grank=1 WHERE name = ?", gHash, pHash) then
+				setElementData(plr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, 1))
+				table.insert(gangs[gId][5], { pHash, 1 })
+				addNewEventToLog(pHash, "Банда - Принят - "..gangs[gId][1])
+				return true
+			end
+			
+			return "ошибка базы данных. Свяжитесь с администрацией, сообщив все подробности ошибки"
+		
+		else
+		
+			return setResult
+		end
+	end
+	
+	return "игрок занят на данный момент или находится в другой банде"
+end
+
+function gangRemovePlayerFromGang(plr)
+	local gId, pId = gangGetPlayerGang(plr)
+	
+	if gId and(not isPlayerBusy(plr)) then
+		local grank = gangs[gId][5][pId][2]
+		
+		if(grank > 0) then
+			local pHash = getHash(getPlayerName(plr))
+			
+			if dbExec(db, "UPDATE users SET gang=0,grank=0 WHERE name = ?", pHash) then
+				table.remove(gangs[gId][5], pId)
+				addNewEventToLog(pHash, "Банда - Исключён - "..gangs[gId][1])
+				gangUpdate(gId, true, false)
+				setPlayerTeam(plr, clanDefault)
+				return true
+			end
+			
+		end
+		
+	end
+	
+	return false
+end
+
+function gangSetPlayerRank(gId, pId, gRank)
+	local pInfo = gangs[gId][5][pId]
+	local curPlayer
+	
+	if not pInfo then
+		return false
+	end
+	
+	local players = getElementsByType("player")
+	
+	for _,plr in ipairs(players) do
+		if(getHash(getPlayerName(plr)) == pInfo[1]) then
+			if isPlayerBusy(plr) then
+				return false
+			else
+				curPlayer = plr
+				setElementData(curPlayer, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gRank))
+				break
+			end
+		end
+	end
+	
+	if(pInfo[2] ~= gRank) then
+		if not dbExec(db, "UPDATE users SET grank = ? WHERE name = ?", gRank, pInfo[1]) then
+			return false
+		end
+		
+		gangs[gId][5][pId][2] = gRank
+	end
+	
+	addNewEventToLog(gangs[gId][5][pId][1], "Банда - Установлен ранг - "..gangs[gId][1]..", Ранг "..gRank)
+	
+	return true
+end
+
+function gangGetPlayerRank(gId, pId)
+	local pInfo = gangs[gId][5][pId]
+	
+	if not pInfo then
+		return nil
+	end
+	
+	return pInfo[2]
+end
+
+function gangSetMaxRank(gId, gRank)
+	local gHash = getHash(gangs[gId][1])
+	
+	if not dbExec(db, "UPDATE gangs SET granks = ? WHERE name = ?", gRank, gHash) then
+		return false
+	end
+	
+	gangs[gId][4] = gRank
+	local gHash = getHash(gangs[gId][1])
+	local players = getElementsByType("player")
+	
+	for pId,pInfo in ipairs(gangs[gId][5]) do
+		if(pInfo[2] > gRank) then
+			dbExec(db, "UPDATE users SET grank = ? WHERE name = ?", gRank, gangs[gId][5][pId][1])
+			gangs[gId][5][pId][2] = gRank
+			
+			for _,plr in ipairs(players) do
+				if(getHash(getPlayerName(plr)) == gangs[gId][5][pId][1]) then
+					setElementData(plr, "usergroupname", gangs[gId][1].." - "..gangGetRankName(gId, gRank))
+					break
+				end
+			end
+			
+		end
+	end
+	
+	return true
+end
+
+function gangSetRankName(gId, gRank, rName)
+	local gHash = getHash(gangs[gId][1])
+	
+	if not dbExec(db, "UPDATE gangRanks SET name = ? WHERE gang = ? AND grank = ?", rName, gHash, gRank) then
+		return false
+	end
+	
+	--local players = getElementsByType("player")
+	
+	for pId,pInfo in ipairs(gangs[gId][5]) do
+		if(pInfo[2] == gRank) then
+			gangSetPlayerRank(gId, pId, gRank)
+		end
+	end
+	
+	return true
+end
+
+function gangGetRankName(gId, gRank)
+	local gHash = getHash(gangs[gId][1])
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT name FROM gangRanks WHERE gang = ? AND grank = ?", gHash, gRank)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if(#dbqueryresult < 1) then
+		local newName = "Ранг "..tostring(gRank)
+		
+		if not dbExec(db, "INSERT INTO gangRanks(gang,grank,name) VALUES(?,?,?)", gHash, gRank, newName) then
+			return nil
+		end
+		
+		dbqueryresult[1] = {}
+		dbqueryresult[1]["name"] = newName
+	end
+	return dbqueryresult[1]["name"]
+end
+
+function gangDoesMemberHaveRight(gId, member, rightName)
+	local mGang, mId = gangGetPlayerGang(member)
+	
+	if(mGang ~= gId) then
+		return false
+	end
+	
+	local mRank
+	
+	if(mId ~= 0) then
+		mRank = gangGetPlayerRank(gId, mId)
+		if not mRank then
+			return false
+		end
+	end
+	
+	local mHash = getHash(getPlayerName(member))
+	
+	if(rightName == "AddRank") or (rightName == "RemoveRank") or (rightName == "RenameRank") then
+		return(gangs[gId][3] == mHash)
+	
+	elseif(rightName == "AddMember") or (rightName == "UpgradeMember") or (rightName == "DowngradeMember") then
+		return((gangs[gId][3] == mHash) or (mRank >=(gangs[gId][4] - 2)))
+	end
+	
+	return false
+end
+
+function gangGetRanks(gId)
+	local gangRanks = {}
+	
+	for i=1,gangs[gId][4] do
+		table.insert(gangRanks, { tostring(i), gangGetRankName(gId, i) })
+	end
+	
+	return gangRanks
+end
+
+function gangUpdate(gId, updatePlayers, updateRanks)
+	local newInfo = {}
+	local players = getElementsByType("player")
+	local members = {}
+	local curgang
+	--if updatePlayers then
+	
+	if true then
+		newInfo[1] = gangGetPlayersOnline(gId)
+	end
+	
+	--if updateRanks then
+	
+	if true then
+		newInfo[2] = gangGetRanks(gId)
+	end
+	
+	for _,plr in ipairs(players) do
+		if getElementData(plr, "spawned") then
+			curgang = gangGetPlayerGang(plr)
+			if(curgang == gId) then
+				table.insert(members, plr)
+			end
+		end
+	end
+	
+	if(#members > 0) then
+		triggerClientEvent(members, "onGangRefreshMenu", resourceRoot, newInfo)
+	end
+end
+
+function gangClientAddMember(curMember, newMember)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		local respect = getElementData(newMember, "respect")
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в фракции.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "AddMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на добавление нового члена банды.")
+			return false
+		end
+		
+		if(not respect) or (respect < gangGroupRPLevels[gangGetGroup(gId)]) then
+			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% отрицательного уважения.")
+			return false
+		end
+		
+		local setResult = gangSetPlayerGang(newMember, gId)
+		
+		if(setResult ~= true) then
+			playerShowMessage(curMember, "Не удалось добавить данного игрока в состав банды. Причина: "..tostring(setResult)..".")
+			return false
+		end
+		
+		playerShowMessage(newMember, "Вы были приняты в банду '"..gangs[gId][1].."' игроком "..getPlayerName(curMember)..".")
+		addNewEventToLog(getPlayerName(curMember), "Банда - Принял - "..gangs[gId][1]..", "..getPlayerName(newMember))
+		gangUpdate(gId, true, true)
+		
+		return true
+	end
+	
+	return false
+end
+
+function gangClientUpgradeMember(curMember, member)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "UpgradeMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри фракции на повышение члена банды.")
+			return false
+		end
+		
+		if(curMember == member) then
+			playerShowMessage(curMember, "Вы не можете повышать сами себя.")
+			return false
+		end
+		
+		local curGang, pId = gangGetPlayerGang(member)
+		
+		if(gId ~= curGang) then
+			playerShowMessage(curMember, "Этого игрока нет в составе вашей банды.")
+			return false
+		end
+		
+		if(pId == 0) then
+			playerShowMessage(curMember, "Вы не можете повысить лидера.")
+			return false
+		end
+		
+		local curRank = gangGetPlayerRank(gId, pId)
+		
+		if(curRank >= gangs[gId][4]) then
+			playerShowMessage(curMember, "Вы не можете повысить члена высшего ранга.")
+			return false
+		else
+			local newRank = math.max(1, curRank+1)
+			
+			if gangSetPlayerRank(gId, pId, newRank) then
+				playerShowMessage(member, "Вы были повышены в банде игроком "..getPlayerName(curMember)..". Ваш новый ранг - "..gangGetRankName(gId, newRank)..".")
+				addNewEventToLog(getPlayerName(curMember), "Бвнда - Повысил - "..gangs[gId][1]..", "..getPlayerName(member))
+				gangUpdate(gId, true, false)
+				return true
+			end
+			
+		end
+	end
+	
+	return false
+end
+
+function gangClientDowngradeMember(curMember, member)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "DowngradeMember") then
+			playerShowMessage(curMember, "У вас нет прав внутри фракции на понижение члена банды.")
+			return false
+		end
+		
+		if(curMember == member) then
+			playerShowMessage(curMember, "Вы не можете понижать сами себя.")
+			return false
+		end
+		
+		local curGang, pId = gangGetPlayerGang(member)
+		
+		if(gId ~= curGang) then
+			playerShowMessage(curMember, "Этого игрока нет в составе вашей банды.")
+			return false
+		end
+		
+		if(pId == 0) then
+			playerShowMessage(curMember, "Вы не можете понизить лидера. Необходимо назначить нового лидера для снятия текущего.")
+			return false
+		end
+		
+		local curRank = gangGetPlayerRank(gId, pId)
+		
+		if(curRank > 1) then
+			local newRank = math.max(1, curRank-1)
+			
+			if gangSetPlayerRank(gId, pId, newRank) then
+				playerShowMessage(member, "Вы были понижены в банде игроком "..getPlayerName(curMember)..". Ваш новый ранг - "..gangGetRankName(gId, newRank)..".")
+				gangUpdate(gId, true, false)
+				addNewEventToLog(getPlayerName(curMember), "Банда - Понизил - "..gangs[gId][1]..", "..getPlayerName(member))
+				return true
+			end
+			
+		else
+			if setPlayerNewGroup(member, groupCommonGet(member), true) then
+				playerShowMessage(member, "Вы были исключены из банды игроком "..getPlayerName(curMember)..".")
+				addNewEventToLog(getPlayerName(curMember), "Банда - Исключил - "..gangs[gId][1]..", "..getPlayerName(member))
+				return true
+			end
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientAddRank(curMember)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "AddRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на добавление ранга.")
+			return false
+		end
+		
+		if(gangs[gId][4] >= 10) then
+			playerShowMessage(curMember, "Внутри банды не может быть более 10 рангов.")
+			return false
+		end
+		
+		if gangSetMaxRank(gId, gangs[gId][4]+1) then
+			gangUpdate(gId, false, true)
+			return true
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientRemoveRank(curMember, delRankId)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "RemoveRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на удаление ранга.")
+			return false
+		end
+		
+		if(gangs[gId][4] <= 1) then
+			playerShowMessage(curMember, "Нельзя удалить единственный ранг.")
+			return false
+		end
+		
+		if(delRankId < gangs[gId][4]) then
+			for i=delRankId,(gangs[gId][4]-1) do
+				gangSetRankName(gId, i, gangGetRankName(gId, i+1))
+			end
+		end
+		
+		for pId,pInfo in ipairs(gangs[gId][5]) do
+			if(pInfo[2] >= delRankId) and(pInfo[2] > 1) then
+				gangSetPlayerRank(gId, pId, pInfo[2]-1)
+			end
+		end
+		
+		if gangSetMaxRank(gId, gangs[gId][4]-1) then
+			gangUpdate(gId, true, true)
+			return true
+		end
+		
+	end
+	
+	return false
+end
+
+function gangClientRenameRank(curMember, renRankId, rankName)
+	if(source == resourceRoot) and(client == curMember) then
+		local gId = gangGetPlayerGang(curMember)
+		
+		if not gId then
+			playerShowMessage(curMember, "Вы не состоите в банде.")
+			return false
+		end
+		
+		if not gangDoesMemberHaveRight(gId, curMember, "RenameRank") then
+			playerShowMessage(curMember, "У вас нет прав внутри банды на переименование ранга.")
+			return false
+		end
+		
+		if gangSetRankName(gId, renRankId, rankName) then
+			gangUpdate(gId, true, true)
+			return true
+		end
+	end
+	
+	return false
+end
+
+gangsOrig = {
+	{ "BLOODS", 19 },
+	{ "CRIPS", 20 },
+	{ "Latin Kings", 21 },
+	{ "MS-13", 22}
+}
+
+gangBases = {}
+gangBaseCaptures = {}
+gangBaseCaptureMinPlr = 5
+gangBaseCaptureTimeSec = 600
+
+--[[счетчик (временно не рабочий, доделать переделать)
+gangBaseKillGang = 0
+gangBaseKillOwnerGang = 0]]
+
+---- требования в банду -------
+
+gangGroupRPLevels = {
+	[19] = -0.07,
+	[20] = -0.07,
+	[21] = -0.07,
+	[22] = -0.07
+}
+
+function gangBaseCaptureProcess(baseId)
+	local capture = gangBaseCaptures[baseId]
+	local area = gangBases[baseId][10]
+	local owner = nil
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if(dbqueryresult[1]["gang"] == 649732560) then
+		owner = getTeamFromName("CRIPS")
+	elseif(dbqueryresult[1]["gang"] == -1012291675) then
+		owner = getTeamFromName("BLOODS")
+	elseif(dbqueryresult[1]["gang"] == 326034535) then
+		owner = getTeamFromName("Latin Kings")
+	elseif(dbqueryresult[1]["gang"] == 2107913640) then
+		owner = getTeamFromName("MS-13")
+	end
+	local posz = gangBases[baseId][4]
+	local gang = capture[1]
+	local gangPlayers = getPlayersInTeam(gang)
+	local ownerPlayers = getPlayersInTeam(owner)
+	local areaPlayers = {}
+	local px, py, pz, veh
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	for _,plr in ipairs(capture[6]) do
+		if isElement(plr) then
+			px, py, pz = getElementPosition(plr)
+			if not (isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 100.0) and(not isPedDead(plr)) and((getPlayerTeam(plr) == gang) or (getPlayerTeam(plr) == owner))) then
+				triggerClientEvent(plr, "onGangBaseCaptureUpdate", resourceRoot, nil)
+			end
+		end
+	end
+	
+	for _,plr in ipairs(gangPlayers) do
+		px, py, pz = getElementPosition(plr)
+		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 100.0) and(not isPedDead(plr)) then
+			table.insert(areaPlayers, plr)
+		end
+	end
+	
+	local capturePlayersCount = table.getn(areaPlayers)
+	
+	if(capturePlayersCount < gangBaseCaptureMinPlr) then
+		if capture[2] then
+			gangBaseCaptures[baseId][2] = false
+			
+			if isTimer(capture[5]) then
+				killTimer(capture[5])
+			end
+			
+			gangBaseCaptures[baseId][5] = setTimer(gangBaseCaptureFinish, 130000, 1, baseId, false)
+			triggerClientEvent(areaPlayers, "onServerMsgAdd", resourceRoot, "Захват территории остановлен из-за недостатка игроков на её территории. Необходимо минимум "..tostring(gangBaseCaptureMinPlr).." игроков. Иначе захват территории будет прекращён через 60 секунд.")
+		end
+	
+	else
+		if not capture[2] then
+			gangBaseCaptures[baseId][2] = true
+			if isTimer(capture[5]) then
+				killTimer(capture[5])
+			end
+			gangBaseCaptures[baseId][5] = nil
+		end
+		gangBaseCaptures[baseId][3] = capture[3]-1
+	end
+	
+	--[[ДОДЕЛАТЬ, СЧЕТЧИКИ
+	if gangPlayers then 
+	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == gangPlayers) then gangBaseCaptures[baseId][7] = capture[7]+1 end end)
+		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][7]+1 })
+    elseif ownerPlayers then 
+	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == ownerPlayers) then gangBaseCaptures[baseId][8] = capture[8]+1 end end)
+		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][8]+1 })
+	end]]
+	
+	for _,plr in ipairs(ownerPlayers) do
+		px, py = getElementPosition(plr)
+		
+		if isInsideRadarArea(area, px, py) and(math.abs(pz-posz) < 30.0) and(not isPedDead(plr)) then
+			table.insert(areaPlayers, plr)
+		end
+		
+	end
+	gangBaseCaptures[baseId][6] = areaPlayers
+	setRadarAreaFlashing(area, true)
+	
+	for _,plr in ipairs(areaPlayers) do
+		veh = getPedOccupiedVehicle(plr)
+		
+		if veh and(getPedOccupiedVehicleSeat(plr) == 0) and(getVehicleType(veh) == "Helicopter") then
+			blowVehicle(veh)
+		end
+		
+	end
+	
+	if(gangBaseCaptures[baseId][3] > 0) then
+		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr, gangBaseKillGang, gangBaseKillOwnerGang })
+	---- СЧЕТЧИКИ
+	--[[elseif(gangBaseCaptures[baseId][7] > 2) then
+		gangBaseCaptureFinish(baseId, true)
+	elseif(gangBaseCapture[baseId][8] > 2 ) then
+	    gangBaseCaptureFinish(baseId, false)
+	elseif(gangBaseCaptures[baseId][3] < 0) then
+	    gangBaseCaptureFinish(baseId, false)]]
+	else
+	    gangBaseCaptureFinish(baseId, true)
+	end
+end
+
+
+function gangBaseCaptureStart(baseId, initiator)
+	local gang = getPlayerTeam(initiator)
+    local owner = nil
+
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			owner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			owner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			owner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			owner = getTeamFromName("MS-13")
+		end
+
+	repeat
+		local dbq = dbQuery(db, "SELECT lastCapture FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	local curTime = getRealTime()
+	local lastCapture = dbqueryresult[1]["lastCapture"]
+	local timeLeft = lastCapture+64800-curTime.timestamp
+	
+	if gang and(not gangBaseCaptures[baseId]) then
+		
+		if(gang == owner) then
+			triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эта территория принадлежит вашей банде.")
+		
+		elseif(timeLeft > 0) then 
+			triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эту территория можно будет захватить только через "..getTimeString(timeLeft*1000, "v")..".")
+		
+		else
+			local gangPlayers = getPlayersInTeam(gang)
+			local ownerPlayers = getPlayersInTeam(owner)
+			local pcount = 0
+			local px, py
+			
+			for _,plr in ipairs(gangPlayers) do
+				px, py = getElementPosition(plr)
+				if isInsideRadarArea(gangBases[baseId][10], px, py) and(not isPedDead(plr)) then
+					pcount = pcount + 1
+				end
+			end
+			
+			if(pcount < gangBaseCaptureMinPlr) then
+				triggerClientEvent(initiator, "onServerMsgAdd", initiator, "На территории находится недостаточное количество игроков(необходимо "..tostring(gangBaseCaptureMinPlr)..").")
+			
+			else
+				gangBaseCaptures[baseId] = { gang, true, gangBaseCaptureTimeSec, setTimer(gangBaseCaptureProcess, 1000, 0, baseId), nil, {}, gangBaseKillGang, gangBaseKillOwnerGang }
+				triggerClientEvent(gangPlayers, "onServerMsgAdd", initiator, "Ваша банда начала захват территории банды '"..getTeamName(owner).."' по инициативе игрока "..getPlayerName(initiator)..".")
+				triggerClientEvent(ownerPlayers, "onServerMsgAdd", initiator, "Одна из ваших территорий подверглась нападению банды '"..getTeamName(gang).."'.")
+
+			end
+			
+		end
+	
+	else
+		triggerClientEvent(initiator, "onServerMsgAdd", initiator, "Эта территория уже захватывается на данный момент.")
+	end
+end
+
+function gangBaseChangeOwner(baseId, newOwner)
+	local oldOwner = nil
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			oldOwner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			oldOwner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			oldOwner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			oldOwner = getTeamFromName("MS-13")
+		end
+	
+	if(oldOwner ~= newOwner) then
+		if newOwner then
+			local r, g, b = getTeamColor(newOwner)
+
+            setRadarAreaFlashing(gangBases[baseId][10], false)
+			setRadarAreaColor(gangBases[baseId][10], r, g, b, 150)
+			dbExec(db, "UPDATE gangBases SET gang=? WHERE id=?", getHash(getTeamName(newOwner)), gangBases[baseId][1])
+		end
+	end
+end
+
+function gangBaseCaptureFinish(baseId, success)
+	local capture = gangBaseCaptures[baseId]
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT gang FROM gangBases WHERE id=?", gangBases[baseId][1])
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if capture then
+		local owner = nil
+		if(dbqueryresult[1]["gang"] == 649732560) then
+			owner = getTeamFromName("CRIPS")
+		elseif(dbqueryresult[1]["gang"] == -1012291675) then
+			owner = getTeamFromName("BLOODS")
+		elseif(dbqueryresult[1]["gang"] == 326034535) then
+			owner = getTeamFromName("Latin Kings")
+		elseif(dbqueryresult[1]["gang"] == 2107913640) then
+			owner = getTeamFromName("MS-13")
+		end
+		local gang = capture[1]
+		local gangPlayers = getPlayersInTeam(gang)
+		local ownerPlayers = getPlayersInTeam(owner)
+		local area = gangBases[baseId][10]
+		local areaPlayers = {}
+		local evtStr = "Банда - Захват территории - ID "..tostring(baseId)
+	
+		
+		for _,plr in ipairs(gangPlayers) do
+			addNewEventToLog(getPlayerName(plr), evtStr, success)
+		end
+		
+		if success then
+			local px, py
+			
+			for _,plr in ipairs(gangPlayers) do
+				px, py, pz = getElementPosition(plr)
+				if isInsideRadarArea(area, px, py) then
+					table.insert(areaPlayers, plr)
+				end
+			end
+			
+            local r,g,b = getTeamColor(gang)
+			gangBaseChangeOwner(baseId, gang)
+			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(gang).."' захватила одну из ваших территорий.")
+			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда захватила территорию банды '"..getTeamName(owner).."'.")
+			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+		
+		else
+			local px, py
+			
+			for _,plr in ipairs(ownerPlayers) do
+				px, py = getElementPosition(plr)
+				if isInsideRadarArea(area, px, py) then
+					table.insert(areaPlayers, plr)
+				end
+			end
+
+			setRadarAreaFlashing(gangBases[baseId][10], false)
+			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
+			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(owner).."' отбила свою территорию.")
+			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+		end
+		
+		if isTimer(capture[4]) then
+			killTimer(capture[4])
+		end
+		
+		if isTimer(capture[5]) then
+			killTimer(capture[5])
+		end
+
+		triggerClientEvent(capture[6], "onGangBaseCaptureUpdate", resourceRoot, nil)
+		local curTime = getRealTime()
+		dbExec(db, "UPDATE gangBases SET lastCapture=? WHERE id=?", curTime.timestamp, gangBases[baseId][1])
+		gangBaseCaptures[baseId] = nil
+	end
+end
+
+function gangBaseIsInCapture(baseId)
+	if gangBaseCaptures[baseId] then
+		return true
+	end
+	
+	return false
+end
 
 
 addEvent("onPlayerCheckIfRegistered", true)
@@ -25684,6 +26865,14 @@ addEvent("onJobEvacuatorNowInVehicle", true)
 addEvent("onJobTruckerLeftVehicle", true)
 addEvent("onJobTruckerNowInVehicle", true)
 addEvent("onJobTruckerTimesup", true)
+
+addEvent("onGangAddMember", true)
+addEvent("onGangUpgradeMember", true)
+addEvent("onGangDowngradeMember", true)
+addEvent("onGangAddRank", true)
+addEvent("onGangRemoveRank", true)
+addEvent("onGangRenameRank", true)
+
 addEvent("onFriendRequestAdd", true)
 addEvent("onFriendDel", true)
 addEvent("onAcceptFriendRequest", true)
@@ -25906,6 +27095,13 @@ addEventHandler("onPlayerModInfo", root, playerModInfo)
 addEventHandler("onPlayerFurnitureAccept", resourceRoot, furnitureAccept, false)
 addEventHandler("onPlayerFurnitureDecline", resourceRoot, furnitureDecline, false)
 addEventHandler("onWeaponDataReceive", resourceRoot, receiveClientWeaponData, false)
+
+addEventHandler("onGangAddMember", resourceRoot, gangClientAddMember, false)
+addEventHandler("onGangUpgradeMember", resourceRoot, gangClientUpgradeMember, false)
+addEventHandler("onGangDowngradeMember", resourceRoot, gangClientDowngradeMember, false)
+addEventHandler("onGangAddRank", resourceRoot, gangClientAddRank, false)
+addEventHandler("onGangRemoveRank", resourceRoot, gangClientRemoveRank, false)
+addEventHandler("onGangRenameRank", resourceRoot, gangClientRenameRank, false)
 --addEventHandler("onPlayerCommand", root, playerCmd)
 
 addCommandHandler("a", chatCmdMessage, true, false) -- Admin command for announcements to global chat

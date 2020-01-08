@@ -53,10 +53,13 @@ playerGroups = {
 	{ "Спецназ", 0, 0, 255 },
 	{ "Администрация", 255, 0, 0 },
 	{ "Продавец", 255, 64, 16 },
-	{ "ФБР", 0, 255, 220 },
-	{ "СМИ", 0, 255, 147}	
+	{ "ФБР", 39, 107, 235 },
+	{ "СМИ", 0, 255, 147},
+	{ "Bloods", 167, 0, 0},	
+	{ "Crips", 1, 81, 136},
+	{ "Latin Kings", 253, 182, 3},
+	{ "MS-13", 0, 243, 224}
 }
-
 
 customDff = { -- { "Имя файла", { ID моделей через запятую } }
 	{ "torus", { 2218 } },
@@ -120,7 +123,19 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	{ "197", { 197 } },
 	{ "274", { 274 } },
 	--{ "196", { 196 } },
-
+	--банды
+	{ "ballas1", { 102 } },
+	{ "ballas2", { 103 } },
+	{ "ballas3", { 104} },
+    { "fam1", { 105 } },
+    { "fam2", { 106 } },
+	{ "fam3", { 107 } },
+	{ "lsv1", { 108 } },
+    { "lsv2", { 109 } },
+	{ "lsv3", { 110 } },
+	{ "sfr1", { 173 } },
+	{ "sfr2", { 174 } },
+	{ "sfr3", { 175 } },
 --[[
 	{ "stt_prop_track_bend_5d", { 2122 } },
 	{ "stt_prop_track_bend_5d_bar", { 2123 } },
@@ -199,6 +214,19 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "furn3", { 1780 } },
 	{ "furn5", { 1990 } },
 	{ "furn6", { 1610 } },
+	--банды
+	{ "ballas1", { 102 } },
+	{ "ballas2", { 103 } },
+	{ "ballas3", { 104} },
+    { "fam1", { 105 } },
+    { "fam2", { 106 } },
+	{ "fam3", { 107 } },
+	{ "lsv1", { 108 } },
+    { "lsv2", { 109 } },
+	{ "lsv3", { 110 } },
+	{ "sfr1", { 173 } },
+	{ "sfr2", { 174 } },
+	{ "sfr3", { 175 } },
 	--{ "mp", { 2617, 2122, 2123, 1683, 1681, 2054, 2064, 2237, 2388, 2402, 2408, 2409, 2953, 2411, 3073, 3097, 3098, 3099, 3107 , 3119, 911, 913, 1366, 1571, 1574, 1630, 1626, 1627, 2038, 2037, 3193, 3927, 3926, 14553, 2669 } },
 	{ "5403", { 1773 } },
 	{ "5708", { 1777 } },
@@ -1170,7 +1198,8 @@ furnitureHeightMult = 0.02
 msgSounds = {
 	["назначил за вашу голову награду"] = "priceonyourhead.wav",
 	["сработала тревога"] = "alarm.wav",
-	["Одна из ваших баз подверглась нападению"] = "alarm.wav"
+	["Одна из ваших баз подверглась нападению"] = "alarm.wav",
+	["Одна из ваших территорий подверглась нападению банды"] = "alarm.wav"
 }
 
 -- Render variables blob
@@ -2927,6 +2956,7 @@ function startIntro()
 	bindKey("pgup", "down", "Move up")
 	bindKey("pgdn", "down", "Move down")
 	fractionInitMenu()
+	gangInitMenu()
 	local newdff, newtxd, newcol, origdff, origtxd, success
 	
 	for i=1,table.getn(customCol) do
@@ -10342,7 +10372,7 @@ skinGangMale = {
 		{1, 125 ,"Male", 11000 },
 		{1, 126 ,"Male", 11100 },
 		{1, 127 ,"Male", 12000 },
-		{1, 173 ,"Male", 4000 },
+		{1, 115 ,"Male", 4000 },
 		{1, 72 ,"Male", 3500 },
 		{1, 249 ,"Male", 40000 },
 		{1, 186 ,"Male", 25000 },
@@ -10478,6 +10508,300 @@ function buy_the_skin()
 	guiSetVisible(window, false)
 	showCursor(false)
 	triggerServerEvent("onBuySkin", root, id, cost)
+end
+
+-- функционал банд --
+
+gangWin = nil
+gangMembersList = nil
+gangMembersColName = nil
+gangMembersColRank = nil
+gangPlayerName = nil
+gangRankList = nil
+gangRankColId = nil
+gangRankColName = nil
+gangRankName = nil
+
+function gangInitMenu()
+	if not gangWin then
+		local wW = 600
+		gangWin = guiCreateWindow(sW/2-wW/2, sH/2-300, wW, 600, "Банда", false)
+		guiWindowSetMovable(gangWin, false)
+		guiWindowSetSizable(gangWin, false)
+		guiSetVisible(gangWin, false)
+		guiCreateLabel(10, 25, wW-20, 20, "Члены банды(онлайн):", false, gangWin)
+		gangMembersList = guiCreateGridList(10, 45, wW-20, 255, false, gangWin)
+		guiGridListSetSortingEnabled(gangMembersList, false)
+		gangMembersColName = guiGridListAddColumn(gangMembersList, "Член", 0.3)
+		gangMembersColRank = guiGridListAddColumn(gangMembersList, "Ранг", 0.55)
+		gangPlayerName = guiCreateEdit(10, 310, wW/4-20, 20, "Имя игрока", false, gangWin)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/4, 310, wW/4-40, 20, "Добавить", false, gangWin), gangAddMember, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2-10, 310, wW/4-20, 20, "Повысить", false, gangWin), gangUpgradeMember, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/4*3-20, 310, wW/4-20, 20, "Понизить", false, gangWin), gangDowngradeMember, false)
+		guiCreateLabel(10, 340, wW/2-15, 20, "Члены банды(онлайн):", false, gangWin)
+		gangRankList = guiCreateGridList(10, 360, wW/2-15, 190, false, gangWin)
+		gangRankColId = guiGridListAddColumn(gangRankList, "#", 0.1)
+		gangRankColName = guiGridListAddColumn(gangRankList, "Ранг", 0.75)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 360, wW/2-15, 20, "Добавить ранг", false, gangWin), gangAddRank, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 385, wW/2-15, 20, "Удалить ранг", false, gangWin), gangRemoveRank, false)
+		gangRankName = guiCreateEdit(wW/2+5, 435, wW/2-15, 20, "Имя ранга", false, gangWin)
+		addEventHandler("onClientGUIClick", guiCreateButton(wW/2+5, 460, wW/2-15, 20, "Переименовать", false, gangWin), gangRenameRank, false)
+		addEventHandler("onClientGUIClick", guiCreateButton(10, 570, wW-20, 20, "Закрыть", false, gangWin), gangBtnClose, false)
+	end
+end
+
+function gangOpenMenu()
+	if gangWin and(not guiGetVisible(gangWin)) then
+		guiSetVisible(gangWin, true)
+		guiSetInputMode("no_binds_when_editing")
+		showCursor(true)
+	end
+end
+
+function gangBtnClose(btn)
+	if(btn == "left") then
+		gangCloseMenu()
+	end
+end
+
+function gangCloseMenu()
+	if gangWin and guiGetVisible(gangWin) then
+		guiSetVisible(gangWin, false)
+		guiSetInputMode("no_binds_when_editing")
+		checkCursor()
+	end
+end
+
+function gangRefreshMenu(newInfo)
+	if gangWin then
+		local row, rowText
+		if newInfo[1] then
+			row = guiGridListGetSelectedItem(gangMembersList)
+			
+			if row and(row >= 0) then
+				rowText = guiGridListGetItemText(gangMembersList, row, gangMembersColName)
+			end
+			
+			guiGridListClear(gangMembersList)
+			
+			for _,memberInfo in ipairs(newInfo[1]) do
+				row = guiGridListAddRow(gangMembersList, memberInfo[1], memberInfo[2])
+				
+				if rowText and(rowText == memberInfo[1]) then
+					guiGridListSetSelectedItem(gangMembersList, row, gangMembersColName)
+				end
+				
+			end
+			
+		end
+		rowText = nil
+		
+		if newInfo[2] then
+			row = guiGridListGetSelectedItem(gangRankList)
+			
+			if row and(row >= 0) then
+				rowText = guiGridListGetItemText(gangRankList, row, gangRankColId)
+			end
+			guiGridListClear(gangRankList)
+			
+			for _,rankInfo in ipairs(newInfo[2]) do
+				row = guiGridListAddRow(gangRankList, rankInfo[1], rankInfo[2])
+				
+				if rowText and(rowText == rankInfo[1]) then
+					guiGridListSetSelectedItem(gangRankList, row, gangRankColId)
+				end
+				
+			end
+			
+		end
+	end
+end
+
+function gangAddMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangAddMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangUpgradeMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangUpgradeMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangDowngradeMember(btn)
+	if(btn == "left") then
+		local pName = guiGetText(gangPlayerName)
+		
+		if(string.len(pName) == 0) then
+			msgAdd("Введите имя игрока.")
+			return false
+		end
+		
+		local plr = getPlayerFromName(pName)
+		
+		if not plr then
+			msgAdd("Игрок с данным никнеймом не найден.")
+			return false
+		end
+		
+		triggerServerEvent("onGangDowngradeMember", resourceRoot, localPlayer, plr)
+	end
+end
+
+function gangAddRank(btn)
+	if(btn == "left") then
+		triggerServerEvent("onGangAddRank", resourceRoot, localPlayer)
+	end
+end
+
+function gangRemoveRank(btn)
+	if(btn == "left") then
+		local row = guiGridListGetSelectedItem(gangRankList)
+		
+		if(not row) or (row < 0) then
+			msgAdd("Выберите ранг для удаления.")
+			return false
+		end
+		
+		local rankId = tonumber(guiGridListGetItemText(gangRankList, row, gangRankColId))
+		
+		if not rankId then
+			return false
+		end
+		
+		triggerServerEvent("onGangRemoveRank", resourceRoot, localPlayer, rankId)
+	end
+end
+
+function gangRenameRank(btn)
+	if(btn == "left") then
+		local row = guiGridListGetSelectedItem(gangRankList)
+		
+		if(not row) or (row < 0) then
+			msgAdd("Выберите ранг для переименования.")
+			return false
+		end
+		
+		local rankId = tonumber(guiGridListGetItemText(gangRankList, row, gangRankColId))
+		
+		if not rankId then
+			return false
+		end
+		
+		local rankName = guiGetText(gangRankName)
+		
+		if(string.len(rankName) == 0) then
+			msgAdd("Введите имя ранга.")
+			return false
+		end
+		
+		triggerServerEvent("onGangRenameRank", resourceRoot, localPlayer, rankId, rankName)
+	end
+end
+
+gangBaseCaptureInfo = nil
+
+function gangBaseCaptureRender()
+	if gangBaseCaptureInfo then
+		captureInProc = gangBaseCaptureInfo[4]
+		
+		if captureInProc then
+			statusColorStr = "#00FF00"
+			statusStr = "#FFFFFFСтатус: #00FF00захват"
+		else
+			statusColorStr = "#FF0000"
+			statusStr = "#FFFFFFСтатус: #FF0000ожидание"
+		end
+		
+		statusW = dxGetTextWidth(statusStr, 1, "default-bold", true)
+		statusH = dxGetFontHeight(1, "default-bold")
+		ownerR, ownerG, ownerB = getTeamColor(gangBaseCaptureInfo[1])
+		clanR, clanG, clanB = getTeamColor(gangBaseCaptureInfo[2])
+		teamsStr = "#"..RGBToHex(ownerR, ownerG, ownerB)..getTeamName(gangBaseCaptureInfo[1]).." #FFFFFFvs. #"..RGBToHex(clanR, clanG, clanB)..getTeamName(gangBaseCaptureInfo[2])
+		teamsW = dxGetTextWidth(teamsStr, 2, "default-bold", true)
+		teamsH = dxGetFontHeight(2, "default-bold")
+		timeVal = "#FFFFFFВремя: "..msecToStringTime(gangBaseCaptureInfo[3])
+		timeW = dxGetTextWidth(timeVal, 1, "default-bold", true)
+		timeH = dxGetFontHeight(1, "default-bold")
+		--[[teamOwnerKillsVal = "#"..RGBToHex(ownerR, ownerG, ownerB)..getTeamName(gangBaseCaptureInfo[1])..": #FFFFFF"..gangBaseCaptureInfo[8]
+		teamOwnerKillsW = dxGetTextWidth(timeVal, 1, "default-bold", true)
+		teamOwnerKillsH = dxGetFontHeight(1, "default-bold")
+		teamGangKillsVal = "#"..RGBToHex(clanR, clanG, clanB)..getTeamName(gangBaseCaptureInfo[2])..": #FFFFFF"..gangBaseCaptureInfo[7]
+		teamGangKillsW = dxGetTextWidth(timeVal, 1, "default-bold", true)
+		teamGangKillsH = dxGetFontHeight(1, "default-bold")]]
+		playersNumStr = "Захватчики: "..statusColorStr..tostring(gangBaseCaptureInfo[5]).."/"..tostring(gangBaseCaptureInfo[6])
+		playersNumW = dxGetTextWidth(playersNumStr, 1, "default-bold", true)
+		playersNumH = dxGetFontHeight(1, "default-bold")
+		--rW = 40+math.max(math.max(math.max(teamsW, statusW), timeW), teamOwnerKillsW, teamGangKillsW, playersNumW)
+		rW = 40+math.max(math.max(math.max(teamsW, statusW), timeW), playersNumW)
+		--rH = 35+teamsH+statusH+timeH+teamOwnerKillsH+teamGangKillsH+playersNumH
+		rH = 25+teamsH+statusH+timeH+playersNumH
+		rX = sW/2-rW/2
+		rY = 10
+		dxDrawRectangle(rX, rY, rW, rH, tocolor(0, 0, 0, 128))
+		dxDrawLine(rX, rY, rX+rW, rY, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX, rY, rX, rY+rH, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX+rW, rY, rX+rW, rY+rH, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX+rW, rY, rX+rW, rY+rH, tocolor(0, 0, 0, 255))
+		dxDrawLine(rX, rY+rH, rX+rW, rY+rH, tocolor(0, 0, 0, 255))
+		rX = rX+10
+		rY = rY+5
+		rW = rX+teamsW
+		rH = rY+teamsH
+		dxDrawText(teamsStr, rX, rY, rW, rH, tocolor(255,255,255,255), 2, "default-bold", "center", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+statusW
+		rH = rY+statusH
+		dxDrawText(statusStr, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+timeW
+		rH = rY+timeH
+		dxDrawText(timeVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		--[[rY = rH+5
+		rW = rX+teamOwnerKillsW
+		rH = rY+teamOwnerKillsH
+		dxDrawText(teamOwnerKillsVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+		rY = rH+5
+		rW = rX+teamGangKillsW
+		rH = rY+teamGangKillsH
+		dxDrawText(teamGangKillsVal, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)]]
+		rY = rH+5
+		rW = rX+playersNumW
+		rH = rY+playersNumH
+		dxDrawText(playersNumStr, rX, rY, rW, rH, tocolor(255,255,255,255), 1, "default-bold", "left", "top", false, false, false, true)
+	end
+end
+
+function gangBaseCaptureUpdate(info)
+	gangBaseCaptureInfo = info
 end
 
 addEvent("onSaNewsShow", true)
@@ -10905,6 +11229,15 @@ addEventHandler("onPlayerFurnitureRemove", resourceRoot, furnitureRemove, false)
 addEventHandler("onMessageBox", resourceRoot, messageBox, false)
 addEventHandler("onWeaponDataSync", resourceRoot, weaponDataSync, false)
 addEventHandler("onSaNewsShow", root, saNewsShow)
+addEvent("onGangOpenMenu", true)
+addEvent("onGangCloseMenu", true)
+addEvent("onGangRefreshMenu", true)
+addEvent("onGangBaseCaptureUpdate", true)
+addEventHandler("onGangOpenMenu", root, gangOpenMenu)
+addEventHandler("onGangCloseMenu", root, gangCloseMenu)
+addEventHandler("onGangRefreshMenu", root, gangRefreshMenu)
+addEventHandler("onClientRender", root, gangBaseCaptureRender)
+addEventHandler("onGangBaseCaptureUpdate", root, gangBaseCaptureUpdate)
 
 setTimer(collectgarbage, 200, 0, "collect")
 
