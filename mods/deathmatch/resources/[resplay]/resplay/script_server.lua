@@ -355,6 +355,7 @@ playerGroupRPLevels = {
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
+	{ -1.0, 1.0 },
 }
 workStartMarkers = {}
 
@@ -26513,7 +26514,7 @@ gangsOrig = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 7
+gangBaseCaptureMinPlr = 5
 gangBaseCaptureTimeSec = 600
 
 --[[счетчик (временно не рабочий, доделать переделать)
@@ -26588,7 +26589,7 @@ function gangBaseCaptureProcess(baseId)
 				killTimer(capture[5])
 			end
 			
-			gangBaseCaptures[baseId][5] = setTimer(gangBaseCaptureFinish, 60000, 1, baseId, false)
+			gangBaseCaptures[baseId][5] = setTimer(gangBaseCaptureFinish, 130000, 1, baseId, false)
 			triggerClientEvent(areaPlayers, "onServerMsgAdd", resourceRoot, "Захват территории остановлен из-за недостатка игроков на её территории. Необходимо минимум "..tostring(gangBaseCaptureMinPlr).." игроков. Иначе захват территории будет прекращён через 60 секунд.")
 		end
 	
