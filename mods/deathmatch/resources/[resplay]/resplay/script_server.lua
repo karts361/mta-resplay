@@ -3822,6 +3822,7 @@ function militaryBasesProcessCoroutine()
 							cityName = getCityNameFromId(i)
 							addNewEventToLog(getPlayerName(playerInZone), "Военная база - Проникновение - "..cityName, true)
 							criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(playerInZone))
+							wantedLevelInc(playerInZone)
 							--triggerClientEvent(playerInZone, "onServerMsgAdd", playerInZone, "Вас объявили в розыск за проникновение на военную базу.")
 						end
 					end
