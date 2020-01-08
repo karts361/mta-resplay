@@ -12923,11 +12923,12 @@ function requestActionsList(aplr)
 		end
 		]]
 		
+		--[[
 		if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
 			table.insert(alist, { 114, availableActions[114], {}, { "PNG 256x256" }, 255, 255, 255 })
 		else
 			table.insert(alist, { 115, availableActions[115], {}, nil, 255, 255, 255 })
-		end
+		end]]
 		
 		if(aplrveh) then
 			if(aplrveh == ownedveh) then
@@ -13643,6 +13644,11 @@ function requestActionsList(aplr)
 		if pAdmin or pModerator or pHelper then
 			table.insert(alist, { 72, availableActions[72], {}, nil, 255, 0, 0 })
 			--table.insert(alist, { 53, availableActions[53], {}, { "Игрок", "Причина" }, 255, 0, 0 })
+			if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
+			    table.insert(alist, { 114, availableActions[114], {}, { "PNG 256x256" }, 255, 0, 0 })
+		    else
+			    table.insert(alist, { 115, availableActions[115], {}, nil, 255, 0, 0 })
+		    end
 			
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
