@@ -10329,9 +10329,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+		--db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -12000,7 +12000,7 @@ function inventoryUseSlot(slotId)
 				if isPlayerBusy(source) then
 					playerShowMessage(source, "Вы должны закончить остальные дела, прежде чем сможете начать ограбление.")
 				
-				elseif(getElementData(source, "usergroup") ~= 10 or getElementData(source, "usergroup") ~= 19 or getElementData(source, "usergroup") ~= 20 or getElementData(source, "usergroup") ~= 21  or getElementData(source, "usergroup") ~= 22) then
+				elseif not(getElementData(source, "usergroup") == 10 or getElementData(source, "usergroup") == 19 or getElementData(source, "usergroup") == 20 or getElementData(source, "usergroup") ~= 21  or getElementData(source, "usergroup") ~= 22) then
 					playerShowMessage(source, "Ограбление доступно только бандитам.")
 				
 				elseif(getElementInterior(source) == 0) and(getElementDimension(source) == 0) then
@@ -12517,6 +12517,8 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	        setPlayerTeam(source, crips)
 	    elseif grp == 21 then
             setPlayerTeam(source, lkings)
+	    elseif grp == 22 then
+            setPlayerTeam(source, ms13)
 	    end
 		
 
@@ -13516,7 +13518,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 55, availableActions[55].." "..getPlayerName(nearbyPlr), { nearbyPlr }, { "Количество" }, 0, 255, 0 })
 		end
 		
-		if clan then
+		if clan and not gId then
 			table.insert(alist, { 85, availableActions[85], {}, nil, 255, 255, 255 })
 			
 			for i,base in ipairs(clanBases) do
@@ -17274,7 +17276,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				evtStr = evtStr.."Убил игрока - "..getPlayerName(source)
 				local ugrp = getElementData(source, "usergroup")
 				
-				if(ugrp ~= 10) or (ugrp ~= 19) or (ugrp ~= 20) or (ugrp ~= 21) or (ugrp ~= 22) then
+				if not(ugrp == 10 or ugrp == 19 or ugrp == 20 or ugrp == 21 or ugrp == 22) then
 					sendPoliceMessage(killer, "убийство")
 					criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(killer))
 					wantedLevelInc(killer)
@@ -21158,7 +21160,7 @@ function gangsterStealStartCar(veh, plr)
 		return false
 	end
 	
-	if(getElementData(plr, "usergroup") ~= 10 or getElementData(plr, "usergroup") ~= 19 or getElementData(plr, "usergroup") ~= 20 or getElementData(plr, "usergroup") ~= 21 or getElementData(plr, "usergroup") ~= 22) then
+	if not(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then
 		playerShowMessage(plr, "Взлом автомобилей доступен только бандитам.")
 	
 	elseif not gangsterStealCars[veh] then
@@ -24271,7 +24273,7 @@ function adminCMDkick(plr, nickname, ...)
 	local kickPlr = findPlayerByNamePattern(nickname)
 	local kickName = getPlayerName(kickPlr)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 53, { nickname, table.concat({...}, " ") })
-	outputChatBox(generateTimeString().."KICK: "..kickName.." кикнут игроком "..getPlayerName(plr).." по причине "..table.concat({...}, " ").. ".", getRootElement(), 255, 0, 0)
+	outputChatBox(generateTimeString().."KICK: "..kickName.." кикнут модератором "..getPlayerName(plr).." по причине "..table.concat({...}, " ").. ".", getRootElement(), 255, 0, 0)
 end
 
 function adminCMDban(plr, nickname, serial, hours, ...)
@@ -25142,7 +25144,7 @@ function adminCMDmute(plr, nickname, secondsText, ...)
 		local muted = getElementData(mutePlr, "muted")
 		
 		if muted and(muted > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "Этому игрок уже замучен и мут будет снят через "..getTimeString(muted*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Этому игроку уже заглушён чат и мут будет снят через "..getTimeString(muted*1000, "r"))
 			return
 		end
 		
@@ -25636,17 +25638,17 @@ setPickupText(markersf, "Установить точку спавна", 255, 255
 setPickupText(markerls, "Установить точку спавна", 255, 255, 0)
 
 function markerCityChangeHitLS(plr)
-	triggerClientEvent("onCityChangeRequestLS", plr)
+	triggerClientEvent(plr, "onCityChangeRequestLS", plr)
 end
 addEventHandler("onMarkerHit", markerls, markerCityChangeHitLS)
 
 function markerCityChangeHitSF(plr)
-	triggerClientEvent("onCityChangeRequestSF", plr)
+	triggerClientEvent(plr, "onCityChangeRequestSF", plr)
 end
 addEventHandler("onMarkerHit", markersf, markerCityChangeHitSF)
 
 function markerCityChangeHitLV(plr)
-	triggerClientEvent("onCityChangeRequestLV", plr)
+	triggerClientEvent(plr, "onCityChangeRequestLV", plr)
 end
 addEventHandler("onMarkerHit", markerlv, markerCityChangeHitLV)
 
@@ -26289,8 +26291,8 @@ function gangClientAddMember(curMember, newMember)
 			return false
 		end
 		
-		if(not respect) or (respect < gangGroupRPLevels[gangGetGroup(gId)]) then
-			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% отрицательного уважения.")
+		if respect and (respect > gangGroupRPLevels[gangGetGroup(gId)]) then
+			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin/100.0)).."% отрицательного уважения.")
 			return false
 		end
 		
