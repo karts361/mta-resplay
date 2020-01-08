@@ -24727,7 +24727,7 @@ function adminCMDacc(plr, nickname)
 			if(tonumber(dbqueryresult[1]["gleader"]) == pHash) then
 				rName = "Лидер"
 			else
-				rName = gangGetgrankName(gId, dbInfo["grank"]).."("..tostring(dbInfo["grank"]).."/"..tostring(dbqueryresult[1]["granks"])..")"
+				rName = gangGetRankName(gId, dbInfo["grank"]).."("..tostring(dbInfo["grank"]).."/"..tostring(dbqueryresult[1]["granks"])..")"
 			end
 			
 			infoStr = infoStr..tostring(gName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
