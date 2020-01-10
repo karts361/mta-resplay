@@ -22380,6 +22380,7 @@ function fractionClientAddMember(curMember, newMember)
 	if(source == resourceRoot) and(client == curMember) then
 		local fId = fractionGetPlayerFraction(curMember)
 		local respect = getElementData(newMember, "respect")
+		local clan = getPlayerClan(newMember)
 		
 		if not fId then
 			playerShowMessage(curMember, "Вы не состоите в фракции.")
@@ -22397,6 +22398,11 @@ function fractionClientAddMember(curMember, newMember)
 		end]]
 		if(not respect) or (respect < fractionGroupRPLevels[fractionGetGroup(fId)]) then
 			playerShowMessage(curMember, "Для приема в эту фракцию у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% положительного уважения.")
+			return false
+		end
+		
+		if clan then
+			playerShowMessage(curMember, "Не удалось принять игрока в банду, игрок находится в клане.")
 			return false
 		end
 		
