@@ -5274,7 +5274,7 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 			
 		end
 		
-		local updateStr = "UPDATE users SET hungry=?, thirst=?, health=?, armor=?"
+		local updateStr = "UPDATE users SET "
 		
 		if procWeapons then
 			syncClientWeaponData(playerValue)
@@ -5344,7 +5344,7 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 			setPedStat(playerValue, 229, biking)
 			setPedStat(playerValue, 169, flying)
 		end
-		updateStr = updateStr..", stamina=?, maxhp=?, driving=?, cycling=?, biking=?, flying=? WHERE name=?"
+		updateStr = updateStr.."hungry=?, thirst=?, health=?, armor=?, stamina=?, maxhp=?, driving=?, cycling=?, biking=?, flying=? WHERE name=?"
 		dbExec(db, updateStr, hungryLevel, thirstLevel, hp, armor, stamina, maxHp, driving, cycling, biking, flying, getHash(getPlayerName(playerValue)))
 		wanted = getPlayerWantedLevel(playerValue)
 		
@@ -11447,7 +11447,7 @@ end
 
 function getPlayerAssigned(plr)
 	if(source == resourceRoot) and(plr == client) then
-		--[[
+		
 		repeat
 			dbq = dbQuery(db, "SELECT serial,assigned FROM users WHERE name=?", getHash(getPlayerName(plr)))
 			dbqueryresult = dbPoll(dbq, 30000)
@@ -11455,12 +11455,13 @@ function getPlayerAssigned(plr)
 		until dbqueryresult
 		local checkPassed = (((dbqueryresult[1]["assigned"] > 0) and(dbqueryresult[1]["serial"] == getPlayerSerial(plr))) or (dbqueryresult[1]["assigned"] <= 0))
 		if checkPassed then
-		]]
+		
 		
 		if true then
 			triggerClientEvent(plr, "onReceiveAssigned", plr, true, not doesPlayerHaveRPName(plr))
 		else
 			kickPlayer(plr, "Аккаунт присоединён к другому устройству")
+		end
 		end
 	end
 end
@@ -12916,14 +12917,14 @@ function requestActionsList(aplr)
 		table.insert(alist, { 27, availableActions[27], {}, { "Ваше обращение" }, 255, 255, 255 })
 		table.insert(alist, { 66, availableActions[66], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 67, availableActions[67], {}, nil, 255, 255, 255 })
-		--[[
+		
 		if(dbuserinfo[1]["customWalk"] == 1) then
 			table.insert(alist, { 79, availableActions[79], {}, nil, 255, 255, 255 })
 		end
 		if(dbuserinfo[1]["customFight"] == 1) then
 			table.insert(alist, { 80, availableActions[80], {}, nil, 255, 255, 255 })
 		end
-		]]
+		
 		
 		--[[
 		if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
@@ -17209,6 +17210,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 	if attacker then
 		local killer
 		
+		
 		if(getElementType(attacker) == "vehicle") then
 			evtStr = evtStr.."Задавлен транспортом - "
 			killer = getVehicleController(attacker)
@@ -17283,6 +17285,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 				end
 				
 				local respect = getElementData(killer, "respect")
+				
 				
 				if(clan and sclan and(clan ~= sclan)) or isPlayerFromPolice(source) then
 					local respect = getElementData(killer, "respect")
@@ -18576,7 +18579,7 @@ function customWalkSelect(plr, animId)
 end
 
 function customFightSelect(plr, animId)
-	if(source == resourceRoot) and(client == plr) then
+	if(source == resourceRoot) and(plr == client) then
 		setPedFightingStyle(plr, animId)
 	end
 end
