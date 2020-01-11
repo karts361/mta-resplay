@@ -1695,13 +1695,11 @@ function customFightMenuInit()
 	guiGridListSetSortingEnabled(customFightList, false)
 	local column = guiGridListAddColumn(customFightList, "Анимации", 0.85)
 	local row
-	
 	for _,anim in ipairs(customFightAnims) do
 		row = guiGridListAddRow(customFightList)
 		guiGridListSetItemText(customFightList, row, column, anim[1], false, false)
 		guiGridListSetItemData(customFightList, row, column, anim[2])
 	end
-	
 	addEventHandler("onClientGUIDoubleClick", customFightList, customFightSelect)
 	local customFightBtnBack = guiCreateButton(25, 225, 300, 35, "Отмена", false, customFightMenu)
 	addEventHandler("onClientGUIClick", customFightBtnBack, customFightMenuClose, false)
@@ -1714,61 +1712,37 @@ function customFightMenuOpen()
 	if not guiGetVisible(customFightMenu) then
 		turnOffMenus()
 		guiSetVisible(customFightMenu, true)
-		addCommandHandler("Select previous", customFightPrev)
-		addCommandHandler("Select next", customFightNext)
-		addCommandHandler("Accept", customFightSelect)
-		addCommandHandler("Decline", customFightMenuClose)
 		showCursor(true)
 	end
 end
 
-function customFightPrev()
-	local row, clmn = guiGridListGetSelectedItem(customFightList)
-	local maxRow = guiGridListGetRowCount(customFightList)
-	row = math.min(maxRow-1, math.max(0, row-1))
-	clmn = math.max(1, clmn)
-	guiGridListSetVerticalScrollPosition(customFightList, math.ceil(row*100.0/maxRow))
-	guiGridListSetSelectedItem(customFightList, row, clmn)
-end
-
-function customFightNext()
-	local row, clmn = guiGridListGetSelectedItem(customFightList)
-	local maxRow = guiGridListGetRowCount(customFightList)
-	row = math.min(maxRow-1, math.max(0, row+1))
-	clmn = math.max(1, clmn)
-	guiGridListSetVerticalScrollPosition(customFightList, math.ceil(row*100.0/maxRow))
-	guiGridListSetSelectedItem(customFightList, row, clmn)
-end
-
 function customFightSelect(button)
-	if(button == "left") or (button == "Accept") then
+	if(button == "left") then
 		local selAnim, selCol = guiGridListGetSelectedItem(customFightList)
-		
-		if(selAnim >= 0) and(selCol >= 0) then
+		if(selAnim >= 0) and (selCol >= 0) then
 			selAnim = guiGridListGetItemData(customFightList, selAnim, selCol)
-			
 			if selAnim then
 				customFightMenuClose()
 				msgAdd("Вы выбрали новую анимацию борьбы.")
-				triggerServerEvent("onPlayerCustomFightSelect", resourceRoot, localPlayer, selAnim)
+				triggerServerEvent("onPlayerCustomFightSelect", localPlayer, selAnim)
 			end
-			
 		end
-		
 	end
 end
 
 function customFightMenuClose()
-	if(button == "left") or (button == "Decline") then
-		if guiGetVisible(customFightMenu) then
-			guiSetVisible(customFightMenu, false)
-			removeCommandHandler("Select previous", customFightPrev)
-			removeCommandHandler("Select next", customFightNext)
-			removeCommandHandler("Accept", customFightSelect)
-			removeCommandHandler("Decline", customFightMenuClose)
-			playSFX("genrl", 53, 0, false)
-			checkCursor()
-		end
+	if guiGetVisible(customFightMenu) then
+		guiSetVisible(customFightMenu, false)
+		playSFX("genrl", 53, 0, false)
+		checkCursor()
+	end
+end
+
+function customFightMenuClose()
+	if guiGetVisible(customFightMenu) then
+		guiSetVisible(customFightMenu, false)
+		playSFX("genrl", 53, 0, false)
+		checkCursor()
 	end
 end
 
@@ -2204,9 +2178,9 @@ function drawGui3DPopups()
 			end
 		end
 	end
+
 	
-	local prev, nxt
-	for _,stop in ipairs(busStops) do
+	--[[for _,stop in ipairs(busStops) do
 		if(isElement(stop[1])) and isElementStreamedIn(stop[1]) then
 			ex, ey, ez = getElementPosition(stop[1])
 			
@@ -2245,7 +2219,7 @@ function drawGui3DPopups()
 			end
 			
 		end
-	end
+	end--]]
 	for i,truck in pairs(jobTruckerAvailableTrucks) do
 		if(not(truck == nil)) and(not truck[3]) and isElementStreamedIn(truck[1]) then
 			ex, ey, ez = getElementPosition(truck[1])
@@ -2497,6 +2471,28 @@ function friendsMenuPrev()
 			guiGridListSetSelectedItem(friendsMenuListRequests, row, clmn)
 		end
 		
+	end
+end
+
+function busesDrawText()
+	local veh, vx, vy, vz, tx, ty, dist
+	local cx, cy, cz = getElementPosition(localCamera)
+	for _,bus in ipairs(buses) do
+		veh = bus[8]
+		vx, vy, vz = getElementPosition(veh)
+		dist = getDistanceBetweenPoints3D(vx, vy, vz, cx, cy, cz)
+		if(dist == 0) then
+			dist = 0.001
+		end
+		if(isElementOnScreen(veh)) and (dist < 40) then
+			if(isLineOfSightClear(vx, vy, vz, cx, cy, cz, true, true, false, false, false, false, false, veh)) then
+				tx, ty = getScreenFromWorldPosition(vx, vy, vz)
+				if(tx) then
+					dxDrawText(string.format("Маршрут №%d", bus[4]), tx, ty, tx, ty, tocolor(255,255,0,255), 1.2, "arial", "center", "center")
+					dxDrawText(string.format("Следующая остановка: %s", bus[7]), tx, ty+12, tx, ty+12, tocolor(255,255,255,255), 1.2, "arial", "center", "center")
+				end
+			end
+		end
 	end
 end
 
@@ -3727,7 +3723,8 @@ function unloadInteriorBots()
 	botObjs = newBotObjs
 end
 
-function processUserData_start(userdata, loadedSlots, curWeather, notUsed1, trainElementsServer, trainRoutesServer, invSlotNum, jobTaxiLocations, botsArray, pickupTexts)
+function processUserData_start(userdata, loadedSlots, curWeather, busStopsForClient, trainElementsServer, trainRoutesServer, invSlotNum, jobTaxiLocations, botsArray, pickupTexts)
+    busStops = busStopsForClient
 	trainElements = trainElementsServer
 	trainRoutes = trainRoutesServer
 	inventorySlotsNum = invSlotNum
@@ -3787,6 +3784,7 @@ function processUserData_start(userdata, loadedSlots, curWeather, notUsed1, trai
 	setWeather(curWeather)
 	curRespect = userdata["respect"]
 	addEventHandler("onClientRender", root, drawRespect, false)
+	addEventHandler("onClientRender", root, busesDrawText, false)
 	addEventHandler("onClientRender", root, taxiCarsRender, false)
 	inventoryInit(loadedSlots)
 	setTimer(function()
@@ -3799,6 +3797,7 @@ function processUserData_start(userdata, loadedSlots, curWeather, notUsed1, trai
 				addEventHandler("onClientRender", root, heaverDraw, false)
 				addEventHandler("onClientRender", root, drawGui3DPopups, false)
 				addEventHandler("onClientPreRender", root, misPassedGuiDraw, false)
+				addEventHandler("onTrainSync", root, trainMove)
 				msgAdd("Добро пожаловать на сервер. Приятной игры!")
 				--addEventHandler("onClientKey", root, actionsKeyPressed)
 				--addEventHandler("onClientKey", root, friendsMenuKeyPressed)
@@ -7718,6 +7717,37 @@ function reportShow(reportText)
 	playSound("audio/message.wav")
 end
 
+function trainMove(trainData, trainId)
+	trainElements[trainId] = trainData
+	local targetPoint, trainRoute, trainSpeed, curSpeed
+	for trainId=1,table.getn(trainElements) do
+		trainRoute = trainRoutes[trainElements[trainId][3]]
+		targetPoint = trainRoute[trainElements[trainId][4]]
+		if(trainElements[trainId][5] > 0) then
+			setTrainSpeed(trainElements[trainId][1], 0)
+			setPedAnalogControlState(trainElements[trainId][2], "accelerate", 0)
+			setPedAnalogControlState(trainElements[trainId][2], "brake_reverse", 0)
+		else
+			if targetPoint[5] then
+				trainSpeed = trainSpeedSlow
+			else
+				trainSpeed = trainSpeedFast
+			end
+			curSpeed = getTrainSpeed(trainElements[trainId][1])
+			if(curSpeed > (trainSpeed+0.05)) then
+				setPedAnalogControlState(trainElements[trainId][2], "accelerate", 0)
+				setPedAnalogControlState(trainElements[trainId][2], "brake_reverse", 1)
+			elseif(curSpeed < (trainSpeed-0.05)) then
+				setPedAnalogControlState(trainElements[trainId][2], "accelerate", 1)
+				setPedAnalogControlState(trainElements[trainId][2], "brake_reverse", 0)
+			else
+				setPedAnalogControlState(trainElements[trainId][2], "accelerate", 0)
+				setPedAnalogControlState(trainElements[trainId][2], "brake_reverse", 0)
+			end
+		end
+	end
+end
+
 function vehicleDamage(theAttacker, theWeapon, loss, damagePosX, damagePosY, damagePosZ, tyreID)
 	local broken = getElementData(source, "broken")
 	
@@ -10848,7 +10878,7 @@ addEvent("onFriendsLoad", true)
 addEvent("onCarSellUpdate", true)
 addEvent("onJobTruckerUpdate", true)
 addEvent("onServerSetControlState", true)
---addEvent("onBusesUpdate", true)
+addEvent("onBusesUpdate", true)
 addEvent("onServerCreateEffect", true)
 addEvent("onServerDestroyAttachedEffects", true)
 addEvent("onLuckyPhoneRing", true)
@@ -11037,9 +11067,9 @@ addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate)
 addEventHandler("onServerSetControlState", root, function(scontrol, sstate)
 													setPedAnalogControlState(source, scontrol, sstate)
 												 end)
---addEventHandler("onBusesUpdate", root, function(newtbl)
---										buses = newtbl
---									   end)
+addEventHandler("onBusesUpdate", root, function(newtbl)
+										buses = newtbl
+									   end)
 addEventHandler("onClientPreRender", root,
 	function()
 		for fx, info in pairs(attachedEffects) do
