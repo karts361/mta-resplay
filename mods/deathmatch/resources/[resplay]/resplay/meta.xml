@@ -150,8 +150,6 @@
 	<file src="images/tutorial10.png" download="true"/>
 	<file src="images/tutorial11.png" download="true"/>
 	<file src="images/tutorial12.png" download="true"/>
-	<file src="images/tutorial_news.png" download="true"/>
-	<file src="images/tutorial_fbi.png" download="true"/>
 	<file src="images/stats.dds" download="true"/>
 
       <file src="imgres/torus.dff" download="true"/>
@@ -422,7 +420,7 @@
 	<file src="imgres/fam2.dff" download="true" />
 	<file src="imgres/fam2.txd" download="true" />
 	<file src="imgres/fam3.dff" download="true" />
-	<file src="imgres/fam3.dff" download="true" />
+	<file src="imgres/fam3.txd" download="true" />
 	<file src="imgres/lsv1.txd" download="true" />
 	<file src="imgres/lsv1.dff" download="true" />
 	<file src="imgres/lsv2.dff" download="true" />
