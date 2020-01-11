@@ -1738,6 +1738,14 @@ function customFightMenuClose()
 	end
 end
 
+function customFightMenuClose()
+	if guiGetVisible(customFightMenu) then
+		guiSetVisible(customFightMenu, false)
+		playSFX("genrl", 53, 0, false)
+		checkCursor()
+	end
+end
+
 function customWalkMenuInit()
 	customWalkMenu = guiCreateWindow(sW/2-175, sH/2-135, 350, 270, "Выберите анимацию ходьбы", false)
 	customWalkList = guiCreateGridList(10, 20, 330, 195, false, customWalkMenu)
@@ -2170,9 +2178,9 @@ function drawGui3DPopups()
 			end
 		end
 	end
+
 	
-	local prev, nxt
-	for _,stop in ipairs(busStops) do
+	--[[for _,stop in ipairs(busStops) do
 		if(isElement(stop[1])) and isElementStreamedIn(stop[1]) then
 			ex, ey, ez = getElementPosition(stop[1])
 			
@@ -2211,7 +2219,7 @@ function drawGui3DPopups()
 			end
 			
 		end
-	end
+	end--]]
 	for i,truck in pairs(jobTruckerAvailableTrucks) do
 		if(not(truck == nil)) and(not truck[3]) and isElementStreamedIn(truck[1]) then
 			ex, ey, ez = getElementPosition(truck[1])
@@ -3715,7 +3723,7 @@ function unloadInteriorBots()
 	botObjs = newBotObjs
 end
 
-function processUserData_start(userdata, loadedSlots, curWeather, notUsed1, busStopsForClient, trainElementsServer, trainRoutesServer, invSlotNum, jobTaxiLocations, botsArray, pickupTexts)
+function processUserData_start(userdata, loadedSlots, curWeather, busStopsForClient, trainElementsServer, trainRoutesServer, invSlotNum, jobTaxiLocations, botsArray, pickupTexts)
     busStops = busStopsForClient
 	trainElements = trainElementsServer
 	trainRoutes = trainRoutesServer
@@ -3776,6 +3784,7 @@ function processUserData_start(userdata, loadedSlots, curWeather, notUsed1, busS
 	setWeather(curWeather)
 	curRespect = userdata["respect"]
 	addEventHandler("onClientRender", root, drawRespect, false)
+	addEventHandler("onClientRender", root, busesDrawText, false)
 	addEventHandler("onClientRender", root, taxiCarsRender, false)
 	inventoryInit(loadedSlots)
 	setTimer(function()

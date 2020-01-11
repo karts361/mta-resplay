@@ -12216,9 +12216,9 @@ function resourceStart(startedResource)
 	setTimer(carSellProcess, 1000, 0)
 	setTime(6, 0)
 	setTimer(jobProcess, 500, 0)
-	--setTimer(function()
-	--			triggerClientEvent(getElementsByType("player"), "onBusesUpdate", resourceRoot, busesCars)
-	--		 end, 1000, 0)
+	setTimer(function()
+				triggerClientEvent(getElementsByType("player"), "onBusesUpdate", resourceRoot, busesCars)
+			 end, 1000, 0)
 	
 	for i,station in ipairs(fuelStations) do
 		fuelStations[i][4] = createMarker(station[1], station[2], station[3], "cylinder", 4, 0, 0, 255, 128)
@@ -20325,6 +20325,7 @@ function customFightSelect(plr, animId)
 		setPedFightingStyle(plr, animId)
 	end
 end
+
 
 function setRandomThinkBubble()
 	local plr = getRandomPlayer(plr)
