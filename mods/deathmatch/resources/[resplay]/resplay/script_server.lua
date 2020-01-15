@@ -18438,7 +18438,9 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			playerShowMessage(gangster, "Вы получили уровень розыска "..tostring(wantedLvl).." от игрока "..getPlayerName(policeman)..reasonText)
 			attachActionToElement(defaultActions[134], gangster)
 			attachActionToElement(defaultActions[116], gangster)
-		
+		    if not isAdmin(policeman) or isModerator(policeman) then
+		        triggerEvent("onPlayerChat", policeman, "Объявил в розыск "..getPlayerName(gangster)..reasonText, 2)
+			end
 		else
 			eventNameGangster = "Очистка"
 			eventNamePolice = "Снятие"
@@ -18446,6 +18448,9 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			playerShowMessage(gangster, "С вас был снят уровень розыска игроком "..getPlayerName(policeman)..reasonText)
 			detachActionFromElement(defaultActions[134], gangster)
 			detachActionFromElement(defaultActions[116], gangster)
+		    if not isAdmin(policeman) or isModerator(policeman) then
+		        triggerEvent("onPlayerChat", policeman, "Прекратил розыск игрока "..getPlayerName(gangster)..reasonText, 2)
+			end
 		end
 		
 		addNewEventToLog(getPlayerName(gangster), "Уровень розыска - "..eventNameGangster.." - "..tostring(wantedLvl).." от "..getPlayerName(policeman).."("..reason..")", true)
@@ -24148,7 +24153,7 @@ function fractionClientAddMember(curMember, newMember)
 		end
 		
 		if clan then
-			playerShowMessage(curMember, "Не удалось принять игрока в банду, игрок находится в клане.")
+			playerShowMessage(curMember, "Не удалось принять игрока во фракцию, игрок находится в клане.")
 			return false
 		end
 		
