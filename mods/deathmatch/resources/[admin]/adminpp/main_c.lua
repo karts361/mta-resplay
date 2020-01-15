@@ -92,7 +92,9 @@ addEventHandler("onClientResourceStart", resourceRoot,
 		
         adminGrid[1] = guiCreateGridList(4, 32, 172, 523, false, adminTab[1])
 		adminColumn[1] = guiGridListAddColumn(adminGrid[1], "Игроки", 0.9)
-        adminButton[1] = guiCreateButton(460, 32, 142, 31, "Инструменты", false, adminTab[1])
+        --adminButton[1] = guiCreateButton(460, 32, 142, 31, "Инструменты", false, adminTab[1])
+		adminButton[1] = guiCreateButton(532, 278, 70, 31, "Время", false, adminTab[1])
+		adminButton[20] = guiCreateButton(532, 238, 70, 31, "Погода", false, adminTab[1])
         adminButton[2] = guiCreateButton(460, 67, 142, 31, "Варп к...", false, adminTab[1])
         adminButton[3] = guiCreateButton(460, 102, 142, 31, "Варп игрока к..", false, adminTab[1])
         adminButton[4] = guiCreateButton(460, 137, 70, 31, "Заморозить", false, adminTab[1])
@@ -295,8 +297,8 @@ addEventHandler("onClientGUIClick", getRootElement(),
 function ()
 	if (source == adminButton[1]) then
 		-- opens punishment window
-		guiSetVisible(adminWindow[4], true)
-		guiBringToFront(adminWindow[4])		
+		--[[guiSetVisible(adminWindow[4], true)
+		guiBringToFront(adminWindow[4])]]
 	elseif (source == adminButton[2]) then
 		-- To warp to selected player
 		warpToPlayer()
