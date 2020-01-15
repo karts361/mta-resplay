@@ -1,6 +1,6 @@
 <commands>
 	<command name="ahelp" level="1" description="/ahelp - Помощь для администрации"/>
-	<command name="kick" level="1" description="/kick [часть ника] [причина] - Кикнуть игрока"/>
+	<command name="kick" level="1" description="/kick [ID] [причина] - Кикнуть игрока"/>
 	<command name="ban" level="2" description="/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока"/>
 	<command name="banip" level="2" description="/banip [IP] [часы] [причина] - Забанить игрока по IP"/>
 	<command name="banaccount" level="2" description="/banaccount [ник аккаунта] [часы] [причина] - Забанить аккаунт"/>
@@ -8,14 +8,14 @@
 	<command name="unbanip" level="2" description="/unbanip [IP] - Разбанить игрока по IP"/>
 	<command name="unbanaccount" level="2" description="/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока"/>
 	<command name="slap" level="1" description="/slap [часть ника] - Пнуть игрока"/>
-	<command name="warp" level="2" description="/warp [часть ника] - Переместить игрока к себе"/>
-	<command name="warpto" level="2" description="/warpto [часть ника] - Переместиться к игроку"/>
+	<command name="warp" level="2" description="/warp [ID] - Переместить игрока к себе"/>
+	<command name="warpto" level="2" description="/warpto [ID] - Переместиться к игроку"/>
 	<command name="jail" level="2" description="/jail [часть ника] [секунды] [причина] - Посадить игрока"/>
 	<command name="acc" level="1" description="/acc [ник полностью] - Вывести информацию по аккаунту в консоль"/>
 	<command name="respect" level="3" description="/respect [ник полностью] [проценты] - Установить уважение игроку"/>
 	<command name="reports" level="1" description="/reports - Жалобы"/>
 	<command name="questions" level="1" description="/questions - Вопросы"/>
-	<command name="spec" level="1" description="/spec [часть ника] - Наблюдать за игроком"/>
+	<command name="spec" level="1" description="/spec [ID] - Наблюдать за игроком"/>
 	<command name="specoff" level="1" description="/specoff - Выйти из наблюдения"/>
 	<command name="setleader" level="2" description="/setleader [ник полностью] [фракция] - Назначить лидера фракции"/>
 	<command name="sethelper" level="2" description="/sethelper [ник полностью] - Назначить хелпера"/>
@@ -38,4 +38,7 @@
 	<command name="setgang" level="2" description="/setgang [ник] [название банды] - принять игрока в банду"/>
 	<command name="removegang" level="2" description="/removegang [ник] - исключить игрока из банды"/>
 	<command name="setgender" level="3" description="/setgender [ник] [пол] изменить пол игроку 1 - мужчина 2 - женчина"/>	
+	<command name="setpassword" level="4" description="/setpassword [пароль] - Установить пароль для входа на сервер"/>	
+	<command name="removepassword" level="4" description="/removepassword - снять пароль для входа на сервер"/>	
+	<command name="kickall" level="4" description="/kickall [причина] - кикнуть всех игроков с сервера"/>	
 </commands>
