@@ -131,20 +131,14 @@
         <right name="command.start" access="true"></right>
         <right name="command.restart" access="true"></right>
         <right name="command.refresh" access="true"></right>
+        <right name="command.debugsript" access="true"></right>
+        <right name="command.openports" access="true"></right>
+
     </acl>
     <acl name="Admin">
         <right name="command.authserial" access="true"></right>
         <right name="command.chgpass" access="true"></right>
         <right name="command.delaccount" access="true"></right>
-        <right name="command.debugscript" access="true"></right>
-        <right name="command.upgrade" access="true"></right>
-        <right name="command.start" access="true"></right>
-        <right name="command.stop" access="true"></right>
-        <right name="command.restart" access="true"></right>
-        <right name="command.refresh" access="true"></right>
-        <right name="command.refreshall" access="true"></right>
-        <right name="command.aclrequest" access="true"></right>
-        <right name="command.reloadacl" access="true"></right>
     </acl>
     <acl name="RPC">
         <right name="function.callRemote" access="true"></right>
