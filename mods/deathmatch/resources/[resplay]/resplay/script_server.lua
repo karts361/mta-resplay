@@ -18439,7 +18439,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			attachActionToElement(defaultActions[134], gangster)
 			attachActionToElement(defaultActions[116], gangster)
 		    if not isAdmin(policeman) or isModerator(policeman) then
-		        triggerEvent("onPlayerChat", policeman, "Объявил в розыск "..getPlayerName(gangster)..reasonText, 2)
+		        triggerEvent("onPlayerChat", policeman, "Объявил в розыск "..getPlayerName(gangster).."["..getPlayerID(gangster).."]"..reasonText, 2)
 			end
 		else
 			eventNameGangster = "Очистка"
@@ -18449,7 +18449,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			detachActionFromElement(defaultActions[134], gangster)
 			detachActionFromElement(defaultActions[116], gangster)
 		    if not isAdmin(policeman) or isModerator(policeman) then
-		        triggerEvent("onPlayerChat", policeman, "Прекратил розыск игрока "..getPlayerName(gangster)..reasonText, 2)
+		        triggerEvent("onPlayerChat", policeman, "Прекратил розыск "..getPlayerName(gangster).."["..getPlayerID(gangster).."]"..reasonText, 2)
 			end
 		end
 		
