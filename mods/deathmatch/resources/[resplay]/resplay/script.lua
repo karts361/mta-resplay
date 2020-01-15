@@ -6482,16 +6482,14 @@ function drawNicknames()
 							end
 							
 							dxDrawText(grpstr, x-2*scaleWanted, y-17*scaleWanted, x-2*scaleWanted, y-17*scaleWanted, tocolor(0,0,0,128), 0.5*scaleWanted, "bankgothic", "center", "center")
-							--dxDrawText(playerid, x-2*scaleWanted, y-10*scaleWanted, x+30*scaleWanted, y-10*scaleWanted, tocolor(0,0,0,128), 0.5*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname, x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname.."("..playerid..")", x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x-2*scaleWanted, y+8*scaleWanted, x-2*scaleWanted, y+8*scaleWanted, tocolor(0,0,0,128), 0.4*scaleWanted, "bankgothic", "center", "center")
 							end
 							
 							dxDrawText(grpstr, x, y-15*scaleWanted, x, y-15*scaleWanted, tocolor(grpr,grpg,grpb,255), 0.5*scaleWanted, "bankgothic", "center", "center")
-							--dxDrawText(playerid, x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname, x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname.."("..playerid..")", x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x, y+10*scaleWanted, x, y+10*scaleWanted, tocolor(64,255,64,255), 0.4*scaleWanted, "bankgothic", "center", "center")
