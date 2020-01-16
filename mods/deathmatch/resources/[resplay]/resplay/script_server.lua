@@ -27529,7 +27529,7 @@ function enterVehicleRank(plr, seat)
     local grp = getElementData(plr, "usergroup")
 	local pHash = getHash(getPlayerName(plr))
 	local vehModel = getElementModel(source)
-	local fId = fractionGetPlayerFraction(plr)
+	local eId = specialEventGetEventByElement(source)
 
 	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 then
 	    local eventCancelled = false
@@ -27542,6 +27542,12 @@ function enterVehicleRank(plr, seat)
 
         if rankVehicles[vehModel] then
 		    eventCancelled = true
+			
+			if isAdmin(plr) or isModerator(plr) then
+			    eventCancelled = false
+			elseif eId then
+			    eventCancelled = false
+			end
 				
 			    for _,rnkVeh in ipairs(rankVehicles[vehModel]) do
 				    if(rnkVeh < dbqueryresult[1]["rank"]) then
