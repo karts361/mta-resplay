@@ -26980,8 +26980,6 @@ end
 
 function adminCMDsetpassword(plr, password)
     local success = setServerPassword(password)
-    setServerPassword(password)
-	triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы установили пароль на сервер "..password)
 	if success then
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы установили пароль для входа на сервер: "..password)
     else
