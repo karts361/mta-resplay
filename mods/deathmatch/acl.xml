@@ -137,7 +137,7 @@
         <right name="command.start" access="true"></right>
         <right name="command.restart" access="true"></right>
         <right name="command.refresh" access="true"></right>
-        <right name="command.debugsript" access="true"></right>
+        <right name="command.debugscript" access="true"></right>
         <right name="command.openports" access="true"></right>
 
     </acl>
