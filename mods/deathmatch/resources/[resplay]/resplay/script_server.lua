@@ -6102,6 +6102,19 @@ function isHelper(plr)
 end]]
 
 --В логин в админку через /login
+function isDeveloper(plr)
+	if not isGuestAccount(getPlayerAccount(plr)) then
+		local accountname = "user."..getAccountName(getPlayerAccount(plr))
+		--local accountname = "user."..getPlayerName(plr)
+		
+		if isObjectInACLGroup(accountname, aclGetGroup("Console")) then
+			return true
+		end
+		
+	end
+	return false
+end
+
 function isAdmin(plr)
 	if not isGuestAccount(getPlayerAccount(plr)) then
 		local accountname = "user."..getAccountName(getPlayerAccount(plr))
@@ -15402,6 +15415,8 @@ function requestActionsList(aplr)
 				--[[table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
 				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })]]
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
+				table.insert(alist, { 706, "Модерация - Изменить время", {}, { "Часов", "Минут" }, 255, 0, 0 })
+				table.insert(alist, { 707, "Модерация - Изменить погоду", {}, { "ID погоды" }, 255, 0, 0 })
 				table.insert(alist, { 83, "Модерация - Cоздать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
@@ -16357,7 +16372,7 @@ function executeAction(aplr, actionId, params)
 			jobTaxiOrder(aplr, params[1])
 		
 		elseif(actionId == 53) then
-			local kickedPlr = findPlayerByNamePattern(params[1])
+			local kickedPlr = getPlayerFromID(params[1])
 			
 			if isElement(kickedPlr) then
 				kickPlayer(kickedPlr, aplr, params[2])
@@ -18163,6 +18178,28 @@ function executeAction(aplr, actionId, params)
 			end
 			if not pFound then
 				playerShowMessage(aplr, "Не удалось исключить игрока. Игрок с таким никнеймом отсутствует на сервере.")
+			end
+			
+		elseif(actionId == 706) then
+			local hour = tonumber(params[1])
+			local minute = tonumber(params[2])
+			
+			if(not((hour == nil) or (minute == nil))) then
+                setTime(hour, minute)
+				local notifyMessage = string.format(generateTimeString().."Время изменено на %02d:%02d!", hour, minute)
+				outputChatBox(notifyMessage)
+			else
+				outputChatBox(errorStr_incorrectParams, aplr)
+			end
+        
+		elseif(actionId == 707) then
+		    local weatherId = tonumber(params[1])
+			
+			if(not((weatherId == nil))) then
+			    setWeather(weatherId)
+				outputChatBox(generateTimeString().."Погода изменена")
+			else
+			    outputChatBox(errorStr_incorrectParams, aplr)
 			end
 
 		-- Клиентские действия(с 10001)
@@ -26020,16 +26057,17 @@ function adminCmd(plr, cmd, ...)
 	if plr and adminCmdInfo then
 		if((adminCmdInfo["level"] == "1") and(isAdmin(plr) or isModerator(plr) or isHelper(plr)))
 		or((adminCmdInfo["level"] == "2") and(isAdmin(plr) or isModerator(plr)))
-		or((adminCmdInfo["level"] == "3") and isAdmin(plr)) then
+		or((adminCmdInfo["level"] == "3") and isAdmin(plr))
+		or((adminCmdInfo["level"] == "4") and isDeveloper(plr)) then
 			loadstring("return adminCMD"..cmd)()(plr, unpack({...}))
 		end
 	end
 end
 
-function adminCMDkick(plr, nickname, ...)
-	local kickPlr = findPlayerByNamePattern(nickname)
+function adminCMDkick(plr, id, ...)
+	local kickPlr = getPlayerFromID(id)
 	local kickName = getPlayerName(kickPlr)
-	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 53, { nickname, table.concat({...}, " ") })
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 53, { id, table.concat({...}, " ") })
 	outputChatBox(generateTimeString().."KICK: "..kickName.." кикнут модератором "..getPlayerName(plr).." по причине "..table.concat({...}, " ").. ".", getRootElement(), 255, 0, 0)
 end
 
@@ -26152,8 +26190,8 @@ function adminCMDremovemoney(plr, nickname, newMoney)
 	end
 end
 
-function adminCMDwarpto(plr, nickname)
-	local warpPlr = findPlayerByNamePattern(nickname)
+function adminCMDwarpto(plr, id)
+	local warpPlr = getPlayerFromID(id)
 	
 	if isElement(warpPlr) then
 		local wint = getElementInterior(warpPlr)
@@ -26191,8 +26229,8 @@ function adminCMDwarpto(plr, nickname)
 	end
 end
 
-function adminCMDwarp(plr, nickname)
-	local warpedPlr = findPlayerByNamePattern(nickname)
+function adminCMDwarp(plr, id)
+	local warpedPlr = getPlayerFromID(id)
 	
 	if isElement(warpedPlr) then
 		local wint = getElementInterior(warpedPlr)
@@ -26578,11 +26616,11 @@ function adminCMDrespect(plr, nickname, newRespect)
 	end
 end
 
-function adminCMDspec(plr, nickname)
-	local specPlr = findPlayerByNamePattern(nickname)
+function adminCMDspec(plr, id)
+	local specPlr = getPlayerFromID(id)
 	
 	if not isElement(specPlr) then
-		if nickname then
+		if id then
 			triggerClientEvent(plr, "onServerMsgAdd", plr, specPlr)
 			return
 		
@@ -26964,6 +27002,32 @@ function adminCMDremovegang(plr, nickname, ... )
     triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 705, { table.concat( {...}, " " ), nickname })
 end
 
+function adminCMDsetpassword(plr, password)
+    local success = setServerPassword(password)
+	if success then
+        triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы установили пароль для входа на сервер: "..password)
+    else
+        triggerClientEvent(plr, "onServerMsgAdd", plr, "Не удалось установить пароль для входа на сервер")
+    end
+end
+
+function adminCMDremovepassword(plr)
+    local success = setServerPassword( nil )
+    if success then
+        triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сбросили пароль для входа на сервер")
+    else
+        triggerClientEvent(plr, "onServerMsgAdd", plr, "Не удалось сбросить пароль для входа на сервер")
+    end
+end
+
+function adminCMDkickall(plr, ...) 
+    text = table.concat({...}, " ") 
+    for _, player in ipairs (getElementsByType("player")) do 
+       kickPlayer(player, plr, text) 
+	   triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы кикнули всех игроков с сервера")
+    end 
+end 
+
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
 	for _,curCmd in pairs(adminCmds) do
@@ -26972,7 +27036,9 @@ function adminCMDahelp(plr)
 			
 			or((curCmd["level"] == "2") and(isAdmin(plr) or isModerator(plr)))
 			
-			or((curCmd["level"] == "3") and isAdmin(plr)) then
+			or((curCmd["level"] == "3") and isAdmin(plr))
+			
+			or((curCmd["level"] == "4") and isDeveloper(plr)) then
 				outputConsole("  "..curCmd["description"], plr)
 			end
 		end
@@ -26980,7 +27046,7 @@ function adminCMDahelp(plr)
 end
 
 --[[ ADMIN COMMANDS ( Админские комманды )
-	/kick [часть ника] [причина] - Кикнуть игрока
+	/kick [ID] [причина] - Кикнуть игрока
 	/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока
 	/banip [IP] [часы] [причина] - Забанить игрока по IP
 	/banaccount [ник аккаунта] [часы] [причина] - Забанить аккаунт
@@ -26988,14 +27054,14 @@ end
 	/unbanip [IP] - Разбанить игрока по IP
 	/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока
 	/slap [часть ника] - Пнуть игрока
-	/warp [часть ника] - Переместить игрока к себе
-	/warpto [часть ника] - Переместиться к игроку
+	/warp [ID] - Переместить игрока к себе
+	/warpto [ID] - Переместиться к игроку
 	/jail [часть ника] [секунды] [причина] - Посадить игрока
 	/acc [ник полностью] - Вывести информацию по аккаунту в консоль
 	/respect [ник полностью] [проценты] - Установить уважение игроку
 	/reports - Жалобы
 	/questions - Вопросы
-	/spec [часть ника] - Наблюдать за игроком
+	/spec [ID] - Наблюдать за игроком
 	/specoff - Выйти из наблюдения
 	/setleader [ник полностью] [фракция] - Назначить лидера фракции
 	/sethelper [ник полностью] - Назначить хелпера
@@ -27018,6 +27084,9 @@ end
 	/unmute [ник] - Снять мут игроку
 	/setgang [ник] [банда] - принять игрока в банду
 	/removegang [ник] - исключить игрока из банды
+	/setpassword [пароль] - Установить пароль для входа на сервер
+	/removepassword - снять пароль для входа на сервер
+	/kickall [причина] - кикнуть всех игроков с сервера.
 ]]
 
 mutedTime = nil
@@ -27064,7 +27133,7 @@ function muteTimerCommand(plr)
 		local muted = getElementData(plr, "muted")
 		
 		if muted and(muted > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "С вас мут будет снят через "..getTimeString(muted*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "С вас мут будет снят через "..getTimeString(muted*1000, "v"))
 	    end
 	end
 end
@@ -27076,7 +27145,7 @@ function JailTimer(plr)
 		local arrested = getElementData(plr, "arrested")
 		
 		if arrested and(arrested > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вам осталось сидеть в тюрьме "..getTimeString(arrested*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вам осталось сидеть в тюрьме "..getTimeString(arrested*1000, "v"))
 	    end
 	end
 end
