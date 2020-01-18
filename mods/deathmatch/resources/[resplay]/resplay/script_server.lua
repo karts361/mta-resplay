@@ -15415,6 +15415,8 @@ function requestActionsList(aplr)
 				--[[table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
 				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })]]
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
+				table.insert(alist, { 706, "Модерация - Изменить время", {}, { "Часов", "Минут" }, 255, 0, 0 })
+				table.insert(alist, { 707, "Модерация - Изменить погоду", {}, { "ID погоды" }, 255, 0, 0 })
 				table.insert(alist, { 83, "Модерация - Cоздать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
@@ -18176,6 +18178,28 @@ function executeAction(aplr, actionId, params)
 			end
 			if not pFound then
 				playerShowMessage(aplr, "Не удалось исключить игрока. Игрок с таким никнеймом отсутствует на сервере.")
+			end
+			
+		elseif(actionId == 706) then
+			local hour = tonumber(params[1])
+			local minute = tonumber(params[2])
+			
+			if(not((hour == nil) or (minute == nil))) then
+                setTime(hour, minute)
+				local notifyMessage = string.format(generateTimeString().."Время изменено на %02d:%02d!", hour, minute)
+				outputChatBox(notifyMessage)
+			else
+				outputChatBox(errorStr_incorrectParams, aplr)
+			end
+        
+		elseif(actionId == 707) then
+		    local weatherId = tonumber(params[1])
+			
+			if(not((weatherId == nil))) then
+			    setWeather(weatherId)
+				outputChatBox(generateTimeString().."Погода изменена")
+			else
+			    outputChatBox(errorStr_incorrectParams, aplr)
 			end
 
 		-- Клиентские действия(с 10001)
