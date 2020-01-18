@@ -6,6 +6,11 @@
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
 
+function generateTimeString()
+	local tm = getRealTime()
+	return string.format("[%02d.%02d.%d %02d:%02d:%02d] ",  tm.monthday, tm.month+1, tm.year+1900, tm.hour, tm.minute, tm.second)
+end
+
 adminDB = dbConnect("sqlite", "admin.db")
 
 addEvent("AdminPanel.onGridClick", true)
@@ -91,8 +96,8 @@ function warpToPlayer(plr)
 	setElementPosition(source, x, y + 2, z + 2)
 	setElementInterior(plr, int)
 	setElementDimension(plr, dim)
-	outputChatBox(getPlayerName(source).." has warped to you", plr, 0, 225, 0)
-	outputChatBox("You have warped to "..getPlayerName(plr), source, 0, 225, 0)
+	outputChatBox(generateTimeString()..""..getPlayerName(source).." телепортировался к вам", plr, 0, 225, 0)
+	outputChatBox(generateTimeString().." Вы телепортировались к игроку "..getPlayerName(plr), source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.warpToPlayer", root, warpToPlayer)
 
@@ -105,7 +110,7 @@ function warpPlayerTo(plr, toPlr)
 	setElementPosition(plr, x, y + 1, z + 2)
 	setElementInterior(plr, dim)
 	setElementDimension(plr, int)
-	outputChatBox("You warped "..getPlayerName(plr).." to "..getPlayerName(toPlr), source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы телепортировали игрока "..getPlayerName(plr).." к "..getPlayerName(toPlr), source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.warpPlayerTo", root, warpPlayerTo)
 
@@ -116,8 +121,8 @@ function freezePlayer(plr)
 	if (isElementFrozen(plr)) then
 		setElementFrozen(plr, false)
 		toggleAllControls(plr, true)
-		outputChatBox(getPlayerName(source).." has unfrozen to you", plr, 0, 225, 0)
-		outputChatBox("You unfroze "..getPlayerName(plr), source, 0, 225, 0)
+		outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." разморозил вас", plr, 0, 225, 0)
+		outputChatBox(generateTimeString().."Вы разморозили игрока "..getPlayerName(plr), source, 0, 225, 0)
 		local plrVeh = getPedOccupiedVehicle(plr)
 		if (plrVeh) then
 			setElementFrozen(plrVeh, false)
@@ -125,8 +130,8 @@ function freezePlayer(plr)
 	else
 		setElementFrozen(plr, true)
 		toggleAllControls(plr, false)
-		outputChatBox(getPlayerName(source).." has frozen to you", plr, 0, 225, 0)
-		outputChatBox("You froze "..getPlayerName(plr), source, 0, 225, 0)
+		outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." заморозил вас", plr, 0, 225, 0)
+		outputChatBox(generateTimeString().."Вы заморозили игрока "..getPlayerName(plr), source, 0, 225, 0)
 		local plrVeh = getPedOccupiedVehicle(plr)
 		if (plrVeh) then
 			setElementFrozen(plrVeh, true)
@@ -152,10 +157,10 @@ function spectatePlayer(plr)
 		setCameraTarget(source, plr)
 		setElementInterior(source, getElementInterior(plr))
 		setElementDimension(source, getElementDimension(plr))
-		outputChatBox("Spectating "..getPlayerName(plr), source, 0, 225, 0)
+		outputChatBox(generateTimeString().."Слежка за "..getPlayerName(plr), source, 0, 225, 0)
 	elseif (not (target == source)) then
 		setCameraTarget(source)
-		outputChatBox("Removed spectating", source, 0, 225, 0)
+		outputChatBox(generateTimeString().."Слежка прекращена", source, 0, 225, 0)
 		setElementPosition(source, sourcePos[source][1], sourcePos[source][2], sourcePos[source][3])
 		setElementInterior(source, sourceDim[source])
 		setElementDimension(source, sourceINT[source])
@@ -186,8 +191,8 @@ function slapPlayer(plr, getText)
 	if (not isElement(plr)) then return end
 	local plrHealth = getElementHealth(plr)
 	setElementHealth(plr, (plrHealth - getText))
-	outputChatBox(getPlayerName(source).." has slaped you "..getText.." HP", plr, 0, 225, 0)
-	outputChatBox("You slaped "..getPlayerName(plr).." "..getText.." HP", source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." слапнул вас "..getText.." HP", plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы слапнули игрока "..getPlayerName(plr).." "..getText.." HP", source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.slapPlayer", root, slapPlayer)
 
@@ -196,8 +201,8 @@ addEvent("AdminPanel.giveArmor", true)
 function giveArmor(plr, getText)
 	if (not isElement(plr)) then return end
 	setPedArmor(plr, getText)
-	outputChatBox(getPlayerName(source).." gave you "..getText.." armor", plr, 0, 225, 0)
-	outputChatBox("You gave "..getPlayerName(plr).." "..getText.." armor", source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." дал вам "..getText.." брони", plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы выдали игроку "..getPlayerName(plr).." "..getText.." брони", source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.giveArmor", root, giveArmor)
 
@@ -206,8 +211,8 @@ addEvent("AdminPanel.giveHealth", true)
 function giveHealth(plr, getText)
 	if (not isElement(plr)) then return end
 	setElementHealth(plr, getText)
-	outputChatBox(getPlayerName(source).." gave you "..getText.." heath", plr, 0, 225, 0)
-	outputChatBox("You gave "..getPlayerName(plr).." "..getText.." heath", source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." выдал вам "..getText.." HP", plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы выдали игроку "..getPlayerName(plr).." "..getText.." HP", source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.giveHealth", root, giveHealth)
 
@@ -216,8 +221,8 @@ addEvent("AdminPanel.setSkin", true)
 function setSkin(plr, getText)
 	if (not isElement(plr)) then return end
 	setElementModel(plr, getText)
-	outputChatBox(getPlayerName(source).." has set your skin to "..getText, plr, 0, 225, 0)
-	outputChatBox("You set "..getPlayerName(plr).."'s skin to "..getText, source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." выдал вам временный скин "..getText, plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы выдали временный скин игроку "..getPlayerName(plr).." "..getText, source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.setSkin", root, setSkin)
 
@@ -226,8 +231,8 @@ addEvent("AdminPanel.setDimension", true)
 function setDimension(plr, getText)
 	if (not isElement(plr)) then return end
 	setElementDimension(plr, getText)
-	outputChatBox(getPlayerName(source).." has set your dimension to "..getText, plr, 0, 225, 0)
-	outputChatBox("You set "..getPlayerName(plr).."'s dimension to "..getText, source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." переместил вас в измерение "..getText, plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы переместили игрока "..getPlayerName(plr).." в измерение "..getText, source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.setDimension", root, setDimension)
 
@@ -236,8 +241,8 @@ addEvent("AdminPanel.setInterior", true)
 function setInterior(plr, getText)
 	if (not isElement(plr)) then return end
 	setElementInterior(plr, getText)
-	outputChatBox(getPlayerName(source).." has set your interior to "..getText, plr, 0, 225, 0)
-	outputChatBox("You set "..getPlayerName(plr).."'s interior to "..getText, source, 0, 225, 0)
+	outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." переместил вас в интерьер "..getText, plr, 0, 225, 0)
+	outputChatBox(generateTimeString().."Вы переместили игрока "..getPlayerName(plr).."в интерьер "..getText, source, 0, 225, 0)
 end
 addEventHandler("AdminPanel.setInterior", root, setInterior)
 
@@ -303,8 +308,8 @@ function fixVeh(plr)
 		local veh = getPedOccupiedVehicle(plr)
 		setElementHealth(veh, 1000)
 		fixVehicle(veh)
-		outputChatBox(getPlayerName(source).." has fixed your vehcile", plr, 0, 225, 0)
-		outputChatBox("You fixed "..getPlayerName(plr).."'s vehicle", source, 0, 225, 0)
+		outputChatBox(generateTimeString().."Администратор "..getPlayerName(source).." починил вашу машину", plr, 0, 225, 0)
+		outputChatBox(generateTimeString().."Вы починили машину игрока "..getPlayerName(plr), source, 0, 225, 0)
 	end
 end
 addEventHandler("AdminPanel.fixVeh", root, fixVeh)
