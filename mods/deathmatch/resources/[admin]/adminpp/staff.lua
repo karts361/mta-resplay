@@ -6,6 +6,11 @@
 ------------------------------------------------------------------------------------
 ------------------------------------------------------------------------------------
 
+function generateTimeString()
+	local tm = getRealTime()
+	return string.format("[%02d.%02d.%d %02d:%02d:%02d] ",  tm.monthday, tm.month+1, tm.year+1900, tm.hour, tm.minute, tm.second)
+end
+
 local staffTable =
 {
 --You can add admins manually here
@@ -16,8 +21,6 @@ local staffTable =
 
 --=========================================Don't edit anything below this or you might break it=========================================--
 
-local staffTeam = createTeam("Staff", 225, 225, 225)
-local unoccupiedTeam = createTeam("Unoccupied", 225, 225, 0)
 
 addEventHandler("onResourceStart", root,
 	function()
@@ -35,20 +38,14 @@ addEventHandler("onPlayerLogin", root,
 		local staffName = dbPoll(dbQuery(adminDB, "SELECT * FROM staffList WHERE staff=?", getAccountName(getPlayerAccount(source))), -1)
 		if (not (#staffName == 0)) then
 			setElementData(source, "isPlayerStaff", true)
-			outputChatBox("Logged In as admin", source, 225, 225, 225)
+			outputChatBox(generateTimeString().."Вы залогинились в админку. Нажмите P чтобы открыть админ панель.", source, 225, 225, 225)
 		end
 	end
 )
 
-addCommandHandler("gostaff", 
-	function(plr)
-		local isStaff = getElementData(plr, "isPlayerStaff")
-		if (isStaff) then
-			setPlayerTeam(plr, getTeamFromName("Staff"))
-			setElementModel(plr, 217)
-			outputChatBox("Entered staff mode", plr, 225, 225, 225)
-		else
-			return
-		end
+addEventHandler("onPlayerLogout", root,
+	function()
+		setElementData(source, "isPlayerStaff", false)
+		outputChatBox(generateTimeString().."Вы разлогинились с админки.", source, 225, 225, 225)
 	end
 )

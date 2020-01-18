@@ -134,7 +134,7 @@ addEventHandler("onClientResourceStart", resourceRoot,
         adminLabel[24] = guiCreateLabel(186, 494, 271, 20, "Деньги : N/A", false, adminTab[1])
 
 
-        adminTab[3] = guiCreateTab("Reports", adminTabPanel[1])
+        --[[adminTab[3] = guiCreateTab("Reports", adminTabPanel[1])
         adminGrid[3] = guiCreateGridList(5, 9, 468, 546, false, adminTab[3])
 		adminColumn[16] = guiGridListAddColumn(adminGrid[3], "#", 0.1)
 		adminColumn[4] = guiGridListAddColumn(adminGrid[3], "Date/Time", 0.3)
@@ -142,7 +142,7 @@ addEventHandler("onClientResourceStart", resourceRoot,
 		adminColumn[6] = guiGridListAddColumn(adminGrid[3], "Reason", 0.3)
 		adminLabel[25] = guiCreateLabel(478, 138, 128, 87, "Double click to /n open report", false, adminTab[3])
         adminButton[29] = guiCreateButton(477, 11, 129, 31, "Delete Report", false, adminTab[3])
-        adminButton[30] = guiCreateButton(477, 46, 129, 31, "Punish", false, adminTab[3])
+        adminButton[30] = guiCreateButton(477, 46, 129, 31, "Punish", false, adminTab[3])]]
         --adminButton[31] = guiCreateButton(477, 82, 129, 31, "Doesn't Prove", false, adminTab[3])
         
 		local x2, y2 = (x / 2) - (267 / 2), (y / 2) - (439 / 2)
@@ -222,9 +222,9 @@ addEventHandler("onClientResourceStart", resourceRoot,
 			guiLabelSetHorizontalAlign(adminLabel[i], "center", false)
 			guiLabelSetVerticalAlign(adminLabel[i], "center")
 		end
-		addEventHandler("onClientGUIDoubleClick", adminGrid[3], showReports, false) 
+--		addEventHandler("onClientGUIDoubleClick", adminGrid[3], showReports, false) 
 		addEventHandler	("onClientGUIChanged", adminEdit[1] , function() playerSearch(1, 1) end, false)
-		addEventHandler	("onClientGUIChanged", adminEdit[12] , searchResources, false)
+--		addEventHandler	("onClientGUIChanged", adminEdit[12] , searchResources, false)
 		addEventHandler	("onClientGUIChanged", adminEdit[18] , function() playerSearch(4, 18) end, false)
 	end
 )
@@ -305,8 +305,8 @@ function ()
 		guiGridListClear(adminGrid[4])
 		guiSetVisible(adminWindow[2], true) 
 		guiBringToFront(adminWindow[2])
-		guiSetText(adminButton[32], "Warp to")
-		guiSetText(adminWindow[2], "Warp to Player")
+		guiSetText(adminButton[32], "Телепортировать игрока к")
+		guiSetText(adminWindow[2], "Телепортировать игрока")
 		guiSetVisible(adminEdit[18], true)
 		for id, plr in ipairs (getElementsByType("player")) do
 			guiGridListSetItemText(adminGrid[4], guiGridListAddRow(adminGrid[4]), adminColumn[7], getPlayerName(plr), false, false)
