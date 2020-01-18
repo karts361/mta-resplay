@@ -27133,7 +27133,7 @@ function muteTimerCommand(plr)
 		local muted = getElementData(plr, "muted")
 		
 		if muted and(muted > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "С вас мут будет снят через "..getTimeString(muted*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "С вас мут будет снят через "..getTimeString(muted*1000, "v"))
 	    end
 	end
 end
@@ -27145,7 +27145,7 @@ function JailTimer(plr)
 		local arrested = getElementData(plr, "arrested")
 		
 		if arrested and(arrested > 0) then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вам осталось сидеть в тюрьме "..getTimeString(arrested*1000, "r"))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вам осталось сидеть в тюрьме "..getTimeString(arrested*1000, "v"))
 	    end
 	end
 end
