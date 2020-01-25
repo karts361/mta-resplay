@@ -5361,6 +5361,23 @@ function militaryCargoUpdateBoxCount(infoId, delta)
 	setElementCollisionsEnabled(boxesObj, boxesVisible)
 end
 
+
+function militaryCargoRespawn() -- функция на респавн ящиков с оружием
+	for _,cargo in pairs(militaryCargoInfo) do
+	    local boxesObj = cargo[20]
+		if(cargo[22] < cargo[21]) then
+			cargo[22] = cargo[22]+cargo[21]
+			setElementPosition(boxesObj, cargo[5], cargo[6], cargo[7])
+			setElementAlpha(boxesObj, 255)		
+	    end
+	end
+	for _, player in ipairs (getElementsByType("player")) do 
+	    if getElementData(player, "usergroup") == 5 then
+		   outputChatBox(generateTimeString().."[Военная база]: #FFFFFFНа базу привезли груз с оружием", getRootElement(), 0, 128, 0, true)
+        end
+    end		
+end
+
 function militaryCargoTake(hitElem)
 	if(getElementType(hitElem) == "vehicle") and(getElementModel(hitElem) == 530) then
 		if not militaryCargoBoxes[hitElem] then
@@ -12684,6 +12701,7 @@ function resourceStart(startedResource)
 	setTimer(gangsterStealProcMarkers, 60000, 0)
 	gangsterKillOrderRandomTimer = setTimer(gangsterKillOrderRandomProc, 720000, 0)
 	setTimer(updateMute, 1000, 0)
+	setTimer(militaryCargoRespawn, 9000000, 0) -- респавн ящиков с оружием, переменные
 	
 	if isTestServer() then
 		setTimer(function()
