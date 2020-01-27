@@ -9747,7 +9747,7 @@ function addWorker(jobId, newWorker)
 						pGrp = getElementData(plr, "usergroup")
 						
 						--if pGrp and((pGrp == 5) or (pGrp == 10)) then
-						if pGrp and((pGrp == 5)) then
+						if pGrp and((pGrp == 5) or (pGrp == 2) or (pGrp == 17)) then
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..". Он обозначен оранжевым человечком на радаре.")
 							setElementVisibleTo(militaryGeneralPedBlip, plr, true)
 							--if(pGrp == 5) then
