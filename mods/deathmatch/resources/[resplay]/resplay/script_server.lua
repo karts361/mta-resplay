@@ -7123,7 +7123,7 @@ function ammuBuyWeapon(ammuCurWeap)
 		local weaponlicense = getElementData(source, "weaponlicense")
 		
 		if (weaponlicense == 0) then
-		    outputChatBox(generateTimeString().."[Аммуниция]: У вас отсувствует лицензия на оружие.", source, 255, 64, 64)
+		    outputChatBox(generateTimeString().."[Аммуниция]: У вас отсутствует лицензия на оружие.", source, 255, 64, 64)
 		    return false
 		end
 		
