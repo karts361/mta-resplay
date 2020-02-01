@@ -7120,6 +7120,12 @@ function ammuBuyWeapon(ammuCurWeap)
 	if(getMoney(source) >= weapprice) then
 		local weapid = tmpWeapons[ammuCurWeap][1]
 		local weapammo = tmpWeapons[ammuCurWeap][3]
+		local weaponlicense = getElementData(source, "weaponlicense")
+		
+		if (weaponlicense == 0) then
+		    outputChatBox(generateTimeString().."[Аммуниция]: У вас отсувствует лицензия на оружие.", source, 255, 64, 64)
+		    return false
+		end
 		
 		if(weapid == 1242) then
 			if(getPedArmor(source) < 100) then
@@ -14190,6 +14196,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		setElementData(source, "jetpackFuel", dbqueryresult[1]["jetpack"])
 		setElementData(source, "muted", dbqueryresult[1]["muted"])	
 		setElementData(source, "gender", dbqueryresult[1]["gender"])
+		setElementData(source, "weaponlicense", dbqueryresult[1]["weaponlicense"])
 		
 		if(dbqueryresult[1]["fireproof"] == 1) then
 			setElementData(source, "fireproof", true)
