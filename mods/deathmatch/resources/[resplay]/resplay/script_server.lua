@@ -28701,6 +28701,31 @@ function gangBaseIsInCapture(baseId)
 	return false
 end
 
+----- сдача экзамена на лицензию на оружия
+local licenseweaponmarker = createPickup(1683.36279, -2312.62183, 12.5468, 3, 1239, 0, 0)
+
+function licenseWeaponExamFinish(plr)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	showCursor(plr, false)
+	
+	if (getPlayerMoney(plr) < 25000) then
+	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
+	else
+		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Поздравляем, вы сдали экзамен и получили лицензию на владение оружием!")
+		takeMoney(plr, 25000)
+		addNewEventToLog(getPlayerName(plr), "Лицензия на оружие - сдал", true)
+		setElementData(plr, "weaponlicense", 1)
+	end
+end
+addEvent("onLicenseWeaponExamFinish", true)
+addEventHandler("onLicenseWeaponExamFinish", root, licenseWeaponExamFinish)
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

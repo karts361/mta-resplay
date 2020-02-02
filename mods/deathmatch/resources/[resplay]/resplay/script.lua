@@ -10832,6 +10832,181 @@ function gangBaseCaptureUpdate(info)
 	gangBaseCaptureInfo = info
 end
 
+------ сдача экзамена на лицензии
+--[[markerls = createMarker(-2426.71240, -641.75635, 131.9694, "cylinder", 1.5, 255, 255, 0, 64)
+
+function markerHit()
+    showLicenseDialog()
+end
+addEventHandler("onClientMarkerHit", markerls, markerHit)]]
+
+function licenseRequest()
+	createRequestWindow("Игрок", string.format("Вы готовы сдать экзамен для получения лицензии на оружие?"), source, licenseAccept, licenseDecline)
+end
+
+addEvent("onLicenseRequest", true)
+addEventHandler("onLicenseRequest", root, licenseRequest)
+
+function licenseAccept()
+	destroyRequestWindow()
+	showLicenseDialog()
+end
+
+addEvent("onLicenseAccept", true)
+addEventHandler("onLicenseAccep", root, licenseAccept)
+
+function licenseDecline()
+	destroyRequestWindow()
+end
+
+addEvent("onLicenseDecline", true)
+addEventHandler("onLicenseDecline", root, licenseDecline)
+
+licenseWin1 = nil
+licenseMsgWin1 = nil
+licenseBtnWin1 = nil
+
+
+function showLicenseDialog() 
+	licenseWin1 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseMsgWin1 = guiCreateLabel(10, 20, 280, 30, "Для чего вам нужно оружие? Выберите правильный ответ", false, licenseWin1)
+	guiLabelSetColor(licenseMsgWin1, 255, 255, 255)
+	guiLabelSetHorizontalAlign(licenseMsgWin1, "center", true)
+	guiLabelSetVerticalAlign(licenseMsgWin1, "center")
+
+	otvet1RadioButton = guiCreateRadioButton(10, 60, 280, 20, "Для самообороны", false, licenseWin1)
+	otvet2RadioButton = guiCreateRadioButton(10, 90, 280, 20, "Для коллекции", false, licenseWin1)
+	otvet3RadioButton = guiCreateRadioButton(10, 120, 280, 20, "Для совершения преступления", false, licenseWin1)
+    guiRadioButtonSetSelected(otvet1RadioButton,true)
+
+	licenseBtnWin1 = guiCreateButton(50, 180, 200, 34, "Далее", false, licenseWin1)
+	
+	addEventHandler("onClientGUIClick", licenseBtnWin1, license, false)
+
+	guiWindowSetMovable(licenseWin1, false)
+	guiWindowSetSizable(licenseWin1, false)
+	guiSetInputEnabled(true)
+	showCursor(true)
+end
+
+licenseWin2 = nil
+licenseMsgWin2 = nil
+licenseBtnWin2 = nil
+
+
+function showLicenseDialog2() 
+    --guiSetVisible(licenseWin1, false)
+	licenseWin2 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseMsgWin2 = guiCreateLabel(10, 20, 280, 30, "Можно ли ходить с оружием в открытом виде? Выберите правильный ответ", false, licenseWin2)
+	guiLabelSetColor(licenseMsgWin2, 255, 255, 255)
+	guiLabelSetHorizontalAlign(licenseMsgWin2, "center", true)
+	guiLabelSetVerticalAlign(licenseMsgWin2, "center")
+
+	otvet4RadioButton = guiCreateRadioButton(10, 60, 280, 20, "Да", false, licenseWin2)
+	otvet5RadioButton = guiCreateRadioButton(10, 90, 280, 20, "Нет", false, licenseWin2)
+    guiRadioButtonSetSelected(otvet4RadioButton,true)
+
+	licenseBtnWin2 = guiCreateButton(50, 180, 200, 34, "Далее", false, licenseWin2)
+	
+	addEventHandler("onClientGUIClick", licenseBtnWin2, license2, false)
+	--addEventHandler("onClientKey", root, license2, false)
+
+	guiWindowSetMovable(licenseWin2, false)
+	guiWindowSetSizable(licenseWin2, false)
+	guiSetInputEnabled(true)
+	showCursor(true)
+end
+
+licenseWin3 = nil
+licenseMsgWin3 = nil
+licenseBtnWin3 = nil
+
+
+function showLicenseDialog3() 
+	licenseWin3 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseMsgWin3 = guiCreateLabel(10, 20, 280, 30, "Сколько патронов в обойме Colt 45? Выберите правильный ответ", false, licenseWin3)
+	guiLabelSetColor(licenseMsgWin3, 255, 255, 255)
+	guiLabelSetHorizontalAlign(licenseMsgWin3, "center", true)
+	guiLabelSetVerticalAlign(licenseMsgWin3, "center")
+
+	otvet6RadioButton = guiCreateRadioButton(10, 60, 280, 20, "12", false, licenseWin3)
+	otvet7RadioButton = guiCreateRadioButton(10, 90, 280, 20, "8", false, licenseWin3)
+	otvet8RadioButton = guiCreateRadioButton(10, 120, 280, 20, "17", false, licenseWin3)
+    guiRadioButtonSetSelected(otvet4RadioButton,true)
+
+	licenseBtnWin3 = guiCreateButton(50, 180, 200, 34, "Далее", false, licenseWin3)
+	
+	addEventHandler("onClientGUIClick", licenseBtnWin3, license3, false)
+
+	guiWindowSetMovable(licenseWin3, false)
+	guiWindowSetSizable(licenseWin3, false)
+	guiSetInputEnabled(true)
+	showCursor(true)
+end
+
+licenseAnswerTrue = false
+licenseAnswer2True = false
+licenseAnswer3True = false
+function license(button, state)
+	if((button == "left") or (button == "enter")) and state then
+	
+		if (guiRadioButtonGetSelected(otvet1RadioButton)) then
+		    licenseAnswerTrue = false
+		elseif (guiRadioButtonGetSelected(otvet2RadioButton)) then
+			licenseAnswerTrue = true
+		elseif (guiRadioButtonGetSelected(otvet3RadioButton)) then
+			licenseAnswerTrue = false
+		end
+		
+		if (licenseAnswerTrue == true) then
+			guiSetVisible(licenseWin1, false)
+            showLicenseDialog2()
+		else
+		    guiSetText(licenseMsgWin1, "Вы неправильно ответили на вопрос.")
+		end
+	end
+end
+
+function license2(button, state)
+	if((button == "left") or (button == "enter")) and state then
+	
+		if (guiRadioButtonGetSelected(otvet4RadioButton)) then
+		    licenseAnswer2True = false
+		elseif (guiRadioButtonGetSelected(otvet5RadioButton)) then
+			licenseAnswer2True = true
+		end
+		
+		if (licenseAnswer2True == true) then
+			guiSetVisible(licenseWin2, false)
+            showLicenseDialog3()
+		else
+		    guiSetText(licenseMsgWin2, "Вы неправильно ответили на вопрос.")
+		end
+	end
+end
+
+function license3(button, state)
+	if((button == "left") or (button == "enter")) and state then
+		
+		if (guiRadioButtonGetSelected(otvet6RadioButton)) then
+		    licenseAnswer3True = false
+		elseif (guiRadioButtonGetSelected(otvet7RadioButton)) then
+			licenseAnswer3True = false
+		elseif (guiRadioButtonGetSelected(otvet8RadioButton)) then
+			licenseAnswer3True = true
+		end
+
+        if (licenseAnswer3True == true) then
+			guiSetVisible(licenseWin3, false)
+			triggerServerEvent("onLicenseWeaponExamFinish", localPlayer)
+		else
+		    msgAdd("Вы не смогли сдать экзамен, попробуйте ещё раз.")
+			guiSetVisible(licenseWin3, false)
+			showCursor(false)
+		end
+	end
+end
+
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
 addEvent("onReceiveRegisterCheck", true)
