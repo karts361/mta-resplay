@@ -12029,9 +12029,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-		--db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -12707,6 +12707,7 @@ function resourceStart(startedResource)
 	setTimer(gangsterStealProcMarkers, 60000, 0)
 	gangsterKillOrderRandomTimer = setTimer(gangsterKillOrderRandomProc, 720000, 0)
 	setTimer(updateMute, 1000, 0)
+	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 0) -- респавн ящиков с оружием, переменные
 	
 	if isTestServer() then
@@ -14197,6 +14198,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		setElementData(source, "muted", dbqueryresult[1]["muted"])	
 		setElementData(source, "gender", dbqueryresult[1]["gender"])
 		setElementData(source, "weaponlicense", dbqueryresult[1]["weaponlicense"])
+		setElementData(source, "licenseDeprived", dbqueryresult[1]["licenseDeprived"])
 		
 		if(dbqueryresult[1]["fireproof"] == 1) then
 			setElementData(source, "fireproof", true)
@@ -14669,7 +14671,10 @@ function requestActionsList(aplr)
 			table.insert(alist, { 63, availableActions[63], {}, nil, 0, 255, 0 })
 			table.insert(alist, { 129, availableActions[129], {}, { "ID Игрока", "Кол-во звезд", "Причина" }, 0, 255, 0 })
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
-			
+			if not pAdmin or pModerator then
+			    table.insert(alist, { 156, "Работа - Лишить игрока лицензии на оружие", {}, { "ID Игрока", "Часов (1-72)", "Причина" }, 0, 255, 0 })
+			end
+
 			for _,plr in ipairs(players) do
 				if(getPlayerWantedLevel(plr) > 0) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
@@ -18048,17 +18053,37 @@ function executeAction(aplr, actionId, params)
 			local respect = getElementData(aplr, "respect")
 			local license = getElementData(aplr, "weaponlicense")
 			respect = math.abs(respect)
+			local licenseDeprived = getElementData(aplr, "licenseDeprived")
 
 			if(money < 25000) then
                 triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для сдачи экзамена на лицензии для владения оружием.")
 			elseif ( respect < 0.10 ) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 10% репутации для сдачи экзамена на лицензии для владения оружием.")
+			elseif ( licenseDeprived > 0 ) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы были лишены лицензии на оружие. Пересдать вы сможете через "..getTimeString(licenseDeprived*1000, "r").." реального времени")
 			elseif (license == 1) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы уже владеете лицензией на оружие.")
 			else
 		        triggerClientEvent(aplr, "onLicenseRequest", aplr)
 			end
 			
+        elseif(actionId == 156) then
+			local player = getPlayerFromID(params[1])
+			
+			if not isElement(player) then
+				playerShowMessage(aplr, "Игрок с таким ID не найден")
+				return false
+			end
+			
+			local licenseDeprived = tonumber(params[2]*3600)
+			
+			if not licenseDeprived then
+				playerShowMessage(aplr, "Неправильно введен срок")
+				return false
+			end
+			
+			policeRemovePlayerLicense(aplr, player, licenseDeprived, params[3])
+
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -28745,6 +28770,93 @@ function licenseWeaponExamFinish(plr)
 end
 addEvent("onLicenseWeaponExamFinish", true)
 addEventHandler("onLicenseWeaponExamFinish", root, licenseWeaponExamFinish)
+
+-- лишение лицензии
+licenseTimeDelay = nil
+
+function updateLicenseTerm()
+
+	if not licenseTimeDelay then
+		licenseTimeDelay = coroutine.create(licfnc)
+	end
+
+	coroutine.resume(licenseTimeDelay)
+end
+
+function licfnc()
+	local allPlayers
+	local licenseDeprived
+
+	while true do
+		allPlayers = getElementsByType("player")
+
+		for _,plr in ipairs(allPlayers) do
+			licenseDeprived = getElementData(plr, "licenseDeprived")
+
+			if licenseDeprived and(licenseDeprived > 0) then
+				licenseDeprived = math.max(0, licenseDeprived-1)
+				setElementData(plr, "licenseDeprived", licenseDeprived)
+				dbExec(db, "UPDATE users SET licenseDeprived=? WHERE name=?", licenseDeprived, getHash(getPlayerName(plr)))
+
+				if(licenseDeprived <= 0) then
+					triggerClientEvent(plr, "onServerMsgAdd", plr, "Ваш срок лишения лицензии истёк, вы можете пересдать лицензию на оружие.")
+				end
+
+			end
+
+		end
+
+		coroutine.yield()
+	end
+end
+
+function policeRemovePlayerLicense(policeman, player, hours, reason)
+	if isElement(policeman) and isElement(player) and isPlayerFromPolice(policeman) then
+		local curLD = getElementData(player, "licenseDeprived")
+		
+		if (getElementData(player, "weaponlicense") == 0) then
+			playerShowMessage(policeman, "У Этого игрока отсутствует лицензия на оружие.")
+			return false
+		end
+
+		if((curLD >= hours) and(hours ~= 0)) or (hours > 259200) or (hours < 0) or (hours == 0) then
+			playerShowMessage(policeman, "Этот игрок уже лишён лицензии или срок введён неправильно.")
+			return false
+		end
+
+		local reasonText
+		
+		if(string.len(reason) > 0) then
+			reasonText = " с причиной '"..reason.."'."
+		else
+			reasonText = " без причины."
+		end
+		
+		local eventNameplayer, eventNamePolice
+		
+		if(hours > 0) then
+			eventNameplayer = "Лишён"
+			eventNamePolice = "Лишил"
+			playerShowMessage(policeman, "Вы лишили лицензии на оружия на "..tostring(hours/3600).." часов реального времени игрока "..getPlayerName(player)..reasonText)
+			playerShowMessage(player, "Вас лишил лицензии на оружия игрок "..getPlayerName(policeman).." на "..tostring(hours/3600).." часов реальнго времени по причине "..reasonText)
+			attachActionToElement(defaultActions[134], player)
+			attachActionToElement(defaultActions[116], player)
+		    triggerEvent("onPlayerChat", policeman, "Лишил лицензии на оружия игрока "..getPlayerName(player).."["..getPlayerID(player).."]"..reasonText, 2)
+		end
+		
+		addNewEventToLog(getPlayerName(player), "Лицензия - "..eventNameplayer.." - "..tostring(hours/3600).." часов от "..getPlayerName(policeman).."("..reason..")", true)
+		addNewEventToLog(getPlayerName(policeman), "Лишил - "..eventNamePolice.." - "..tostring(hours/3600).." часов для "..getPlayerName(player).."("..reason..")", true)
+		setElementData(player, "licenseDeprived", hours)
+		setElementData(player, "weaponlicense", 0)
+		dbExec(db, "UPDATE users SET licenseDeprived=? WHERE name=?", hours, getHash(getPlayerName(player)))
+		dbExec(db, "UPDATE users SET weaponlicense=0 WHERE name=?", getHash(getPlayerName(player)))
+		return true
+	end
+	
+	playerShowMessage(policeman, "Ошибка при лишении лицензии игрока.")
+	return false
+end
+
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
