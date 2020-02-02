@@ -14658,6 +14658,10 @@ function requestActionsList(aplr)
 		    table.insert(alist, { 151, availableActions[137], {}, nil, 0, 255, 0 } )
 		end
 		
+		if isElementWithinPickup(aplr, licenseweaponmarker) then
+		    table.insert(alist, { 155, "Лицензия - Сдать экзамен на получение лицензии на владение оружием $25000", {}, nil, 0, 255, 0 } )
+		end
+
 		table.insert(alist, { 81, availableActions[81], { dbqueryresult }, nil, 255, 255, 255 })
 		table.insert(alist, { 64, availableActions[64], {}, nil, 255, 255, 255 })
 		
@@ -18039,6 +18043,17 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 154) then
 		    triggerClientEvent(aplr, "onGenderChangeRequest", aplr)
 	
+		elseif(actionId == 155) then
+		    local money = getMoney(aplr)
+			local respect = getElementData(aplr, "respect")
+			if (money < 25000) then
+                triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для сдачи экзамена на лицензии для владения оружием.")
+			elseif respect and ( respect < 0.10 ) or ( respect > -0.10 ) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 10% репутации для сдачи экзамена на лицензии для владения оружием.")
+			else
+		        triggerClientEvent(aplr, "onLicenseRequest", aplr)
+			end
+			
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
