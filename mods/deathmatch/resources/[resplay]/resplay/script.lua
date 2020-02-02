@@ -10868,7 +10868,7 @@ licenseBtnWin1 = nil
 
 
 function showLicenseDialog() 
-	licenseWin1 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseWin1 = guiCreateWindow(sW/2-150, sH/2-97, 300, 230, "Сдача лицензии", false)
 	licenseMsgWin1 = guiCreateLabel(10, 20, 280, 30, "Для чего вам нужно оружие? Выберите правильный ответ", false, licenseWin1)
 	guiLabelSetColor(licenseMsgWin1, 255, 255, 255)
 	guiLabelSetHorizontalAlign(licenseMsgWin1, "center", true)
@@ -10896,7 +10896,7 @@ licenseBtnWin2 = nil
 
 function showLicenseDialog2() 
     --guiSetVisible(licenseWin1, false)
-	licenseWin2 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseWin2 = guiCreateWindow(sW/2-150, sH/2-97, 300, 230, "Сдача лицензии", false)
 	licenseMsgWin2 = guiCreateLabel(10, 20, 280, 30, "Можно ли ходить с оружием в открытом виде? Выберите правильный ответ", false, licenseWin2)
 	guiLabelSetColor(licenseMsgWin2, 255, 255, 255)
 	guiLabelSetHorizontalAlign(licenseMsgWin2, "center", true)
@@ -10923,7 +10923,7 @@ licenseBtnWin3 = nil
 
 
 function showLicenseDialog3() 
-	licenseWin3 = guiCreateWindow(150, 97, 300, 230, "Сдача лицензии", false)
+	licenseWin3 = guiCreateWindow(sW/2-150, sH/2-97, 300, 230, "Сдача лицензии", false)
 	licenseMsgWin3 = guiCreateLabel(10, 20, 280, 30, "Сколько патронов в обойме Colt 45? Выберите правильный ответ", false, licenseWin3)
 	guiLabelSetColor(licenseMsgWin3, 255, 255, 255)
 	guiLabelSetHorizontalAlign(licenseMsgWin3, "center", true)
