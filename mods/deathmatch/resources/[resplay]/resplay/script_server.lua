@@ -18046,10 +18046,13 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 155) then
 		    local money = getMoney(aplr)
 			local respect = getElementData(aplr, "respect")
+			local license = getElementData(aplr, "weaponlicense")
 			if (money < 25000) then
                 triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для сдачи экзамена на лицензии для владения оружием.")
 			elseif respect and ( respect < 0.10 ) or ( respect > -0.10 ) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 10% репутации для сдачи экзамена на лицензии для владения оружием.")
+			elseif (license == 1) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы уже владеете лицензией на оружие.")
 			else
 		        triggerClientEvent(aplr, "onLicenseRequest", aplr)
 			end
@@ -28717,7 +28720,7 @@ function gangBaseIsInCapture(baseId)
 end
 
 ----- сдача экзамена на лицензию на оружия
-local licenseweaponmarker = createPickup(1683.36279, -2312.62183, 12.5468, 3, 1239, 0, 0)
+licenseweaponmarker = createPickup(1683.36279, -2312.62183, 13.5468, 3, 1239, 0, 0)
 
 function licenseWeaponExamFinish(plr)
     local pHash = getHash(getPlayerName(plr))
