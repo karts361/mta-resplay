@@ -10840,6 +10840,8 @@ function markerHit()
 end
 addEventHandler("onClientMarkerHit", markerls, markerHit)]]
 
+
+
 function licenseRequest()
 	createRequestWindow("Игрок", string.format("Вы готовы сдать экзамен для получения лицензии на оружие?"), source, licenseAccept, licenseDecline)
 end
@@ -10940,15 +10942,14 @@ function showLicenseDialog3()
 
 	guiWindowSetMovable(licenseWin3, false)
 	guiWindowSetSizable(licenseWin3, false)
-	guiSetInputEnabled(true)
-	showCursor(true)
+	guiSetInputEnabled(false)
 end
 
 licenseAnswerTrue = false
 licenseAnswer2True = false
 licenseAnswer3True = false
-function license(button, state)
-	if((button == "left") or (button == "enter")) and state then
+function license()
+	--if((button == "left") or (button == "enter")) and state then
 	
 		if (guiRadioButtonGetSelected(otvet1RadioButton)) then
 		    licenseAnswerTrue = false
@@ -10964,11 +10965,11 @@ function license(button, state)
 		else
 		    guiSetText(licenseMsgWin1, "Вы неправильно ответили на вопрос.")
 		end
-	end
+	--end
 end
 
-function license2(button, state)
-	if((button == "left") or (button == "enter")) and state then
+function license2()
+	--if((button == "left") or (button == "enter")) and state then
 	
 		if (guiRadioButtonGetSelected(otvet4RadioButton)) then
 		    licenseAnswer2True = false
@@ -10982,11 +10983,11 @@ function license2(button, state)
 		else
 		    guiSetText(licenseMsgWin2, "Вы неправильно ответили на вопрос.")
 		end
-	end
+	--end
 end
 
-function license3(button, state)
-	if((button == "left") or (button == "enter")) and state then
+function license3()
+	--if((button == "left") or (button == "enter")) and state then
 		
 		if (guiRadioButtonGetSelected(otvet6RadioButton)) then
 		    licenseAnswer3True = false
@@ -10998,13 +10999,22 @@ function license3(button, state)
 
         if (licenseAnswer3True == true) then
 			guiSetVisible(licenseWin3, false)
-			triggerServerEvent("onLicenseWeaponExamFinish", localPlayer)
+			triggerServerEvent("onLicenseWeaponExamFinish", resourceRoot, localPlayer)
+			examLicenseDeleteCursor()
 		else
 		    msgAdd("Вы не смогли сдать экзамен, попробуйте ещё раз.")
 			guiSetVisible(licenseWin3, false)
-			showCursor(false)
+			examLicenseDeleteCursor()
 		end
-	end
+	showCursor(false)
+	--end
+end
+
+function examLicenseDeleteCursor()
+    removeEventHandler("onClientGUIClick", licenseBtnWin1, license1)
+	removeEventHandler("onClientGUIClick", licenseBtnWin2, license2)
+	removeEventHandler("onClientGUIClick", licenseBtnWin3, license3)
+	showCursor(false)
 end
 
 addEvent("onSaNewsShow", true)

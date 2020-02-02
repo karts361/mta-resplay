@@ -14658,7 +14658,7 @@ function requestActionsList(aplr)
 		    table.insert(alist, { 151, availableActions[137], {}, nil, 0, 255, 0 } )
 		end
 		
-		if isElementWithinPickup(aplr, licenseweaponmarker) then
+		if isElementWithinMarker(aplr, licenseweaponmarker) then
 		    table.insert(alist, { 155, "Лицензия - Сдать экзамен на получение лицензии на владение оружием $25000", {}, nil, 0, 255, 0 } )
 		end
 
@@ -18047,9 +18047,11 @@ function executeAction(aplr, actionId, params)
 		    local money = getMoney(aplr)
 			local respect = getElementData(aplr, "respect")
 			local license = getElementData(aplr, "weaponlicense")
-			if (money < 25000) then
+			respect = math.abs(respect)
+
+			if(money < 25000) then
                 triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для сдачи экзамена на лицензии для владения оружием.")
-			elseif respect and ( respect < 0.10 ) or ( respect > -0.10 ) then
+			elseif ( respect < 0.10 ) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 10% репутации для сдачи экзамена на лицензии для владения оружием.")
 			elseif (license == 1) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы уже владеете лицензией на оружие.")
@@ -27475,7 +27477,7 @@ function changeGenderHospital(plr)
 		dbFree(dbq)
 	until dbqueryresult
 	
-	if (getPlayerMoney(plr) < 500000) then
+	if (getMoney(plr) < 500000) then
 	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
 	elseif curGender == 2 then
 		dbExec(db, "UPDATE users SET gender=1 WHERE name=?", pHash)
@@ -27696,13 +27698,13 @@ local pGrp = getElementData(client, "usergroup")
 		dbFree(dbq)
 	until dbqueryresult
 
-	if getPlayerMoney(client) > money and pGrp == 1 or pGrp == 13 then
+	if getMoney(client) > money and pGrp == 1 or pGrp == 13 then
 		playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
 		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
 		setElementModel(client, model)
 	    dbExec(db, "UPDATE users SET skin=?, default_skin=? WHERE name=?", model, model, pHash)
-	elseif getPlayerMoney(client) > money and pGrp == 10 then
+	elseif getMoney(client) > money and pGrp == 10 then
 	    playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
 		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
@@ -28720,7 +28722,8 @@ function gangBaseIsInCapture(baseId)
 end
 
 ----- сдача экзамена на лицензию на оружия
-licenseweaponmarker = createPickup(1683.36279, -2312.62183, 13.5468, 3, 1239, 0, 0)
+licenseweaponmarker = createMarker(1683.36279, -2312.62183, 12.5468, "cylinder", 1.5, 255, 255, 0, 64)
+setPickupText(licenseweaponmarker, "Лицензия", 255, 255, 0)
 
 function licenseWeaponExamFinish(plr)
     local pHash = getHash(getPlayerName(plr))
@@ -28730,9 +28733,7 @@ function licenseWeaponExamFinish(plr)
 		dbFree(dbq)
 	until dbqueryresult
 	
-	showCursor(plr, false)
-	
-	if (getPlayerMoney(plr) < 25000) then
+	if (getMoney(plr) < 25000) then
 	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
 	else
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
