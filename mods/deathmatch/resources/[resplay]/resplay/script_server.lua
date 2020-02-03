@@ -7122,7 +7122,7 @@ function ammuBuyWeapon(ammuCurWeap)
 		local weapammo = tmpWeapons[ammuCurWeap][3]
 		local weaponlicense = getElementData(source, "weaponlicense")
 		
-		if (weaponlicense == 0) then
+		if (weaponlicense == 0) or (weaponlicense == 2) then
 		    outputChatBox(generateTimeString().."[Аммуниция]: У вас отсутствует лицензия на оружие.", source, 255, 64, 64)
 		    return false
 		end
@@ -18063,6 +18063,8 @@ function executeAction(aplr, actionId, params)
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы были лишены лицензии на оружие. Пересдать вы сможете через "..getTimeString(licenseDeprived*1000, "r").." реального времени")
 			elseif (license == 1) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы уже владеете лицензией на оружие.")
+			elseif (license == 2) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы бессрочно лишены лицензией на оружие и не сможете пересдать.")
 			else
 		        triggerClientEvent(aplr, "onLicenseRequest", aplr)
 			end
@@ -27098,6 +27100,99 @@ function adminCMDkickall(plr, ...)
     end 
 end 
 
+function adminCMDlicensedeprive(plr, nickname, secondsText, ...)
+	local licPlr = findPlayerByNamePattern(nickname)
+	
+	if isElement(licPlr) then
+		local licenseDeprived = getElementData(licPlr, "licenseDeprived")
+		
+		if licenseDeprived and(licenseDeprived > 0) then
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Этот игрок уже лишён лицензии. Срок у него заканчивается через "..getTimeString(licenseDeprived*1000, "r"))
+			return
+		end
+		
+		secondsText = tonumber(licenseDeprived)
+		
+		licenseDeprived = math.floor(licenseDeprived)
+		
+		local licenseName = getPlayerName(licPlr)
+		
+		if dbExec(db, "UPDATE users SET licenseDeprived=? WHERE name=?", licenseDeprived, getHash(licenseName)) then
+			local licenseTime = getTimeString(licenseDeprived*1000, "v", true)
+			setElementData(licPlr, "licenseDeprived", licenseDeprived)
+			setElementData(licPlr, "weaponlicense", 0)
+			dbExec(db, "UPDATE users SET weaponlicense=0 WHERE name=?", getHash(licenseName))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы лишили игрока "..licenseName.." лицензии на "..licenseTime)
+			triggerClientEvent(licPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." лишил вас лицензии на владение оружием на срок "..licenseTime.." с причиной '"..table.concat({...}, " ").."'")
+		end
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, licPlr)
+	end
+end
+
+function adminCMDlicensedepriveperm(plr, nickname, ...)
+	local playerlicense = findPlayerByNamePattern(nickname)
+	
+	if isElement(playerlicense) then
+		local weaponlicense = getElementData(playerlicense, "weaponlicense")
+		local plrr = getPlayerName(playerlicense)
+        weaponlicense = 2
+		
+		if dbExec(db, "UPDATE users SET weaponlicense=? WHERE name=?", weaponlicense, getHash(plrr)) then
+			setElementData(playerlicense, "weaponlicense", weaponlicense)
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы лишили игрока лицензии на оружие на пожизненно "..plrr)
+			triggerClientEvent(playerlicense, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." лишил вас лицензии бессрочно по причине"..table.concat({...}, " ")..".")
+		end
+		
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, playerlicense)
+	end
+end
+
+function adminCMDremovelicensedeprive(plr, nickname)
+	local playerlicense = findPlayerByNamePattern(nickname)
+	
+	if isElement(playerlicense) then
+		local weaponlicense = getElementData(playerlicense, "weaponlicense")
+		local plrr = getPlayerName(playerlicense)
+        weaponlicense = 0
+		
+		if dbExec(db, "UPDATE users SET licenseDeprive=? WHERE name=?", weaponlicense, getHash(plrr)) then
+			setElementData(playerlicense, "weaponlicense", weaponlicense)
+			setElementData(playerlicense, "licenseDeprived", weaponlicense)
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сбросили срок лишения лицензии на владения оружием игроку "..plrr)
+			triggerClientEvent(playerlicense, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." сбросил вам срок лишения лицензии на владения оружием, вы можете пересдать чтобы получить новое.")
+		end
+		
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, playerlicense)
+	end
+end
+
+function adminCMDgivelicense(plr, nickname)
+	local playerlicense = findPlayerByNamePattern(nickname)
+	
+	if isElement(playerlicense) then
+		local weaponlicense = getElementData(playerlicense, "weaponlicense")
+		local plrr = getPlayerName(playerlicense)
+        weaponlicense = 1
+		
+		if weaponlicense == 1 then
+		    triggerClientEvent(plr, "onServerMsgAdd", plr, "Игрок уже владеет лицензией на оружие.")
+		end
+		
+		if dbExec(db, "UPDATE users SET weaponlicense=? WHERE name=?", weaponlicense, getHash(plrr)) then
+			setElementData(playerlicense, "weaponlicense", weaponlicense)
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы выдали лицензию на владение оружием игроку"..plrr)
+			triggerClientEvent(playerlicense, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." выдал вам лицензию на владение оружием.")
+		end
+		
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, playerlicense)
+	end
+end
+
+
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
 	for _,curCmd in pairs(adminCmds) do
@@ -27157,6 +27252,10 @@ end
 	/setpassword [пароль] - Установить пароль для входа на сервер
 	/removepassword - снять пароль для входа на сервер
 	/kickall [причина] - кикнуть всех игроков с сервера.
+    /licensedeprive [ник] [секунды] [причина] - лишить игрока лицензии на оружие.
+    /licensedepriveperm [ник] [причина] - лишить бессрочно игрока лицензии на оружие.
+	/removelicensedeprive [ник] - сбросить срок лишения лицензии на оружие.
+	/givelicense [ник] - выдать лицензию на оружие.
 ]]
 
 mutedTime = nil
@@ -28816,6 +28915,9 @@ function policeRemovePlayerLicense(policeman, player, hours, reason)
 		
 		if (getElementData(player, "weaponlicense") == 0) then
 			playerShowMessage(policeman, "У Этого игрока отсутствует лицензия на оружие.")
+			return false
+		elseif (getElementData(player, "weaponlicense") == 2) then
+			playerShowMessage(policeman, "Этот игрок пожизненно лишён лицензии на оружие.")
 			return false
 		end
 
