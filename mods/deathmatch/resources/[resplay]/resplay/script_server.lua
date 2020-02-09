@@ -14166,6 +14166,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	lastSerial = getPlayerSerial(source)
+	nicknamefordb = getPlayerName(source)
 	
 	if(playerShouldBeSpawned) then
 		local curTime = getRealTime()
@@ -14174,6 +14175,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		
 		dbExec(db, "UPDATE users SET lastLogin=? WHERE name=?", curTime.timestamp, sHash)
 		dbExec(db, "UPDATE users SET lastSerial=? WHERE name=?", lastSerial, sHash)
+		dbExec(db, "UPDATE users SET nickname=? WHERE name=?", nicknamefordb, sHash)
 		setElementData(source, "usergroup", dbqueryresult[1]["usergroup"])
 
 		
@@ -26388,7 +26390,7 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 	local newHash = getHash(newnick)
 	
 	repeat
-		local dbq = dbQuery(db, "SELECT name FROM users WHERE name=?", newHash)
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", newHash)
 		dbqueryresult = dbPoll(dbq, 30000)
 		dbFree(dbq)
 	until dbqueryresult
@@ -26399,7 +26401,7 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 	elseif(oldHash == newHash) then
 		triggerClientEvent(plr, "onChangeNicknameResult", resourceRoot, 2)
 	
-	elseif dbExec(db, "UPDATE users SET name=? WHERE name=?", newHash, oldHash) then
+	elseif dbExec(db, "UPDATE users SET nickname=? name=? WHERE name=?", newnick, newHash, oldHash) then
 		kickPlayer(playerKick, "Ник сменен. Перезайдите на сервер под новым никнеймом.")
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы изменили никнейм на аккаунте.")
 		dbExec(db, "UPDATE friends SET friend=? WHERE friend=?", newnick, oldHash)
