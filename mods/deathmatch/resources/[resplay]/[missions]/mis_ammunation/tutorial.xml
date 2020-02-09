@@ -1,0 +1,4 @@
+<map>
+    <object id="campos1" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="299.89999389648" posY="-23.799999237061" posZ="1002.700012207" rotX="0" rotY="0" rotZ="0"></object>
+    <object id="camlook1" breakable="true" interior="1" collisions="false" alpha="255" model="1253" doublesided="false" scale="1" dimension="0" posX="299.89999389648" posY="-23.799999237061" posZ="1002.700012207" rotX="0" rotY="0" rotZ="0"></object>
+</map>

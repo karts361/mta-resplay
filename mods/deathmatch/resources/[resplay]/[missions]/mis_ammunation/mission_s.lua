@@ -7,6 +7,57 @@ local missionElements = {}
 local ammututElements = {}
 -- Здесь объявляем все переменные миссии
 
+function ammututLoadMapData()
+	local xml = xmlLoadFile(":mis_ammunation/tutorial.xml")
+	
+	if not xml then
+		outputServerLog("No xml file")
+		return false
+	end
+	
+	local elementNodes = xmlNodeGetChildren(xml)
+	local elemId, elemArray
+	
+	for _,elemNode in ipairs(elementNodes) do
+		elemId = xmlNodeGetAttribute(elemNode, "id")
+		if elemId then
+			missionElements[elemId] = xmlNodeGetAttributes(elemNode)
+			missionElements[elemId]["id"] = xmlNodeGetName(elemNode)
+		end
+	end
+	
+	xmlUnloadFile(xml)
+	
+	local objInfo = missionElements["removeTables"]
+	
+	if objInfo then
+		removeWorldModel(tonumber(objInfo["model"]),
+						  tonumber(objInfo["radius"]),
+						  tonumber(objInfo["posX"]),
+						  tonumber(objInfo["posY"]),
+						  tonumber(objInfo["posZ"]), 1)
+	end
+	
+	for elemId,elemInfo in pairs(missionElements) do
+		if(elemInfo["id"] == "pathpoint") then
+			exports.ai:addBotPathPoint(elemId, tonumber(elemInfo["posX"]), tonumber(elemInfo["posY"]), tonumber(elemInfo["posZ"]))
+		end
+	end
+	
+	for elemId,elemInfo in pairs(missionElements) do
+		if(elemInfo["id"] == "pathpoint") then
+			
+			for elemTo in string.gmatch(elemInfo["neighbors"], "[^,]+") do
+				if(string.len(elemTo) > 0) then
+					exports.ai:addBotPathLink(elemId, elemTo)
+				end
+			end
+		end
+	end
+	return true
+end
+
+
 -- Инициализация ресурса(см. документацию к событию onResourceStart)
 function missionInit(res)
 	resplay = getResourceFromName("resplay")
@@ -25,7 +76,7 @@ function missionInit(res)
 		return nil
 	end
 	
-	if not (ammututLoadActionsData() and ammututLoadMapData()) then
+	if not (--[[ammututLoadActionsData() and]] ammututLoadMapData()) then
 		cancelEvent()
 		return nil
 	end
@@ -44,14 +95,14 @@ function missionStart(plr)
 	
 	ammututSetPlayerInvincible(plr, true)
 	
-	local spawnInfo = missionElements["spawn"]
+	--local spawnInfo = missionElements["spawn"]
 	local cameraPos = missionElements["campos1"]
 	local cameraLook = missionElements["camlook1"]
 	
-	if not spawnInfo then
+	--[[if not spawnInfo then
 		cancelEvent()
 		return nil
-	end
+	end--]]
 	
 	ammututFadeCamera(plr, false, 0)
 	local dimension = dimensionMin
@@ -61,16 +112,17 @@ function missionStart(plr)
 	end
 	
 	playerDimensions[dimension] = plr
-	spawnPlayer(plr, tonumber(spawnInfo["posX"]), tonumber(spawnInfo["posY"]), tonumber(spawnInfo["posZ"]), tonumber(spawnInfo["rotZ"]), tonumber(spawnInfo["model"]), tonumber(spawnInfo["interior"]), dimension)
+	spawnPlayer(plr, 293.74182, -24.70302, 1001.51563, 165, 1, dimension)
+	--spawnPlayer(plr, tonumber(spawnInfo["posX"]), tonumber(spawnInfo["posY"]), tonumber(spawnInfo["posZ"]), tonumber(spawnInfo["rotZ"]), tonumber(spawnInfo["model"]), tonumber(spawnInfo["interior"]), dimension)
 	setElementFrozen(plr, true)
-	setCameraInterior(plr, tonumber(spawnInfo["interior"]))
-	setCameraMatrix(plr, tonumber(cameraPos["posX"]), tonumber(cameraPos["posY"]), tonumber(cameraPos["posZ"]), tonumber(cameraLook["posX"]), tonumber(cameraLook["posY"]), tonumber(cameraLook["posZ"]))
+	setCameraInterior(plr, 1)
+	--[[setCameraMatrix(plr, tonumber(cameraPos["posX"]), tonumber(cameraPos["posY"]), tonumber(cameraPos["posZ"]), tonumber(cameraLook["posX"]), tonumber(cameraLook["posY"]), tonumber(cameraLook["posZ"]))
 	setTimer(ammututIntroShowPlace, 1500, 1, plr, dimension)
 	setTimer(ammututFadeCamera, 10000, 1, plr, true, 1)
-	setTimer(ammututMoveCamera, 10500, 1, plr, 1, 2, 5000, "InOutQuad", "Вы - Прошли тест для получения лицензии.")
+	--[[setTimer(ammututMoveCamera, 10500, 1, plr, 1, 2, 5000, "InOutQuad", "Вы - Прошли тест для получения лицензии.")
 	setTimer(ammututMoveCamera, 16500, 1, plr, 3, 4, 5000, "InOutQuad", "Теперь вам осталось попрактиковаться стрельбе на мишенях.")
-	setTimer(ammututMoveCamera, 23500, 1, plr, 5, 5, 0, "Linear", "После практики вы сможете получить лицензию.")
-	setTimer(ammututStart, 28500, 1, plr)
+	setTimer(ammututMoveCamera, 23500, 1, plr, 5, 5, 0, "Linear", "После практики вы сможете получить лицензию.")]]
+	setTimer(ammututStart, 28500, 1, plr)]]
 end
 
 function ammututSetPlayerInvincible(plr, bInv)
@@ -99,9 +151,9 @@ function ammututStart(plr)
 	end
 	
 	setCameraTarget(plr, plr)
-	setElementFrozen(plr, false)
+	--setElementFrozen(plr, false)
 	toggleAllControls(plr, true, true, true)
-	toggleControl(plr, "jump", false)
+	--toggleControl(plr, "jump", false)
 	toggleControl(plr, "fire", false)
 	toggleControl(plr, "sprint", false)
 	toggleControl(plr, "crouch", false)
@@ -122,6 +174,7 @@ function ammututIntroShowPlace(plr, dimension)
 	exports.resplay:showPlace(plr, "Ammu nation Shooting Range, Los Santos, San Andreas", 1994, realTime.month+1, realTime.monthday)
 	clientSeats[plr] = {}
 	
+--[[
 	while objInfo do
 		plrInfo = {}
 		plrInfo["x"] = tonumber(objInfo["posX"])
@@ -215,9 +268,9 @@ function ammututIntroShowPlace(plr, dimension)
 																	   tonumber(objInfo["rotZ"] ), dimension)
 		objIndex = objIndex + 1
 		objInfo = missionElements["table"..tostring(objIndex)]
-	end
+	end]]
 	toggleAllControls(plr, false, true, true)
-	ammututSpawnClient(plr)
+	--ammututSpawnClient(plr)
 end
 
 function ammututMoveCamera(plr, camIdFrom, camIdTo, camMoveTime, moveFunc, messageText)
@@ -240,7 +293,7 @@ function ammututMoveCamera(plr, camIdFrom, camIdTo, camMoveTime, moveFunc, messa
 	end
 end
 
-function ammututSpawnClient(plr)
+--[[function ammututSpawnClient(plr)
 	local dimension = getElementDimension(plr)
 	local spawn = missionElements["clientspawn"]
 	local seat
@@ -271,7 +324,7 @@ function ammututSpawnClient(plr)
 	table.insert(ammututElements[plr], bot)
 	table.insert(ammututElements[plr], trigger)
 	return true
-end
+end]]
 
 -- Завершение миссии для игрока:
 -- Параметры:	plr - Игрок
@@ -284,6 +337,6 @@ end
 
 addEvent("onMissionStart")
 addEvent("onMissionFinish")
-addEventHandler("onResourceStart", root, missionInit, false)
+addEventHandler("onResourceStart", resourceRoot, missionInit, false)
 addEventHandler("onMissionStart", resourceRoot, missionStart, false)
 addEventHandler("onMissionFinish", resourceRoot, missionFinish, false)
