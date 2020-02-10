@@ -10999,15 +10999,16 @@ function license3()
 
         if (licenseAnswer3True == true) then
 			guiSetVisible(licenseWin3, false)
-			triggerServerEvent("onLicenseWeaponExamFinish", resourceRoot, localPlayer)
+			triggerServerEvent("importAmmuRange", resourceRoot, localPlayer)
+			--exports.ammushoot:exportToResplayTrigger(localPlayer)
 			examLicenseDeleteCursor()
 		else
 		    msgAdd("Вы не смогли сдать экзамен, попробуйте ещё раз.")
 			guiSetVisible(licenseWin3, false)
 			examLicenseDeleteCursor()
 		end
-	showCursor(false)
 	--end
+	showCursor(false)
 end
 
 function examLicenseDeleteCursor()

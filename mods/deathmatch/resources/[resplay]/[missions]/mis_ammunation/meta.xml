@@ -1,6 +1,0 @@
-<meta>
-	<info type="script" gamemodes="resplay" name="Название миссии" description="Описание миссии" previous="Предыдущие миссии, которые необходимо выполнить (через запятую или оставить пустым)"/>
-	
-	<script src="mission_s.lua" type="server"/>
-	<script src="mission_c.lua" type="client"/>
-</meta>

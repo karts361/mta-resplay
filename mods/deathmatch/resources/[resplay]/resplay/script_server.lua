@@ -28864,6 +28864,7 @@ function licenseWeaponExamFinish(plr)
 	else
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Поздравляем, вы сдали экзамен и получили лицензию на владение оружием!")
+		triggerClientEvent(plr, "onSuccessMusicPlay", resourceRoot)
 		takeMoney(plr, 25000)
 		addNewEventToLog(getPlayerName(plr), "Лицензия на оружие - сдал", true)
 		setElementData(plr, "weaponlicense", 1)
@@ -28960,6 +28961,12 @@ function policeRemovePlayerLicense(policeman, player, hours, reason)
 	playerShowMessage(policeman, "Ошибка при лишении лицензии игрока.")
 	return false
 end
+
+function importAmmuRange(plr)
+    exports.ammushoot:exportToResplayTrigger(plr)
+end
+addEvent("importAmmuRange", true)
+addEventHandler("importAmmuRange", root, importAmmuRange)
 
 
 addEvent("onPlayerCheckIfRegistered", true)
