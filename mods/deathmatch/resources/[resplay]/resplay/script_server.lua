@@ -26124,6 +26124,8 @@ function loadAdminCmds()
 	xmlUnloadFile(rootNode)
 end
 
+-------------------------АДМИН ФУНКЦИОНАЛ----------------------------------
+
 -- Название админ команд не менять :)
 function adminCmd(plr, cmd, ...)
 	local adminCmdInfo = adminCmds[cmd]
