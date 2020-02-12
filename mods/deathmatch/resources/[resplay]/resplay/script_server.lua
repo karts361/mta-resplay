@@ -27856,7 +27856,7 @@ function gangGetAllGroups()
 end
 
 function gangInit()
-	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21 )", getRealTime().timestamp-1814400)
+	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21, 22 )", getRealTime().timestamp-1814400)
 	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
 	
     crips = createTeam("CRIPS", 1, 81, 136)
@@ -28944,8 +28944,6 @@ function policeRemovePlayerLicense(policeman, player, hours, reason)
 			eventNamePolice = "Лишил"
 			playerShowMessage(policeman, "Вы лишили лицензии на оружия на "..tostring(hours/3600).." часов реального времени игрока "..getPlayerName(player)..reasonText)
 			playerShowMessage(player, "Вас лишил лицензии на оружия игрок "..getPlayerName(policeman).." на "..tostring(hours/3600).." часов реальнго времени по причине "..reasonText)
-			attachActionToElement(defaultActions[134], player)
-			attachActionToElement(defaultActions[116], player)
 		    triggerEvent("onPlayerChat", policeman, "Лишил лицензии на оружия игрока "..getPlayerName(player).."["..getPlayerID(player).."]"..reasonText, 2)
 		end
 		
