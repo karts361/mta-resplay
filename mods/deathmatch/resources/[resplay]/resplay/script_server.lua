@@ -12029,9 +12029,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+		--db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -14673,9 +14673,6 @@ function requestActionsList(aplr)
 			table.insert(alist, { 63, availableActions[63], {}, nil, 0, 255, 0 })
 			table.insert(alist, { 129, availableActions[129], {}, { "ID Игрока", "Кол-во звезд", "Причина" }, 0, 255, 0 })
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
-			if not pAdmin or pModerator then
-			    table.insert(alist, { 156, "Работа - Лишить игрока лицензии на оружие", {}, { "ID Игрока", "Часов (1-72)", "Причина" }, 0, 255, 0 })
-			end
 
 			for _,plr in ipairs(players) do
 				if(getPlayerWantedLevel(plr) > 0) then
@@ -14708,6 +14705,7 @@ function requestActionsList(aplr)
 		table.insert(alist, { 27, availableActions[27], {}, { "Ваше обращение" }, 255, 255, 255 })
 		table.insert(alist, { 66, availableActions[66], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 67, availableActions[67], {}, nil, 255, 255, 255 })
+		table.insert(alist, { 159, "Игрок - Открыть статистику", {}, nil, 255, 255, 255 })
 		
 		if(dbuserinfo[1]["customWalk"] == 1) then
 			table.insert(alist, { 79, availableActions[79], {}, nil, 255, 255, 255 })
@@ -15231,6 +15229,14 @@ function requestActionsList(aplr)
 			end
 		end
 		
+		if (aplrGrp == 2 or aplrGrp == 17) then
+			table.insert(alist, { 158, "Работа - Пробить игрока по базе данных", {}, {"ID Игрока"}, 0, 255, 0 })
+
+			if (dbuserinfo[1]["rank"] > 4) and not pAdmin or pModerator then
+			    table.insert(alist, { 156, "Работа - Лишить игрока лицензии на оружие", {}, { "ID Игрока", "Часов (1-72)", "Причина" }, 0, 255, 0 })
+			end
+		end
+		
 		if isTestServer() then
 			table.insert(alist, { 5, availableActions[5], {}, { "X", "Y", "Z", "Интерьер" }, 255, 255, 0 })
 			table.insert(alist, { 6, availableActions[6], {}, { "ID" }, 255, 255, 0 })
@@ -15308,6 +15314,7 @@ function requestActionsList(aplr)
 		
 		for _,nearbyPlr in ipairs(players) do
 			table.insert(alist, { 55, availableActions[55].." "..getPlayerName(nearbyPlr), { nearbyPlr }, { "Количество" }, 0, 255, 0 })
+			table.insert(alist, { 157, "Паспорт - Показать игроку "..getPlayerName(nearbyPlr), { nearbyPlr }, nil, 0, 255, 0 })
 		end
 		
 		if clan and not gId then
@@ -18087,6 +18094,60 @@ function executeAction(aplr, actionId, params)
 			end
 			
 			policeRemovePlayerLicense(aplr, player, licenseDeprived, params[3])
+			
+		elseif(actionId == 157) then
+			local plr = params[1]
+			local pName = getPlayerName(plr)
+			
+			if isElementInWater(plr) then
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Нельзя показать паспорт игроку, находящегося в воде.")
+				
+			elseif not isPedOnGround(plr) then
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Нельзя показать паспорт игроку, находящегося не на земле.")
+			else
+				local ax, ay, az = getElementPosition(aplr)
+				local px, py, pz = getElementPosition(plr)
+					
+				if(getElementInterior(aplr) == getElementInterior(plr)) and (getElementDimension(aplr) == getElementDimension(aplr)) and(getDistanceBetweenPoints3D(ax,ay,az,px,py,pz) < nearbyPlayersRadius) then
+				    
+					triggerEvent("onPlayerChat", aplr, "достал из кошелька паспорт и показал игроку "..pName, 1)
+				    triggerClientEvent(plr, "onResplayPassport", aplr)
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Игрок находится далеко от вас.")
+				end
+			end
+		
+		elseif(actionId == 158) then
+		    local gangster = getPlayerFromID(params[1])
+			local playerInPoliceVehicle = false
+			local aVeh = getPedOccupiedVehicle(aplr)
+			
+			
+			if aVeh then
+				local vehGrps = groupVehicles[getElementModel(aVeh)]
+				if vehGrps then
+					for _,curGrp in ipairs(vehGrps) do
+						if(curGrp == 2) or (curGrp == 15) or (curGrp == 17) then
+							playerInPoliceVehicle = true
+							break
+						end
+					end
+				end
+			end
+			
+			if playerInPoliceVehicle then
+			    if not isElement(gangster) then
+				    playerShowMessage(aplr, "Игрок с таким ID не найден")
+				    return false
+			    end
+				triggerClientEvent(aplr, "onPlayerPoliceDb", gangster)
+				
+			else
+				triggerClientEvent(aplr, "onReceivePoliceMessage", aplr, generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFFВы должны находиться в служебном транспорте, чтобы пробить гражданина по базе данных.")
+			end
+
+        elseif(actionId == 159) then
+		    triggerClientEvent(aplr, "openMyStats", aplr)
 
         -- Действия для админ функционала(с 700)
 			
@@ -27115,7 +27176,12 @@ function adminCMDlicensedeprive(plr, nickname, secondsText, ...)
 			return
 		end
 		
-		secondsText = tonumber(licenseDeprived)
+		licenseDeprived = tonumber(secondsText)
+		
+		if(not licenseDeprived) or (licenseDeprived < 1.0) then
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Количество секунд введено неверно")
+			return
+		end
 		
 		licenseDeprived = math.floor(licenseDeprived)
 		
@@ -27161,7 +27227,7 @@ function adminCMDremovelicensedeprive(plr, nickname)
 		local plrr = getPlayerName(playerlicense)
         weaponlicense = 0
 		
-		if dbExec(db, "UPDATE users SET licenseDeprive=? WHERE name=?", weaponlicense, getHash(plrr)) then
+		if dbExec(db, "UPDATE users SET licenseDeprived=? WHERE name=?", weaponlicense, getHash(plrr)) then
 			setElementData(playerlicense, "weaponlicense", weaponlicense)
 			setElementData(playerlicense, "licenseDeprived", weaponlicense)
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сбросили срок лишения лицензии на владения оружием игроку "..plrr)

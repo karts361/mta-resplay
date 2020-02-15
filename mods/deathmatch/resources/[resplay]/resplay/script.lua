@@ -11018,6 +11018,305 @@ function examLicenseDeleteCursor()
 	showCursor(false)
 end
 
+function openStats()
+    showCursor(true)
+    ResplayPassport = guiCreateWindow(sW/2-150, sH/2-97, 390, 239, "Статистика", false)
+    guiWindowSetSizable(ResplayPassport, false)
+	
+	--local hash = getHash(getPlayerName(localPlayer))
+	
+	--idPassport = guiCreateLabel(23, 25, 195, 19, "Идентификатор:", false, ResplayPassport)
+	--guiSetFont(idPassport, "default-bold-small")
+
+    nicknameText = guiCreateLabel(21, 49, 114, 19, "Ваш никнейм:", false, ResplayPassport)
+    guiSetFont(nicknameText, "default-bold-small")
+    respectText = guiCreateLabel(21, 77, 120, 17, "Уровень репутации:", false, ResplayPassport)
+    guiSetFont(respectText, "default-bold-small")
+    weapLicenseText = guiCreateLabel(21, 62, 195, 15, "Лицензия на владение оружием:", false, ResplayPassport)
+    guiSetFont(weapLicenseText, "default-bold-small")
+    curUsrGrpDraw = guiCreateLabel(21, 90, 120, 20, "Статус/Должность:", false, ResplayPassport)
+    guiSetFont(curUsrGrpDraw, "default-bold-small")
+    wantedLvlInfo = guiCreateLabel(21, 105, 120, 20, "Уровень розыска:", false, ResplayPassport)
+    guiSetFont(wantedLvlInfo, "default-bold-small")
+	
+    closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
+
+	addEventHandler ( "onClientGUIClick", closeButton,
+		function ()
+			guiSetVisible ( ResplayPassport, false )
+			showCursor ( false )
+		end,
+	false )
+	
+	local getNickname = getPlayerName(localPlayer)
+    local uteam = getPlayerTeam(localPlayer)
+
+	if uteam then
+		usergrp = getElementData(localPlayer, "usergroup")
+		teamname = getTeamName(uteam)
+		
+		if(teamname ~= "Граждане") and(usergrp == 10) then
+			grpstr = "Клан ["..teamname.."]"
+			grpr, grpg, grpb = getTeamColor(uteam)
+		else
+			grpstr = getElementData(localPlayer, "usergroupname")
+			grpr, grpg, grpb = playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4]
+		end
+	end
+	
+	local deprivedLic = getElementData(localPlayer, "licenseDeprived")
+	local licweap = getElementData(localPlayer, "weaponlicense")
+
+	if licweap == 0 then
+	    licwp = "Отсутствует"
+		lr, lg, lb = 255, 0, 0
+		if deprivedLic > 0 then
+	        licwp = "Лишён"
+		    lr, lg, lb = 255, 131, 0
+	    end
+	elseif licweap == 2 then
+	    licwp = "Лишён"
+		lr, lg, lb = 255, 131, 0
+	elseif licweap == 1 then
+	    licwp = "Есть"
+		lr, lg, lb = 0, 255, 0
+	end
+
+    --hashDraw = guiCreateLabel(151, 25, 150, 16, hash, false, ResplayPassport)
+    --guiSetFont(hashDraw, "default-bold-small")
+    guiSetFont(closeButton, "default-bold-small")
+    guiSetProperty(closeButton, "NormalTextColour", "FFF90000")
+    nicknameDraw = guiCreateLabel(230, 49, 150, 16, getNickname, false, ResplayPassport)
+    guiSetFont(nicknameDraw, "default-bold-small")
+    weaponLicense = guiCreateLabel(230, 62, 80, 15, licwp, false, ResplayPassport)
+	guiLabelSetColor(weaponLicense, lr, lg, lb)
+    guiSetFont(weaponLicense, "default-bold-small")
+	
+	local respect = getElementData(localPlayer, "respect")
+	curRespectStr = string.format("%.2f", respect*100.0).."%"
+	
+    respectDraw = guiCreateLabel(230, 77, 52, 16, curRespectStr, false, ResplayPassport)
+    guiSetFont(respectDraw, "default-bold-small")
+    curUsrGrp = guiCreateLabel(230, 90, 160, 16, grpstr, false, ResplayPassport)
+    guiSetFont(curUsrGrp, "default-bold-small")    
+	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
+    wantedLvl = guiCreateLabel(230, 105, 160, 16, wantedTex, false, ResplayPassport)
+    guiSetFont(wantedLvl, "default-bold-small")    
+	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	
+	local pwanted = getElementData(localPlayer, "wantedLevel")
+	
+    if pwanted and(pwanted < 0) then
+	    wantedTex = pwanted
+		wntr, wntg, wntb = 255, 0, 0
+    elseif pwanted and (pwanted == 0) then
+	    wantedTex = "Отсутствует"
+		wntr, wntg, wntb = 0, 255, 0
+	end
+	
+end
+addEvent("openMyStats", true)
+addEventHandler("openMyStats", root, openStats)
+
+function openResplayPlayerPassport()
+    showCursor(true)
+    ResplayPassport = guiCreateWindow(sW/2-150, sH/2-97, 390, 239, "Паспорт игрока", false)
+    guiWindowSetSizable(ResplayPassport, false)
+	
+	--local hash = getHash(getPlayerName(source))
+	
+	--idPassport = guiCreateLabel(23, 25, 195, 19, "Идентификатор:", false, ResplayPassport)
+	--guiSetFont(idPassport, "default-bold-small")
+
+    nicknameText = guiCreateLabel(23, 49, 114, 19, "Имя/Фамилия:", false, ResplayPassport)
+    guiSetFont(nicknameText, "default-bold-small")
+    respectText = guiCreateLabel(21, 82, 120, 17, "Уровень репутации:", false, ResplayPassport)
+    guiSetFont(respectText, "default-bold-small")
+    weapLicenseText = guiCreateLabel(21, 109, 195, 15, "Лицензия на владение оружием:", false, ResplayPassport)
+    guiSetFont(weapLicenseText, "default-bold-small")
+    curUsrGrpDraw = guiCreateLabel(21, 138, 120, 20, "Статус/Должность:", false, ResplayPassport)
+    guiSetFont(curUsrGrpDraw, "default-bold-small")
+    wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, ResplayPassport)
+    guiSetFont(wantedLvlInfo, "default-bold-small")
+	
+    closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
+
+	addEventHandler ( "onClientGUIClick", closeButton,
+		function ()
+			guiSetVisible ( ResplayPassport, false )
+			showCursor ( false )
+		end,
+	false )
+	
+	local getNickname = getPlayerName(source)
+    local uteam = getPlayerTeam(source)
+
+	if uteam then
+		usergrp = getElementData(source, "usergroup")
+		teamname = getTeamName(uteam)
+		
+		if(teamname ~= "Граждане") and(usergrp == 10) then
+			grpstr = "Клан ["..teamname.."]"
+			grpr, grpg, grpb = getTeamColor(uteam)
+		else
+			grpstr = getElementData(source, "usergroupname")
+			grpr, grpg, grpb = playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4]
+		end
+	end
+	
+	local deprivedLic = getElementData(source, "licenseDeprived")
+	local licweap = getElementData(source, "weaponlicense")
+
+	if licweap == 0 then
+	    licwp = "Отсутствует"
+		lr, lg, lb = 255, 0, 0
+		if deprivedLic > 0 then
+	        licwp = "Лишён"
+		    lr, lg, lb = 255, 131, 0
+	    end
+	elseif licweap == 2 then
+	    licwp = "Лишён"
+		lr, lg, lb = 255, 131, 0
+	elseif licweap == 1 then
+	    licwp = "Есть"
+		lr, lg, lb = 0, 255, 0
+	end
+
+    --hashDraw = guiCreateLabel(151, 25, 150, 16, hash, false, ResplayPassport)
+    --guiSetFont(hashDraw, "default-bold-small")
+    guiSetFont(closeButton, "default-bold-small")
+    guiSetProperty(closeButton, "NormalTextColour", "FFF90000")
+    nicknameDraw = guiCreateLabel(230, 49, 150, 16, getNickname, false, ResplayPassport)
+    guiSetFont(nicknameDraw, "default-bold-small")
+    weaponLicense = guiCreateLabel(230, 109, 80, 15, licwp, false, ResplayPassport)
+	guiLabelSetColor(weaponLicense, lr, lg, lb)
+    guiSetFont(weaponLicense, "default-bold-small")
+	
+	local respect = getElementData(source, "respect")
+	curRespectStr = string.format("%.2f", respect*100.0).."%"
+	
+    respectDraw = guiCreateLabel(230, 83, 52, 16, curRespectStr, false, ResplayPassport)
+    guiSetFont(respectDraw, "default-bold-small")
+    curUsrGrp = guiCreateLabel(230, 138, 160, 16, grpstr, false, ResplayPassport)
+    guiSetFont(curUsrGrp, "default-bold-small")    
+	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
+    wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, ResplayPassport)
+    guiSetFont(wantedLvl, "default-bold-small")    
+	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	
+	local pwanted = getElementData(source, "wantedLevel")
+	
+    if pwanted and(pwanted < 0) then
+	    wantedTex = pwanted
+		wntr, wntg, wntb = 255, 0, 0
+    elseif pwanted and (pwanted == 0) then
+	    wantedTex = "Отсутствует"
+		wntr, wntg, wntb = 0, 255, 0
+	end
+	
+end
+addEvent("onResplayPassport", true)
+addEventHandler("onResplayPassport", root, openResplayPlayerPassport)
+
+function playerPoliceDb()
+    showCursor(true)
+    policeDb = guiCreateWindow(sW/2-150, sH/2-97, 390, 239, "Информация", false)
+    guiWindowSetSizable(policeDb, false)
+	
+	--local hash = getHash(getPlayerName(source))
+	
+	--idPassport = guiCreateLabel(23, 25, 195, 19, "Идентификатор:", false, policeDb)
+	--guiSetFont(idPassport, "default-bold-small")
+
+    nicknameText = guiCreateLabel(23, 49, 114, 19, "Имя/Фамилия:", false, policeDb)
+    guiSetFont(nicknameText, "default-bold-small")
+    respectText = guiCreateLabel(21, 82, 120, 17, "Уровень репутации:", false, policeDb)
+    guiSetFont(respectText, "default-bold-small")
+    weapLicenseText = guiCreateLabel(21, 109, 195, 15, "Лицензия на владение оружием:", false, policeDb)
+    guiSetFont(weapLicenseText, "default-bold-small")
+    curUsrGrpDraw = guiCreateLabel(21, 138, 120, 20, "Статус/Должность:", false, policeDb)
+    guiSetFont(curUsrGrpDraw, "default-bold-small")
+    closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, policeDb)
+    wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, policeDb)
+    guiSetFont(wantedLvlInfo, "default-bold-small")
+
+	addEventHandler ( "onClientGUIClick", closeButton,
+		function ()
+			guiSetVisible ( policeDb, false )
+			showCursor ( false )
+		end,
+	false )
+	
+	local getNickname = getPlayerName(source)
+    local uteam = getPlayerTeam(source)
+
+	if uteam then
+		usergrp = getElementData(source, "usergroup")
+		teamname = getTeamName(uteam)
+		
+		if(teamname ~= "Граждане") and(usergrp == 10) then
+			grpstr = "Клан ["..teamname.."]"
+			grpr, grpg, grpb = getTeamColor(uteam)
+		else
+			grpstr = getElementData(source, "usergroupname")
+			grpr, grpg, grpb = playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4]
+		end
+	end
+	
+	local deprivedLic = getElementData(source, "licenseDeprived")
+	local licweap = getElementData(source, "weaponlicense")
+
+	if licweap == 0 then
+	    licwp = "Отсутствует"
+		lr, lg, lb = 255, 0, 0
+		if deprivedLic > 0 then
+	        licwp = "Лишён"
+		    lr, lg, lb = 255, 131, 0
+	    end
+	elseif licweap == 2 then
+	    licwp = "Лишён"
+		lr, lg, lb = 255, 131, 0
+	elseif licweap == 1 then
+	    licwp = "Есть"
+		lr, lg, lb = 0, 255, 0
+	end
+
+    --hashDraw = guiCreateLabel(151, 25, 150, 16, hash, false, policeDb)
+    --guiSetFont(hashDraw, "default-bold-small")
+    guiSetFont(closeButton, "default-bold-small")
+    guiSetProperty(closeButton, "NormalTextColour", "FFF90000")
+    nicknameDraw = guiCreateLabel(230, 49, 150, 16, getNickname, false, policeDb)
+    guiSetFont(nicknameDraw, "default-bold-small")
+    weaponLicense = guiCreateLabel(230, 109, 80, 15, licwp, false, policeDb)
+	guiLabelSetColor(weaponLicense, lr, lg, lb)
+    guiSetFont(weaponLicense, "default-bold-small")
+	
+	local respect = getElementData(source, "respect")
+	curRespectStr = string.format("%.2f", respect*100.0).."%"
+	
+    respectDraw = guiCreateLabel(230, 83, 52, 16, curRespectStr, false, policeDb)
+    guiSetFont(respectDraw, "default-bold-small")
+    curUsrGrp = guiCreateLabel(230, 138, 160, 16, grpstr, false, policeDb)
+    guiSetFont(curUsrGrp, "default-bold-small")    
+	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
+    wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, policeDb)
+    guiSetFont(wantedLvl, "default-bold-small")    
+	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	
+	local pwanted = getElementData(source, "wantedLevel")
+	
+    if pwanted and(pwanted < 0) then
+	    wantedTex = pwanted
+		wntr, wntg, wntb = 255, 0, 0
+    elseif pwanted and (pwanted == 0) then
+	    wantedTex = "Отсутствует"
+		wntr, wntg, wntb = 0, 255, 0
+	end
+
+end
+addEvent("onPlayerPoliceDb", true)
+addEventHandler("onPlayerPoliceDb", root, playerPoliceDb)
+
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
 addEvent("onReceiveRegisterCheck", true)
