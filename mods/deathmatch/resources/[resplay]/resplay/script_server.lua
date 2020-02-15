@@ -12029,9 +12029,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-		db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+		--db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -18121,6 +18121,7 @@ function executeAction(aplr, actionId, params)
 		    local gangster = getPlayerFromID(params[1])
 			local playerInPoliceVehicle = false
 			local aVeh = getPedOccupiedVehicle(aplr)
+			local pName = getPlayerName(plr)
 			
 			
 			if aVeh then
@@ -18141,6 +18142,7 @@ function executeAction(aplr, actionId, params)
 				    return false
 			    end
 				triggerClientEvent(aplr, "onPlayerPoliceDb", gangster)
+				triggerEvent("onPlayerChat", aplr, "Пробивает по полицейской базе данных "..pName, 1)
 				
 			else
 				triggerClientEvent(aplr, "onReceivePoliceMessage", aplr, generateTimeString().."[Полиция] ДИСПЕТЧЕР: #FFFFFFВы должны находиться в служебном транспорте, чтобы пробить гражданина по базе данных.")
@@ -18610,7 +18612,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			playerShowMessage(gangster, "Вы получили уровень розыска "..tostring(wantedLvl).." от игрока "..getPlayerName(policeman)..reasonText)
 			attachActionToElement(defaultActions[134], gangster)
 			attachActionToElement(defaultActions[116], gangster)
-		    if not isAdmin(policeman) or isModerator(policeman) then
+		    if not (isAdmin(policeman) or isModerator(policeman)) then
 		        triggerEvent("onPlayerChat", policeman, "Объявил в розыск "..getPlayerName(gangster).."["..getPlayerID(gangster).."]"..reasonText, 2)
 			end
 		else
@@ -18620,7 +18622,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 			playerShowMessage(gangster, "С вас был снят уровень розыска игроком "..getPlayerName(policeman)..reasonText)
 			detachActionFromElement(defaultActions[134], gangster)
 			detachActionFromElement(defaultActions[116], gangster)
-		    if not isAdmin(policeman) or isModerator(policeman) then
+		    if not (isAdmin(policeman) or isModerator(policeman)) then
 		        triggerEvent("onPlayerChat", policeman, "Прекратил розыск "..getPlayerName(gangster).."["..getPlayerID(gangster).."]"..reasonText, 2)
 			end
 		end
@@ -28917,7 +28919,7 @@ function gangBaseIsInCapture(baseId)
 end
 
 ----- сдача экзамена на лицензию на оружия
-licenseweaponmarker = createMarker(1249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
+licenseweaponmarker = createMarker(249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
 setElementInterior(licenseweaponmarker, 6)
 setElementDimension(licenseweaponmarker, 87)
 setPickupText(licenseweaponmarker, "Лицензия", 255, 255, 0)
