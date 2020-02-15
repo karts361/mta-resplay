@@ -28917,7 +28917,9 @@ function gangBaseIsInCapture(baseId)
 end
 
 ----- сдача экзамена на лицензию на оружия
-licenseweaponmarker = createMarker(1683.36279, -2312.62183, 12.5468, "cylinder", 1.5, 255, 255, 0, 64)
+licenseweaponmarker = createMarker(1249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
+setElementInterior(licenseweaponmarker, 6)
+setElementDimension(licenseweaponmarker, 87)
 setPickupText(licenseweaponmarker, "Лицензия", 255, 255, 0)
 
 function licenseWeaponExamFinish(plr)
