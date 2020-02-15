@@ -139,6 +139,10 @@ function toggleSkinChooser(plr)
 	return triggerClientEvent(plr, "onSkinChooser", resourceRoot)
 end
 
+function licenseWeaponExamFinished(plr)
+    return licenseWeaponExamFinish(plr)
+end
+
 function playerSendSMIMessage(plr, msgtext)
     local plrNamee = getPlayerName(plr)
     return outputChatBox(generateTimeString()..plrNamee.." [SaNews]: "..msgtext, root, 0, 255, 147, false)

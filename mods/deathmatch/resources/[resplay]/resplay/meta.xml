@@ -14,6 +14,7 @@
 	<include resource="blocksmi"/>
 	<include resource="bone_attach"/>
 	<include resource="camera"/>
+	<include resource="ammushoot"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
 	<include resource="freecam"/>
@@ -37,7 +38,7 @@
 	<include resource="zones"/>
 	
 	<!-- МАП ФАЙЛ -->
-	<map src="resplay.map"/>
+	<map src="resplay_test.map"/>
 	
 	<file src="fonts/PricedownC.ttf" download="true"/>
 
@@ -481,6 +482,7 @@
 	<export function='clearActions'/>
 	<export function='showMissionTitle'/>
 	<export function='showPlace'/>
+	<export function='licenseWeaponExamFinished'/>
 	<export function='moveCamera'/>
 	<export function='toggleResplayMessages'/>
 	<export function='getNearbyElementsByType'/>

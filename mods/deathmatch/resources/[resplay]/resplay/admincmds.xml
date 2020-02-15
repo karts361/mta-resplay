@@ -40,5 +40,9 @@
 	<command name="setgender" level="3" description="/setgender [ник] [пол] изменить пол игроку 1 - мужчина 2 - женчина"/>	
 	<command name="setpassword" level="4" description="/setpassword [пароль] - Установить пароль для входа на сервер"/>	
 	<command name="removepassword" level="4" description="/removepassword - снять пароль для входа на сервер"/>	
-	<command name="kickall" level="4" description="/kickall [причина] - кикнуть всех игроков с сервера"/>	
+	<command name="kickall" level="4" description="/kickall [причина] - кикнуть всех игроков с сервера"/>
+	<command name="licensedeprive" level="2" description="/licensedeprive [ник] [секунды] [причина] - лишить игрока лицензии на оружие."/>	
+	<command name="licensedepriveperm" level="2" description="/licensedepriveperm [ник] [причина] - лишить бессрочно игрока лицензии на оружие."/>	
+	<command name="removelicensedeprive" level="2" description="/removelicensedeprive [ник] - сбросить срок лишения лицензии на оружие."/>	
+	<command name="givelicense" level="3" description="/givelicense [ник] - выдать лицензию на оружие."/>	
 </commands>

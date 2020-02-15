@@ -1,0 +1,10 @@
+<meta>
+	<info author="Zipper" name="Shootingranch" version="1.0" type="script" />
+	
+	<script src="shootingranch_both.lua" type="client"/>
+	<script src="shootingranch_both.lua" type="server"/>
+	<script src="shootingranch_client.lua" type="client"/>
+	<script src="shootingranch_server.lua" type="server"/>
+	<script src="shootingranch_exports.lua" type="server"/>
+	<export function="exportToResplayTrigger" />
+</meta>
