@@ -10,6 +10,7 @@ local warpLocations =
 {
 	-- To add/remove warp points (which you can access by pressing the WP button on the admin panel)
 	-- {"Location Name", x, y, z}
+	{"Админ Зона", 2297.30004882, -1744.8000488281, 10934.700195313},
 	{"ЛСПД", 1553.33386, -1675.62659, 16.19531},
 	{"СФПД", -1609.64209, 721.52875, 12.71494},
 	{"ЛВПД", 2289.88501, 2424.00708, 10.82031},

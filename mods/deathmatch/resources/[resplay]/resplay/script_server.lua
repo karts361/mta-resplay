@@ -26816,7 +26816,7 @@ function adminCMDspec(plr, id)
 		local px, py, pz = getElementPosition(plr)
 		specStates[plr] = { px, py, pz, getElementInterior(plr), getElementDimension(plr), getPedOccupiedVehicle(plr), getPedOccupiedVehicleSeat(plr) }
 		removePedFromVehicle(plr)
-		setElementPosition(plr, 10000.0, 10000.0, 10000.0)
+		setElementPosition(plr, 2261.6000976, -1734, 10950.900390625)
 		setElementFrozen(plr, true)
 	end
 	
