@@ -7401,12 +7401,13 @@ function housesBuy(houseid, buyer)
 	if(houses[houseid][11] == 0) then
 		local hsqlindex = houses[houseid][1]
 		local buyerHash = getHash(getPlayerName(buyer))
+		local buyerName = getPlayerName(buyer)
 		
 		if houseOwners[buyerHash] and(houseOwners[buyerHash] >= 3) then
 			playerShowMessage(buyer, "Нельзя приобретать в собственность больше трёх домов.")
 			return false
 			
-		elseif dbExec(db, "UPDATE houses SET owner=? WHERE id=?", buyerHash, hsqlindex) then
+		elseif dbExec(db, "UPDATE houses SET owner=?, ownerNick=? WHERE id=?", buyerHash, buyerName, hsqlindex) then
 			addNewEventToLog(getPlayerName(buyer), "Дом - Покупка - SQL ID "..hsqlindex, true)
 			takeMoney(buyer, houses[houseid][3])
 			houses[houseid][11] = buyerHash
@@ -7418,7 +7419,7 @@ function housesBuy(houseid, buyer)
 			attachActionToElement(defaultActions[14], houses[houseid][4])
 			attachActionToElement(defaultActions[29], houses[houseid][4])
 			attachActionToElement(defaultActions[12], houses[houseid][4])
-			setPickupText(houses[houseid][4], "Занят", 255, 0, 0)
+			setPickupText(houses[houseid][4], "Занят. Владелец: "..buyerName, 255, 0, 0)
 			
 			if houseOwners[buyerHash] then
 				houseOwners[buyerHash] = houseOwners[buyerHash] + 1
@@ -7437,7 +7438,7 @@ function housesSell(houseid, seller)
 		local hsqlindex = houses[houseid][1]
 		local sellerHash = getHash(getPlayerName(seller))
 		
-		if(dbExec(db, "UPDATE houses SET owner=0 WHERE id=?", hsqlindex)) then
+		if(dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL WHERE id=?", hsqlindex)) then
 			addNewEventToLog(getPlayerName(seller), "Дом - Продажа - SQL ID "..hsqlindex, true)
 			
 			if(houseid == saveHouseGet(seller)) then
@@ -10116,7 +10117,7 @@ function loadHouses2(dbq)
 			attachActionToElement(defaultActions[29], houses[hindex][4])
 			attachActionToElement(defaultActions[12], houses[hindex][4])
 			houses[hindex][11] = row["owner"]
-			setPickupText(houses[hindex][4], "Занят", 255, 0, 0)
+			setPickupText(houses[hindex][4], "Занят. Владелец: "..row["ownerNick"], 255, 0, 0)
 			
 			if houseOwners[howner] then
 				houseOwners[howner] = houseOwners[howner] + 1
@@ -15059,6 +15060,7 @@ function requestActionsList(aplr)
 				
 				if(getDistanceBetweenPoints3D(pupx, pupy, pupz, px, py, pz) < nearbyPickupsRadius) then
 					table.insert(alist, { 17, availableActions[17], { key }, nil, 0, 255, 0 })
+					table.insert(alist, { 161, "Бизнес - Узнать информацию", { key }, nil, 0, 255, 0 })
 					
 					if(ammuBusinessPrice > 0) then
 						if(ammuShop[9] == shash) then
@@ -15077,6 +15079,7 @@ function requestActionsList(aplr)
 				
 				if(getDistanceBetweenPoints3D(pupx, pupy, pupz, px, py, pz) < nearbyPickupsRadius) then
 					table.insert(alist, { 18, string.format("%s%s", availableActions[18], eatTypes[eatLocation[1]][2]), { key }, nil, 0, 255, 0 })
+					table.insert(alist, { 160, "Бизнес - Узнать информацию", { key }, nil, 0, 255, 0 })
 					
 					if(eatTypes[eatLocation[1]][14] > 0) then
 						if(eatLocation[9] == shash) then
@@ -15575,7 +15578,7 @@ function executeAction(aplr, actionId, params)
 					if(money < price) then
 						triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для приобретения этого бизнеса.")
 					
-					elseif dbExec(db, "UPDATE businesses SET owner=? WHERE id=?", owner, eatLocations[bindex][7]) then
+					elseif dbExec(db, "UPDATE businesses SET owner=?, ownername=? WHERE id=?", owner, pName, eatLocations[bindex][7]) then
 						triggerEvent("onPlayerChat", aplr, "купил бизнес", 1)
 						addNewEventToLog(getPlayerName(aplr), "Бизнес - Покупка - Магазин "..tostring(eatLocations[bindex][7]), true)
 						takeMoney(aplr, price)
@@ -15599,7 +15602,7 @@ function executeAction(aplr, actionId, params)
 					if(money < ammuBusinessPrice) then
 						triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для приобретения этого бизнеса.")
 					
-					elseif dbExec(db, "UPDATE businesses SET owner=? WHERE id=?", owner, ammuShops[bindex][7]) then
+					elseif dbExec(db, "UPDATE businesses SET owner=?, ownername=? WHERE id=?", owner, pName, ammuShops[bindex][7]) then
 						triggerEvent("onPlayerChat", aplr, "купил аммуницию", 1)
 						addNewEventToLog(getPlayerName(aplr), "Бизнес - Покупка - Аммуниция "..tostring(ammuShops[bindex][7]), true)
 						takeMoney(aplr, ammuBusinessPrice)
@@ -15626,7 +15629,7 @@ function executeAction(aplr, actionId, params)
 				if(owner == pHash) then
 					local price = eatTypes[eatLocations[bindex][1]][14]
 					
-					if dbExec(db, "UPDATE businesses SET owner=0 WHERE id=?", eatLocations[bindex][7]) then
+					if dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL WHERE id=?", eatLocations[bindex][7]) then
 						triggerEvent("onPlayerChat", aplr, "продал бизнес "..tostring(eatLocations[bindex][7]), 1)
 						addNewEventToLog(getPlayerName(aplr), "Бизнес - Продажа - Магазин "..tostring(eatLocations[bindex][7]), true)
 						giveMoney(aplr, price)
@@ -15643,7 +15646,7 @@ function executeAction(aplr, actionId, params)
 				local owner = ammuShops[bindex][9]
 				
 				if(owner == pHash) then
-					if dbExec(db, "UPDATE businesses SET owner=0 WHERE id=?", ammuShops[bindex][7]) then
+					if dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL WHERE id=?", ammuShops[bindex][7]) then
 						triggerEvent("onPlayerChat", aplr, "продал аммуницию", 1)
 						addNewEventToLog(getPlayerName(aplr), "Бизнес - Продажа - Аммуниция "..tostring(ammuShops[bindex][7]), true)
 						giveMoney(aplr, ammuBusinessPrice)
@@ -18150,6 +18153,37 @@ function executeAction(aplr, actionId, params)
 
         elseif(actionId == 159) then
 		    triggerClientEvent(aplr, "openMyStats", aplr)
+			
+		elseif(actionId == 160) then
+		    local bindex = params[1]
+            local owner = eatLocations[bindex][9]
+			
+			repeat
+				local dbq = dbQuery(db, "SELECT ownername FROM businesses WHERE id=?", eatLocations[bindex][7])
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+			    if (owner == 0) then 
+			        playerShowMessage(aplr, "Этим бизнесом никто не владеет.")
+			    else
+			        playerShowMessage(aplr, "Владельцем этого бизнеса является "..dbqueryresult[1]["ownername"])
+			    end
+		
+		elseif(actionId == 161) then
+		    local bindex = params[1]
+			local ammoowner = ammuShops[bindex][9]
+			
+			repeat
+				local dbq = dbQuery(db, "SELECT ownername FROM businesses WHERE id=?", ammuShops[bindex][7])
+				dbqueryresult = dbPoll(dbq, 30000)
+				dbFree(dbq)
+			until dbqueryresult
+		
+			    if (ammoowner == 0) then 
+			        playerShowMessage(aplr, "Этой аммуницией никто не владеет.")
+			    else
+			        playerShowMessage(aplr, "Владельцем этой аммуниции является "..dbqueryresult[1]["ownername"])
+			    end
 
         -- Действия для админ функционала(с 700)
 			
@@ -25023,12 +25057,13 @@ function houseSellAccept(newOwner, curOwner, houseid, price)
 		
 		local hsqlindex = houses[houseid][1]
 		local newHash = getHash(getPlayerName(newOwner))
+		local newOwnerName = getPlayerName(newOwner)
 		
 		if houseOwners[newHash] and(houseOwners[newHash] >= 3) then
 			playerShowMessage(newOwner, "Нельзя приобретать в собственность больше трёх домов.")
 			return false
 		
-		elseif(dbExec(db, "UPDATE houses SET owner=? WHERE id=?", newHash, hsqlindex)) then
+		elseif(dbExec(db, "UPDATE houses SET owner=? ownerNick=? WHERE id=?", newHash, newOwnerName, hsqlindex)) then
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Передача - SQL ID "..hsqlindex, true)
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Получение - SQL ID "..hsqlindex, true)
 			if(houseid == saveHouseGet(curOwner)) then
@@ -25037,6 +25072,7 @@ function houseSellAccept(newOwner, curOwner, houseid, price)
 			takeMoney(newOwner, price)
 			giveMoney(curOwner, price)
 			houses[houseid][11] = newHash
+			setPickupText(houses[houseid][4], "Занят. Владелец: "..newOwnerName, 255, 0, 0)
 			triggerEvent("onPlayerChat", newOwner, "купил дом у игрока "..getPlayerName(curOwner), 1)
 			if houseOwners[newHash] then
 				houseOwners[newHash] = houseOwners[newHash] + 1
