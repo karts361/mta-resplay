@@ -7127,7 +7127,7 @@ function ammuBuyWeapon(ammuCurWeap)
 		    return false
 		end
 		
-		if(weapid == 1242) then
+		if(weapid == 1242) and not (weaponlicense == 0) or (weaponlicense == 2) then
 			if(getPedArmor(source) < 100) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - Armor(100)", true)
 				local ammuId = getElementDimension(source)
