@@ -24894,7 +24894,7 @@ addEventHandler("onResourceStart", resourceRoot,
     end 
 )
 
---Проверка файлов SA на оригинальность
+--[[Проверка файлов SA на оригинальность
 function playerModInfo(filename, modList)
 	local checkName
 	for _,item in ipairs(modList) do
@@ -24904,7 +24904,7 @@ function playerModInfo(filename, modList)
 			break
 		end
 	end
-end
+end]]
 
 function playerDisconnect(playerNick, playerIP, playerSerial, reason)
 	local players = getElementsByType("player")
@@ -29331,7 +29331,7 @@ addEventHandler("onPlayerSpawn", root, playerSpawn)
 addEventHandler("onPlayerPrivateMessage", root, playerPM)
 addEventHandler("onPlayerWeaponSwitch", root, weaponSwitch)
 addEventHandler("onGangsterStealInterruptCar", root, gangsterStealInterruptCar)
-addEventHandler("onPlayerModInfo", root, playerModInfo)
+--addEventHandler("onPlayerModInfo", root, playerModInfo)
 addEventHandler("onPlayerFurnitureAccept", resourceRoot, furnitureAccept, false)
 addEventHandler("onPlayerFurnitureDecline", resourceRoot, furnitureDecline, false)
 addEventHandler("onWeaponDataReceive", resourceRoot, receiveClientWeaponData, false)
