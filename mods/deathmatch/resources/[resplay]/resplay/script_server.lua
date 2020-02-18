@@ -15079,9 +15079,10 @@ function requestActionsList(aplr)
 				
 				if(getDistanceBetweenPoints3D(pupx, pupy, pupz, px, py, pz) < nearbyPickupsRadius) then
 					table.insert(alist, { 18, string.format("%s%s", availableActions[18], eatTypes[eatLocation[1]][2]), { key }, nil, 0, 255, 0 })
-					table.insert(alist, { 160, "Бизнес - Узнать информацию", { key }, nil, 0, 255, 0 })
 					
 					if(eatTypes[eatLocation[1]][14] > 0) then
+		                table.insert(alist, { 160, "Бизнес - Узнать информацию", { key }, nil, 0, 255, 0 })
+
 						if(eatLocation[9] == shash) then
 							table.insert(alist, { 4, availableActions[4].."($"..eatTypes[eatLocation[1]][14]..")", { key, 1 }, nil, 0, 255, 0 })
 							table.insert(alist, { 41, availableActions[41].."($"..eatLocation[8]..")", { key, 1 }, nil, 0, 255, 0 })
