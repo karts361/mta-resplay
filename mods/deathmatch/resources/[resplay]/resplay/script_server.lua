@@ -12715,7 +12715,7 @@ function resourceStart(startedResource)
 	gangsterKillOrderRandomTimer = setTimer(gangsterKillOrderRandomProc, 720000, 0)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
-	setTimer(militaryCargoRespawn, 9000000, 0) -- респавн ящиков с оружием, переменные
+	setTimer(militaryCargoRespawn, 9000000, 4) -- респавн ящиков с оружием, переменные
 	
 	if isTestServer() then
 		setTimer(function()
