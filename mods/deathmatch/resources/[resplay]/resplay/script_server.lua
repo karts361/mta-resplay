@@ -302,7 +302,8 @@ playerGroups = {
 	{ "Bloods", 105, 106, 107 },
 	{ "Crips", 102, 103, 104 },
 	{ "Latin Kings", 108, 109, 110 },
-	{ "MS-13", 173, 174, 175 }
+	{ "MS-13", 173, 174, 175 },
+	{ "Хелпер", 34 }
 }
 
 playerGroupSkills = {
@@ -352,6 +353,7 @@ playerGroupRPLevels = {
 	{ 0.0, 0.25 },
 	{ 0.0, 0.25 },
 	{ 0.0, 0.25 },
+	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
@@ -6174,6 +6176,10 @@ end
 function groupCommonGet(plr)
 	if isAdmin(plr) or isModerator(plr) then
 		return 15
+	end
+	
+	if isHelper(plr) then
+	    return 23
 	end
 	
 	local moneyAmount = getMoney(plr)
@@ -12849,7 +12855,7 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 
 			-- Set civil skin --
 			if dbqueryresult then
-				if grpid == 1 or grpid == 13 --[[ or grpid == 10 or grpid == 12 or grpid == 13]] then
+				if grpid == 1 or grpid == 13 or grpid == 23 --[[ or grpid == 10 or grpid == 12 or grpid == 13]] then
 					-- Fetch default civil skin --
 					local skinFromDb = dbqueryresult[1]["default_skin"]
 					if skinFromDb == 0 then
@@ -14314,7 +14320,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			local fractionId = dbqueryresult[1]["fraction"]
 			local usergroupId = dbqueryresult[1]["usergroup"]
 
-			if fractionId == 0 and usergroupId == 1 or usergroupId == 13 then
+			if fractionId == 0 and usergroupId == 1 or usergroupId == 13 or usergroupId == 23 then
 				local gender = dbqueryresult[1]["gender"]
 				local skin = startMenSkins[1]
 
@@ -18676,7 +18682,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 end
 
 function isPlayerGroupCommon(grpid)
-	return((grpid == 1) or (grpid == 10) or (grpid == 12) or (grpid == 13) or (grpid == 15))
+	return((grpid == 1) or (grpid == 10) or (grpid == 12) or (grpid == 13) or (grpid == 15) or  (grpid == 23))
 end
 
 function checkPlayerGroup(plr)
@@ -19658,6 +19664,7 @@ function playerChat(msg, msgType)
 			local pint, pdim
 			local allPlayers = {}
 			local localMsg = msg
+			local UsrGrp = getElementData(source, "usergroup")
 			
 			for _,plr in ipairs(allPlayersBase) do
 				pint = getElementInterior(plr)
@@ -19671,7 +19678,7 @@ function playerChat(msg, msgType)
 			allPlayersBase = nil
 			
 			if(string.len(localMsg) > 0) then
-				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, isAdmin(source) or isModerator(source), localMsg)
+				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, isAdmin(source) or isModerator(source), isHelper(source), UsrGrp == 2 or UsrGrp == 4 or  UsrGrp == 5 or UsrGrp == 17 or UsrGrp == 18, localMsg)
 			end
 			
 		elseif(msgType == 1) then
@@ -27932,7 +27939,7 @@ local pGrp = getElementData(client, "usergroup")
 		dbFree(dbq)
 	until dbqueryresult
 
-	if getMoney(client) > money and pGrp == 1 or pGrp == 13 then
+	if getMoney(client) > money and pGrp == 1 or pGrp == 13 or pGrp == 23 then
 		playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
 		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)

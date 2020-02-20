@@ -58,7 +58,8 @@ playerGroups = {
 	{ "Bloods", 167, 0, 0},	
 	{ "Crips", 1, 81, 136},
 	{ "Latin Kings", 253, 182, 3},
-	{ "MS-13", 0, 243, 224}
+	{ "MS-13", 0, 243, 224},
+	{ "Хелпер", 255, 160, 160}
 }
 
 customDff = { -- { "Имя файла", { ID моделей через запятую } }
@@ -1529,7 +1530,7 @@ function removeHex(text, digits)
     return string.gsub(text, "#" ..(digits and string.rep("%x", digits) or "%x+"), "")
 end
 
-function chatMsgAdd(timeStr, playerid, isAdmin, msg, isMeFunc, isRpFunc)
+function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc, isRpFunc)
 	local sendMsg = true
 	local playerid = getElementData(source, "ID")
 	
@@ -1552,8 +1553,14 @@ function chatMsgAdd(timeStr, playerid, isAdmin, msg, isMeFunc, isRpFunc)
 			outputChatBox(timeStr..getPlayerName(source).." "..msg, 200, 130, 210, true)
 		
 		elseif isAdmin then
-			outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
-		
+			outputChatBox(timeStr.."[АДМИН] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 70, 0, true)
+			
+		elseif isHelper then
+		    outputChatBox(timeStr.."[ХЕЛПЕР] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
+			
+		elseif UsrGrp then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4], true)
+
 		else
 			outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 255, 255, true)
 		end
@@ -6482,14 +6489,14 @@ function drawNicknames()
 							end
 							
 							dxDrawText(grpstr, x-2*scaleWanted, y-17*scaleWanted, x-2*scaleWanted, y-17*scaleWanted, tocolor(0,0,0,128), 0.5*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname.."("..playerid..")", x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname.." ("..playerid..")", x-2*scaleWanted, y-2*scaleWanted, x-2*scaleWanted, y-2*scaleWanted, tocolor(0,0,0,128), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x-2*scaleWanted, y+8*scaleWanted, x-2*scaleWanted, y+8*scaleWanted, tocolor(0,0,0,128), 0.4*scaleWanted, "bankgothic", "center", "center")
 							end
 							
 							dxDrawText(grpstr, x, y-15*scaleWanted, x, y-15*scaleWanted, tocolor(grpr,grpg,grpb,255), 0.5*scaleWanted, "bankgothic", "center", "center")
-							dxDrawText(pname.."("..playerid..")", x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
+							dxDrawText(pname.." ("..playerid..")", x, y, x, y, tocolor(grpr,grpg,grpb,255), 0.75*scaleWanted, "bankgothic", "center", "center")
 							
 							if protected then
 								dxDrawText("(спаун-защита)", x, y+10*scaleWanted, x, y+10*scaleWanted, tocolor(64,255,64,255), 0.4*scaleWanted, "bankgothic", "center", "center")
@@ -10452,7 +10459,7 @@ function showSkin()
     usergrp = getElementData(localPlayer, "usergroup")
 	gender = getElementData(localPlayer, "gender")
 	guiGridListClear(skin_list_gui)
-    if usergrp == 1 or usergrp == 13 and gender == 1 then
+    if usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 1 then
 	    for i,colum in ipairs(skinMale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
@@ -10463,7 +10470,7 @@ function showSkin()
 			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
 		        end
 	    end
-    elseif usergrp == 1 or usergrp == 13 and gender == 2 then
+    elseif usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 2 then
 	    for i,colum in ipairs(skinFemale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
