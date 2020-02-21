@@ -1530,7 +1530,7 @@ function removeHex(text, digits)
     return string.gsub(text, "#" ..(digits and string.rep("%x", digits) or "%x+"), "")
 end
 
-function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc, isRpFunc)
+function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc, isRpFunc, isOOCfunc)
 	local sendMsg = true
 	local playerid = getElementData(source, "ID")
 	
@@ -1551,7 +1551,10 @@ function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc,
 		
 		elseif isMeFunc then
 			outputChatBox(timeStr..getPlayerName(source).." "..msg, 200, 130, 210, true)
-		
+			
+		elseif isOOCfunc then
+		    outputChatBox(timeStr.."(( "..getPlayerName(source).."["..playerid.."] "..msg.." ))", 147, 147, 147, true)
+
 		elseif isAdmin then
 			outputChatBox(timeStr.."[АДМИН] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 70, 0, true)
 			
@@ -1567,6 +1570,7 @@ function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc,
 		
 	end
 end
+
 
 function chatMsgRemove(i)
 	chatMsgs[i] = nil
