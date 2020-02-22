@@ -12036,9 +12036,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+	    db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -15117,13 +15117,14 @@ function requestActionsList(aplr)
 				i = i + 1
 				pupx, pupy, pupz = getElementPosition(house[4])
 				if(getDistanceBetweenPoints3D(px, py, pz, pupx, pupy, pupz) < nearbyPickupsRadius) then
+				    table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 					if(getHash(getPlayerName(aplr)) == house[11]) then
 						for _,curPlr in ipairs(players) do
 							table.insert(alist, { 128, availableActions[128].." "..getPlayerName(curPlr), { key, curPlr }, { "Цена" }, 0, 255, 0 })
 						end
 						
 						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
-						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
+						--table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
 						
 						repeat
