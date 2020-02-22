@@ -11328,6 +11328,38 @@ end
 addEvent("onPlayerPoliceDb", true)
 addEventHandler("onPlayerPoliceDb", root, playerPoliceDb)
 
+-- гости в доме
+function houseSound(hx, hy, hz)
+    --[[local hx, hy, hz = getElementPosition(localPlayer)]]
+	hsound = playSound3D("audio/zvonok.ogg", hx, hy, hz)
+    setSoundVolume(hsound, 0.5)
+    setSoundMaxDistance(hsound, 8)
+end
+addEvent("onHouseSound", true)
+addEventHandler("onHouseSound", root, houseSound)
+
+houseGuestId = nil
+hdimensionId = nil
+
+function houseGuestRequest(houseid, dimension)
+	if houseid then
+	    createRequestWindow("дом", string.format("%s Приглашает вас в свой дом, войти?", getPlayerName(source)), source, houseGuestAccept, houseGuestDecline)
+		houseGuestId = houseid
+		hdimensionId = dimension
+	end
+end
+addEvent("onHouseGuestRequest", true)
+addEventHandler("onHouseGuestRequest", root, houseGuestRequest)
+
+function houseGuestAccept()
+	destroyRequestWindow()
+	triggerServerEvent("onHouseGuestAccept", resourceRoot, localPlayer, houseGuestId, hdimensionId)
+end
+
+function houseGuestDecline()
+	destroyRequestWindow()
+end
+
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
 addEvent("onReceiveRegisterCheck", true)
