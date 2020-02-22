@@ -258,7 +258,8 @@ housesInteriors = {
 	{ 244.1, 304.9, 1999.8, 1, {} },
 	{ 2524.7, -1679.4, 2016.2, 1, {} },
 	{ 318.7, 1115.4, 2084.6, 5, {} },
-	{ 2542.3, -1304.2, 2025.8, 2, {} }
+	{ 2542.3, -1304.2, 2025.8, 2, {} },
+	{ 2324.68359, -1149.28101, 1050.70313, 12, {} }
 }
 housesFrozenObjs = {
 	[1504]=true,
@@ -7444,7 +7445,7 @@ function housesSell(houseid, seller)
 		local hsqlindex = houses[houseid][1]
 		local sellerHash = getHash(getPlayerName(seller))
 		
-		if(dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL WHERE id=?", hsqlindex)) then
+		if(dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL, accesspublic=0 WHERE id=?", hsqlindex)) then
 			addNewEventToLog(getPlayerName(seller), "Дом - Продажа - SQL ID "..hsqlindex, true)
 			
 			if(houseid == saveHouseGet(seller)) then
@@ -12036,9 +12037,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+	    db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -15117,14 +15118,32 @@ function requestActionsList(aplr)
 				i = i + 1
 				pupx, pupy, pupz = getElementPosition(house[4])
 				if(getDistanceBetweenPoints3D(px, py, pz, pupx, pupy, pupz) < nearbyPickupsRadius) then
+				    repeat 
+					    local dbq = dbQuery(db, "SELECT * FROM houses WHERE id=?", house[1])
+						dbhouseinfo = dbPoll(dbq, 30000)
+						dbFree(dbq)
+					until dbhouseinfo
+					
+					if(dbhouseinfo[1]["accesspublic"] == 1) then
+				        table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
+					end
+					
+					table.insert(alist, { 165, "Дом - Позвонить", { key }, nil, 0, 255, 0 })
+
 					if(getHash(getPlayerName(aplr)) == house[11]) then
 						for _,curPlr in ipairs(players) do
 							table.insert(alist, { 128, availableActions[128].." "..getPlayerName(curPlr), { key, curPlr }, { "Цена" }, 0, 255, 0 })
 						end
 						
 						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
-						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
+						table.insert(alist, { 164, "Дом - Пригласить игрока", { key, i }, { "ID Игрока" }, 0, 255, 0})
+						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
+						if(dbhouseinfo[1]["accesspublic"] == 0) then
+				            table.insert(alist, { 162, "Дом - Открыть публичный доступ", { key }, nil, 0, 255, 0 })
+						elseif(dbhouseinfo[1]["accesspublic"] == 1) then
+						    table.insert(alist, { 163, "Дом - Закрыть публичный доступ", { key }, nil, 0, 255, 0 })
+						end
 						
 						repeat
 							local dbq = dbQuery(db, "SELECT * FROM cars WHERE owner=?", getHash(getPlayerName(aplr)))
@@ -18191,7 +18210,38 @@ function executeAction(aplr, actionId, params)
 			    else
 			        playerShowMessage(aplr, "Владельцем этой аммуниции является "..dbqueryresult[1]["ownername"])
 			    end
-
+		
+		elseif(actionId == 162) then
+		    local hsqlindex = params[1]	
+	        dbExec(db, "UPDATE houses SET accesspublic=1 WHERE id=?", hsqlindex)
+			playerShowMessage(aplr, "Вы открыли дом.")
+			
+		elseif(actionId == 163) then
+		    local hsqlindex = params[1]
+	        dbExec(db, "UPDATE houses SET accesspublic=0 WHERE id=?", hsqlindex)
+			playerShowMessage(aplr, "Вы закрыли дом.")
+			
+		elseif(actionId == 164) then
+            local hindex = params[1]
+			local did = params[2]
+		    local houseguest = getPlayerFromID(params[3])
+			local pupx, pupy, pupz = getElementPosition(houses[hindex][4])
+			local px, py, pz = getElementPosition(houseguest)
+			
+		    if not isElement(houseguest) then
+		        playerShowMessage(aplr, "Игрок с таким ID не найден")
+				return false
+		    end
+			
+			if(getDistanceBetweenPoints3D(px, py, pz, pupx, pupy, pupz) < nearbyPickupsRadius) then
+			    triggerClientEvent(houseguest, "onHouseGuestRequest", aplr, hindex, did)
+			end
+		
+		elseif(actionId == 165) then
+            local hindex = params[1]
+			local hx, hy, hz = getElementPosition(houses[hindex][4])
+			triggerClientEvent(getElementsByType("player"), "onHouseSound", resourceRoot, hx, hy, hz)
+		   
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -29090,6 +29140,16 @@ end
 addEvent("importAmmuRange", true)
 addEventHandler("importAmmuRange", root, importAmmuRange)
 
+
+-- войти в гости в дом
+
+function houseGuestAccept(plr, houseId, dimension)
+	-- Триггер actionid == 14
+	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 14, { houseId, dimension })
+end
+
+addEvent("onHouseGuestAccept", true)
+addEventHandler("onHouseGuestAccept", root, houseGuestAccept)
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

@@ -71,6 +71,7 @@
     <file src="audio/phonepickup.wav" download="true"/>
     <file src="audio/incmoney.wav" download="true"/>
     <file src="audio/decmoney.wav" download="true"/>
+    <file src="audio/zvonok.wav" download="true"/>
     <file src="audio/bushorn.wav" download="true"/>
     <file src="audio/furris_wheel.wav" download="true"/>
     <file src="audio/starving.wav" download="true"/>
