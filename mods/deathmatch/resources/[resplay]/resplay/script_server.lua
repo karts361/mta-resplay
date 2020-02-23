@@ -28470,7 +28470,7 @@ function gangClientAddMember(curMember, newMember)
 		end
 		
 		if respect and (respect > gangGroupRPLevels[gangGetGroup(gId)]) then
-			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin/100.0)).."% отрицательного уважения.")
+			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% отрицательного уважения.")
 			return false
 		end
 		
