@@ -11331,12 +11331,23 @@ addEventHandler("onPlayerPoliceDb", root, playerPoliceDb)
 -- гости в доме
 function houseSound(hx, hy, hz)
     --[[local hx, hy, hz = getElementPosition(localPlayer)]]
-	hsound = playSound3D("audio/zvonok.ogg", hx, hy, hz)
+	local hsound = playSound3D("audio/zvonok.ogg", hx, hy, hz)
     setSoundVolume(hsound, 0.5)
     setSoundMaxDistance(hsound, 8)
 end
 addEvent("onHouseSound", true)
 addEventHandler("onHouseSound", root, houseSound)
+
+function inHouseSound(hint, hix, hiy, hiz, dimid)
+    --[[local hx, hy, hz = getElementPosition(localPlayer)]]
+	local ihsound = playSound3D("audio/zvonok.ogg", hix, hiy, hiz)
+	setElementInterior(ihsound, hint, hix, hiy, hiz)
+	setElementDimension(ihsound, dimid)
+    setSoundVolume(ihsound, 0.5)
+    setSoundMaxDistance(ihsound, 35)
+end
+addEvent("onInHouseSound", true)
+addEventHandler("onInHouseSound", root, inHouseSound)
 
 houseGuestId = nil
 hdimensionId = nil

@@ -15124,13 +15124,13 @@ function requestActionsList(aplr)
 						dbFree(dbq)
 					until dbhouseinfo
 					
-					if(dbhouseinfo[1]["accesspublic"] == 1) then
+					if(dbhouseinfo[1]["accesspublic"] == 1) then -- если открыт публичный доступ
 				        table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 					end
 					
-					table.insert(alist, { 165, "Дом - Позвонить", { key }, nil, 0, 255, 0 })
+					table.insert(alist, { 165, "Дом - Позвонить", { key, i }, nil, 0, 255, 0 })
 
-					if(getHash(getPlayerName(aplr)) == house[11]) then
+					if(getHash(getPlayerName(aplr)) == house[11]) then -- для владельца
 						for _,curPlr in ipairs(players) do
 							table.insert(alist, { 128, availableActions[128].." "..getPlayerName(curPlr), { key, curPlr }, { "Цена" }, 0, 255, 0 })
 						end
@@ -18239,8 +18239,11 @@ function executeAction(aplr, actionId, params)
 		
 		elseif(actionId == 165) then
             local hindex = params[1]
+			local intid = houses[hindex][2]
+			local dimension = params[2]+1
 			local hx, hy, hz = getElementPosition(houses[hindex][4])
 			triggerClientEvent(getElementsByType("player"), "onHouseSound", resourceRoot, hx, hy, hz)
+			triggerClientEvent(getElementsByType("player"), "onInHouseSound", resourceRoot, housesInteriors[intid][4], housesInteriors[intid][1], housesInteriors[intid][2], housesInteriors[intid][3], dimension)
 		   
         -- Действия для админ функционала(с 700)
 			
@@ -26464,8 +26467,8 @@ function adminCMDwarpto(plr, id)
 			setElementPosition(plr, wx, wy, wz)
 		end
 		
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, warpPlr)
+	--[[else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, warpPlr)]]
 	end
 end
 
@@ -26862,10 +26865,10 @@ function adminCMDspec(plr, id)
 	
 	if not isElement(specPlr) then
 		if id then
-			triggerClientEvent(plr, "onServerMsgAdd", plr, specPlr)
-			return
+			--[[triggerClientEvent(plr, "onServerMsgAdd", plr, specPlr)
+			return]]
 		
-		else
+		--else
 			specPlr = plr
 		end
 	end

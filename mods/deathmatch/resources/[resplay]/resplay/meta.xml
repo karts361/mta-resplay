@@ -38,7 +38,7 @@
 	<include resource="zones"/>
 	
 	<!-- МАП ФАЙЛ -->
-	<map src="resplay_test.map"/>
+	<map src="resplay.map"/>
 	
 	<file src="fonts/PricedownC.ttf" download="true"/>
 
