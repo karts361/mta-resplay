@@ -8592,7 +8592,7 @@ end
 function jobWashroadsInit()
 	for i,cpCoords in ipairs(jobWashroadsCpCoords) do
 		jobWashroadsCps[i] = createMarker(cpCoords[1], cpCoords[2], cpCoords[3]-1.0, "cylinder", 3.0, 0, 0, 255, 128)
-		jobWashroadsCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 0, 255, 0, 0, 500)
+		jobWashroadsCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 0, 255, 255, 0, 500)
 		attachElements(jobWashroadsCpBlips[i], jobWashroadsCps[i])
 		setElementVisibleTo(jobWashroadsCps[i], root, false)
 		setElementVisibleTo(jobWashroadsCpBlips[i], root, false)
@@ -12079,7 +12079,7 @@ function resourceStart(startedResource)
 	end
 	
 	for i,cpcoords in ipairs(jobCpFixCoords) do
-		jobCpFix[i] = { createMarker(cpcoords[1], cpcoords[2], cpcoords[3], "checkpoint", 5.0, 255, 0, 0, 255), createBlip(0, 0, 0, 63, 2, 255, 255, 255, 255, 32766) }
+		jobCpFix[i] = { createMarker(cpcoords[1], cpcoords[2], cpcoords[3], "checkpoint", 5.0, 255, 255, 0, 255), createBlip(0, 0, 0, 63, 2, 255, 255, 255, 255, 32766) }
 		attachElements(jobCpFix[i][2], jobCpFix[i][1])
 		setElementVisibleTo(jobCpFix[i][1], root, false)
 		setElementVisibleTo(jobCpFix[i][2], root, false)
