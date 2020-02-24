@@ -8592,7 +8592,7 @@ end
 function jobWashroadsInit()
 	for i,cpCoords in ipairs(jobWashroadsCpCoords) do
 		jobWashroadsCps[i] = createMarker(cpCoords[1], cpCoords[2], cpCoords[3]-1.0, "cylinder", 3.0, 0, 0, 255, 128)
-		jobWashroadsCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 0, 255, 255, 0, 500)
+		jobWashroadsCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 0, 255, 0, 0, 500)
 		attachElements(jobWashroadsCpBlips[i], jobWashroadsCps[i])
 		setElementVisibleTo(jobWashroadsCps[i], root, false)
 		setElementVisibleTo(jobWashroadsCpBlips[i], root, false)
@@ -12079,7 +12079,7 @@ function resourceStart(startedResource)
 	end
 	
 	for i,cpcoords in ipairs(jobCpFixCoords) do
-		jobCpFix[i] = { createMarker(cpcoords[1], cpcoords[2], cpcoords[3], "checkpoint", 5.0, 255, 255, 0, 255), createBlip(0, 0, 0, 63, 2, 255, 255, 255, 255, 32766) }
+		jobCpFix[i] = { createMarker(cpcoords[1], cpcoords[2], cpcoords[3], "checkpoint", 5.0, 255, 0, 0, 255), createBlip(0, 0, 0, 63, 2, 255, 255, 255, 255, 32766) }
 		attachElements(jobCpFix[i][2], jobCpFix[i][1])
 		setElementVisibleTo(jobCpFix[i][1], root, false)
 		setElementVisibleTo(jobCpFix[i][2], root, false)
@@ -15133,11 +15133,11 @@ function requestActionsList(aplr)
 					if(getHash(getPlayerName(aplr)) == house[11]) then -- для владельца
 						for _,curPlr in ipairs(players) do
 							table.insert(alist, { 128, availableActions[128].." "..getPlayerName(curPlr), { key, curPlr }, { "Цена" }, 0, 255, 0 })
+    						table.insert(alist, { 164, "Дом - Пригласить игрока "..getPlayerName(curPlr), { key, i, curPlr }, nil, 0, 255, 0})
 						end
 						
 						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
-						table.insert(alist, { 164, "Дом - Пригласить игрока", { key, i }, { "ID Игрока" }, 0, 255, 0})
 						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 						if(dbhouseinfo[1]["accesspublic"] == 0) then
 				            table.insert(alist, { 162, "Дом - Открыть публичный доступ", { key }, nil, 0, 255, 0 })
@@ -18224,18 +18224,29 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 164) then
             local hindex = params[1]
 			local did = params[2]
-		    local houseguest = getPlayerFromID(params[3])
+		    local houseguest = params[3]
 			local pupx, pupy, pupz = getElementPosition(houses[hindex][4])
-			local px, py, pz = getElementPosition(houseguest)
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(houseguest)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(houseguest)
 			
-		    if not isElement(houseguest) then
-		        playerShowMessage(aplr, "Игрок с таким ID не найден")
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
 				return false
-		    end
-			
-			if(getDistanceBetweenPoints3D(px, py, pz, pupx, pupy, pupz) < nearbyPickupsRadius) then
-			    triggerClientEvent(houseguest, "onHouseGuestRequest", aplr, hindex, did)
 			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(houseguest)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			playerShowMessage(aplr, "Вы пригласили в свой дом игрока "..getPlayerName(houseguest)..".")
+		    triggerClientEvent(houseguest, "onHouseGuestRequest", aplr, hindex, did)
+			
 		
 		elseif(actionId == 165) then
             local hindex = params[1]
@@ -19203,7 +19214,7 @@ function playerDamage(attacker, attackWeap, bodypart, loss)
 			end
 		end
 		
-		if isPlayerFromPolice(source) and(not isPlayerFromPolice(attacker)) then
+		if isPlayerFromPolice(source) and not isAdmin(source) or isModerator(source) and(not isPlayerFromPolice(attacker)) then
 			criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(attacker))
 			wantedLevelInc(attacker)
 		end
@@ -19267,7 +19278,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 			local sName = getPlayerName(source)
 			local sHash = getHash(sName)
 			
-			if(sourceWanted > 0) and isPlayerFromPolice(killer) then
+			if(sourceWanted > 0) and isPlayerFromPolice(killer) and not isAdmin(killer) or isModerator(killer) then
 				evtStr = evtStr.."Убил преступника - "..getPlayerName(source).."("..tostring(sourceWanted).." звезд)"
 				wantedLevelClear(source)
 				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
@@ -26570,7 +26581,7 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 	elseif(oldHash == newHash) then
 		triggerClientEvent(plr, "onChangeNicknameResult", resourceRoot, 2)
 	
-	elseif dbExec(db, "UPDATE users SET nickname=? name=? WHERE name=?", newnick, newHash, oldHash) then
+	elseif dbExec(db, "UPDATE users SET nickname=?, name=? WHERE name=?", newnick, newHash, oldHash) then
 		kickPlayer(playerKick, "Ник сменен. Перезайдите на сервер под новым никнеймом.")
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы изменили никнейм на аккаунте.")
 		dbExec(db, "UPDATE friends SET friend=? WHERE friend=?", newnick, oldHash)
