@@ -10460,8 +10460,8 @@ t_skins.price = { }
 t_skins.id    = { }
 
 function showSkin()
-    usergrp = getElementData(localPlayer, "usergroup")
-	gender = getElementData(localPlayer, "gender")
+    local usergrp = getElementData(localPlayer, "usergroup")
+	local gender = getElementData(localPlayer, "gender")
 	guiGridListClear(skin_list_gui)
     if usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 1 then
 	    for i,colum in ipairs(skinMale) do
