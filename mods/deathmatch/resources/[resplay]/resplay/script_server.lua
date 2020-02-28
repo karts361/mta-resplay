@@ -2433,7 +2433,9 @@ eatTypes = {
 	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 1500000 },
 	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 17, 2000000 },
 	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
-    { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 }
+    { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
+	{ 30, "LVPD HQ", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
+	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1014.7421, 0.0 { }, 286, 0 }
 }
 -----спаун фракций-----
 eatLocations = {}
@@ -11085,7 +11087,7 @@ function loadMapFile()
 		oint = tonumber(getElementData(respawn, "interior"))
 		local fId = tonumber(getElementData(respawn, "fraction"))
 		local gId = tonumber(getElementData(respawn, "gang"))
-		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId })
+		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId, gId })
 		destroyElement(respawn)
 	end
 	
@@ -19035,18 +19037,25 @@ function spawnPlayerEx(plr)
 		local spawned = false
 		local locationId = nil
 		local fId = fractionGetPlayerFraction(plr)
+		local gId = gangGetPlayerGang(plr)
 		
 		if fId then
 			locationId = getClosestFractionInterior(fId, px, py, pz)
+		elseif gId then
+		    locationId = getClosestGangInterior(gId, px, py, pz)
+			hp = 40
+			
 		else
 			locationId = getClosestHospital(px, py, pz)
 			hp = 5
 			fId = 0
+			gId = 0
+
 		end
 		
 		if locationId then
 			for _,respInfo in ipairs(respawnPositions) do
-				if respInfo[5] and(respInfo[5] > 0) and(respInfo[6] == fId) and(eatLocations[locationId][1] == respInfo[5]) then
+				if respInfo[5] and(respInfo[5] > 0) and(respInfo[6] == fId) and (respInfo[7] == gId) and(eatLocations[locationId][1] == respInfo[5]) then
 					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
 					srot = respInfo[4]
 					sdim = locationId
@@ -19060,7 +19069,7 @@ function spawnPlayerEx(plr)
 		
 		if not spawned then
 			for _,respInfo in ipairs(respawnPositions) do
-				if respInfo[5] and(respInfo[5] == 0) and(respInfo[6] == fId) then
+				if respInfo[5] and(respInfo[5] == 0) and(respInfo[6] == fId) and (respInfo[7] == gId) then
 					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
 					srot = respInfo[4]
 					sdim = 0
@@ -25224,6 +25233,26 @@ function getClosestFractionInterior(fractionId, posX, posY, posZ)
 	return locId
 end
 
+function getClosestGangInterior(gangId, posX, posY, posZ)
+	local locTypeId = nil
+	local locId = nil
+	local sx, sy, sz, sint, sdim
+	local locDist, curDist
+	
+	for eatId,gId in pairs(eatGangs) do
+		if(gId == gangId) then
+			locTypeId = eatId
+			break
+		end
+	end
+	
+	if locTypeId then
+		locId = getClosestInteriorOfType(locTypeId, posX, posY, posZ)
+	end
+	
+	return locId
+end
+
 function getClosestInteriorOfType(locTypeId, posX, posY, posZ)
 	local locId = nil
 	local locDist, curDist
@@ -28703,11 +28732,42 @@ function gangClientRenameRank(curMember, renRankId, rankName)
 	return false
 end
 
+function gangIsPlayerInsideGangInterior(plr, gId)
+	local gangIntExists = false
+	
+	for eatType,eatGang in pairs(eatGangs) do
+		if(eatGang == gId) then
+			gangIntExists = true
+			break
+		end
+	end
+	
+	if gangIntExists then
+		local pdim = getElementDimension(plr)
+		
+		if not eatLocations[pdim] then
+			return false
+		end
+		
+		if eatGangs[eatLocations[pdim][1]] then
+			return((getElementInterior(plr) == eatTypes[eatLocations[pdim][1]][3]) and(gId == eatGangs[eatLocations[pdim][1]]))
+		end
+		
+		return false
+	end
+	
+	return true
+end
+
 gangsOrig = {
 	{ "BLOODS", 19 },
 	{ "CRIPS", 20 },
 	{ "Latin Kings", 21 },
 	{ "MS-13", 22}
+}
+
+eatGangs = {
+	[39] = 2,
 }
 
 gangBases = {}
