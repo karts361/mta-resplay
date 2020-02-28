@@ -18807,7 +18807,7 @@ function checkMoney2(dbq, plr, pHash)
 		local curPrice
 		
 		for i=1,table.getn(dbqueryresult) do
-			curPrice = math.ceil(getVehiclePrice(dbqueryresult[i]["carid"])* (dbqueryresult[i]["hp"]/1000)*0.75)
+			curPrice = math.ceil(getVehiclePrice(dbqueryresult[i]["carid"])* (dbqueryresult[i]["hp"]/1000)*0.20)
 			if(curPrice > sellPrice) then
 				sellIndex = i
 				sellPrice = curPrice
