@@ -2435,7 +2435,10 @@ eatTypes = {
 	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
     { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
 	{ 30, "LVPD HQ", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
-	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1014.7421, 0.0 { }, 286, 0 }
+	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
+	{ 333, "Общий дом BLOODS", 5, 318.564971, 1114.209960, 1083.88, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
+	{ 333, "Общий дом Latin Kings", 2, 2468.23022, -1698.26404, 1013.5, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
+	{ 333, "Общий дом MS-13", 8, -42.41591, 1406.20581, 1084.4, 0.0, 2495.86401, -1692.49536, 1214.7421, 0.0, { }, 286, 0 }
 }
 -----спаун фракций-----
 eatLocations = {}
@@ -14424,6 +14427,8 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		
 		if(getElementData(source, "arrested") > 0) or (fId and spawnOutside) then
 			spawnPlayerEx(source)
+		elseif(getElementData(source, "arrested") > 0) or (gId and spawnOutside) then
+		    spawnPlayerEx(source)
 		elseif spawnOutside then
 			setTimer(setPlayerGreenZone, 500, 1, source)
 		end
@@ -19055,7 +19060,16 @@ function spawnPlayerEx(plr)
 		
 		if locationId then
 			for _,respInfo in ipairs(respawnPositions) do
-				if respInfo[5] and(respInfo[5] > 0) and(respInfo[6] == fId) and (respInfo[7] == gId) and(eatLocations[locationId][1] == respInfo[5]) then
+				if respInfo[5] and(respInfo[5] > 0) and(respInfo[6] == fId) and(eatLocations[locationId][1] == respInfo[5]) then
+					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
+					srot = respInfo[4]
+					sdim = locationId
+					sint = eatTypes[eatLocations[locationId][1]][3]
+					setTimer(triggerClientEvent, 1000, 1, plr, "onEatEnter", plr, eatTypes[eatLocations[locationId][1]], true)
+					spawned = true
+					break
+				end
+				if respInfo[5] and(respInfo[5] > 0) and(respInfo[7] == gId) and(eatLocations[locationId][1] == respInfo[5]) then
 					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
 					srot = respInfo[4]
 					sdim = locationId
@@ -19069,7 +19083,16 @@ function spawnPlayerEx(plr)
 		
 		if not spawned then
 			for _,respInfo in ipairs(respawnPositions) do
-				if respInfo[5] and(respInfo[5] == 0) and(respInfo[6] == fId) and (respInfo[7] == gId) then
+				if respInfo[5] and(respInfo[5] == 0) and(respInfo[6] == fId) then
+					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
+					srot = respInfo[4]
+					sdim = 0
+					sint = 0
+					spawned = true
+					break
+				end
+				
+				if respInfo[5] and(respInfo[5] == 0) and(respInfo[7] == gId) then
 					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
 					srot = respInfo[4]
 					sdim = 0
@@ -19078,6 +19101,7 @@ function spawnPlayerEx(plr)
 					break
 				end
 			end
+
 		end
 		
 		if spawned then
@@ -28074,6 +28098,12 @@ function gangInit()
 	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21, 22 )", getRealTime().timestamp-1814400)
 	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
 	
+    cripsarea = createRadarArea ( 2407.1, -1835, 150, 200, 1, 81, 136, 175 )
+    blarea = createRadarArea ( 2407.1, -1435, 150, 150, 167, 0, 0, 175 )
+    bl2area = createRadarArea ( 2207.1, -1435, 200, 150, 167, 0, 0, 175 )
+    lkingsarea = createRadarArea ( 2767.1, -1465, 200, 180, 253, 182, 3, 175 )
+    ms13area = createRadarArea ( 1657.1, -2155, 170, 170, 0, 243, 224, 175 )
+	
     crips = createTeam("CRIPS", 1, 81, 136)
 	bloods = createTeam("BLOODS", 167, 0, 0)
 	lkings = createTeam("Latin Kings", 253, 182, 3)
@@ -28760,14 +28790,17 @@ function gangIsPlayerInsideGangInterior(plr, gId)
 end
 
 gangsOrig = {
-	{ "BLOODS", 19 },
 	{ "CRIPS", 20 },
+	{ "BLOODS", 19 },
 	{ "Latin Kings", 21 },
 	{ "MS-13", 22}
 }
 
 eatGangs = {
-	[39] = 2,
+	[39] = 1,
+	[40] = 2,
+	[41] = 3,
+	[42] = 4,
 }
 
 gangBases = {}
