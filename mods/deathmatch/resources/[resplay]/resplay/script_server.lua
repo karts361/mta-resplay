@@ -15467,7 +15467,8 @@ function requestActionsList(aplr)
 		
 		if gId then 
 		    for i,gbase in ipairs(gangBases) do
-			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr)) then
+			    local gposz = gbase[4] 
+			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr) and(math.abs(pz-gposz) < 100.0)) then
 				    table.insert(alist, { 34, availableActions[34], { i }, nil, 0, 255, 0 })
 			    end
 			end
