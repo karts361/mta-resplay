@@ -15276,6 +15276,7 @@ function requestActionsList(aplr)
 		if isTestServer() then
 			table.insert(alist, { 5, availableActions[5], {}, { "X", "Y", "Z", "Интерьер" }, 255, 255, 0 })
 			table.insert(alist, { 6, availableActions[6], {}, { "ID" }, 255, 255, 0 })
+			table.insert(alist, { 166, "Debug - старт обущающей миссии", {}, nil, 255, 255, 0 })
 		end
 		
 		local isaplrOnJob = false
@@ -18263,6 +18264,9 @@ function executeAction(aplr, actionId, params)
 			local hx, hy, hz = getElementPosition(houses[hindex][4])
 			triggerClientEvent(getElementsByType("player"), "onHouseSound", resourceRoot, hx, hy, hz)
 			triggerClientEvent(getElementsByType("player"), "onInHouseSound", resourceRoot, housesInteriors[intid][4], housesInteriors[intid][1], housesInteriors[intid][2], housesInteriors[intid][3], dimension)
+			
+	    elseif(actionId == 166) then
+		    triggerEvent("onMissionStart", resourceRoot, aplr, "mis_tutorial")
 		   
         -- Действия для админ функционала(с 700)
 			

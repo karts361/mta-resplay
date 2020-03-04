@@ -133,7 +133,7 @@ function missionStart(plr)
 	setPlayerHudComponentVisible(plr, "money", false)
 	setPlayerHudComponentVisible(plr, "weapon", false)
 	setPlayerHudComponentVisible(plr, "wanted", false)]]
-	exports.Reshud:hideReshudTut()
+	exports.Reshud:hideReshudTut(plr)
 	
 	local spawnInfo = missionElements["spawn"]
 	local cameraPos = missionElements["campos1"]
@@ -506,7 +506,7 @@ function missionFinish(plr, reason)
 	setPlayerHudComponentVisible(plr, "money", true)
 	setPlayerHudComponentVisible(plr, "weapon", true)
 	setPlayerHudComponentVisible(plr, "wanted", true)]]
-    exports.Reshud:showReshudTut()
+    exports.Reshud:showReshudTut(plr)
 	toggleAllControls(plr, true, true, true)
 	toggleControl(plr, "jump", true)
 	toggleControl(plr, "fire", true)
