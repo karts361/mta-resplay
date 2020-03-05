@@ -125,14 +125,15 @@ function missionStart(plr)
 	end
 	
 	tutorialSetPlayerInvincible(plr, true)
-	setPlayerHudComponentVisible(plr, "ammo", false)
+	--[[setPlayerHudComponentVisible(plr, "ammo", false)
 	setPlayerHudComponentVisible(plr, "armour", false)
 	setPlayerHudComponentVisible(plr, "breath", false)
 	setPlayerHudComponentVisible(plr, "clock", false)
 	setPlayerHudComponentVisible(plr, "health", false)
 	setPlayerHudComponentVisible(plr, "money", false)
 	setPlayerHudComponentVisible(plr, "weapon", false)
-	setPlayerHudComponentVisible(plr, "wanted", false)
+	setPlayerHudComponentVisible(plr, "wanted", false)]]
+	exports.Reshud:hideReshudTut(plr)
 	
 	local spawnInfo = missionElements["spawn"]
 	local cameraPos = missionElements["campos1"]
@@ -497,14 +498,15 @@ function missionFinish(plr, reason)
 	clientOrders[plr] = nil
 	clientQueue[plr] = nil
 	clientSeats[plr] = nil
-	setPlayerHudComponentVisible(plr, "ammo", true)
+	--[[setPlayerHudComponentVisible(plr, "ammo", true)
 	setPlayerHudComponentVisible(plr, "armour", true)
 	setPlayerHudComponentVisible(plr, "breath", true)
 	setPlayerHudComponentVisible(plr, "clock", true)
 	setPlayerHudComponentVisible(plr, "health", true)
 	setPlayerHudComponentVisible(plr, "money", true)
 	setPlayerHudComponentVisible(plr, "weapon", true)
-	setPlayerHudComponentVisible(plr, "wanted", true)
+	setPlayerHudComponentVisible(plr, "wanted", true)]]
+    exports.Reshud:showReshudTut(plr)
 	toggleAllControls(plr, true, true, true)
 	toggleControl(plr, "jump", true)
 	toggleControl(plr, "fire", true)
