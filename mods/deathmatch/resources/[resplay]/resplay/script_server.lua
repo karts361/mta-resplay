@@ -6897,10 +6897,12 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 			if isAdmin(playerValue) or isModerator(playerValue) then
 				hungryLevel = 1.0
 				thirstLevel = 1.0
+				setElementData(playerValue, "hungryLevel", hungryLevel)
+				setElementData(playerValue, "thirstLevel", thirstLevel)
 			
 			else
 				if(hungryLevel > 0.0) then
-					setElementData(playerValue, "hungryLevel", math.max(0.0, getElementData(playerValue, "hungryLevel")-0.0009), false)
+					setElementData(playerValue, "hungryLevel", math.max(0.0, getElementData(playerValue, "hungryLevel")-0.0009))
 					hungryLevel = getElementData(playerValue, "hungryLevel")
 					
 					if(hungryLevel > 0.199) and(hungryLevel < 0.201) then
@@ -6933,7 +6935,7 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 				end
 				
 				if(thirstLevel > 0.0) then
-					setElementData(playerValue, "thirstLevel", math.max(0.0, getElementData(playerValue, "thirstLevel")-0.002), false)
+					setElementData(playerValue, "thirstLevel", math.max(0.0, getElementData(playerValue, "thirstLevel")-0.002))
 					thirstLevel = getElementData(playerValue, "thirstLevel")
 					
 					if(thirstLevel > 0.199) and(thirstLevel < 0.201) then
@@ -13540,7 +13542,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(can, source, 11, 0, 0.05, 0.1, 0, 90, 0)
 				setTimer(function(drinker, can)
 							if(isElement(drinker)) then
-								setElementData(drinker, "thirstLevel", math.min(1, getElementData(drinker, "thirstLevel")+0.5), false)
+								setElementData(drinker, "thirstLevel", math.min(1, getElementData(drinker, "thirstLevel")+0.5))
 							end
 							if(isElement(can)) then
 								destroyElement(can)
@@ -13601,7 +13603,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(burger, source, 12, 0, 0.05, 0.1, 0, 90, 0)
 				setTimer(function(eater, burger)
 							if(isElement(eater)) then
-								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.4), false)
+								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.4))
 							end
 							if(isElement(burger)) then
 								destroyElement(burger)
@@ -13624,7 +13626,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(pizza, source, 12, 0, 0.05, 0.1, 180, 90, 180)
 				setTimer(function(eater, pizza)
 							if(isElement(eater)) then
-								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.5), false)
+								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.5))
 							end
 							if(isElement(pizza)) then
 								destroyElement(pizza)
@@ -13647,7 +13649,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(chicken, source, 12, 0, 0.05, 0.1, 0, 0, 0)
 				setTimer(function(eater, chicken)
 							if(isElement(eater)) then
-								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "thirstLevel")+0.5), false)
+								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "thirstLevel")+0.5))
 							end
 							if(isElement(chicken)) then
 								destroyElement(chicken)
@@ -13665,7 +13667,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(beer, source, 12, 0.2, 0.05, 0.2, 0, 240, 0)
 				setTimer(function(drinker, beer)
 							if(isElement(drinker)) then
-								setElementData(drinker, "thirstLevel", math.min(1, getElementData(drinker, "thirstLevel")+0.5), false)
+								setElementData(drinker, "thirstLevel", math.min(1, getElementData(drinker, "thirstLevel")+0.5))
 								triggerClientEvent(drinker, "onPlayerIncDrunkiness", drinker, 150)
 							end
 							if(isElement(beer)) then
@@ -13726,7 +13728,7 @@ function inventoryUseSlot(slotId)
 				exports.bone_attach:attachElementToBone(donut, source, 12, 0, 0.05, 0.1, 180, 90, 0)
 				setTimer(function(eater, donut)
 							if(isElement(eater)) then
-								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.4), false)
+								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.4))
 							end
 							if(isElement(donut)) then
 								destroyElement(donut)
@@ -13760,7 +13762,7 @@ function inventoryUseSlot(slotId)
 				--exports.bone_attach:attachElementToBone(nuts, source, 12, 0, 0.05, 0.1, 180, 90, 0)
 				setTimer(function(eater)
 							if(isElement(eater)) then
-								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.2), false)
+								setElementData(eater, "hungryLevel", math.min(1, getElementData(eater, "hungryLevel")+0.2))
 							end
 							--if(isElement(nuts)) then
 							--	destroyElement(nuts)
@@ -14198,8 +14200,8 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			payoutTimers[source] = setTimer(payoutProc, 60000*payoutHours, 0, source, payoutAmount)
 		end
 		
-		setElementData(source, "hungryLevel", dbqueryresult[1]["hungry"], false)
-		setElementData(source, "thirstLevel", dbqueryresult[1]["thirst"], false)
+		setElementData(source, "hungryLevel", dbqueryresult[1]["hungry"] )
+		setElementData(source, "thirstLevel", dbqueryresult[1]["thirst"] )
 		setElementData(source, "arrested", dbqueryresult[1]["arrested"])
 		setElementData(source, "wantedLevel", dbqueryresult[1]["wantedLevel"])
 		setElementData(source, "spawned", true, false)
@@ -19380,8 +19382,8 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 		removePlayerGreenZone(source, greenZone)
 	end
 	
-	setElementData(source, "hungryLevel", 1.0, false)
-	setElementData(source, "thirstLevel", 1.0, false)
+	setElementData(source, "hungryLevel", 1.0)
+	setElementData(source, "thirstLevel", 1.0)
 	
 	for key,worker in ipairs(jobWorkers[10]) do
 		if(worker[4] == source) then
@@ -26577,8 +26579,8 @@ function adminCMDwarp(plr, id)
 		
 		triggerClientEvent(warpedPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." телепортировал вас к себе")
 	
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, warpedPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, warpedPlr)
 	end
 end
 
