@@ -19254,7 +19254,7 @@ function playerDamage(attacker, attackWeap, bodypart, loss)
 			end
 		end
 		
-		if isPlayerFromPolice(source) and not isAdmin(source) or isModerator(source) and(not isPlayerFromPolice(attacker)) then
+		if isPlayerFromPolice(source) and not (isAdmin(source) or isModerator(source)) and(not isPlayerFromPolice(attacker)) then
 			criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(attacker))
 			wantedLevelInc(attacker)
 		end
