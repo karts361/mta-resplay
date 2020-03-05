@@ -19195,7 +19195,7 @@ function jobPoliceNewOrder(orderer)
 end
 
 function wantedLevelInc(plr)
-	if(getElementType(plr) == "player") and(not isPedDead(plr)) and(not isAdmin(plr)) and(not isModerator(plr)) then
+	if(getElementType(plr) == "player") and(not isPedDead(plr)) and(not isAdmin(plr) or isModerator(plr)) then
 		
 		if wantedTimers[plr] then
 			return false
@@ -19318,7 +19318,7 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 			local sName = getPlayerName(source)
 			local sHash = getHash(sName)
 			
-			if(sourceWanted > 0) and isPlayerFromPolice(killer) and not isAdmin(killer) or isModerator(killer) then
+			if(sourceWanted > 0) and isPlayerFromPolice(killer) and not (isAdmin(killer) or isModerator(killer)) then
 				evtStr = evtStr.."Убил преступника - "..getPlayerName(source).."("..tostring(sourceWanted).." звезд)"
 				wantedLevelClear(source)
 				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.

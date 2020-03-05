@@ -6539,8 +6539,8 @@ function drawNicknames()
 			grpr, grpg, grpb = playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4]
 		end
 		
-		dxDrawText(grpstr, 0, 5*scaleWanted, sW-7*scaleWanted, sH, tocolor(0,0,0,160), 2.5*scaleWanted, "default-bold", "right", "top")
-		dxDrawText(grpstr, 0, 7*scaleWanted, sW-5*scaleWanted, sH, tocolor(grpr,grpg,grpb,160), 2.5*scaleWanted, "default-bold", "right", "top")
+		dxDrawText(grpstr, 0, 3*scaleWanted, sW-97*scaleWanted, sH, tocolor(0,0,0,160), 2.5*scaleWanted, "default-bold", "right", "top")
+		dxDrawText(grpstr, 0, 1*scaleWanted, sW-95*scaleWanted, sH, tocolor(grpr,grpg,grpb,160), 2.5*scaleWanted, "default-bold", "right", "top")
 	end
 end
 

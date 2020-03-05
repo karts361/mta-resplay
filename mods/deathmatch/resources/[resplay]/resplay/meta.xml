@@ -15,6 +15,7 @@
 	<include resource="bone_attach"/>
 	<include resource="camera"/>
 	<include resource="ammushoot"/>
+	<include resource="Reshud"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
 	<include resource="freecam"/>
