@@ -14321,19 +14321,14 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
             setPlayerTeam(source, ms13)
 	    end
 		
-		if(dbqueryresult[1]["fraction"] == 0) then
-		    fractionRemovePlayerFromFraction(source)
-		elseif(dbqueryresult[1]["gang"] == 0) then
-		    gangRemovePlayerFromGang(source)
-		end
 
 		--- REFRESH SKIN IF NOT INITED ---
 		local skinInited = dbqueryresult[1]["skin_inited"]
 		if (skinInited == 0) and not firstTime then
-			--local fractionId = dbqueryresult[1]["fraction"]
+			local fractionId = dbqueryresult[1]["fraction"]
 			local usergroupId = dbqueryresult[1]["usergroup"]
 
-			if usergroupId == 1 or usergroupId == 13 or usergroupId == 23 then
+			if fractionId == 0 and usergroupId == 1 or usergroupId == 13 or usergroupId == 23 then
 				local gender = dbqueryresult[1]["gender"]
 				local skin = startMenSkins[1]
 
