@@ -623,23 +623,6 @@ jobTruckerCarSpawnPoints = {}
 jobTruckerTrucks = {}
 jobTruckerAvailableTrucks = {}
 
--- Инкассатор (переменные)
-jobInkassIncMoney = 3000
-jonInkassMoneyForLeftCar = 100
-jobInkassTimeBackToVeh = 60000
-jobInkassCpCoords = {}
-jobInkassMoneyCpCords = {}
-jobInkassCarCoords = {}
-jobInkassCars = {}
-jobInkassCps = {}
-jobInkassCpBlips = {}
-inkassPedMdl = 71
-inkassCar = 428
-inkassPed = nil
-inkassCarBlip = nil
-inkassTargetMarker = nil
-jobInkassVehMarker = nil
-
 -- Автобус (переменные)
 busStopsForClient = {}
 busesPaths = {
@@ -9588,47 +9571,9 @@ function jobFoodSetState(worker, state)
 	end
 end
 
-function jobInkassInit()
-	for i=1,400 do
-		table.insert(jobInkassCps, {})
-	end
-	
-	for i,cpCoords in ipairs(jobInkassCpCoords) do
-		local sector = getSectorByPoint(cpCoords[1], cpCoords[2])
-		jobInkassCps[sector][i] = createMarker(cpCoords[1], cpCoords[2], cpCoords[3]-1.0, "cylinder", 3.0, 0, 255, 0, 128)
-		jobInkassCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 255, 0, 255, 0, 500)
-		attachElements(jobInkassCpBlips[i], jobInkassCps[sector][i])
-		setElementVisibleTo(jobInkassCps[sector][i], root, false)
-		setElementVisibleTo(jobInkassCpBlips[i], root, false)
-	end
-	
-	for i,cpCoordsMoney in ipairs(jobInkassMoneyCpCords) do
-		local sector = getSectorByPoint(cpCoordsMoney[1], cpCoordsMoney[2])
-		jobInkassCps[sector][i] = createMarker(cpCoordsMoney[1], cpCoordsMoney[2], cpCoordsMoney[3]-1.0, "cylinder", 1.0, 0, 255, 0, 128)
-		jobInkassCpBlips[i] = createBlip(0, 0, 0, 0, 1, 0, 255, 0, 255, 0, 500)
-		attachElements(jobInkassCpBlips[i], jobInkassCps[sector][i])
-		setElementVisibleTo(jobInkassCps[sector][i], root, false)
-		setElementVisibleTo(jobInkassCpBlips[i], root, false)
-	end
-end
-
-function jobInkassCarEnter(plr, seat)
-	if(seat == 0) then
-	    playerShowMessage(plr, "Вы водитель, ваша задача перевозить состав до определенной точки")
-		addWorker(12, plr)
-	elseif(seat == 1) then
-		playerShowMessage(plr, "Вы охранник, ваша задача охранять переносчика с деньгами")
-	    giveWeapon(plr, 31, 250)
-	elseif(seat == 2) then
-	    playerShowMessage(plr, "Вы переносчик, ваша задача относить деньги к фургону")
-		giveWeapon(plr, 24, 50)
-	end
-end
-
 function addWorker(jobId, newWorker)
 	local clientParams = {}
 	local jobVehicle = getPedOccupiedVehicle(newWorker)
-	local jobVehicleSeats = getPedOccupiedVehicleSeat(newWorker)
 	if jobVehicle then
 		if isPlayerBusy(newWorker) then
 			triggerClientEvent(newWorker, "onServerMsgAdd", newWorker, "Вы должны закончить остальные дела, прежде чем приступать к работе.")
@@ -9742,10 +9687,10 @@ function addWorker(jobId, newWorker)
 							--end
 							local vehMdl = getElementModel(jobVehicle)
 							
-							--[[if(vehMdl == 428) then
+							if(vehMdl == 428) then
 								setPedArmor(newWorker, 100.0)
 								giveWeapon(newWorker, 25, 25)
-							end]]
+							end
 							
 							table.insert(jobWorkers[5], { newWorker, 0, jobVehicle, jobTrailer, sx, sy, sz, false })
 							table.insert(clientParams, jobTruckerTrucks[truckIndex][6])
@@ -9877,18 +9822,6 @@ function addWorker(jobId, newWorker)
 				triggerEvent("onWorkStart", resourceRoot, jobId, newWorker, jobVehicle)
 			end
 			triggerClientEvent(newWorker, "onJobStart", newWorker, jobId, clientParams)
-			
-			elseif(jobId == 12) then -- Инкассатор
-			    if not (jobVehicleSeats == 1 or jobVehicleSeats == 2) then
- 			        setElementFrozen(jobVehicle, true)
-			        setVehicleDamageProof(jobVehicle, true)
-				else
- 			        setElementFrozen(jobVehicle, false)
-			        setVehicleDamageProof(jobVehicle, false)
-					addNewEventToLog(getPlayerName(newWorker), "Инкассация - Старт работы", true)
-					removeEventHandler("onVehicleEnter", jobVehicle, jobInkassCarEnter)
-					table.insert(jobWorkers[12], { newWorker, 0, jobVehicle})
-			    end
 		end
 	end
 end
@@ -10068,8 +10001,6 @@ function removeWorker(jobId, worker, reason)
 						break
 					end
 				end
-				
-			elseif(jobId == 12) then -- инкасс
 				
 			else
 				triggerEvent("onWorkFinish", resourceRoot, jobId, curWorker[1], reason)
@@ -10473,40 +10404,6 @@ function generateMapFile()
 		xmlNodeSetAttribute(childNode, "rotX", tostring(trashmastercar[4]))
 		xmlNodeSetAttribute(childNode, "rotY", tostring(trashmastercar[5]))
 		xmlNodeSetAttribute(childNode, "rotZ", tostring(trashmastercar[6]))
-	end
-	
-	
-	for i,inkasscp in ipairs(jobInkassCpCoords) do
-		childNode = xmlCreateChild(rootNode, "inkasscp")
-		xmlNodeSetAttribute(childNode, "id", "inkasscp"..tostring(i))
-		xmlNodeSetAttribute(childNode, "posX", tostring(inkasscp[1]))
-		xmlNodeSetAttribute(childNode, "posY", tostring(inkasscp[2]))
-		xmlNodeSetAttribute(childNode, "posZ", tostring(inkasscp[3]))
-		xmlNodeSetAttribute(childNode, "rotX", "0")
-		xmlNodeSetAttribute(childNode, "rotY", "0")
-		xmlNodeSetAttribute(childNode, "rotZ", "0")
-	end
-	
-	for i,inkassmoneycp in ipairs(jobInkassMoneyCpCords) do
-		childNode = xmlCreateChild(rootNode, "inkassmoneycp")
-		xmlNodeSetAttribute(childNode, "id", "inkassmoneycp"..tostring(i))
-		xmlNodeSetAttribute(childNode, "posX", tostring(inkassmoneycp[1]))
-		xmlNodeSetAttribute(childNode, "posY", tostring(inkassmoneycp[2]))
-		xmlNodeSetAttribute(childNode, "posZ", tostring(inkassmoneycp[3]))
-		xmlNodeSetAttribute(childNode, "rotX", "0")
-		xmlNodeSetAttribute(childNode, "rotY", "0")
-		xmlNodeSetAttribute(childNode, "rotZ", "0")
-	end
-	
-	for i,inkasscar in ipairs(jobInkassCarCoords) do
-		childNode = xmlCreateChild(rootNode, "inkasscar")
-		xmlNodeSetAttribute(childNode, "id", "inkasscar"..tostring(i))
-		xmlNodeSetAttribute(childNode, "posX", tostring(inkasscar[1]))
-		xmlNodeSetAttribute(childNode, "posY", tostring(inkasscar[2]))
-		xmlNodeSetAttribute(childNode, "posZ", tostring(inkasscar[3]))
-		xmlNodeSetAttribute(childNode, "rotX", tostring(inkasscar[4]))
-		xmlNodeSetAttribute(childNode, "rotY", tostring(inkasscar[5]))
-		xmlNodeSetAttribute(childNode, "rotZ", tostring(inkasscar[6]))
 	end
 	
 	for i,washroadscp in ipairs(jobWashroadsCpCoords) do
@@ -11545,33 +11442,6 @@ function loadMapFile()
 		destroyElement(trashmastercar)
 	end
 	
-	elements = getElementsByType("inkasscp")
-	
-	for i,inkasscp in ipairs(elements) do
-		elemx, elemy, elemz = getElementPosition(inkasscp)
-		table.insert(jobInkassCpCoords, { elemx, elemy, elemz })
-		destroyElement(inkasscp)
-	end
-	
-	elements = getElementsByType("inkassmoneycp")
-	
-	for i,inkassmoneycp in ipairs(elements) do
-		elemx, elemy, elemz = getElementPosition(inkassmoneycp)
-		table.insert(jobInkassMoneyCpCords, { elemx, elemy, elemz })
-		destroyElement(inkassmoneycp)
-	end
-	
-	elements = getElementsByType("inkasscar")
-	
-	for i,inkasscar in ipairs(elements) do
-		elemx, elemy, elemz = getElementPosition(inkasscar)
-		elemrx = getElementData(inkasscar, "rotX")
-		elemry = getElementData(inkasscar, "rotY")
-		elemrz = getElementData(inkasscar, "rotZ")
-		table.insert(jobInkassCarCoords, { elemx, elemy, elemz, elemrx, elemry, elemrz })
-		destroyElement(inkasscar)
-	end
-	
 	elements = getElementsByType("washroadscp")
 	
 	for i,washroadscp in ipairs(elements) do
@@ -12221,23 +12091,6 @@ function resourceStart(startedResource)
 		setElementVisibleTo(jobCpFix[i][1], root, false)
 		setElementVisibleTo(jobCpFix[i][2], root, false)
 		setPickupText(jobCpFix[i][1], "Ремонт и заправка", 255, 255, 0)
-	end
-	
-    jobInkassInit()
-	
-	for _,carCoords in ipairs(jobInkassCarCoords) do
-		curVehicle = createVehicle(inkassCar, carCoords[1], carCoords[2], carCoords[3], carCoords[4], carCoords[5], carCoords[6])
-		--setVehicleRespawnPosition(curVehicle, carCoords[1], carCoords[2], carCoords[3], carCoords[4], carCoords[5], carCoords[6])
-		setElementFrozen(curVehicle, true)
-		setVehicleDamageProof(curVehicle, true)
-		setElementData(curVehicle, "explodable", true)
-		addEventHandler("onVehicleEnter", curVehicle, jobInkassCarEnter)
-		inkassPed = createPed(inkassPedMdl, 0, 0, 0, 0, false)
-		setElementData(inkassPed, "godmode", true)
-		warpPedIntoVehicle(inkassPed, curVehicle, 3)
-		inkassCarBlip = createBlip(0, 0, 0, 60, 2, 255, 255, 255, 255, 32766)
-		attachElements(inkassCarBlip, curVehicle)
-		setElementVisibleTo(inkassCarBlip, root, false)
 	end
 	
 	jobTrashmasterInit()
