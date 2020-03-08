@@ -570,7 +570,7 @@ jobCpFinish = {}
 jobTrashmasterStartTime = 120000
 jobTrashmasterIncTime = 10000
 jobTrashmasterMaxFillness = 100
-jobTrashmasterIncMoney = 3
+jobTrashmasterIncMoney = 10
 jobTrashmasterMoneyForBlowedCar = 2000
 jobTrashmasterMoneyForLeftCar = 100
 jobTrashmasterUnloadCycle = 5
@@ -585,7 +585,7 @@ jobTrashmasterVehMarker = nil
 -- Мойка дорог(переменные)
 jobWashroadsStartTime = 120000
 jobWashroadsIncTime = 15000
-jobWashroadsIncMoneyPerCp = 5
+jobWashroadsIncMoneyPerCp = 25
 jobWashroadsMoneyForBlowedCar = 2000
 jobWashroadsMoneyForLeftCar = 100
 jobWashroadsTimeBackToVeh = 60000
@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 1
+jobLawnmowMoneyForGrass = 5
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -2509,7 +2509,7 @@ jobFarmFields = {}
 jobFarmMoneyForBlowedCar = 2000
 jobFarmMoneyForLeftCar = 100
 jobFarmTimeBackToVeh = 60000
-jobFarmMoneyForField = 30
+jobFarmMoneyForField = 90
 
 extraObjs = {}
 removeObjs = {}
@@ -3876,18 +3876,18 @@ pickupTextArray = {}
 thinkBubbleLastTime = {}
 
 payoutGroups = {
-	[2] = { 90, 5 }, -- ПД
-	[4] = { 70, 5 }, -- Медики
-	[5] = { 90, 5 }, -- Вояки
-	[17] = { 100, 5 }, -- ФБР
-	[18] = { 100, 5 } -- СМИ
+	[2] = { 120, 5 }, -- ПД
+	[4] = { 100, 5 }, -- Медики
+	[5] = { 120, 5 }, -- Вояки
+	[17] = { 140, 5 }, -- ФБР
+	[18] = { 140, 5 } -- СМИ
 }
 
 ---выплаты\зарплаты----
 
 payoutMults = { 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2 }
 payoutTimers = {}
-payoutAdminPerQuestion = 200
+payoutAdminPerQuestion = 500
 
 --чаты фракций-----
 playerTeamChats = {
@@ -5260,7 +5260,7 @@ function militaryGeneralDead()
 			pGrp = nil
 			allPlayers = nil
 			triggerClientEvent(gangsters, "onServerMsgAdd", resourceRoot, "Деньги за генерала появились на месте взрыва его машины.")
-			setTimer(createMoney, 1000, 1, cx, cy, cz, 2000, 1210)
+			setTimer(createMoney, 1000, 1, cx, cy, cz, 3500, 1210)
 			addNewEventToLog(getPlayerName(worker[1]), "Военный - Перевозка генерала - Взрыв транспорта", true)
 			removeWorker(9, worker[1], 4)
 			
@@ -5333,7 +5333,7 @@ function militaryGeneralFinish(plr, success)
 	addNewEventToLog(getPlayerName(plr), "Военный - Перевозка генерала - Завершение", success)
 	
 	if success then
-		giveMoney(plr, 2000)
+		giveMoney(plr, 5000)
 		local respect = getElementData(plr, "respect")
 		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
@@ -5473,7 +5473,7 @@ function militaryCargoDeliver(hitElem)
 		if driver and isElementVisibleTo(source, driver) then
 			addNewEventToLog(getPlayerName(driver), "Военный - Груз - Разгрузка", true)
 			militaryCargoRemove(hitElem)
-			giveMoney(driver, 35)
+			giveMoney(driver, 95)
 			local respect = getElementData(driver, "respect")
 			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
@@ -27729,7 +27729,7 @@ function PlayerFromSaNews(plr)
 	return false
 end
 
-saNewsPrice = 35 -- price for SaNews by command "/mm"
+saNewsPrice = 95 -- price for SaNews by command "/mm"
 
 function gangAccept(plr) --(становление бандитом)
     local pGrp = getElementData(plr, "usergroup")
