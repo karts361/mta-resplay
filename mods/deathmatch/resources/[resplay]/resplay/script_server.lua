@@ -12806,7 +12806,7 @@ function playerCheckIfRegistered2(dbq, source)
 	loginTimers[source] = setTimer(kickAFK, 80000, 1, source)
 end
 
-function setPlayerNewGroup(plr, grpid, skipFractionCheck)
+function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 	local wantedLevel = getPlayerWantedLevel(plr)
 	local curGrp = getElementData(plr, "usergroup")
 	local grpSkills = playerGroupSkills[grpid]
@@ -12834,6 +12834,15 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 			for _,fInfo in ipairs(fractions) do
 				if(fInfo[2] == grpid) or (fInfo[2] == curGrp) then
 					triggerClientEvent(plr, "onServerMsgAdd", plr, "Рабочие процессы данной или текущей группы игроков управляются фракциями. Для приема на работу или увольнения необходимо обратиться к лидеру одной из фракции или её члену с необходимыми правами.")
+					return "NIL"
+				end
+			end
+		end
+		
+		if not skipGangFractionCheck then
+			for _,gInfo in ipairs(gangs) do
+				if(gInfo[2] == grpid) or (gInfo[2] == curGrp) then
+					triggerClientEvent(plr, "onServerMsgAdd", plr, "Рабочие процессы данной или текущей группы игроков управляются фракциями банд. Для приема в банду или исключения необходимо обратиться к лидеру одной из банд или её члену с необходимыми правами.")
 					return "NIL"
 				end
 			end
