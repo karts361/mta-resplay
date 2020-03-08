@@ -12726,14 +12726,14 @@ function resourceStart(startedResource)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 4) -- респавн ящиков с оружием, переменные
-	local vehid = getResourceFromName("vehid")
+	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
 		setTimer(function()
 					triggerClientEvent(getElementsByType("player"), "onUpdateMemoryMonitor", resourceRoot, collectgarbage("count"))
 		end, 1000, 0)
 		setTimer(debugLawnmowsInit, 1000, 1)
-		startResource(vehid)
+		--startResource(vehid)
 	end
 	
 	triggerEvent("onWorkInit", resourceRoot)
