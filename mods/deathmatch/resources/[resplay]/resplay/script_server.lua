@@ -18438,7 +18438,7 @@ function executeAction(aplr, actionId, params)
 					if( setResult == true ) then
 					    playerShowMessage(aplr, "Вы исключили игрока "..params[2].." из банды ")
 					    playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." исключил вас из банды.")
-						setPlayerNewGroup(plr, groupCommonGet(plr), true)
+						setPlayerNewGroup(plr, groupCommonGet(plr), false, true)
 					else
 						playerShowMessage(aplr, "Не удалось исключить игрока из банды. Причина: "..tostring( setResult )..".")
 					end
@@ -28321,7 +28321,7 @@ function gangSetPlayerGang(plr, gId)
 	if(not curGang) and(not isPlayerBusy(plr)) then
 		local pHash = getHash(getPlayerName(plr))
 		local gHash = getHash(gangs[gId][1])
-		local setResult = setPlayerNewGroup(plr, gangs[gId][2], true)
+		local setResult = setPlayerNewGroup(plr, gangs[gId][2], false, true)
 		
 		if(setResult == true) then
 			if dbExec(db, "UPDATE users SET gang=?,grank=1 WHERE name = ?", gHash, pHash) then
