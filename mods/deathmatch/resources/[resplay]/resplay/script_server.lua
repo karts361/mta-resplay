@@ -28830,8 +28830,8 @@ eatGangs = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 2
-gangBaseCaptureTimeSec = 600
+gangBaseCaptureMinPlr = 1
+gangBaseCaptureTimeSec = 30
 
 --[[счетчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
@@ -29111,7 +29111,7 @@ function gangBaseCaptureFinish(baseId, success)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(gang).."' захватила одну из ваших территорий.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда захватила территорию банды '"..getTeamName(owner).."'.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
-			giveMoney(gangPlayers, 6000)
+			--giveMoney(gangPlayers, 6000)
 		
 		else
 			local px, py
@@ -29127,7 +29127,7 @@ function gangBaseCaptureFinish(baseId, success)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(owner).."' отбила свою территорию.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
-			giveMoney(ownerPlayers, 6000)
+			--giveMoney(ownerPlayers, 6000)
 			
 		end
 		
