@@ -2385,7 +2385,7 @@ ammuWeapons = {
 	},
 	{
 		{ 27, 351, 7, 2000 },
-		{ 26, 350, 4, 600 },
+		{ 26, 350, 4, 600 }
 	--},
 	--{
 		--{ 38, 362, 100, 4000 }, 
@@ -18547,11 +18547,11 @@ function executeAction(aplr, actionId, params)
 				elseif(respect < 0.75) then
 					ammuLevel = 3
 				
-				elseif(respect < 1) then
-					ammuLevel = 4
+				--elseif(respect < 1) then
+					--ammuLevel = 4
 				
 				else
-				    ammuLevel = 5
+				    ammuLevel = 4
 				end
 				
 				local curAmmuWeap = {}
