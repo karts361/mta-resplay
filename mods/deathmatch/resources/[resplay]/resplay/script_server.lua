@@ -3746,7 +3746,7 @@ thinkContentImgFood = "images/think_food.dds"
 
 loadedFaces = {}
 
-webSiteHost = "http://ossmana3.bget.ru/mta/"
+webSiteHost = "http://deaglos.beget.tech/mta"
 webAccountsTmp = {}
 
 clanBaseConstructionTime = 120000
