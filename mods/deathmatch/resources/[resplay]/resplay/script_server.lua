@@ -12046,9 +12046,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+	    db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -14522,10 +14522,20 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbQuery(requestUserData4, {source}, db, "SELECT friend FROM friends WHERE player = ?", sHash)
 end
 
-function requestUserData4(dbq, source)
+function requestUserData4(dbq, source, sHash)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	triggerClientEvent(source, "onFriendsLoad", source, dbqueryresult)
+	
+	dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
+end
+
+function requestUserData5(dbq, source)
+    dbqueryresult = dbPoll(dbq, 0)
+	dbFree(dbq)
+	if (dbqueryresult["taxAmount"] > 0) then
+	    outputChatBox(generateTimeString().."RESPLAY: Ваш по оплате за дом составляет: "..dbqueryresult["taxAmount"].."$", source, 255, 128, 0, true)
+	end
 end
 
 function insertFaceIntoArray(imageData, err, plr)
@@ -29285,6 +29295,41 @@ end
 
 addEvent("onHouseGuestAccept", true)
 addEventHandler("onHouseGuestAccept", root, houseGuestAccept)
+
+
+------- Налоги -------------
+
+function checkTaxHouse(houseid)
+    local tsm = getRealTime()
+	
+	--if(houses[houseid][11] ~= 0) then
+		local hsqlindex = houses[houseid][1]
+		local hour = tsm.hour
+		local minute = tsm.minute
+        
+		taxAmount = houses[houseid][3]/50
+		taxTime = taxTime+1
+	    if minute == 19 then
+		    dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=? WHERE id=?", taxAmount, taxTime, hsqlindex)
+		end
+	--end
+end
+
+function houseSellTaxNonPayment(houseid)
+    local tsm = getRealTime()
+	repeat 
+	    local dbq = dbQuery(db, "SELECT * FROM houses WHERE id=?", houses[houseid][1])
+	    dbhouseinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbhouseinfotax
+    if (houses[houseid][11] ~= 0) then
+	    local hsqlindex = houses[houseid][1]
+	    if dbhouseinfotax["taxTime"] > 4 then
+		    dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL, taxAmount=0, taxTime=0 WHERE id=?", hsqlindex)
+			loadHouses()
+		end
+	end
+end	
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
