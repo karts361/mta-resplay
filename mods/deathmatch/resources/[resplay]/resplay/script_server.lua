@@ -11282,13 +11282,14 @@ function loadMapFile()
 				local vangz = getElementData(houseparking, "rotZ")
 				local lvl = getElementData(house, "level")
 				local price = getElementData(house, "price")
+				local tax = 0
 				
 				if(i > 1) then
 					dbStr = dbStr..","
 				end
 				
 				dbStr = dbStr..dbPrepareString(db, "(?)", elemid)
-				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0 }
+				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0, tonumber(tax) }
 				destroyElement(houseparking)
 			end
 			destroyElement(housepos)
@@ -11765,6 +11766,7 @@ function loadMapFile()
 		local dbid = getHash(getElementData(ammushop, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
 			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
@@ -11775,6 +11777,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11787,7 +11790,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(ammushop)
 		elemrz = getElementData(ammushop, "rotZ")
 		local ammuint = tonumber(getElementData(ammushop, "ammuinterior"))
-		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(ammushop)
 	end
 	
@@ -11797,6 +11800,7 @@ function loadMapFile()
 		local dbid = getHash(getElementData(eatlocation, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
 			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
@@ -11807,6 +11811,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11819,7 +11824,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(eatlocation)
 		elemrz = getElementData(eatlocation, "rotZ")
 		local shopint = tonumber(getElementData(eatlocation, "type"))
-		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(eatlocation)
 	end
 	
@@ -29299,22 +29304,45 @@ addEventHandler("onHouseGuestAccept", root, houseGuestAccept)
 
 ------- Налоги -------------
 
-function checkTaxHouse(houseid)
-    local tsm = getRealTime()
+function checkTaxHouse()
+	local taxTime = 0
 	
-	--if(houses[houseid][11] ~= 0) then
-		local hsqlindex = houses[houseid][1]
+    for houseid,house in pairs(houses) do
+	
+	if(house[11] ~= 0) then
+		local hsqlindex = house[1]
 		local hour = tsm.hour
 		local minute = tsm.minute
         
-		taxAmount = houses[houseid][3]/50
+		
+		local income = house[3]/25
 		taxTime = taxTime+1
-	    if minute == 19 then
-		    dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=? WHERE id=?", taxAmount, taxTime, hsqlindex)
-		end
-	--end
+		ouse[12] = house[12]+income
+		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=? WHERE id=?", house[12], taxTime, hsqlindex)
+	end
+    end
 end
+--addCommandHandler("taxtest", checkTaxHouse) --debug
 
+--[[
+function taxIncomeDay()
+    local tsm = getRealTime()
+	local minutes = tsm.minute
+	if munites == 18 then
+	    outputChatBox("test")
+	end
+end]]
+
+setTimer(
+function()
+	local time = getRealTime()
+	local minute = time.minute
+	if minute >= 56 and minute < 58 then
+      	outputChatBox("test")
+	end
+end, 1000, 3)
+
+--[[
 function houseSellTaxNonPayment(houseid)
     local tsm = getRealTime()
 	repeat 
@@ -29329,7 +29357,7 @@ function houseSellTaxNonPayment(houseid)
 			loadHouses()
 		end
 	end
-end	
+end]]
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
