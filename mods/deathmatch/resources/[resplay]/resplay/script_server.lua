@@ -26446,8 +26446,8 @@ function adminCMDslap(plr, nickname)
 		triggerClientEvent(slappedPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." пнул вас")
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы пнули игрока "..getPlayerName(slappedPlr))
 	
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, slappedPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, slappedPlr)
 	end
 end
 
@@ -26632,8 +26632,8 @@ function adminCMDjail(plr, nickname, secondsText, ...)
             outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..jailName.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 255, 0, 0, true)
 			spawnPlayerEx(jailPlr)
 		end
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, jailPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, jailPlr)
 	end
 end
 
@@ -26708,8 +26708,8 @@ function adminCMDunjail(plr, nickname)
 			setElementInterior(unjailPlr, 0)
 		end
 		
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, unjailPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, unjailPlr)
 	end
 end
 
@@ -27159,8 +27159,8 @@ function adminCMDheal(plr, nickname)
 			
 		end
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы полностью вылечили и починили транспорт игрока "..getPlayerName(healPlr))
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, healPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, healPlr)
 	end
 
 end
@@ -27296,8 +27296,8 @@ function adminCMDmute(plr, nickname, secondsText, ...)
 			setPlayerMuted(mutePlr, true)
 			exports.voice:setPlayerVoiceMuted(mutePlr, true)
 		end
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, mutePlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, mutePlr)
 	end
 end
 
@@ -27317,8 +27317,8 @@ function adminCMDunmute(plr, nickname)
 			exports.voice:setPlayerVoiceMuted(unmutePlr, false)
 		end
 		
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, unmutePlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, unmutePlr)
 	end
 end
 
