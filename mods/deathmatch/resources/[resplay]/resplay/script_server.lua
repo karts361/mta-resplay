@@ -11767,7 +11767,7 @@ function loadMapFile()
 	end
 	
 	adminList = "("..table.concat(hashList, ",")..")"
-	--dbExec(db, "UPDATE businesses SET owner=0,money=0 WHERE owner IN "..adminList, fHash, sourceName)
+	dbExec(db, "UPDATE businesses SET owner=0,money=0, taxAmount=0, taxTime=0 WHERE owner IN "..adminList, fHash, sourceName)
 	elements = getElementsByType("ammushop")
 	dbStr = "INSERT IGNORE INTO businesses(id) VALUES "
 	local newBusinesses = 0
@@ -15641,12 +15641,12 @@ function executeAction(aplr, actionId, params)
 			local pName = getPlayerName(aplr)
 			local adminList = getAdministrationList()
 			
-			--[[for _,aName in ipairs(adminList) do
+			for _,aName in ipairs(adminList) do
 				if aName == pName then
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Администрация не может покупать бизнес.")
 					return
 				end
-			end]]
+			end
 			
 			local bindex = params[1]
 			local btype = params[2]
@@ -29415,7 +29415,7 @@ function checkTaxHouse()
 	end
     end
 end
---addCommandHandler("taxtest", checkTaxHouse) --debug
+addCommandHandler("taxtest", checkTaxHouse) --debug
 
 function checkTaxBusinesess()
     for key,ammuShop in pairs(ammuShops) do
@@ -29438,7 +29438,7 @@ function checkTaxBusinesess()
 	end
     end
 end
---addCommandHandler("tax2", checkTaxBusinesess)
+addCommandHandler("tax2", checkTaxBusinesess)
 
 taxIncomeDay = setTimer(
 function()
