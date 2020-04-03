@@ -10126,7 +10126,7 @@ function loadHouses2(dbq)
 			while not houses[hindex][4] do
 				houses[hindex][4] = createPickup(hx, hy, hz, 3, housePickupModelNotAvailable, 0)
 			end
-			
+  
 			attachActionToElement(defaultActions[128], houses[hindex][4])
 			attachActionToElement(defaultActions[2], houses[hindex][4])
 			attachActionToElement(defaultActions[14], houses[hindex][4])
@@ -11282,13 +11282,24 @@ function loadMapFile()
 				local vangz = getElementData(houseparking, "rotZ")
 				local lvl = getElementData(house, "level")
 				local price = getElementData(house, "price")
+				local tax = 0
+				
+	            repeat
+		            dbq = dbQuery(db, "SELECT id,taxAmount FROM houses")
+		            dbqueryresult = dbPoll(dbq, 30000)
+		            dbFree(dbq)
+	            until dbqueryresult
+				
+		        if(table.getn(dbqueryresult) > 0) then
+			        tax = dbqueryresult[1]["taxAmount"]
+		        end
 				
 				if(i > 1) then
 					dbStr = dbStr..","
 				end
 				
 				dbStr = dbStr..dbPrepareString(db, "(?)", elemid)
-				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0 }
+				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0, tonumber(tax) }
 				destroyElement(houseparking)
 			end
 			destroyElement(housepos)
@@ -11742,7 +11753,7 @@ function loadMapFile()
 	end
 	
 	repeat
-		dbq = dbQuery(db, "SELECT id,money,owner FROM businesses")
+		dbq = dbQuery(db, "SELECT id,money,owner,taxAmount FROM businesses")
 		dbqueryresult = dbPoll(dbq, 30000)
 		dbFree(dbq)
 	until dbqueryresult
@@ -11756,7 +11767,7 @@ function loadMapFile()
 	end
 	
 	adminList = "("..table.concat(hashList, ",")..")"
-	dbExec(db, "UPDATE businesses SET owner=0,money=0 WHERE owner IN "..adminList, fHash, sourceName)
+	dbExec(db, "UPDATE businesses SET owner=0,money=0, taxAmount=0, taxTime=0 WHERE owner IN "..adminList, fHash, sourceName)
 	elements = getElementsByType("ammushop")
 	dbStr = "INSERT IGNORE INTO businesses(id) VALUES "
 	local newBusinesses = 0
@@ -11765,9 +11776,10 @@ function loadMapFile()
 		local dbid = getHash(getElementData(ammushop, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
-			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
+			dbq = dbQuery(db, "SELECT money,owner,taxAmount FROM businesses WHERE id=?", dbid)
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
@@ -11775,6 +11787,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11787,7 +11800,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(ammushop)
 		elemrz = getElementData(ammushop, "rotZ")
 		local ammuint = tonumber(getElementData(ammushop, "ammuinterior"))
-		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(ammushop)
 	end
 	
@@ -11797,9 +11810,10 @@ function loadMapFile()
 		local dbid = getHash(getElementData(eatlocation, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
-			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
+			dbq = dbQuery(db, "SELECT money,owner,taxAmount FROM businesses WHERE id=?", dbid)
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
@@ -11807,6 +11821,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11819,7 +11834,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(eatlocation)
 		elemrz = getElementData(eatlocation, "rotZ")
 		local shopint = tonumber(getElementData(eatlocation, "type"))
-		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(eatlocation)
 	end
 	
@@ -12046,9 +12061,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+	    db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -12732,7 +12747,7 @@ function resourceStart(startedResource)
 		setTimer(function()
 					triggerClientEvent(getElementsByType("player"), "onUpdateMemoryMonitor", resourceRoot, collectgarbage("count"))
 		end, 1000, 0)
-		setTimer(debugLawnmowsInit, 1000, 1)
+		setTimer(debugLawnmowsInit, 1000, 1) 
 		--startResource(vehid)
 	end
 	
@@ -14522,10 +14537,20 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbQuery(requestUserData4, {source}, db, "SELECT friend FROM friends WHERE player = ?", sHash)
 end
 
-function requestUserData4(dbq, source)
+function requestUserData4(dbq, source, sHash)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	triggerClientEvent(source, "onFriendsLoad", source, dbqueryresult)
+	
+	dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
+end
+
+function requestUserData5(dbq, source)
+    dbqueryresult = dbPoll(dbq, 0)
+	dbFree(dbq)
+	if (dbqueryresult["taxAmount"] > 0) then
+	    outputChatBox(generateTimeString().."RESPLAY: Ваш по оплате за дом составляет: "..dbqueryresult["taxAmount"].."$", source, 255, 128, 0, true)
+	end
 end
 
 function insertFaceIntoArray(imageData, err, plr)
@@ -15095,6 +15120,9 @@ function requestActionsList(aplr)
 						if(ammuShop[9] == shash) then
 							table.insert(alist, { 4, availableActions[4].."($"..ammuBusinessPrice..")", { key, 2 }, nil, 0, 255, 0 })
 							table.insert(alist, { 41, availableActions[41].."($"..ammuShop[8]..")", { key, 2 }, nil, 0, 255, 0 })
+							if(ammuShop[10] > 0) then
+							    table.insert(alist, { 168, "Бизнес - Оплатить налог ($"..ammuShop[10]..")", { key, 2 }, nil, 0, 255, 0 })
+						    end
 						else
 							table.insert(alist, { 3, availableActions[3].."($"..ammuBusinessPrice..")", { key, 2 }, nil, 0, 255, 0 })
 						end
@@ -15115,6 +15143,9 @@ function requestActionsList(aplr)
 						if(eatLocation[9] == shash) then
 							table.insert(alist, { 4, availableActions[4].."($"..eatTypes[eatLocation[1]][14]..")", { key, 1 }, nil, 0, 255, 0 })
 							table.insert(alist, { 41, availableActions[41].."($"..eatLocation[8]..")", { key, 1 }, nil, 0, 255, 0 })
+							if(eatLocation[10] > 0) then
+							    table.insert(alist, { 168, "Бизнес - Оплатить налог ($"..eatLocation[10]..")", { key, 1 }, nil, 0, 255, 0 })
+							end
 						else
 							table.insert(alist, { 3, availableActions[3].."($"..eatTypes[eatLocation[1]][14]..")", { key, 1 }, nil, 0, 255, 0 })
 						end
@@ -15158,6 +15189,9 @@ function requestActionsList(aplr)
     						table.insert(alist, { 164, "Дом - Пригласить игрока "..getPlayerName(curPlr), { key, i, curPlr }, nil, 0, 255, 0})
 						end
 						
+						if (house[12] > 0) then
+						    table.insert(alist, { 167, "Дом - Оплатить ($"..house[12]..")", { key }, nil, 0, 255, 0 })
+						end
 						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
 						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
@@ -18282,7 +18316,84 @@ function executeAction(aplr, actionId, params)
 			
 	    elseif(actionId == 166) then
 		    triggerEvent("onMissionStart", resourceRoot, aplr, "mis_tutorial")
-		   
+			
+		elseif(actionId == 167) then
+			local hindex = params[1]
+			local pHash = getHash(getPlayerName(aplr))
+			local owner = houses[hindex][11]
+				
+			if(owner == pHash) then
+				local taxPayment = houses[hindex][12]
+					
+			    if (getMoney(aplr) < taxPayment) then
+			        playerShowMessage(newOwner, "У вас недостаточно денег.")
+			        return false
+		        end
+
+				if(taxPayment > 0) then
+					if dbExec(db, "UPDATE houses SET taxAmount=0, taxTime=0 WHERE id=?", houses[hindex][1]) then
+						triggerEvent("onPlayerChat", aplr, "оплатил дом ", 1)
+						addNewEventToLog(getPlayerName(aplr), "Дом - Оплата", true)
+						takeMoney(aplr, taxPayment)
+						houses[hindex][12] = 0
+					else
+						triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате дома")
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот дом вам не принадлежит.")
+				end
+		    end
+			
+		elseif(actionId == 168) then
+			local bindex = params[1]
+			local btype = params[2]
+			local pHash = getHash(getPlayerName(aplr))
+			
+			if(btype == 1) then
+				local owner = eatLocations[bindex][9]
+				
+				if(owner == pHash) then
+					local taxAmount = eatLocations[bindex][10]
+
+			        if (getMoney(aplr) < taxAmount) then
+			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            return false
+		            end
+					if(taxAmount > 0) then
+						if dbExec(db, "UPDATE businesses SET taxAmount=0, taxTime=0 WHERE id=?", eatLocations[bindex][7]) then
+							triggerEvent("onPlayerChat", aplr, "оплатил бизнес"..tostring(eatLocations[bindex][7]), 1)
+							addNewEventToLog(getPlayerName(aplr), "Бизнес - оплата - магазин "..tostring(eatLocations[bindex][7]), true)
+							takeMoney(aplr, taxAmount)
+							eatLocations[bindex][10] = 0
+						else
+							triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате бизнеса.")
+						end
+						
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот бизнес вам не принадлежит.")
+				end
+				
+			elseif(btype == 2) then
+				local owner = ammuShops[bindex][9]
+				
+				if(owner == pHash) then
+					local taxAmount = ammuShops[bindex][10]
+					if(taxAmount > 0) then
+						if dbExec(db, "UPDATE businesses SET taxAmount=0, taxTime=0 WHERE id=?", ammuShops[bindex][7]) then
+							triggerEvent("onPlayerChat", aplr, "оплатил бизнес", 1)
+							addNewEventToLog(getPlayerName(aplr), "Бизнес - Оплата - Аммуниция "..tostring(ammuShops[bindex][7]), true)
+							giveMoney(aplr, taxAmount)
+							ammuShops[bindex][10] = 0
+						else
+							triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате бизнеса.")
+						end
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот бизнес вам не принадлежит.")
+				end
+			end
+
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -29285,6 +29396,132 @@ end
 
 addEvent("onHouseGuestAccept", true)
 addEventHandler("onHouseGuestAccept", root, houseGuestAccept)
+
+
+------- Налоги -------------
+
+function checkTaxHouse()
+	local taxTime = 0
+	
+    for houseid,house in pairs(houses) do
+	
+	if(house[11] ~= 0) then
+		local hsqlindex = house[1]
+		
+		local income = house[3]/25
+		--taxTime = math.max(0, taxTime+1)
+		house[12] = house[12]+income
+		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", house[12], hsqlindex)
+	end
+    end
+end
+addCommandHandler("taxtest", checkTaxHouse) --debug
+
+function checkTaxBusinesess()
+    for key,ammuShop in pairs(ammuShops) do
+	if(ammuShop[9] ~= 0) then
+		local amsqlindex = ammuShop[7]
+		
+		local income = ammuBusinessPrice/25
+		ammuShop[10] = ammuShop[10]+income
+		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", ammuShop[10], amsqlindex)
+	end
+    end
+	
+	for key,eatLocation in pairs(eatLocations) do
+	if(eatLocation[9] ~= 0) then
+		local eatsqlindex = eatLocation[7]
+		
+		local income = eatTypes[eatLocation[1]][14]/25
+		eatLocation[10] = eatLocation[10]+income
+		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", eatLocation[10], eatsqlindex)
+	end
+    end
+end
+addCommandHandler("tax2", checkTaxBusinesess)
+
+taxIncomeDay = setTimer(
+function()
+	local tsm = getRealTime()
+	local minute = tsm.minute
+	local weekday = tsm.weekday
+	local hour = tsm.hour
+	if (weekday == 6 and hour == 4 and minute == 0) then
+      	checkTaxHouse()
+		checkTaxBusinesess()
+		timerkill()
+	end
+end, 1000, 0)
+
+function timerkill()
+    if isTimer(taxIncomeDay) then
+	    killTimer(taxIncomeDay)
+	end
+end
+
+taxSellNonPayment = setTimer(
+function()
+	local tsm = getRealTime()
+	local minute = tsm.minute
+	local weekday = tsm.weekday
+	local hour = tsm.hour
+	if (weekday == 6 and hour == 7 and minute == 55) then
+		taxSellTaxNonPayment()
+		timerkill2()
+	end
+end, 1000, 0)
+
+function timerkill2()
+    if isTimer(taxSellNonPayment) then
+	    killTimer(taxSellNonPayment)
+	end
+end
+
+function taxSellTaxNonPayment()
+    for houseid,house in pairs(houses) do
+
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM houses WHERE id=?", house[1])
+	    dbhouseinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbhouseinfotax
+    if (house[11] ~= 0) then
+	    local hsqlindex = house[1]
+	    if(dbhouseinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL, taxAmount=0, taxTime=0 WHERE id=?", hsqlindex)
+		end
+	end
+	end
+	
+    for ammuId,ammuShop in ipairs(ammuShops) do
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM businesses WHERE id=?", ammuShop[7])
+	    dbinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbinfotax
+	if (ammuShop[9] ~= 0) then
+	    local amsqlindex = ammuShop[7]
+	    if(dbinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL, taxAmount=0, taxTime=0 WHERE id=?", amsqlindex)
+		end
+    end
+    end
+
+	for eatId,eatLocation in ipairs(eatLocations) do
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM businesses WHERE id=?", eatLocation[7])
+	    dbinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbinfotax
+	if (eatLocation[9] ~= 0) then
+	    local eatsqlindex = eatLocation[7]
+	    if(dbinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL, taxAmount=0, taxTime=0 WHERE id=?", eatsqlindex)
+		end
+    end
+	end
+end
+--addCommandHandler("testsliv", taxSellTaxNonPayment) -- debug
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
