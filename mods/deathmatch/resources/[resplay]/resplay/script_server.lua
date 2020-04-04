@@ -12061,9 +12061,9 @@ function resourceStart(startedResource)
 	
 	repeat
 		--3LcJm524jr
-	    db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -16506,8 +16506,8 @@ function executeAction(aplr, actionId, params)
 			
 			if isElement(kickedPlr) then
 				kickPlayer(kickedPlr, aplr, params[2])
-			else
-				triggerClientEvent(aplr, "onServerMsgAdd", aplr, kickedPlr)
+			--else
+				--triggerClientEvent(aplr, "onServerMsgAdd", aplr, kickedPlr)
 			end
 		
 		elseif(actionId == 54) then
@@ -19906,14 +19906,14 @@ function playerChat(msg, msgType)
 			allPlayersBase = nil
 			
 			if(string.len(localMsg) > 0) then
-				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, isAdmin(source) or isModerator(source), isHelper(source), UsrGrp == 2 or UsrGrp == 4 or  UsrGrp == 5 or UsrGrp == 17 or UsrGrp == 18, localMsg)
+				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, UsrGrp == 2, UsrGrp == 4,  UsrGrp == 5, UsrGrp == 17, UsrGrp == 18, isAdmin(source) or isModerator(source), isHelper(source), localMsg)
 			end
 		   	
 			
 		elseif(msgType == 1) then
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, true)
 		
 		elseif(msgType == 2) then
 			local cR, cG, cB
@@ -19985,13 +19985,13 @@ function playerChat(msg, msgType)
 			
 		elseif(msgType == 3) then -- Rp
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
 		
 		elseif(msgType == 4) then 
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, false, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, false, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
 
 		end
 		
