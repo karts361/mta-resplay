@@ -14735,6 +14735,11 @@ function requestActionsList(aplr)
 				if(getPlayerWantedLevel(plr) > 0) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
 				end
+				if (getElementData(plr, "Cuffed") == false) then
+				    table.insert(alist, { 169, "Работа - Заковать в наручники игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
+				else
+				    table.insert(alist, { 170, "Работа - Cнять наручники с игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
+				end
 				table.insert(alist, { 134, availableActions[134]..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
 			end
 		end
@@ -15312,6 +15317,15 @@ function requestActionsList(aplr)
 			for _,orderer in ipairs(players) do
 				if(not aplrveh) or (getPedOccupiedVehicle(orderer) == aplrveh) then
 					table.insert(alist, { 28, string.format("%s %s($%d)", availableActions[28], getPlayerName(orderer), jobAmbulancePriceForHP), { orderer }, nil, 0, 255, 0 })
+				end
+			end
+		end
+		
+		if fId and(aplrGrp == 2 or aplrGrp == 17) and(fractionIsPlayerInsideFractionInterior(aplr, fId) then
+			for _,player in ipairs(players) do
+			    local sourceWanted = getPlayerWantedLevel(player)
+				if sourceWanted > 0 then
+				    table.insert(alist, { 171, "Работа - Посадить в тюрьму игрока "..getPlayerName(player), { player }, nil, 0, 255, 0 })
 				end
 			end
 		end
@@ -18381,11 +18395,15 @@ function executeAction(aplr, actionId, params)
 				
 				if(owner == pHash) then
 					local taxAmount = ammuShops[bindex][10]
+			        if (getMoney(aplr) < taxAmount) then
+			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            return false
+		            end
 					if(taxAmount > 0) then
 						if dbExec(db, "UPDATE businesses SET taxAmount=0, taxTime=0 WHERE id=?", ammuShops[bindex][7]) then
 							triggerEvent("onPlayerChat", aplr, "оплатил бизнес", 1)
 							addNewEventToLog(getPlayerName(aplr), "Бизнес - Оплата - Аммуниция "..tostring(ammuShops[bindex][7]), true)
-							giveMoney(aplr, taxAmount)
+							takeMoney(aplr, taxAmount)
 							ammuShops[bindex][10] = 0
 						else
 							triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате бизнеса.")
@@ -18395,6 +18413,98 @@ function executeAction(aplr, actionId, params)
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот бизнес вам не принадлежит.")
 				end
 			end
+			
+        elseif(actionId == 169) then 
+            local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			--setControlStates(crim, true)
+			triggerEvent("onPlayerChat", aplr, "Заковал игрока "..getPlayerName(crim).." в наручники", 1)
+			toggleAllControls(crim, false)
+			setPedFrozen(crim, true)
+			setElementData(crim, "Cuffed", true)
+			unbindKey("k", "down", "Actions menu")
+            arestedPlayer[aplr] = crim
+		
+		elseif(actionId == 170) then
+		    local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			--setControlStates(crim, false)
+			triggerEvent("onPlayerChat", aplr, "Снял игрока "..getPlayerName(crim).." наручники", 1)
+			toggleAllControls(crim, true)
+			setPedFrozen(crim, false)
+			setElementData(crim, "Cuffed", false)
+			bindKey("k", "down", "Actions menu")
+            arestedPlayer[aplr] = nil
+			
+			
+		elseif(actionId == 171) then
+		    local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			local sourceWanted = getPlayerWantedLevel(crim)
+            if(sourceWanted > 0)
+			    --setControlStates(crim, false)
+				
+			    triggerEvent("onPlayerChat", aplr, "Посадил игрока "..getPlayerName(crim).." в тюрьму", 1)
+			    toggleAllControls(crim, true)
+			    setPedFrozen(crim, false)
+			    setElementData(crim, "Cuffed", false)
+			    bindKey("k", "down", "Actions menu")
+                arestedPlayer[aplr] = nil
+				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
+				setElementData(crim, "arrested", arrested)
+				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
+				spawnPlayerEx(crim)
+
+			end
+			
 
         -- Действия для админ функционала(с 700)
 			
@@ -29524,6 +29634,96 @@ function taxSellTaxNonPayment()
 	end
 end
 --addCommandHandler("testsliv", taxSellTaxNonPayment) -- debug
+
+------------ Система Ареста -----------
+
+function setControlStates(crim, n_state)
+	toggleControl(crim, "jump", n_state)
+	toggleControl(crim, "sprint", n_state)
+	toggleControl(crim, "crouch", n_state)
+	toggleControl(crim, "fire", n_state)
+	toggleControl(crim, "aim_weapon", n_state)
+	toggleControl(crim, "enter_exit", n_state)
+	toggleControl(crim, "enter_passenger", n_state)
+	toggleControl(crim, "forwards", n_state)
+	toggleControl(crim, "walk", n_state)
+	toggleControl(crim, "backwards", n_state)
+	toggleControl(crim, "left", n_state)
+	toggleControl(crim, "right", n_state)
+	toggleControl(crim, "vehicle_fire", n_state)
+end
+
+arestedPlayer = {}
+
+function enterLawVehicle(plr, seat, jacked)
+	local maxSeats = getVehicleMaxPassengers(source)
+	if maxSeats then
+		maxSeats = maxSeats+1
+		local comp = 0
+		for s,occupant in pairs(getVehicleOccupants(source)) do
+			if isElement(occupant) and getElementType(occupant) == "player" then
+				comp = comp + 1
+			end
+		end
+		local free = (maxSeats - comp)
+		if arestedPlayer[plr] ~= nil then
+			if free >= 1 then
+				local p = arestedPlayer[plr]
+				if isTimer(Timer[p]) then
+					killTimer(Timer[p])
+				end
+				if isElement(p) then
+					if isTimer(Timer[p]) then
+						killTimer(Timer[p])
+						setPedAnimation(p, false)
+						setElementCollisionsEnabled(p, false)
+						lastAnim[p] = 0
+					end
+					if maxSeats == 2 then
+						warpPedIntoVehicle(p, source, 1)
+					elseif maxSeats > 1 and maxSeats < 5 then
+						warpPedIntoVehicle(p, source, 2 or 3)
+					else
+						warpPedIntoVehicle(p, source, 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)
+					end
+				end
+			else
+				cancelEvent()
+			end
+		end
+	end
+end
+addEventHandler("onVehicleEnter", root, enterLawVehicle)
+
+--[[
+function warpPlayerIntArested(plr)
+    if arestedPlayer[plr] ~= nil then
+	    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), source, 18, { key })
+    end
+end]]
+
+function arrestOrTaze(attacker, attackerweapon)
+	if not attacker or not isElement(attacker) or getElementType(attacker) ~= "player"
+		or not getPlayerTeam(attacker) then return end
+	if attackerweapon == 3 and not getPedOccupiedVehicle(source) and
+		isLawUnit(attacker) and
+		(not getElementData(attacker, "CufedPlayer") == true and not getElementData(source, "Cuffed") == true) then
+	
+		if isTimer(Timer[source]) then
+			killTimer(Timer[source])
+			setElementCollisionsEnabled(source, true)
+		end
+		Timer[source] = setTimer(syncSuspect, 500, 0, source, attacker)
+
+		setElementData(attacker, "CufedPlayer",true)
+		setElementData(source, "Cuffed", true)
+		--setElementFrozen(source, false)
+
+		arestedPlayer[attacker] = source
+		setControlStates(source, false)
+	end
+end
+addEventHandler("onPlayerDamage", root, arrestOrTaze)
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
