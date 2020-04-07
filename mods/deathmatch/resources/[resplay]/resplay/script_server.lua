@@ -18436,7 +18436,7 @@ function executeAction(aplr, actionId, params)
 			--setControlStates(crim, true)
 			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
 			toggleAllControls(crim, false, false)
-			setPedFrozen(crim, true)
+			--setPedFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
             arestedPlayer[aplr] = crim
     		TimerAr[crim] = setTimer(syncSuspect, 500, 0, crim, aplr)
@@ -18464,7 +18464,7 @@ function executeAction(aplr, actionId, params)
 			--setControlStates(crim, false)
 			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
 			toggleAllControls(crim, true, true)
-			setPedFrozen(crim, false)
+			--setPedFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
             arestedPlayer[aplr] = nil
 			
@@ -29811,7 +29811,7 @@ end
 function quitPlayerArrest(quitType)
 	local hash = getHash(getPlayerName(source))
 	if (getPlayerWantedLevel(source) > 0 and getElementData(source, "Cuffed") == true) then
-	    dbExec(db, "UPDATE users SET arrested=1800 WHERE name=?", hash) 
+	    dbExec(db, "UPDATE users SET wantedLevel=0, arrested=1800 WHERE name=?", hash) 
 	end
 
 	-- Clean up old unused data
