@@ -4033,7 +4033,7 @@ fractionsOrig = {
 	{ "Армия Зона 69", 5 },
 	{ "Полиция LS", 2 },
 	{ "Полиция LV", 2 },
-	{ "Больница LS", 2 },
+	{ "Больница LS", 4 },
 	{ "СМИ", 18 }
 }
 fractions = {}
@@ -15321,7 +15321,7 @@ function requestActionsList(aplr)
 			end
 		end
 		
-		if fId and(aplrGrp == 2 or aplrGrp == 17) and(fractionIsPlayerInsideFractionInterior(aplr, fId)) then
+		if fId and (aplrGrp == 2 or aplrGrp == 17) and (fractionIsPlayerInsideFractionInterior(aplr, fId) or isElementWithinMarker(aplr, deliverCrimLS) or isElementWithinMarker(aplr, deliverCrimLV) or isElementWithinMarker(aplr, deliverCrimSF))then
 			for _,player in ipairs(players) do
 			    local sourceWanted = getPlayerWantedLevel(player)
 				if sourceWanted > 0 then
@@ -18434,8 +18434,8 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			--setControlStates(crim, true)
-			triggerEvent("onPlayerChat", aplr, "Заковал игрока "..getPlayerName(crim).." в наручники", 1)
-			toggleAllControls(crim, false)
+			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
+			toggleAllControls(crim, false, false)
 			setPedFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
             arestedPlayer[aplr] = crim
@@ -18447,6 +18447,7 @@ function executeAction(aplr, actionId, params)
 			local oint = getElementInterior(crim)
 			local adim = getElementDimension(aplr)
 			local odim = getElementDimension(crim)
+			stopAnim(crim)
 			
 			if(aint ~= oint) or (adim ~= odim) then
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
@@ -18461,8 +18462,8 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			--setControlStates(crim, false)
-			triggerEvent("onPlayerChat", aplr, "Снял c игрока "..getPlayerName(crim).." наручники", 1)
-			toggleAllControls(crim, true)
+			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
+			toggleAllControls(crim, true, true)
 			setPedFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
             arestedPlayer[aplr] = nil
@@ -18491,7 +18492,7 @@ function executeAction(aplr, actionId, params)
             if(sourceWanted > 0) then
 			    --setControlStates(crim, false)
 				
-			    triggerEvent("onPlayerChat", aplr, "Посадил игрока "..getPlayerName(crim).." в тюрьму", 1)
+			    triggerEvent("onPlayerChat", aplr, "отправил игрока "..getPlayerName(crim).." в тюрьму", 1)
 			    toggleAllControls(crim, true)
 			    setPedFrozen(crim, false)
 			    setElementData(crim, "Cuffed", false)
@@ -18501,6 +18502,9 @@ function executeAction(aplr, actionId, params)
 				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
 				spawnPlayerEx(crim)
 				wantedLevelClear(crim)
+				respectSet(aplr, respect+0.00002*sourceWanted, 0.0, 1.0, true)
+				giveMoney(aplr, 500)
+				triggerClientEvent(crim, "onServerMsgAdd", crim, "Вы арестованы. Длительность ареста - "..getTimeString(arrested*1000)..".")
 
 			end
 			
@@ -29636,6 +29640,10 @@ end
 
 ------------ Система Ареста -----------
 
+deliverCrimLS = createMarker(1568.49939, -1694.26611, 4.89063, "cylinder", 5.0, 255, 0, 0, 130) 
+deliverCrimLV = createMarker(2293.99951, 2451.69995, 9.82031, "cylinder", 5.0, 255, 0, 0, 130)
+deliverCrimSF = createMarker(-1589.77002, 715.88995, -6.24219, "cylinder", 5.0, 255, 0, 0, 130)
+
 function setControlStates(crim, n_state)
 	toggleControl(crim, "jump", n_state)
 	toggleControl(crim, "sprint", n_state)
@@ -29682,10 +29690,13 @@ function enterLawVehicle(plr, seat, jacked)
 					end
 					if maxSeats == 2 then
 						warpPedIntoVehicle(p, source, 1)
+						stopAnim(source)
 					elseif maxSeats > 1 and maxSeats < 5 then
 						warpPedIntoVehicle(p, source, 2 or 3)
+						stopAnim(source)
 					else
 						warpPedIntoVehicle(p, source, 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)
+						stopAnim(source)
 					end
 				end
 			else
@@ -29713,11 +29724,11 @@ function arrestOrTaze(attacker, attackerweapon)
 			setElementCollisionsEnabled(source, true)
 		end
 		
-		triggerEvent("onPlayerChat", attacker, "Оглушил дубинкой и заковал "..getPlayerName(source).." в наручники", 1)
+		triggerEvent("onPlayerChat", attacker, "оглушил дубинкой и заковал "..getPlayerName(source).." в наручники", 1)
 		TimerAr[source] = setTimer(syncSuspect, 500, 0, source, attacker)
 		setElementData(source, "Cuffed", true)
 		--setElementFrozen(source, false)
-
+        
 		arestedPlayer[attacker] = source
 		setControlStates(source, false)
 	end
@@ -29796,6 +29807,27 @@ function syncSuspect(crim, cop)
 		-- Sync interior and dimension
 	end
 end
+
+function quitPlayerArrest(quitType)
+	local hash = getHash(getPlayerName(source))
+	if (getPlayerWantedLevel(source) > 0 and getElementData(source, "Cuffed") == true) then
+	    dbExec(db, "UPDATE users SET arrested=1800 WHERE name=?", hash) 
+	end
+
+	-- Clean up old unused data
+	for w,cop in ipairs(getElementsByType("player")) do
+		if isPlayerFromPolice(cop) then
+			if arestedPlayer[cop] == source then
+				arestedPlayer[cop] = nil
+			end
+		end
+	end
+	if isTimer(TimerAr[source]) then
+		killTimer(TimerAr[source])
+	end
+
+end
+addEventHandler("onPlayerQuit", root, quitPlayerArrest)
 
 function removeMarkers(object)
 	for k, j_marke in ipairs( getElementsByType( 'marker', getResourceRootElement() ) ) do
