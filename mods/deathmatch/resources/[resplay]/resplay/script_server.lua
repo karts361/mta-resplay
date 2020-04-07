@@ -14544,16 +14544,16 @@ function requestUserData4(dbq, source, sHash)
 	dbFree(dbq)
 	triggerClientEvent(source, "onFriendsLoad", source, dbqueryresult)
 	
-	dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
+	--dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
 end
-
+--[[
 function requestUserData5(dbq, source)
     dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	if (dbqueryresult["taxAmount"] > 0) then
 	    outputChatBox(generateTimeString().."RESPLAY: Ваш по оплате за дом составляет: "..dbqueryresult["taxAmount"].."$", source, 255, 128, 0, true)
 	end
-end
+end]]
 
 function insertFaceIntoArray(imageData, err, plr)
 	if(err == 0) then
@@ -18433,10 +18433,10 @@ function executeAction(aplr, actionId, params)
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
 				return false
 			end
-			--setControlStates(crim, true)
+			setControlStates(crim, true)
 			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
-			toggleAllControls(crim, false, false)
-			--setPedFrozen(crim, true)
+			--toggleAllControls(crim, false, false)
+			setElementFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
             arestedPlayer[aplr] = crim
     		TimerAr[crim] = setTimer(syncSuspect, 500, 0, crim, aplr)
@@ -18447,7 +18447,7 @@ function executeAction(aplr, actionId, params)
 			local oint = getElementInterior(crim)
 			local adim = getElementDimension(aplr)
 			local odim = getElementDimension(crim)
-			stopAnim(crim)
+			animStop(crim)
 			
 			if(aint ~= oint) or (adim ~= odim) then
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
@@ -18461,10 +18461,10 @@ function executeAction(aplr, actionId, params)
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
 				return false
 			end
-			--setControlStates(crim, false)
+			setControlStates(crim, false)
 			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
-			toggleAllControls(crim, true, true)
-			--setPedFrozen(crim, false)
+			--toggleAllControls(crim, true, true)
+			setElementFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
             arestedPlayer[aplr] = nil
 			
@@ -18490,10 +18490,10 @@ function executeAction(aplr, actionId, params)
 			end
 			local sourceWanted = getPlayerWantedLevel(crim)
             if(sourceWanted > 0) then
-			    --setControlStates(crim, false)
+			    setControlStates(crim, false)
 				
 			    triggerEvent("onPlayerChat", aplr, "отправил игрока "..getPlayerName(crim).." в тюрьму", 1)
-			    toggleAllControls(crim, true)
+			    --toggleAllControls(crim, true)
 			    setPedFrozen(crim, false)
 			    setElementData(crim, "Cuffed", false)
                 arestedPlayer[aplr] = nil
@@ -18502,6 +18502,7 @@ function executeAction(aplr, actionId, params)
 				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
 				spawnPlayerEx(crim)
 				wantedLevelClear(crim)
+				local respect = getElementData(aplr, "respect")
 				respectSet(aplr, respect+0.00002*sourceWanted, 0.0, 1.0, true)
 				giveMoney(aplr, 500)
 				triggerClientEvent(crim, "onServerMsgAdd", crim, "Вы арестованы. Длительность ареста - "..getTimeString(arrested*1000)..".")
@@ -29690,13 +29691,13 @@ function enterLawVehicle(plr, seat, jacked)
 					end
 					if maxSeats == 2 then
 						warpPedIntoVehicle(p, source, 1)
-						stopAnim(source)
+						animStop(source)
 					elseif maxSeats > 1 and maxSeats < 5 then
 						warpPedIntoVehicle(p, source, 2 or 3)
-						stopAnim(source)
+						animStop(source)
 					else
 						warpPedIntoVehicle(p, source, 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)
-						stopAnim(source)
+						animStop(source)
 					end
 				end
 			else
