@@ -10134,6 +10134,7 @@ function loadHouses2(dbq)
 			attachActionToElement(defaultActions[14], houses[hindex][4])
 			attachActionToElement(defaultActions[29], houses[hindex][4])
 			attachActionToElement(defaultActions[12], houses[hindex][4])
+			houses[hindex][12] = row["taxAmount"]
 			houses[hindex][11] = row["owner"]
 			setPickupText(houses[hindex][4], "Занят. Владелец: "..row["ownerNick"], 255, 0, 0)
 			
