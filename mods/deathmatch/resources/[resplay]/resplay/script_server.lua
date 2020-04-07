@@ -15321,7 +15321,7 @@ function requestActionsList(aplr)
 			end
 		end
 		
-		if fId and(aplrGrp == 2 or aplrGrp == 17) and(fractionIsPlayerInsideFractionInterior(aplr, fId) then
+		if fId and(aplrGrp == 2 or aplrGrp == 17) and(fractionIsPlayerInsideFractionInterior(aplr, fId)) then
 			for _,player in ipairs(players) do
 			    local sourceWanted = getPlayerWantedLevel(player)
 				if sourceWanted > 0 then
@@ -18438,8 +18438,8 @@ function executeAction(aplr, actionId, params)
 			toggleAllControls(crim, false)
 			setPedFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
-			unbindKey("k", "down", "Actions menu")
             arestedPlayer[aplr] = crim
+    		TimerAr[crim] = setTimer(syncSuspect, 500, 0, crim, aplr)
 		
 		elseif(actionId == 170) then
 		    local crim = params[1]
@@ -18461,11 +18461,10 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			--setControlStates(crim, false)
-			triggerEvent("onPlayerChat", aplr, "Снял игрока "..getPlayerName(crim).." наручники", 1)
+			triggerEvent("onPlayerChat", aplr, "Снял c игрока "..getPlayerName(crim).." наручники", 1)
 			toggleAllControls(crim, true)
 			setPedFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
-			bindKey("k", "down", "Actions menu")
             arestedPlayer[aplr] = nil
 			
 			
@@ -18489,19 +18488,19 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			local sourceWanted = getPlayerWantedLevel(crim)
-            if(sourceWanted > 0)
+            if(sourceWanted > 0) then
 			    --setControlStates(crim, false)
 				
 			    triggerEvent("onPlayerChat", aplr, "Посадил игрока "..getPlayerName(crim).." в тюрьму", 1)
 			    toggleAllControls(crim, true)
 			    setPedFrozen(crim, false)
 			    setElementData(crim, "Cuffed", false)
-			    bindKey("k", "down", "Actions menu")
                 arestedPlayer[aplr] = nil
 				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
 				setElementData(crim, "arrested", arrested)
 				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
 				spawnPlayerEx(crim)
+				wantedLevelClear(crim)
 
 			end
 			
@@ -29654,6 +29653,8 @@ function setControlStates(crim, n_state)
 end
 
 arestedPlayer = {}
+TimerAr = {}
+lastAnim = {}
 
 function enterLawVehicle(plr, seat, jacked)
 	local maxSeats = getVehicleMaxPassengers(source)
@@ -29669,12 +29670,12 @@ function enterLawVehicle(plr, seat, jacked)
 		if arestedPlayer[plr] ~= nil then
 			if free >= 1 then
 				local p = arestedPlayer[plr]
-				if isTimer(Timer[p]) then
-					killTimer(Timer[p])
+				if isTimer(TimerAr[p]) then
+					killTimer(TimerAr[p])
 				end
 				if isElement(p) then
-					if isTimer(Timer[p]) then
-						killTimer(Timer[p])
+					if isTimer(TimerAr[p]) then
+						killTimer(TimerAr[p])
 						setPedAnimation(p, false)
 						setElementCollisionsEnabled(p, false)
 						lastAnim[p] = 0
@@ -29705,17 +29706,15 @@ end]]
 function arrestOrTaze(attacker, attackerweapon)
 	if not attacker or not isElement(attacker) or getElementType(attacker) ~= "player"
 		or not getPlayerTeam(attacker) then return end
-	if attackerweapon == 3 and not getPedOccupiedVehicle(source) and
-		isLawUnit(attacker) and
-		(not getElementData(attacker, "CufedPlayer") == true and not getElementData(source, "Cuffed") == true) then
+	if attackerweapon == 3 and not getPedOccupiedVehicle(source) and not getElementData(source, "Cuffed") == true then
 	
-		if isTimer(Timer[source]) then
-			killTimer(Timer[source])
+		if isTimer(TimerAr[source]) then
+			killTimer(TimerAr[source])
 			setElementCollisionsEnabled(source, true)
 		end
-		Timer[source] = setTimer(syncSuspect, 500, 0, source, attacker)
-
-		setElementData(attacker, "CufedPlayer",true)
+		
+		triggerEvent("onPlayerChat", attacker, "Оглушил дубинкой и заковал "..getPlayerName(source).." в наручники", 1)
+		TimerAr[source] = setTimer(syncSuspect, 500, 0, source, attacker)
 		setElementData(source, "Cuffed", true)
 		--setElementFrozen(source, false)
 
@@ -29724,6 +29723,88 @@ function arrestOrTaze(attacker, attackerweapon)
 	end
 end
 addEventHandler("onPlayerDamage", root, arrestOrTaze)
+
+function syncSuspect(crim, cop)
+	if isElement(crim) and isElement(cop) and getElementData(crim,"Cuffed") == true then
+		local sx,sy,sz = getElementPosition(crim)
+		local rx,ry,rz = getElementRotation(crim)
+		local ax,ay,az = getElementPosition(cop)
+		--setElementFrozen(crim, false)
+		setElementData(crim, "Tazed", false)
+		
+		if getElementInterior(cop) ~= getElementInterior(crim) then
+			setElementInterior(crim, getElementInterior(cop))
+			setElementDimension(crim, getElementDimension(cop))
+		end
+	
+	
+		-- Force suspect to run
+		local tDist = getDistanceBetweenPoints3D(sx,sy,sz, ax,ay,az)
+		if tDist < 1.4 and lastAnim[crim] ~= 1 then
+			setPedAnimation(crim, nil, nil,1,true,true,false)
+			lastAnim[crim] = 1
+		elseif  tDist < 3 and lastAnim[crim] ~= 2 then
+			setPedAnimation(crim, "ped", "walk_civi",1,true,true,false)
+			lastAnim[crim] = 2
+		elseif tDist >= 3 and tDist < 5 and lastAnim[crim] ~= 3 and getPlayerPing(crim) < 100 then
+			setPedAnimation(crim, "ped", "run_civi",1,true,true,false)
+			lastAnim[crim] = 3
+		elseif tDist >= 5 and lastAnim[crim] ~= 4 and getPlayerPing(crim) < 200 then
+			setPedAnimation(crim, "ped", "sprint_civi",1,true,true,false)
+			lastAnim[crim] = 4
+		end
+		
+		local X = math.abs(sx-ax)
+		local Y = math.abs(sy-ay)
+		local rot = math.deg(math.atan2(Y,X));
+		if(sx >= ax) and(ay > sy) then	  -- north-east
+			rot = 90 - rot
+		elseif(sx <= ax) and(ay > sy) then  -- north-west
+			rot = 270 + rot
+		elseif(sx >= ax) and(ay <= sy) then -- south-east
+			rot = 90 + rot
+		elseif(sx < ax) and(ay <= sy) then  -- south-west
+			rot = 270 - rot
+		end
+		setElementRotation(crim, rx,ry,rot)
+
+		--[[if not isPedDead(cop) then
+			if isElement(crim) then
+				if isTimer(TimerAr[crim]) then
+					killTimer(TimerAr[crim])
+					setPedAnimation(crim, nil, nil)
+					setElementCollisionsEnabled(crim, true)
+					lastAnim[crim] = 0
+				end
+				showCursor(crim, false)
+
+				arestedPlayer[cop] = nil
+				setElementData(crim, "Cuffed", false)
+
+				-- Reenable controlls
+				setControlStates(crim, true)
+			end
+
+			-- Remove jail markers
+			removeMarkers(cop)
+			if isTimer(TimerAr[crim]) then
+				killTimer(TimerAr[crim])
+				setElementCollisionsEnabled(crim, true)
+			end
+		end]]
+
+		-- Sync interior and dimension
+	end
+end
+
+function removeMarkers(object)
+	for k, j_marke in ipairs( getElementsByType( 'marker', getResourceRootElement() ) ) do
+		if getElementData(j_marke,"Holder") == object then
+			removeEventHandler("onMarkerHit", j_marke, deliverSuspect) 
+			destroyElement( j_marke );
+		end
+	end;
+end
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)
