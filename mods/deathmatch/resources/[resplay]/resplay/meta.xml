@@ -18,6 +18,7 @@
 	<include resource="Reshud"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
+	<include resource="taser"/>
 	<include resource="freecam"/>
 	<include resource="gasmask"/>
 	<include resource="hdradar"/>
