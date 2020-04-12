@@ -34,7 +34,7 @@
 	<command name="setfraction" level="2" description="/setfraction [ник] [название фракции] - принять игрока во фракцию"/>
 	<command name="removefraction" level="2" description="/removefraction [ник] - уволить игрока из фракции"/>
 	<command name="mute" level="1" description="/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)"/>
-	<command name="unmute" level="2" description="/unmute [ник] - Снять мут игроку"/>
+	<command name="unmute" level="1" description="/unmute [ник] - Снять мут игроку"/>
 	<command name="setgang" level="2" description="/setgang [ник] [название банды] - принять игрока в банду"/>
 	<command name="removegang" level="2" description="/removegang [ник] - исключить игрока из банды"/>
 	<command name="setgender" level="3" description="/setgender [ник] [пол] изменить пол игроку 1 - мужчина 2 - женчина"/>	
