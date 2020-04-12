@@ -14501,9 +14501,12 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 				setTimer(specialEventUpdateInfo, 1000, 1, eId)
 				break
 			end
+			if (specialEvents[eId][4][source] ~= nil) then
+			    setTimer(specialEventLoadPlayer, 1500, 1, source, true)
+			end
 		end
 		
-		setTimer(specialEventLoadPlayer, 1500, 1, source, true)
+		--setTimer(specialEventLoadPlayer, 1500, 1, source, true)
 		
 		if firstTime then
 			triggerEvent("onMissionStart", resourceRoot, source, "mis_tutorial")
