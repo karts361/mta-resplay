@@ -12065,8 +12065,8 @@ function resourceStart(startedResource)
 	repeat
 		--3LcJm524jr
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
-		db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		--db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
+		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -18434,7 +18434,7 @@ function executeAction(aplr, actionId, params)
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
 				return false
 			end
-			setControlStates(crim, true)
+			setControlStates(crim, false)
 			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
 			--toggleAllControls(crim, false, false)
 			--setElementFrozen(crim, true)
@@ -18462,7 +18462,7 @@ function executeAction(aplr, actionId, params)
 				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
 				return false
 			end
-			setControlStates(crim, false)
+			setControlStates(crim, true)
 			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
 			--toggleAllControls(crim, true, true)
 			--setElementFrozen(crim, false)
@@ -18491,11 +18491,10 @@ function executeAction(aplr, actionId, params)
 			end
 			local sourceWanted = getPlayerWantedLevel(crim)
             if(sourceWanted > 0) then
-			    setControlStates(crim, false)
-				
+			    setControlStates(crim, true)
 			    triggerEvent("onPlayerChat", aplr, "отправил игрока "..getPlayerName(crim).." в тюрьму", 1)
 			    --toggleAllControls(crim, true)
-			    setPedFrozen(crim, false)
+			    --setPedFrozen(crim, false)
 			    setElementData(crim, "Cuffed", false)
                 arestedPlayer[aplr] = nil
 				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
@@ -20543,7 +20542,7 @@ function isTestServer()
 	if i then
 		return true
 	else
-		return false
+		return true
 	end
 
 end
