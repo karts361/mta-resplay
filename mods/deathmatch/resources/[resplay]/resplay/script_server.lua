@@ -12065,8 +12065,8 @@ function resourceStart(startedResource)
 	repeat
 		--3LcJm524jr
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
-		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
+		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
 	until db
 	
 	loadMapFile()
@@ -18437,7 +18437,7 @@ function executeAction(aplr, actionId, params)
 			setControlStates(crim, true)
 			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
 			--toggleAllControls(crim, false, false)
-			setElementFrozen(crim, true)
+			--setElementFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
             arestedPlayer[aplr] = crim
     		TimerAr[crim] = setTimer(syncSuspect, 500, 0, crim, aplr)
@@ -18465,7 +18465,7 @@ function executeAction(aplr, actionId, params)
 			setControlStates(crim, false)
 			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
 			--toggleAllControls(crim, true, true)
-			setElementFrozen(crim, false)
+			--setElementFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
             arestedPlayer[aplr] = nil
 			
@@ -29532,7 +29532,7 @@ function checkTaxHouse()
 	end
     end
 end
-addCommandHandler("taxtest", checkTaxHouse) --debug
+--addCommandHandler("taxtest", checkTaxHouse) --debug
 
 function checkTaxBusinesess()
     for key,ammuShop in pairs(ammuShops) do
@@ -29555,7 +29555,7 @@ function checkTaxBusinesess()
 	end
     end
 end
-addCommandHandler("tax2", checkTaxBusinesess)
+--addCommandHandler("tax2", checkTaxBusinesess)
 
 taxIncomeDay = setTimer(
 function()
