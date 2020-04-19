@@ -59,10 +59,8 @@
     <file src="images/respectline.png" download="true"/>
     <file src="images/drugs.png" download="true"/>
     <file src="imgres/213.dff" download="true"/>
-    <file src="imgres/129.dff" download="true"/>
     <file src="imgres/263.dff" download="true"/>
     <file src="imgres/213.txd" download="true"/>
-    <file src="imgres/129.txd" download="true"/>
     <file src="imgres/263.txd" download="true"/>
 	<file src="images/clr.png" download="true"/>
 	<file src="images/tutorial_news.png" download="true"/>
@@ -372,8 +370,8 @@
 	<file src="imgres/31.dff" download="true" />
 	<file src="imgres/14.txd" download="true" />
 	<file src="imgres/14.dff" download="true" />
-	<file src="imgres/146.txd" download="true" />
-	<file src="imgres/146.dff" download="true" />
+	<file src="imgres/tenpen.txd" download="true" />
+	<file src="imgres/tenpen.dff" download="true" />
 	<file src="imgres/62.txd" download="true" />
 	<file src="imgres/62.dff" download="true" />
 	<file src="imgres/88.txd" download="true" />
