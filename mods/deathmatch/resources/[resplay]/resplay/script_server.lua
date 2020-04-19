@@ -12065,8 +12065,11 @@ function resourceStart(startedResource)
 	repeat
 		--3LcJm524jr
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
-		db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
-		--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		if isTestServer() then
+			db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		else
+		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
+		end
 	until db
 	
 	loadMapFile()
@@ -20537,12 +20540,12 @@ end
 
 function isTestServer()
 	local serverName = getServerName()
-	local i, j = string.find(serverName, "[DEV-CLOSED]")
+	local i, j = string.find(serverName, "TEST")
 
 	if i then
-		return false
-	else
 		return true
+	else
+		return false
 	end
 
 end
