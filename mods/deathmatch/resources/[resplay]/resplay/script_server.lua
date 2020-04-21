@@ -570,7 +570,7 @@ jobCpFinish = {}
 jobTrashmasterStartTime = 120000
 jobTrashmasterIncTime = 10000
 jobTrashmasterMaxFillness = 100
-jobTrashmasterIncMoney = 3
+jobTrashmasterIncMoney = 10
 jobTrashmasterMoneyForBlowedCar = 2000
 jobTrashmasterMoneyForLeftCar = 100
 jobTrashmasterUnloadCycle = 5
@@ -585,7 +585,7 @@ jobTrashmasterVehMarker = nil
 -- Мойка дорог(переменные)
 jobWashroadsStartTime = 120000
 jobWashroadsIncTime = 15000
-jobWashroadsIncMoneyPerCp = 5
+jobWashroadsIncMoneyPerCp = 25
 jobWashroadsMoneyForBlowedCar = 2000
 jobWashroadsMoneyForLeftCar = 100
 jobWashroadsTimeBackToVeh = 60000
@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 1
+jobLawnmowMoneyForGrass = 5
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -2175,13 +2175,13 @@ carSellCoroutine = nil
 carSellSQLIds = {}
 carSellShops = {}
 carSellCarArrays = {
-	["car"] = { 604, 404, 482, 401, 419, 410, 466, 585, 409, 411, 429, 534, 492, 566, 540, 421, 480, 562, 529, 567, 550, 565, 467, 426, 547, 405, 415, 479, 474, 589, 527, 559, 560, 518, 496, 576, 561, 506, 602, 533, 439, 580, 558, 600, 412, 517, 477, 549, 575, 491, 536, 402, 542, 603, 451, 475, 541, 543, 546, 551, 436, 445, 458, 507, 516, 526, 545, 555, 587, 434, 535, 494, 483 },
+	["car"] = { 604, 404, 482, 401, 418, 419, 410, 466, 585, 409, 411, 429, 534, 492, 566, 540, 421, 480, 562, 529, 567, 550, 565, 467, 426, 547, 405, 415, 479, 474, 589, 527, 559, 560, 518, 496, 576, 561, 506, 602, 533, 439, 580, 558, 600, 412, 517, 477, 549, 575, 491, 536, 402, 542, 603, 451, 475, 541, 543, 546, 551, 436, 445, 458, 507, 516, 526, 545, 555, 587, 434, 535, 494, 483 },
 	["off-road"] = { 568, 573, 424, 495, 500, 579, 400, 444, 489, 554, 556, 508 },
 	["bicycle"] = { 481, 509, 510 },
 	["motorcycle"] = { 581, 521, 462, 463, 461, 522, 468, 586, 471 },
 	["boat"] = { 473, 493, 484, 453, 452, 446, 454, 539 },
 	["heli"] = { 469, 487 },
-	["plane"] = { 593, 519, 513 }
+	["plane"] = { 593, 519, 513, 511 }
 }
 carSellBuySpawns = {}
 carSellSellCps = {}
@@ -2205,119 +2205,121 @@ carSellColorNames = {
 	"Темно-красный", "Синий", "Темно-красный", "Серебрянный", "Серый", "Кофейный", "Темно-красный", "Серый",
 	"Коричневый", "Темно-красный", "Синий", "Розовый"
 }
-carSellPrices = { -- Авто: 3000-3000000; Велосипеды: 750-2000; Мото: 2500-1000000
-	[593]=25000,
-	[519]=2000000,
-	[460]=40000,
-	[513]=35000,
-	[469]=50000,
-	[409]=1700000,
+carSellPrices = { -- Авто: 7000-6800000; Велосипеды: 750-2000; Мото: 7500-2000000
+	[593]=80000,
+	[519]=5000000,
+	[460]=100000,
+	[513]=90000,
+	[469]=70000,
+	[409]=2200000,
 	--[502]=2100000,
-	[473]=3500,
-    [482]=170000,
-	[493]=400000,
-	[484]=20000,
-	[453]=12000,
-	[452]=75000,
-	[446]=1000000,
-	[454]=30000,
+	[473]=5000,
+    [482]=200000,
+	[493]=600000,
+	[484]=40000,
+	[453]=19000,
+	[452]=120000,
+	[446]=1300000,
+	[454]=100000,
 	[404]=3000,
-	[401]=6000,
-	[400]=6000,
-	[419]=5000,
-	[410]=4000,
-	[585]=5000,
-	[466]=700000,
-	[411]=3000000,
-	[429]=1000000,
-	[534]=15000,
-	[492]=5000,
-	[566]=6000,
-	[540]=8000,
-	[421]=15000,
-	[480]=1500000,
-	[562]=1000000,
-	[529]=7500,
-	[567]=15000,
-	[550]=8000,
-	[579]=100000,
-	[565]=30000,
-	[467]=7000,
-	[426]=6000,
-	[547]=8000,
-	[405]=25000,
-	[489]=25000,
-	[415]=1000000,
-	[535]=20000,
-	[479]=5500,
-	[474]=10000,
-	[589]=10000,
-	[527]=8000,
-	[559]=350000,
-	[560]=500000,
-	[518]=10000,
-	[496]=15000,
-	[576]=15000,
-	[561]=15000,
-	[506]=250000,
-	[602]=100000,
-	[533]=50000,
-	[439]=12000,
-	[580]=100000,
-	[558]=400000,
-	[600]=8000,
-	[412]=15000,
-	[517]=7000,
-	[555]=100000,
-	[477]=500000,
-	[549]=3500,
-	[575]=80000,
-	[491]=8000,
-	[536]=15000,
-	[402]=1000000,
-	[542]=4000,
-	[603]=500000,
-	[451]=2000000,
-	[475]=500000,
-	[541]=2500000,
+	[401]=10000,
+	[400]=15000,
+	[419]=10000,
+	[410]=14000,
+	[585]=15000,
+	[466]=1400000,
+	[411]=6800000,
+	[429]=3200000,
+	[534]=35000,
+	[492]=12000,
+	[566]=12000,
+	[540]=16000,
+	[421]=25000,
+	[480]=4500000,
+	[562]=3800000,
+	[529]=13000,
+	[567]=25000,
+	[550]=20000,
+	[579]=500000,
+	[565]=50000,
+	[467]=17000,
+	[426]=16000,
+	[547]=20000,
+	[405]=45000,
+	[489]=55000,
+	[415]=2600000,
+	[535]=90000,
+	[479]=16000,
+	[474]=20000,
+	[589]=23000,
+	[527]=20000,
+	[559]=800000,
+	[560]=1200000,
+	[518]=30000,
+	[496]=32000,
+	[576]=27000,
+	[561]=23000,
+	[506]=600000,
+	[602]=600000,
+	[533]=90000,
+	[439]=29000,
+	[580]=300000,
+	[558]=670000,
+	[600]=27000,
+	[412]=24000,
+	[517]=19000,
+	[555]=270000,
+	[477]=1100000,
+	[549]=10000,
+	[575]=120000,
+	[491]=19000,
+	[536]=25000,
+	[402]=2000000,
+	[542]=10000,
+	[603]=1100000,
+	[451]=4800000,
+	[475]=800000,
+	[541]=5500000,
 	[481]=750,
 	[509]=500,
 	[510]=1000,
-	[581]=50000,
-	[521]=45000,
-	[462]=2500,
-	[463]=30000,
-	[461]=50000,
-	[522]=500000,
-	[468]=40000,
-	[586]=30000,
-	[546]=25000,
-	[543]=8000,
-	[545]=120000,
-	[551]=30000,
-	[554]=40000,
-	[568]=400000,
-	[573]=1000000,
-	[587]=900000,
-	[424]=400000,
-	[434]=800000,
-	[436]=4000,
-	[445]=10000,
-	[458]=25000,
-	[495]=600000,
-	[500]=35000,
-	[507]=15000,
-	[516]=10000,
-	[526]=70000,
-	[444]=1000000,
-	[604]=2000000,
-	[494]=2800000,
-	[539]=500000,
-	[471]=120000,
-	[483]=250000,
-	[508]=1000000,
-	[556]=3000000,
-	[487]=350000
+	[581]=90000,
+	[521]=60000,
+	[462]=6000,
+	[463]=60000,
+	[461]=70000,
+	[522]=1100000,
+	[468]=75000,
+	[586]=25000,
+	[546]=27000,
+	[543]=15000,
+	[545]=350000,
+	[551]=60000,
+	[554]=50000,
+	[568]=600000,
+	[573]=2000000,
+	[587]=1300000,
+	[424]=600000,
+	[434]=1200000,
+	[436]=15000,
+	[445]=25000,
+	[458]=40000,
+	[495]=1000000,
+	[500]=55000,
+	[507]=30000,
+	[516]=25000,
+	[526]=110000,
+	[444]=3000000,
+	[604]=3700000,
+	[494]=4500000,
+	[539]=900000,
+	[471]=100000,
+	[483]=150000,
+	[508]=1100000,
+	[556]=5000000,
+	[487]=750000,
+	[418]=30000,
+	[511]=200000
 }
 
 carTuneCps = {}
@@ -2358,7 +2360,7 @@ ammuInts = {
 	{ 6, 316.4, -169.4, 999.6, 0.0, 312.2, -167.9, 999.6, 0.0 },
 	{ 7, 315.8, -142.8, 999.6, 0.0, 308.1, -143.1, 999.6, 0.0 }
 }
-ammuBusinessPrice = 500000
+ammuBusinessPrice = 3000000
 ammuShops = {}
 ammuWeapons = {
 	{
@@ -2367,7 +2369,7 @@ ammuWeapons = {
 		{ 5, 336, 1, 95 },
 		{ 41, 365, 500, 75 },
 		{ 22, 346, 17, 120 },
-		{ 23, 347, 17, 120 },
+		--{ 23, 347, 17, 120 },
 		{ 24, 348, 7, 265 },
 		{ 25, 349, 5, 800 },
 		{ 29, 353, 30, 700 },		
@@ -2385,10 +2387,10 @@ ammuWeapons = {
 	},
 	{
 		{ 27, 351, 7, 2000 },
-		{ 26, 350, 4, 600 },
-	},
-	{
-		{ 38, 362, 100, 4000 },
+		{ 26, 350, 4, 600 }
+	--},
+	--{
+		--{ 38, 362, 100, 4000 }, 
 	--},
 	--{
 		--{ 35, 359, 1, 2500 },
@@ -2401,15 +2403,15 @@ eatTypes = {
 	{ 14, "Клакин Белл", 9, 365.2, -10.9, 1001.9, 0.0, 367.5, -4.4, 1001.9, 180.0, { 5, 1 }, 167, 600000 },
 	{ 17, "Ринг Донатс", 17, 377.2, -193.0, 1000.6, 0.0, 380.8, -189.2, 1000.6, 180.0, { 9, 1 }, 168, 600000 },
 	{ 29, "Вел Стакед Пицца Ко.", 5, 372.5, -133.3, 1001.5, 0.0, 374.3, -117.3, 1001.5, 180.0, { 4, 1 }, 155, 600000 },
-	{ 49, "Бар", 11, 501.9, -68.4, 998.8, 180.0, 494.9, -77.5, 998.8, 0.0, { 6, 1 }, 211, 400000 },
-	{ 49, "Бар", 17, 493.4, -24.2, 1000.7, 0.0, 501.7, -20.5, 1000.7, 90.0, { 6, 1 }, 211, 400000 },
-	{ 52, "Магазин 24/7", 6, -27.3, -57.5, 1003.5, 0.0, -22.6, -57.2, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 500000 }, -- 1
-	{ 52, "Магазин 24/7", 18, -31.0, -91.5, 1003.5, 0.0, -26.9, -91.8, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 500000 }, -- 2
-	{ 52, "Магазин 24/7", 4, -27.3, -30.6, 1003.5, 0.0, -29.6, -30.7, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 500000 }, -- 3
-	{ 50, "Столовая", 4, 459.1, -88.5, 999.6, 90.0, 450.1, -82.2, 999.6, 180.0, { 9, 4, 6, 1 }, 129, 300000 },
-	{ 47, "Магазин RC Zero", 6, -2240.1, 128.3, 1035.4, 270.0, -2235.4, 128.5, 1035.4, 0.0, { 12, 13, 14, 15 }, 306, 250000 },
+	{ 49, "Бар", 11, 501.9, -68.4, 998.8, 180.0, 494.9, -77.5, 998.8, 0.0, { 6, 1 }, 211, 700000 },
+	{ 49, "Бар", 17, 493.4, -24.2, 1000.7, 0.0, 501.7, -20.5, 1000.7, 90.0, { 6, 1 }, 211, 700000 },
+	{ 52, "Магазин 24/7", 6, -27.3, -57.5, 1003.5, 0.0, -22.6, -57.2, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 1
+	{ 52, "Магазин 24/7", 18, -31.0, -91.5, 1003.5, 0.0, -26.9, -91.8, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 2
+	{ 52, "Магазин 24/7", 4, -27.3, -30.6, 1003.5, 0.0, -29.6, -30.7, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 3
+	{ 50, "Столовая", 4, 459.1, -88.5, 999.6, 90.0, 450.1, -82.2, 999.6, 180.0, { 9, 4, 6, 1 }, 129, 500000 },
+	{ 47, "Магазин RC Zero", 6, -2240.1, 128.3, 1035.4, 270.0, -2235.4, 128.5, 1035.4, 0.0, { 12, 13, 14, 15 }, 306, 650000 },
 	{ 49, "Клуб Jizzy's", 3, -2636.7, 1403.3, 906.5, 0.0, -2655.8, 1406.9, 906.3, 230.0, { 6, 1 }, 211, 600000 },
-	{ 49, "Бар Lil Probe Inn", 18, -228.8, 1401.1, 27.8, 270.0, -223.4, 1405.9, 27.8, 90.0, { 6, 1 }, 157, 150000 },
+	{ 49, "Бар Lil Probe Inn", 18, -228.8, 1401.1, 27.8, 270.0, -223.4, 1405.9, 27.8, 90.0, { 6, 1 }, 157, 650000 },
 	{ 30, "LSPD HQ", 6, 246.8, 63.0, 1003.6, 0.0, 233.6, 65.1, 1005.0, 270.0, { }, 286, 0 },
 	{ 30, "SFPD HQ", 10, 246.5, 108.2, 1003.2, 0.0, 248.8, 110.5, 1012.6, 0.0, { }, 286, 0 },
 	{ 30, "Федеральное Бюрю Расследований", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
@@ -2418,19 +2420,19 @@ eatTypes = {
 	{ 22, "Больница SF", 19, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
 	{ 22, "Больница LV", 20, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
 	{ 22, "Пригородная больница", 21, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
-	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 222, 1400000 },
-	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 98, 1700000 },
-	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 1000000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 23, 900000 },
-	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 950000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 100, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 1000000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 210, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 93, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 37, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 1500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 1500000 },
+	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 222, 2400000 },
+	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 98, 2700000 },
+	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 2000000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 23, 1900000 },
+	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 1950000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 100, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2000000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 210, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 93, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 37, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2500000 },
+	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
 	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 17, 2000000 },
 	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
     { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
@@ -2438,7 +2440,9 @@ eatTypes = {
 	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом BLOODS", 5, 318.564971, 1114.909960, 1083.88, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом Latin Kings", 2, 2468.23022, -1698.26404, 1013.5, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
-	{ 333, "Общий дом MS-13", 8, -42.41591, 1406.20581, 1084.4, 0.0, 2495.86401, -1692.49536, 1214.7421, 0.0, { }, 286, 0 }
+	{ 333, "Общий дом MS-13", 8, -42.41591, 1406.20581, 1084.4, 0.0, 2495.86401, -1692.49536, 1214.7421, 0.0, { }, 286, 0 },
+	{ 45, "Магазин одежды Binco", 15, 207.71013, -110.84035, 1005.13281, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
+	{ 45, "Магазин одежды ZIP", 18, 161.39000, -96.69000, 1001.80469, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 }
 }
 -----спаун фракций-----
 eatLocations = {}
@@ -2507,7 +2511,7 @@ jobFarmFields = {}
 jobFarmMoneyForBlowedCar = 2000
 jobFarmMoneyForLeftCar = 100
 jobFarmTimeBackToVeh = 60000
-jobFarmMoneyForField = 30
+jobFarmMoneyForField = 90
 
 extraObjs = {}
 removeObjs = {}
@@ -3744,7 +3748,7 @@ thinkContentImgFood = "images/think_food.dds"
 
 loadedFaces = {}
 
-webSiteHost = "http://ossmana3.bget.ru/mta/"
+webSiteHost = "http://deaglos.beget.tech/mta"
 webAccountsTmp = {}
 
 clanBaseConstructionTime = 120000
@@ -3874,18 +3878,18 @@ pickupTextArray = {}
 thinkBubbleLastTime = {}
 
 payoutGroups = {
-	[2] = { 90, 5 }, -- ПД
-	[4] = { 70, 5 }, -- Медики
-	[5] = { 90, 5 }, -- Вояки
-	[17] = { 100, 5 }, -- ФБР
-	[18] = { 100, 5 } -- СМИ
+	[2] = { 120, 5 }, -- ПД
+	[4] = { 100, 5 }, -- Медики
+	[5] = { 120, 5 }, -- Вояки
+	[17] = { 140, 5 }, -- ФБР
+	[18] = { 140, 5 } -- СМИ
 }
 
 ---выплаты\зарплаты----
 
 payoutMults = { 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9, 2 }
 payoutTimers = {}
-payoutAdminPerQuestion = 200
+payoutAdminPerQuestion = 250
 
 --чаты фракций-----
 playerTeamChats = {
@@ -4029,7 +4033,7 @@ fractionsOrig = {
 	{ "Армия Зона 69", 5 },
 	{ "Полиция LS", 2 },
 	{ "Полиция LV", 2 },
-	{ "Больница LS", 2 },
+	{ "Больница LS", 4 },
 	{ "СМИ", 18 }
 }
 fractions = {}
@@ -5258,7 +5262,7 @@ function militaryGeneralDead()
 			pGrp = nil
 			allPlayers = nil
 			triggerClientEvent(gangsters, "onServerMsgAdd", resourceRoot, "Деньги за генерала появились на месте взрыва его машины.")
-			setTimer(createMoney, 1000, 1, cx, cy, cz, 2000, 1210)
+			setTimer(createMoney, 1000, 1, cx, cy, cz, 3500, 1210)
 			addNewEventToLog(getPlayerName(worker[1]), "Военный - Перевозка генерала - Взрыв транспорта", true)
 			removeWorker(9, worker[1], 4)
 			
@@ -5331,7 +5335,7 @@ function militaryGeneralFinish(plr, success)
 	addNewEventToLog(getPlayerName(plr), "Военный - Перевозка генерала - Завершение", success)
 	
 	if success then
-		giveMoney(plr, 2000)
+		giveMoney(plr, 5000)
 		local respect = getElementData(plr, "respect")
 		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
@@ -5471,7 +5475,7 @@ function militaryCargoDeliver(hitElem)
 		if driver and isElementVisibleTo(source, driver) then
 			addNewEventToLog(getPlayerName(driver), "Военный - Груз - Разгрузка", true)
 			militaryCargoRemove(hitElem)
-			giveMoney(driver, 35)
+			giveMoney(driver, 95)
 			local respect = getElementData(driver, "respect")
 			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
@@ -10124,12 +10128,13 @@ function loadHouses2(dbq)
 			while not houses[hindex][4] do
 				houses[hindex][4] = createPickup(hx, hy, hz, 3, housePickupModelNotAvailable, 0)
 			end
-			
+  
 			attachActionToElement(defaultActions[128], houses[hindex][4])
 			attachActionToElement(defaultActions[2], houses[hindex][4])
 			attachActionToElement(defaultActions[14], houses[hindex][4])
 			attachActionToElement(defaultActions[29], houses[hindex][4])
 			attachActionToElement(defaultActions[12], houses[hindex][4])
+			houses[hindex][12] = row["taxAmount"]
 			houses[hindex][11] = row["owner"]
 			setPickupText(houses[hindex][4], "Занят. Владелец: "..row["ownerNick"], 255, 0, 0)
 			
@@ -11280,13 +11285,24 @@ function loadMapFile()
 				local vangz = getElementData(houseparking, "rotZ")
 				local lvl = getElementData(house, "level")
 				local price = getElementData(house, "price")
+				local tax = 0
+				
+	            repeat
+		            dbq = dbQuery(db, "SELECT id,taxAmount FROM houses")
+		            dbqueryresult = dbPoll(dbq, 30000)
+		            dbFree(dbq)
+	            until dbqueryresult
+				
+		        if(table.getn(dbqueryresult) > 0) then
+			        tax = dbqueryresult[1]["taxAmount"]
+		        end
 				
 				if(i > 1) then
 					dbStr = dbStr..","
 				end
 				
 				dbStr = dbStr..dbPrepareString(db, "(?)", elemid)
-				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0 }
+				houses[elemid] = { elemid, tonumber(lvl), tonumber(price), { elemx, elemy, elemz }, tonumber(vx), tonumber(vy), tonumber(vz), tonumber(vangx), tonumber(vangy), tonumber(vangz), 0, tonumber(tax) }
 				destroyElement(houseparking)
 			end
 			destroyElement(housepos)
@@ -11740,7 +11756,7 @@ function loadMapFile()
 	end
 	
 	repeat
-		dbq = dbQuery(db, "SELECT id,money,owner FROM businesses")
+		dbq = dbQuery(db, "SELECT id,money,owner,taxAmount FROM businesses")
 		dbqueryresult = dbPoll(dbq, 30000)
 		dbFree(dbq)
 	until dbqueryresult
@@ -11754,7 +11770,7 @@ function loadMapFile()
 	end
 	
 	adminList = "("..table.concat(hashList, ",")..")"
-	dbExec(db, "UPDATE businesses SET owner=0,money=0 WHERE owner IN "..adminList, fHash, sourceName)
+	dbExec(db, "UPDATE businesses SET owner=0,money=0, taxAmount=0, taxTime=0 WHERE owner IN "..adminList, fHash, sourceName)
 	elements = getElementsByType("ammushop")
 	dbStr = "INSERT IGNORE INTO businesses(id) VALUES "
 	local newBusinesses = 0
@@ -11763,9 +11779,10 @@ function loadMapFile()
 		local dbid = getHash(getElementData(ammushop, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
-			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
+			dbq = dbQuery(db, "SELECT money,owner,taxAmount FROM businesses WHERE id=?", dbid)
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
@@ -11773,6 +11790,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11785,7 +11803,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(ammushop)
 		elemrz = getElementData(ammushop, "rotZ")
 		local ammuint = tonumber(getElementData(ammushop, "ammuinterior"))
-		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(ammuShops, { ammuint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(ammushop)
 	end
 	
@@ -11795,9 +11813,10 @@ function loadMapFile()
 		local dbid = getHash(getElementData(eatlocation, "id"))
 		local money = 0
 		local owner = 0
+		local tax = 0
 		
 		repeat
-			dbq = dbQuery(db, "SELECT money,owner FROM businesses WHERE id=?", dbid)
+			dbq = dbQuery(db, "SELECT money,owner,taxAmount FROM businesses WHERE id=?", dbid)
 			dbqueryresult = dbPoll(dbq, 30000)
 			dbFree(dbq)
 		until dbqueryresult
@@ -11805,6 +11824,7 @@ function loadMapFile()
 		if(table.getn(dbqueryresult) > 0) then
 			money = dbqueryresult[1]["money"]
 			owner = dbqueryresult[1]["owner"]
+			tax = dbqueryresult[1]["taxAmount"]
 		else
 			if(newBusinesses > 0) then
 				dbStr = dbStr..","
@@ -11817,7 +11837,7 @@ function loadMapFile()
 		elemx, elemy, elemz = getElementPosition(eatlocation)
 		elemrz = getElementData(eatlocation, "rotZ")
 		local shopint = tonumber(getElementData(eatlocation, "type"))
-		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner })
+		table.insert(eatLocations, { shopint, elemx, elemy, elemz, elemrz, nil, dbid, money, owner, tax })
 		destroyElement(eatlocation)
 	end
 	
@@ -12045,8 +12065,11 @@ function resourceStart(startedResource)
 	repeat
 		--3LcJm524jr
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
-		--db = dbConnect("mysql", "dbname=server657169;host=n150.serva4ok.ru;port=3306", "server657169", "gdK9HIuQDE")
-		db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		if isTestServer() then
+			db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+		else
+		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
+		end
 	until db
 	
 	loadMapFile()
@@ -12724,12 +12747,14 @@ function resourceStart(startedResource)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 4) -- респавн ящиков с оружием, переменные
+	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
 		setTimer(function()
 					triggerClientEvent(getElementsByType("player"), "onUpdateMemoryMonitor", resourceRoot, collectgarbage("count"))
 		end, 1000, 0)
-		setTimer(debugLawnmowsInit, 1000, 1)
+		setTimer(debugLawnmowsInit, 1000, 1) 
+		--startResource(vehid)
 	end
 	
 	triggerEvent("onWorkInit", resourceRoot)
@@ -12804,7 +12829,7 @@ function playerCheckIfRegistered2(dbq, source)
 	loginTimers[source] = setTimer(kickAFK, 80000, 1, source)
 end
 
-function setPlayerNewGroup(plr, grpid, skipFractionCheck)
+function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 	local wantedLevel = getPlayerWantedLevel(plr)
 	local curGrp = getElementData(plr, "usergroup")
 	local grpSkills = playerGroupSkills[grpid]
@@ -12832,6 +12857,15 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck)
 			for _,fInfo in ipairs(fractions) do
 				if(fInfo[2] == grpid) or (fInfo[2] == curGrp) then
 					triggerClientEvent(plr, "onServerMsgAdd", plr, "Рабочие процессы данной или текущей группы игроков управляются фракциями. Для приема на работу или увольнения необходимо обратиться к лидеру одной из фракции или её члену с необходимыми правами.")
+					return "NIL"
+				end
+			end
+		end
+		
+		if not skipGangFractionCheck then
+			for _,gInfo in ipairs(gangs) do
+				if(gInfo[2] == grpid) or (gInfo[2] == curGrp) then
+					triggerClientEvent(plr, "onServerMsgAdd", plr, "Рабочие процессы данной или текущей группы игроков управляются фракциями банд. Для приема в банду или исключения необходимо обратиться к лидеру одной из банд или её члену с необходимыми правами.")
 					return "NIL"
 				end
 			end
@@ -14509,11 +14543,21 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 	dbQuery(requestUserData4, {source}, db, "SELECT friend FROM friends WHERE player = ?", sHash)
 end
 
-function requestUserData4(dbq, source)
+function requestUserData4(dbq, source, sHash)
 	dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
 	triggerClientEvent(source, "onFriendsLoad", source, dbqueryresult)
+	
+	--dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
 end
+--[[
+function requestUserData5(dbq, source)
+    dbqueryresult = dbPoll(dbq, 0)
+	dbFree(dbq)
+	if (dbqueryresult["taxAmount"] > 0) then
+	    outputChatBox(generateTimeString().."RESPLAY: Ваш по оплате за дом составляет: "..dbqueryresult["taxAmount"].."$", source, 255, 128, 0, true)
+	end
+end]]
 
 function insertFaceIntoArray(imageData, err, plr)
 	if(err == 0) then
@@ -14694,6 +14738,11 @@ function requestActionsList(aplr)
 			for _,plr in ipairs(players) do
 				if(getPlayerWantedLevel(plr) > 0) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
+				end
+				if (getElementData(plr, "Cuffed") == false) then
+				    table.insert(alist, { 169, "Работа - Заковать в наручники игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
+				else
+				    table.insert(alist, { 170, "Работа - Cнять наручники с игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
 				end
 				table.insert(alist, { 134, availableActions[134]..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
 			end
@@ -15082,6 +15131,9 @@ function requestActionsList(aplr)
 						if(ammuShop[9] == shash) then
 							table.insert(alist, { 4, availableActions[4].."($"..ammuBusinessPrice..")", { key, 2 }, nil, 0, 255, 0 })
 							table.insert(alist, { 41, availableActions[41].."($"..ammuShop[8]..")", { key, 2 }, nil, 0, 255, 0 })
+							if(ammuShop[10] > 0) then
+							    table.insert(alist, { 168, "Бизнес - Оплатить налог ($"..ammuShop[10]..")", { key, 2 }, nil, 0, 255, 0 })
+						    end
 						else
 							table.insert(alist, { 3, availableActions[3].."($"..ammuBusinessPrice..")", { key, 2 }, nil, 0, 255, 0 })
 						end
@@ -15102,6 +15154,9 @@ function requestActionsList(aplr)
 						if(eatLocation[9] == shash) then
 							table.insert(alist, { 4, availableActions[4].."($"..eatTypes[eatLocation[1]][14]..")", { key, 1 }, nil, 0, 255, 0 })
 							table.insert(alist, { 41, availableActions[41].."($"..eatLocation[8]..")", { key, 1 }, nil, 0, 255, 0 })
+							if(eatLocation[10] > 0) then
+							    table.insert(alist, { 168, "Бизнес - Оплатить налог ($"..eatLocation[10]..")", { key, 1 }, nil, 0, 255, 0 })
+							end
 						else
 							table.insert(alist, { 3, availableActions[3].."($"..eatTypes[eatLocation[1]][14]..")", { key, 1 }, nil, 0, 255, 0 })
 						end
@@ -15145,6 +15200,9 @@ function requestActionsList(aplr)
     						table.insert(alist, { 164, "Дом - Пригласить игрока "..getPlayerName(curPlr), { key, i, curPlr }, nil, 0, 255, 0})
 						end
 						
+						if (house[12] > 0) then
+						    table.insert(alist, { 167, "Дом - Оплатить ($"..house[12]..")", { key }, nil, 0, 255, 0 })
+						end
 						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
 						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
@@ -15263,6 +15321,15 @@ function requestActionsList(aplr)
 			for _,orderer in ipairs(players) do
 				if(not aplrveh) or (getPedOccupiedVehicle(orderer) == aplrveh) then
 					table.insert(alist, { 28, string.format("%s %s($%d)", availableActions[28], getPlayerName(orderer), jobAmbulancePriceForHP), { orderer }, nil, 0, 255, 0 })
+				end
+			end
+		end
+		
+		if fId and (aplrGrp == 2 or aplrGrp == 17) and (fractionIsPlayerInsideFractionInterior(aplr, fId) or isElementWithinMarker(aplr, deliverCrimLS) or isElementWithinMarker(aplr, deliverCrimLV) or isElementWithinMarker(aplr, deliverCrimSF))then
+			for _,player in ipairs(players) do
+			    local sourceWanted = getPlayerWantedLevel(player)
+				if sourceWanted > 0 then
+				    table.insert(alist, { 171, "Работа - Посадить в тюрьму игрока "..getPlayerName(player), { player }, nil, 0, 255, 0 })
 				end
 			end
 		end
@@ -16459,8 +16526,8 @@ function executeAction(aplr, actionId, params)
 			
 			if isElement(kickedPlr) then
 				kickPlayer(kickedPlr, aplr, params[2])
-			else
-				triggerClientEvent(aplr, "onServerMsgAdd", aplr, kickedPlr)
+			--else
+				--triggerClientEvent(aplr, "onServerMsgAdd", aplr, kickedPlr)
 			end
 		
 		elseif(actionId == 54) then
@@ -18269,7 +18336,183 @@ function executeAction(aplr, actionId, params)
 			
 	    elseif(actionId == 166) then
 		    triggerEvent("onMissionStart", resourceRoot, aplr, "mis_tutorial")
-		   
+			
+		elseif(actionId == 167) then
+			local hindex = params[1]
+			local pHash = getHash(getPlayerName(aplr))
+			local owner = houses[hindex][11]
+				
+			if(owner == pHash) then
+				local taxPayment = houses[hindex][12]
+					
+			    if (getMoney(aplr) < taxPayment) then
+			        playerShowMessage(newOwner, "У вас недостаточно денег.")
+			        return false
+		        end
+
+				if(taxPayment > 0) then
+					if dbExec(db, "UPDATE houses SET taxAmount=0, taxTime=0 WHERE id=?", houses[hindex][1]) then
+						triggerEvent("onPlayerChat", aplr, "оплатил дом ", 1)
+						addNewEventToLog(getPlayerName(aplr), "Дом - Оплата", true)
+						takeMoney(aplr, taxPayment)
+						houses[hindex][12] = 0
+					else
+						triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате дома")
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот дом вам не принадлежит.")
+				end
+		    end
+			
+		elseif(actionId == 168) then
+			local bindex = params[1]
+			local btype = params[2]
+			local pHash = getHash(getPlayerName(aplr))
+			
+			if(btype == 1) then
+				local owner = eatLocations[bindex][9]
+				
+				if(owner == pHash) then
+					local taxAmount = eatLocations[bindex][10]
+
+			        if (getMoney(aplr) < taxAmount) then
+			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            return false
+		            end
+					if(taxAmount > 0) then
+						if dbExec(db, "UPDATE businesses SET taxAmount=0, taxTime=0 WHERE id=?", eatLocations[bindex][7]) then
+							triggerEvent("onPlayerChat", aplr, "оплатил бизнес"..tostring(eatLocations[bindex][7]), 1)
+							addNewEventToLog(getPlayerName(aplr), "Бизнес - оплата - магазин "..tostring(eatLocations[bindex][7]), true)
+							takeMoney(aplr, taxAmount)
+							eatLocations[bindex][10] = 0
+						else
+							triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате бизнеса.")
+						end
+						
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот бизнес вам не принадлежит.")
+				end
+				
+			elseif(btype == 2) then
+				local owner = ammuShops[bindex][9]
+				
+				if(owner == pHash) then
+					local taxAmount = ammuShops[bindex][10]
+			        if (getMoney(aplr) < taxAmount) then
+			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            return false
+		            end
+					if(taxAmount > 0) then
+						if dbExec(db, "UPDATE businesses SET taxAmount=0, taxTime=0 WHERE id=?", ammuShops[bindex][7]) then
+							triggerEvent("onPlayerChat", aplr, "оплатил бизнес", 1)
+							addNewEventToLog(getPlayerName(aplr), "Бизнес - Оплата - Аммуниция "..tostring(ammuShops[bindex][7]), true)
+							takeMoney(aplr, taxAmount)
+							ammuShops[bindex][10] = 0
+						else
+							triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ошибка при оплате бизнеса.")
+						end
+					end
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Этот бизнес вам не принадлежит.")
+				end
+			end
+			
+        elseif(actionId == 169) then 
+            local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			setControlStates(crim, false)
+			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
+			--toggleAllControls(crim, false, false)
+			--setElementFrozen(crim, true)
+			setElementData(crim, "Cuffed", true)
+            arestedPlayer[aplr] = crim
+    		TimerAr[crim] = setTimer(syncSuspect, 500, 0, crim, aplr)
+		
+		elseif(actionId == 170) then
+		    local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			animStop(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			setControlStates(crim, true)
+			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
+			--toggleAllControls(crim, true, true)
+			--setElementFrozen(crim, false)
+			setElementData(crim, "Cuffed", false)
+            arestedPlayer[aplr] = nil
+			
+			
+		elseif(actionId == 171) then
+		    local crim = params[1]
+			local aint = getElementInterior(aplr)
+			local oint = getElementInterior(crim)
+			local adim = getElementDimension(aplr)
+			local odim = getElementDimension(crim)
+			
+			if(aint ~= oint) or (adim ~= odim) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			
+			local ax, ay, az = getElementPosition(aplr)
+			local ox, oy, oz = getElementPosition(crim)
+			
+			if(getDistanceBetweenPoints3D(ax,ay,az,ox,oy,oz) > nearbyPlayersRadius) then
+				playerShowMessage(aplr, "Вы слишком далеко от данного игрока.")
+				return false
+			end
+			local sourceWanted = getPlayerWantedLevel(crim)
+            if(sourceWanted > 0) then
+			    setControlStates(crim, true)
+			    triggerEvent("onPlayerChat", aplr, "отправил игрока "..getPlayerName(crim).." в тюрьму", 1)
+			    --toggleAllControls(crim, true)
+			    --setPedFrozen(crim, false)
+			    setElementData(crim, "Cuffed", false)
+                arestedPlayer[aplr] = nil
+				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
+				setElementData(crim, "arrested", arrested)
+				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
+				spawnPlayerEx(crim)
+				wantedLevelClear(crim)
+				local respect = getElementData(aplr, "respect")
+				respectSet(aplr, respect+0.00002*sourceWanted, 0.0, 1.0, true)
+				giveMoney(aplr, 500)
+				triggerClientEvent(crim, "onServerMsgAdd", crim, "Вы арестованы. Длительность ареста - "..getTimeString(arrested*1000)..".")
+
+			end
+			
+
         -- Действия для админ функционала(с 700)
 			
 		elseif(actionId == 700) then
@@ -18425,7 +18668,7 @@ function executeAction(aplr, actionId, params)
 					if( setResult == true ) then
 					    playerShowMessage(aplr, "Вы исключили игрока "..params[2].." из банды ")
 					    playerShowMessage(plr, "Администратор "..getPlayerName(aplr).." исключил вас из банды.")
-						setPlayerNewGroup(plr, groupCommonGet(plr), true)
+						setPlayerNewGroup(plr, groupCommonGet(plr), false, true)
 					else
 						playerShowMessage(aplr, "Не удалось исключить игрока из банды. Причина: "..tostring( setResult )..".")
 					end
@@ -18534,11 +18777,11 @@ function executeAction(aplr, actionId, params)
 				elseif(respect < 0.75) then
 					ammuLevel = 3
 				
-				elseif(respect < 1) then
-					ammuLevel = 4
+				--elseif(respect < 1) then
+					--ammuLevel = 4
 				
 				else
-				    ammuLevel = 5
+				    ammuLevel = 4
 				end
 				
 				local curAmmuWeap = {}
@@ -19782,14 +20025,14 @@ function playerChat(msg, msgType)
 			allPlayersBase = nil
 			
 			if(string.len(localMsg) > 0) then
-				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, isAdmin(source) or isModerator(source), isHelper(source), UsrGrp == 2 or UsrGrp == 4 or  UsrGrp == 5 or UsrGrp == 17 or UsrGrp == 18, localMsg)
+				triggerClientEvent(allPlayers, "onChatMessageRender", source, generateTimeString(), plrid, UsrGrp == 2, UsrGrp == 4,  UsrGrp == 5, UsrGrp == 17, UsrGrp == 18, isAdmin(source) or isModerator(source), isHelper(source), localMsg)
 			end
 		   	
 			
 		elseif(msgType == 1) then
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, true)
 		
 		elseif(msgType == 2) then
 			local cR, cG, cB
@@ -19861,13 +20104,13 @@ function playerChat(msg, msgType)
 			
 		elseif(msgType == 3) then -- Rp
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
 		
 		elseif(msgType == 4) then 
 			local players = getNearbyElementsByType(source, "player", 30.0)
-			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, false, true)
-			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, msg, false, false, true)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
 
 		end
 		
@@ -20297,7 +20540,7 @@ end
 
 function isTestServer()
 	local serverName = getServerName()
-	local i, j = string.find(serverName, "[DEV-CLOSED]")
+	local i, j = string.find(serverName, "TEST")
 
 	if i then
 		return true
@@ -23152,7 +23395,7 @@ function gangsterStealSellCar(veh)
 		
 		priceMult = priceMult/500.0
 		local vehMdl = getElementModel(veh)
-		local price = math.floor(math.max(800, carSellPrices[vehMdl]/375.0))
+		local price = math.floor(math.max(800, carSellPrices[vehMdl]/710.0))
 		--local price = math.floor(math.min(8000, math.max(800, carSellPrices[vehMdl]))*priceMult)
 		
 		for mId,mInfo in ipairs(gangsterStealCarSellMarkers) do
@@ -26433,8 +26676,8 @@ function adminCMDslap(plr, nickname)
 		triggerClientEvent(slappedPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." пнул вас")
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы пнули игрока "..getPlayerName(slappedPlr))
 	
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, slappedPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, slappedPlr)
 	end
 end
 
@@ -26619,8 +26862,8 @@ function adminCMDjail(plr, nickname, secondsText, ...)
             outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..jailName.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 255, 0, 0, true)
 			spawnPlayerEx(jailPlr)
 		end
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, jailPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, jailPlr)
 	end
 end
 
@@ -26695,8 +26938,8 @@ function adminCMDunjail(plr, nickname)
 			setElementInterior(unjailPlr, 0)
 		end
 		
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, unjailPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, unjailPlr)
 	end
 end
 
@@ -27146,8 +27389,8 @@ function adminCMDheal(plr, nickname)
 			
 		end
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы полностью вылечили и починили транспорт игрока "..getPlayerName(healPlr))
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, healPlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, healPlr)
 	end
 
 end
@@ -27283,8 +27526,8 @@ function adminCMDmute(plr, nickname, secondsText, ...)
 			setPlayerMuted(mutePlr, true)
 			exports.voice:setPlayerVoiceMuted(mutePlr, true)
 		end
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, mutePlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, mutePlr)
 	end
 end
 
@@ -27304,8 +27547,8 @@ function adminCMDunmute(plr, nickname)
 			exports.voice:setPlayerVoiceMuted(unmutePlr, false)
 		end
 		
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, unmutePlr)
+	--else
+		--triggerClientEvent(plr, "onServerMsgAdd", plr, unmutePlr)
 	end
 end
 
@@ -27716,7 +27959,7 @@ function PlayerFromSaNews(plr)
 	return false
 end
 
-saNewsPrice = 35 -- price for SaNews by command "/mm"
+saNewsPrice = 95 -- price for SaNews by command "/mm"
 
 function gangAccept(plr) --(становление бандитом)
     local pGrp = getElementData(plr, "usergroup")
@@ -28012,16 +28255,16 @@ addEventHandler ( "onVehicleStartEnter", getRootElement(), enterVehicleRank)
 
 SkinShops = {
 	--x, y, z, dimension, interior
-	{ x = 2244.47, y = -1665.36, z = 14.4839, dim = 0, int = 0 },
-	{ x = 1456.77, y = -1138.02, z = 23.2872, dim = 0, int = 0 },	
-	{ x = -1883.2, y = 865.473, z = 34.2601, dim = 0, int = 0 },
-	{ x = 2572.07, y = 1904.83, z = 10.0231, dim = 0, int = 0 },	
-	{ x = 2090.58, y = 2224.2, z = 10.0579, dim = 0, int = 0 },
-	{ x = -2375.32, y = 910.293, z = 44.4578, dim = 0, int = 0 },	
-	{ x = 1657.01, y = 1733.33, z = 10.0209, dim = 0, int = 0 },
-	{ x = 2102.69, y = 2257.49, z = 10.0579, dim = 0, int = 0 },	
+	{ x = 181.4931640625, y = -87.998046875, z = 1001.0234375, dim = 123, int = 18 },
+	{ x = 181.4931640625, y = -87.998046875, z = 1001.0234375, dim = 124, int = 18 },	
+	{ x = 181.4931640625, y = -87.998046875, z = 1001.0234375, dim = 125, int = 18 },
+	{ x = 181.4931640625, y = -87.998046875, z = 1001.0234375, dim = 126, int = 18 },	
+	{ x = 217.2490234375, y = -98.7353515625, z = 1004.2578125, dim = 122, int = 15 },
+	{ x = 217.2490234375, y = -98.7353515625, z = 1004.2578125, dim = 127, int = 15 },	
+	{ x = 217.2490234375, y = -98.7353515625, z = 1004.2578125, dim = 128, int = 15 },
+	{ x = 217.2490234375, y = -98.7353515625, z = 1004.2578125, dim = 129, int = 15 },	
 }
-SkinShop_blips = {
+--[[SkinShop_blips = {
 	{ x = 2244.47, y = -1665.36, z = 14.4839 },
 	{ x = 1456.77, y = -1138.02, z = 23.2872 },	
 	{ x = -1883.2, y = 865.473, z = 34.2601 },
@@ -28030,7 +28273,7 @@ SkinShop_blips = {
 	{ x = -2375.32, y = 910.293, z = 44.4578 },	
 	{ x = 1657.01, y = 1733.33, z = 10.0209 },
 	{ x = 2102.69, y = 2257.49, z = 10.0579 },
-}
+}]]
 
 function skinShop()
 	for i, shop in pairs(SkinShops) do
@@ -28044,10 +28287,10 @@ function skinShop()
 		end
 		addEventHandler("onMarkerHit", marker, on_marker_hit)
 	end
-	for i2, shop_blip in pairs(SkinShop_blips) do
+	--[[for i2, shop_blip in pairs(SkinShop_blips) do
 		local x, y, z = shop_blip.x, shop_blip.y, shop_blip.z
 		blip = createBlip( x, y, z, 45, 2, 0, 0, 0, 255, 2, 180 )
-	end
+	end]]
 end
 addEventHandler("onResourceStart", resourceRoot, skinShop)
 
@@ -28061,14 +28304,11 @@ local pGrp = getElementData(plr, "usergroup")
 end
 
 function onBuySkin(model,money)
-local pHash = getHash(getPlayerName(client))
-local pGrp = getElementData(client, "usergroup")
+    local pHash = getHash(getPlayerName(client))
+    local pGrp = getElementData(client, "usergroup")
+    local shopId = getElementDimension(client)
+	local income = math.ceil(money*0.5)
 
-	repeat
-		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
-		dbqueryresult = dbPoll(dbq, 30000)
-		dbFree(dbq)
-	until dbqueryresult
 
 	if getMoney(client) > money and pGrp == 1 or pGrp == 13 or pGrp == 23 then
 		playerTakeMoney(client, money)
@@ -28076,12 +28316,20 @@ local pGrp = getElementData(client, "usergroup")
 		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
 		setElementModel(client, model)
 	    dbExec(db, "UPDATE users SET skin=?, default_skin=? WHERE name=?", model, model, pHash)
+		if(eatLocations[shopId][9] ~= 0) then
+			eatLocations[shopId][8] = eatLocations[shopId][8]+income
+			dbExec(db, "UPDATE businesses SET money=? WHERE id=?", eatLocations[shopId][8], eatLocations[shopId][7])
+		end
 	elseif getMoney(client) > money and pGrp == 10 then
 	    playerTakeMoney(client, money)
 		playerShowMessage(client, "Вы купили новую одежду!")
 		addNewEventToLog(getPlayerName(client), "Одежда - Покупка", true)
 		setElementModel(client, model)
 	    dbExec(db, "UPDATE users SET skin=?, skin2=? WHERE name=?", model, model, pHash)
+		if(eatLocations[shopId][9] ~= 0) then
+			eatLocations[shopId][8] = eatLocations[shopId][8]+income
+			dbExec(db, "UPDATE businesses SET money=? WHERE id=?", eatLocations[shopId][8], eatLocations[shopId][7])
+		end
 	else
 		playerShowMessage(client, "У вас недостаточно денег!")
 	end
@@ -28303,7 +28551,7 @@ function gangSetPlayerGang(plr, gId)
 	if(not curGang) and(not isPlayerBusy(plr)) then
 		local pHash = getHash(getPlayerName(plr))
 		local gHash = getHash(gangs[gId][1])
-		local setResult = setPlayerNewGroup(plr, gangs[gId][2], true)
+		local setResult = setPlayerNewGroup(plr, gangs[gId][2], false, true)
 		
 		if(setResult == true) then
 			if dbExec(db, "UPDATE users SET gang=?,grank=1 WHERE name = ?", gHash, pHash) then
@@ -28812,8 +29060,8 @@ eatGangs = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 5
-gangBaseCaptureTimeSec = 600
+gangBaseCaptureMinPlr = 1
+gangBaseCaptureTimeSec = 30
 
 --[[счетчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
@@ -29093,6 +29341,7 @@ function gangBaseCaptureFinish(baseId, success)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(gang).."' захватила одну из ваших территорий.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда захватила территорию банды '"..getTeamName(owner).."'.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+			--giveMoney(gangPlayers, 6000)
 		
 		else
 			local px, py
@@ -29108,6 +29357,8 @@ function gangBaseCaptureFinish(baseId, success)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда отбила захват территории бандой '"..getTeamName(gang).."'.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(owner).."' отбила свою территорию.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+			--giveMoney(ownerPlayers, 6000)
+			
 		end
 		
 		if isTimer(capture[4]) then
@@ -29264,6 +29515,332 @@ end
 
 addEvent("onHouseGuestAccept", true)
 addEventHandler("onHouseGuestAccept", root, houseGuestAccept)
+
+
+------- Налоги -------------
+
+function checkTaxHouse()
+	local taxTime = 0
+	
+    for houseid,house in pairs(houses) do
+	
+	if(house[11] ~= 0) then
+		local hsqlindex = house[1]
+		
+		local income = house[3]/25
+		--taxTime = math.max(0, taxTime+1)
+		house[12] = house[12]+income
+		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", house[12], hsqlindex)
+	end
+    end
+end
+--addCommandHandler("taxtest", checkTaxHouse) --debug
+
+function checkTaxBusinesess()
+    for key,ammuShop in pairs(ammuShops) do
+	if(ammuShop[9] ~= 0) then
+		local amsqlindex = ammuShop[7]
+		
+		local income = ammuBusinessPrice/25
+		ammuShop[10] = ammuShop[10]+income
+		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", ammuShop[10], amsqlindex)
+	end
+    end
+	
+	for key,eatLocation in pairs(eatLocations) do
+	if(eatLocation[9] ~= 0) then
+		local eatsqlindex = eatLocation[7]
+		
+		local income = eatTypes[eatLocation[1]][14]/25
+		eatLocation[10] = eatLocation[10]+income
+		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", eatLocation[10], eatsqlindex)
+	end
+    end
+end
+--addCommandHandler("tax2", checkTaxBusinesess)
+
+taxIncomeDay = setTimer(
+function()
+	local tsm = getRealTime()
+	local minute = tsm.minute
+	local weekday = tsm.weekday
+	local hour = tsm.hour
+	if (weekday == 6 and hour == 4 and minute == 0) then
+      	checkTaxHouse()
+		checkTaxBusinesess()
+		timerkill()
+	end
+end, 1000, 0)
+
+function timerkill()
+    if isTimer(taxIncomeDay) then
+	    killTimer(taxIncomeDay)
+	end
+end
+
+taxSellNonPayment = setTimer(
+function()
+	local tsm = getRealTime()
+	local minute = tsm.minute
+	local weekday = tsm.weekday
+	local hour = tsm.hour
+	if (weekday == 6 and hour == 7 and minute == 55) then
+		taxSellTaxNonPayment()
+		timerkill2()
+	end
+end, 1000, 0)
+
+function timerkill2()
+    if isTimer(taxSellNonPayment) then
+	    killTimer(taxSellNonPayment)
+	end
+end
+
+function taxSellTaxNonPayment()
+    for houseid,house in pairs(houses) do
+
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM houses WHERE id=?", house[1])
+	    dbhouseinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbhouseinfotax
+    if (house[11] ~= 0) then
+	    local hsqlindex = house[1]
+	    if(dbhouseinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE houses SET owner=0, ownerNick=NULL, taxAmount=0, taxTime=0 WHERE id=?", hsqlindex)
+		end
+	end
+	end
+	
+    for ammuId,ammuShop in ipairs(ammuShops) do
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM businesses WHERE id=?", ammuShop[7])
+	    dbinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbinfotax
+	if (ammuShop[9] ~= 0) then
+	    local amsqlindex = ammuShop[7]
+	    if(dbinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL, taxAmount=0, taxTime=0 WHERE id=?", amsqlindex)
+		end
+    end
+    end
+
+	for eatId,eatLocation in ipairs(eatLocations) do
+	repeat 
+	    local dbq = dbQuery(db, "SELECT taxTime FROM businesses WHERE id=?", eatLocation[7])
+	    dbinfotax = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbinfotax
+	if (eatLocation[9] ~= 0) then
+	    local eatsqlindex = eatLocation[7]
+	    if(dbinfotax[1]["taxTime"] > 3) then
+		    dbExec(db, "UPDATE businesses SET owner=0, ownername=NULL, taxAmount=0, taxTime=0 WHERE id=?", eatsqlindex)
+		end
+    end
+	end
+end
+--addCommandHandler("testsliv", taxSellTaxNonPayment) -- debug
+
+------------ Система Ареста -----------
+
+deliverCrimLS = createMarker(1568.49939, -1694.26611, 4.89063, "cylinder", 5.0, 255, 0, 0, 130) 
+deliverCrimLV = createMarker(2293.99951, 2451.69995, 9.82031, "cylinder", 5.0, 255, 0, 0, 130)
+deliverCrimSF = createMarker(-1589.77002, 715.88995, -6.24219, "cylinder", 5.0, 255, 0, 0, 130)
+
+function setControlStates(crim, n_state)
+	toggleControl(crim, "jump", n_state)
+	toggleControl(crim, "sprint", n_state)
+	toggleControl(crim, "crouch", n_state)
+	toggleControl(crim, "fire", n_state)
+	toggleControl(crim, "aim_weapon", n_state)
+	toggleControl(crim, "enter_exit", n_state)
+	toggleControl(crim, "enter_passenger", n_state)
+	toggleControl(crim, "forwards", n_state)
+	toggleControl(crim, "walk", n_state)
+	toggleControl(crim, "backwards", n_state)
+	toggleControl(crim, "left", n_state)
+	toggleControl(crim, "right", n_state)
+	toggleControl(crim, "vehicle_fire", n_state)
+end
+
+arestedPlayer = {}
+TimerAr = {}
+lastAnim = {}
+
+function enterLawVehicle(plr, seat, jacked)
+	local maxSeats = getVehicleMaxPassengers(source)
+	if maxSeats then
+		maxSeats = maxSeats+1
+		local comp = 0
+		for s,occupant in pairs(getVehicleOccupants(source)) do
+			if isElement(occupant) and getElementType(occupant) == "player" then
+				comp = comp + 1
+			end
+		end
+		local free = (maxSeats - comp)
+		if arestedPlayer[plr] ~= nil then
+			if free >= 1 then
+				local p = arestedPlayer[plr]
+				if isTimer(TimerAr[p]) then
+					killTimer(TimerAr[p])
+				end
+				if isElement(p) then
+					if isTimer(TimerAr[p]) then
+						killTimer(TimerAr[p])
+						setPedAnimation(p, false)
+						setElementCollisionsEnabled(p, false)
+						lastAnim[p] = 0
+					end
+					if maxSeats == 2 then
+						warpPedIntoVehicle(p, source, 1)
+						animStop(source)
+					elseif maxSeats > 1 and maxSeats < 5 then
+						warpPedIntoVehicle(p, source, 2 or 3)
+						animStop(source)
+					else
+						warpPedIntoVehicle(p, source, 2 or 3 or 4 or 5 or 6 or 7 or 8 or 9 or 10 or 11)
+						animStop(source)
+					end
+				end
+			else
+				cancelEvent()
+			end
+		end
+	end
+end
+addEventHandler("onVehicleEnter", root, enterLawVehicle)
+
+--[[
+function warpPlayerIntArested(plr)
+    if arestedPlayer[plr] ~= nil then
+	    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), source, 18, { key })
+    end
+end]]
+
+function arrestOrTaze(attacker, attackerweapon)
+	if not attacker or not isElement(attacker) or getElementType(attacker) ~= "player"
+		or not getPlayerTeam(attacker) then return end
+	if attackerweapon == 3 and not getPedOccupiedVehicle(source) and not getElementData(source, "Cuffed") == true then
+	
+		if isTimer(TimerAr[source]) then
+			killTimer(TimerAr[source])
+			setElementCollisionsEnabled(source, true)
+		end
+		
+		triggerEvent("onPlayerChat", attacker, "оглушил дубинкой и заковал "..getPlayerName(source).." в наручники", 1)
+		TimerAr[source] = setTimer(syncSuspect, 500, 0, source, attacker)
+		setElementData(source, "Cuffed", true)
+		--setElementFrozen(source, false)
+        
+		arestedPlayer[attacker] = source
+		setControlStates(source, false)
+	end
+end
+addEventHandler("onPlayerDamage", root, arrestOrTaze)
+
+function syncSuspect(crim, cop)
+	if isElement(crim) and isElement(cop) and getElementData(crim,"Cuffed") == true then
+		local sx,sy,sz = getElementPosition(crim)
+		local rx,ry,rz = getElementRotation(crim)
+		local ax,ay,az = getElementPosition(cop)
+		--setElementFrozen(crim, false)
+		setElementData(crim, "Tazed", false)
+		
+		if getElementInterior(cop) ~= getElementInterior(crim) then
+			setElementInterior(crim, getElementInterior(cop))
+			setElementDimension(crim, getElementDimension(cop))
+		end
+	
+	
+		-- Force suspect to run
+		local tDist = getDistanceBetweenPoints3D(sx,sy,sz, ax,ay,az)
+		if tDist < 1.4 and lastAnim[crim] ~= 1 then
+			setPedAnimation(crim, nil, nil,1,true,true,false)
+			lastAnim[crim] = 1
+		elseif  tDist < 3 and lastAnim[crim] ~= 2 then
+			setPedAnimation(crim, "ped", "walk_civi",1,true,true,false)
+			lastAnim[crim] = 2
+		elseif tDist >= 3 and tDist < 5 and lastAnim[crim] ~= 3 and getPlayerPing(crim) < 100 then
+			setPedAnimation(crim, "ped", "run_civi",1,true,true,false)
+			lastAnim[crim] = 3
+		elseif tDist >= 5 and lastAnim[crim] ~= 4 and getPlayerPing(crim) < 200 then
+			setPedAnimation(crim, "ped", "sprint_civi",1,true,true,false)
+			lastAnim[crim] = 4
+		end
+		
+		local X = math.abs(sx-ax)
+		local Y = math.abs(sy-ay)
+		local rot = math.deg(math.atan2(Y,X));
+		if(sx >= ax) and(ay > sy) then	  -- north-east
+			rot = 90 - rot
+		elseif(sx <= ax) and(ay > sy) then  -- north-west
+			rot = 270 + rot
+		elseif(sx >= ax) and(ay <= sy) then -- south-east
+			rot = 90 + rot
+		elseif(sx < ax) and(ay <= sy) then  -- south-west
+			rot = 270 - rot
+		end
+		setElementRotation(crim, rx,ry,rot)
+
+		--[[if not isPedDead(cop) then
+			if isElement(crim) then
+				if isTimer(TimerAr[crim]) then
+					killTimer(TimerAr[crim])
+					setPedAnimation(crim, nil, nil)
+					setElementCollisionsEnabled(crim, true)
+					lastAnim[crim] = 0
+				end
+				showCursor(crim, false)
+
+				arestedPlayer[cop] = nil
+				setElementData(crim, "Cuffed", false)
+
+				-- Reenable controlls
+				setControlStates(crim, true)
+			end
+
+			-- Remove jail markers
+			removeMarkers(cop)
+			if isTimer(TimerAr[crim]) then
+				killTimer(TimerAr[crim])
+				setElementCollisionsEnabled(crim, true)
+			end
+		end]]
+
+		-- Sync interior and dimension
+	end
+end
+
+function quitPlayerArrest(quitType)
+	local hash = getHash(getPlayerName(source))
+	if (getPlayerWantedLevel(source) > 0 and getElementData(source, "Cuffed") == true) then
+	    dbExec(db, "UPDATE users SET wantedLevel=0, arrested=1800 WHERE name=?", hash) 
+	end
+
+	-- Clean up old unused data
+	for w,cop in ipairs(getElementsByType("player")) do
+		if isPlayerFromPolice(cop) then
+			if arestedPlayer[cop] == source then
+				arestedPlayer[cop] = nil
+			end
+		end
+	end
+	if isTimer(TimerAr[source]) then
+		killTimer(TimerAr[source])
+	end
+
+end
+addEventHandler("onPlayerQuit", root, quitPlayerArrest)
+
+function removeMarkers(object)
+	for k, j_marke in ipairs( getElementsByType( 'marker', getResourceRootElement() ) ) do
+		if getElementData(j_marke,"Holder") == object then
+			removeEventHandler("onMarkerHit", j_marke, deliverSuspect) 
+			destroyElement( j_marke );
+		end
+	end;
+end
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

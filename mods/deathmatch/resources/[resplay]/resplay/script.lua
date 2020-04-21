@@ -113,9 +113,9 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	--{ "88", { 88 } },
 	{ "62", { 62 } },
 	{ "213", {213} },
-	{ "129", {129} },
+	--{ "129", {129} },
 	{ "263", {263} },
-	--{ "146", { 146 } },
+	{ "tenpen", { 146 } },
 	{ "14", { 14 } },
 	{ "empty", { 5083 } },
 	--{ "231", { 231 } },
@@ -235,7 +235,7 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "8079", { 2144 } },
 	{ "9593", { 2228 } },
 	{ "213", {213} },
-	{ "129", {129} },
+	--{ "129", {129} },
 	{ "263", {263} },
 	{ "copcarsa", { 596 } },
 	{ "copcar", { 598 } },
@@ -286,7 +286,7 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	--{ "75", { 75 } },
 	--{ "88", { 88 } },
 	{ "62", { 62 } },
-	--{ "146", { 146 } },
+	{ "tenpen", { 146 } },
 	{ "14", { 14 } },
 	--{ "276", { 276 } },
 	--{ "231", { 231 } },
@@ -1530,7 +1530,7 @@ function removeHex(text, digits)
     return string.gsub(text, "#" ..(digits and string.rep("%x", digits) or "%x+"), "")
 end
 
-function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc, isRpFunc, isOOCfunc)
+function chatMsgAdd(timeStr, playerid, police, medic, soldier, fbi, sanews, isAdmin, isHelper, msg, isMeFunc, isRpFunc, isOOCfunc)
 	local sendMsg = true
 	local playerid = getElementData(source, "ID")
 	
@@ -1561,8 +1561,16 @@ function chatMsgAdd(timeStr, playerid, isAdmin, isHelper, UsrGrp, msg, isMeFunc,
 		elseif isHelper then
 		    outputChatBox(timeStr.."[ХЕЛПЕР] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
 			
-		elseif UsrGrp then
-		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4], true)
+		elseif police then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 0, 0, 255, true)
+		elseif medic then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 255, 0, true)
+		elseif soldier then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 0, 128, 0, true)
+		elseif fbi then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 39, 107, 235, true)
+		elseif sanews then
+		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 0, 255, 147, true)
 
 		else
 			outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 255, 255, true)
@@ -6539,8 +6547,8 @@ function drawNicknames()
 			grpr, grpg, grpb = playerGroups[usergrp][2],playerGroups[usergrp][3],playerGroups[usergrp][4]
 		end
 		
-		dxDrawText(grpstr, 0, 3*scaleWanted, sW-97*scaleWanted, sH, tocolor(0,0,0,160), 2.5*scaleWanted, "default-bold", "right", "top")
-		dxDrawText(grpstr, 0, 1*scaleWanted, sW-95*scaleWanted, sH, tocolor(grpr,grpg,grpb,160), 2.5*scaleWanted, "default-bold", "right", "top")
+		dxDrawText(grpstr, 0, 5*scaleWanted, sW-7*scaleWanted, sH, tocolor(0,0,0,160), 2.5*scaleWanted, "default-bold", "right", "top")
+		dxDrawText(grpstr, 0, 7*scaleWanted, sW-5*scaleWanted, sH, tocolor(grpr,grpg,grpb,160), 2.5*scaleWanted, "default-bold", "right", "top")
 	end
 end
 
@@ -10415,7 +10423,7 @@ skinGangMale = {
 		{1, 72 ,"Male", 3500 },
 		{1, 249 ,"Male", 40000 },
 		{1, 186 ,"Male", 25000 },
-		{1, 213, "Male", 80000},
+		--{1, 213, "Male", 80000},
 }
 
 skinGangFemale = {
@@ -10429,7 +10437,7 @@ skinGangFemale = {
 	{1, 169, "Girl", 10000 },
 	{1, 192, "Girl", 6000 },
 	{1, 194, "Girl", 25000 },
-	{1, 129, "Girl", 50000 },
+	--{1, 129, "Girl", 50000 },
 	{1, 243 ,"Male", 5600 },
 }
 
@@ -11370,6 +11378,7 @@ end
 function houseGuestDecline()
 	destroyRequestWindow()
 end
+
 
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
