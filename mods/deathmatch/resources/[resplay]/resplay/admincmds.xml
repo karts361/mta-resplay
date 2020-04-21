@@ -18,8 +18,8 @@
 	<command name="spec" level="1" description="/spec [ID] - Наблюдать за игроком"/>
 	<command name="specoff" level="1" description="/specoff - Выйти из наблюдения"/>
 	<command name="setleader" level="2" description="/setleader [ник полностью] [фракция] - Назначить лидера фракции"/>
-	<command name="sethelper" level="2" description="/sethelper [ник полностью] - Назначить хелпера"/>
-	<command name="removehelper" level="2" description="/removehelper [ник полностью] - Убрать хелпера"/>
+	<command name="sethelper" level="3" description="/sethelper [ник полностью] - Назначить хелпера"/>
+	<command name="removehelper" level="3" description="/removehelper [ник полностью] - Убрать хелпера"/>
 	<command name="setmoderator" level="3" description="/setmoderator [ник полностью] - Назначить модератора"/>
 	<command name="removemoderator" level="3" description="/removemoderator [ник полностью] - Убрать модератора"/>
 	<command name="resetpass" level="2" description="/resetpass [ник полностью] [адрес email] - Сбросить пароль"/>
