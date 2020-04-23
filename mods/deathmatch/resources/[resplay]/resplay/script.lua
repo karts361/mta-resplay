@@ -10484,7 +10484,7 @@ function showSkin()
     local usergrp = getElementData(localPlayer, "usergroup")
 	local gender = getElementData(localPlayer, "gender")
 	guiGridListClear(skin_list_gui)
-    if usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 1 then
+    if (usergrp == 1 or usergrp == 13 or usergrp == 23) and gender == 1 then
 	    for i,colum in ipairs(skinMale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
@@ -10495,7 +10495,7 @@ function showSkin()
 			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
 		        end
 	    end
-    elseif usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 2 then
+    elseif (usergrp == 1 or usergrp == 13 or usergrp == 23) and gender == 2 then
 	    for i,colum in ipairs(skinFemale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
