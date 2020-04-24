@@ -16857,7 +16857,7 @@ function executeAction(aplr, actionId, params)
 									respectSet(workerInfo[1], respect+0.00002, -1.0, 0.1, true)
 								end
 								
-								triggerEvent("onPlayerChat", aplr, "купил еду у игрока "..getPlayerName(workerInfo[1]), 1)
+								triggerEvent("onPlayerChat", aplr, "купил еду у "..getPlayerName(workerInfo[1]), 1)
 								addNewEventToLog(getPlayerName(workerInfo[1]), "Продажа еды - Продажа - "..inventoryItemNames[fId][1], true)
 								addNewEventToLog(getPlayerName(aplr), "Продажа еды - Покупка - "..inventoryItemNames[fId][1], true)
 								takeMoney(aplr, fPrice)
@@ -18221,7 +18221,7 @@ function executeAction(aplr, actionId, params)
 					
 				if(getElementInterior(aplr) == getElementInterior(plr)) and (getElementDimension(aplr) == getElementDimension(aplr)) and(getDistanceBetweenPoints3D(ax,ay,az,px,py,pz) < nearbyPlayersRadius) then
 				    
-					triggerEvent("onPlayerChat", aplr, "достал из кошелька паспорт и показал игроку "..pName, 1)
+					triggerEvent("onPlayerChat", aplr, "достал из кошелька паспорт и показал "..pName, 1)
 				    triggerClientEvent(plr, "onResplayPassport", aplr)
 				else
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Игрок находится далеко от вас.")
@@ -18442,7 +18442,7 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			setControlStates(crim, false)
-			triggerEvent("onPlayerChat", aplr, "заковал игрока "..getPlayerName(crim).." в наручники", 1)
+			triggerEvent("onPlayerChat", aplr, "заковал "..getPlayerName(crim).." в наручники", 1)
 			--toggleAllControls(crim, false, false)
 			--setElementFrozen(crim, true)
 			setElementData(crim, "Cuffed", true)
@@ -18470,7 +18470,7 @@ function executeAction(aplr, actionId, params)
 				return false
 			end
 			setControlStates(crim, true)
-			triggerEvent("onPlayerChat", aplr, "снял c игрока "..getPlayerName(crim).." наручники", 1)
+			triggerEvent("onPlayerChat", aplr, "снял c "..getPlayerName(crim).." наручники", 1)
 			--toggleAllControls(crim, true, true)
 			--setElementFrozen(crim, false)
 			setElementData(crim, "Cuffed", false)
@@ -18499,7 +18499,7 @@ function executeAction(aplr, actionId, params)
 			local sourceWanted = getPlayerWantedLevel(crim)
             if(sourceWanted > 0) then
 			    setControlStates(crim, true)
-			    triggerEvent("onPlayerChat", aplr, "отправил игрока "..getPlayerName(crim).." в тюрьму", 1)
+			    triggerEvent("onPlayerChat", aplr, "отправил "..getPlayerName(crim).." в тюрьму", 1)
 			    --toggleAllControls(crim, true)
 			    --setPedFrozen(crim, false)
 			    setElementData(crim, "Cuffed", false)
@@ -25329,7 +25329,7 @@ function vehicleSellAccept(newOwner, curOwner, veh, price)
 											removeElementData(curOwner, "vehicle")
 										end
 										
-										triggerEvent("onPlayerChat", client, "купил ТС "..getVehicleName(veh).." у игрока "..getPlayerName(curOwner)..".", 1)
+										triggerEvent("onPlayerChat", client, "купил ТС "..getVehicleName(veh).." у "..getPlayerName(curOwner), 1)
 										giveMoney(curOwner, price)
 										takeMoney(newOwner, price)
 									
@@ -25439,7 +25439,7 @@ function houseSellAccept(newOwner, curOwner, houseid, price)
 			giveMoney(curOwner, price)
 			houses[houseid][11] = newHash
 			setPickupText(houses[houseid][4], "Занят. Владелец: "..newOwnerName, 255, 0, 0)
-			triggerEvent("onPlayerChat", newOwner, "купил дом у игрока "..getPlayerName(curOwner), 1)
+			triggerEvent("onPlayerChat", newOwner, "купил дом у "..getPlayerName(curOwner), 1)
 			if houseOwners[newHash] then
 				houseOwners[newHash] = houseOwners[newHash] + 1
 			else
