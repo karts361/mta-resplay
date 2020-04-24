@@ -15229,7 +15229,7 @@ function requestActionsList(aplr)
 							else
 								colorName = "Спец."
 							end
-							if not(getVehicleType(row["carid"]) == "Boat") or (getVehicleType(row["carid"]) == "Helicopter") or (getVehicleType(row["carid"]) == "Plane") then
+							if not(getVehicleType(row["carid"]) == "Boat" or getVehicleType(row["carid"]) == "Helicopter" or getVehicleType(row["carid"]) == "Plane") then
 								table.insert(alist, { 12, string.format("%s %s(%s)", availableActions[12], getVehicleNameFromModel(row["carid"]), colorName), { key, row }, nil, 0, 255, 0 })
 							end
 						end
