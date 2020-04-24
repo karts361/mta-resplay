@@ -8,7 +8,7 @@ setTimer(function()
 		if oldX and oldY and oldZ then
 			local curentDistance = getDistanceBetweenPoints3D(oldX, oldY, oldZ, newX, newY, newZ)
 			if curentDistance >= 1 then
-				local coef = 1
+				local coef = 0.3
 				local _, _, _, _, _, _, _, _, surface = processLineOfSight(newX, newY, newZ, newX, newY, newZ - 5, true, false, false, true)
 				if surface then
 					if surface ~= 0 and surface ~= 1 and surface ~= 4 then
