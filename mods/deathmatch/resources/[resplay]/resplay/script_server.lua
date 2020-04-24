@@ -570,7 +570,7 @@ jobCpFinish = {}
 jobTrashmasterStartTime = 120000
 jobTrashmasterIncTime = 10000
 jobTrashmasterMaxFillness = 100
-jobTrashmasterIncMoney = 10
+jobTrashmasterIncMoney = 35
 jobTrashmasterMoneyForBlowedCar = 2000
 jobTrashmasterMoneyForLeftCar = 100
 jobTrashmasterUnloadCycle = 5
@@ -585,7 +585,7 @@ jobTrashmasterVehMarker = nil
 -- Мойка дорог(переменные)
 jobWashroadsStartTime = 120000
 jobWashroadsIncTime = 15000
-jobWashroadsIncMoneyPerCp = 25
+jobWashroadsIncMoneyPerCp = 35
 jobWashroadsMoneyForBlowedCar = 2000
 jobWashroadsMoneyForLeftCar = 100
 jobWashroadsTimeBackToVeh = 60000
@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 5
+jobLawnmowMoneyForGrass = 10
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -2511,7 +2511,7 @@ jobFarmFields = {}
 jobFarmMoneyForBlowedCar = 2000
 jobFarmMoneyForLeftCar = 100
 jobFarmTimeBackToVeh = 60000
-jobFarmMoneyForField = 90
+jobFarmMoneyForField = 70
 
 extraObjs = {}
 removeObjs = {}
@@ -2905,7 +2905,7 @@ gangs = {}
 gangInvites = {}
 
 vehCommonSpawnPos = {}
-vehCommonSpawnPrice = 50
+vehCommonSpawnPrice = 1000
 
 extraVehCoords = {}
 
@@ -2951,7 +2951,6 @@ militaryGeneralTimeBetween = 150000
 
 weaponsInBox = {
 	{ 22, 17, "пистолет и одну обойму" },
-	{ 23, 17, "пистолет с глушителем и одну обойму" },
 	{ 24, 7, "Desert Eagle и одну обойму" },
 	{ 25, 10, "ружье и десять патронов" },
 	{ 26, 10, "обрез и десять патронов" },
@@ -2962,7 +2961,7 @@ weaponsInBox = {
 	{ 30, 30, "AK-47 и одну обойму" },
 	{ 31, 50, "M4 и одну обойму" },
 	{ 34, 5, "снайперскую винтовку и пять патронов" },
-	{ 38, 25, "пулемёт и двадцать пять патронов" },
+	{ 38, 50, "пулемёт и пятьдесят патронов" },
 	{ 16, 2, "две гранаты" }
 }
 
@@ -5339,7 +5338,7 @@ function militaryGeneralFinish(plr, success)
 	addNewEventToLog(getPlayerName(plr), "Военный - Перевозка генерала - Завершение", success)
 	
 	if success then
-		giveMoney(plr, 5000)
+		giveMoney(plr, 7000)
 		local respect = getElementData(plr, "respect")
 		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
@@ -9153,10 +9152,10 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/600
+					local money = timemsec/200
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
-						money = math.ceil(money/1.5)
+						money = math.ceil(money/1.0)
 					end
 					
 					local moneytext = string.format("$%d", money)
@@ -15230,7 +15229,7 @@ function requestActionsList(aplr)
 							else
 								colorName = "Спец."
 							end
-							if(getVehicleType(row["carid"]) ~= "Boat") then
+							if not(getVehicleType(row["carid"]) == "Boat") or (getVehicleType(row["carid"]) == "Helicopter") or (getVehicleType(row["carid"]) == "Plane") then
 								table.insert(alist, { 12, string.format("%s %s(%s)", availableActions[12], getVehicleNameFromModel(row["carid"]), colorName), { key, row }, nil, 0, 255, 0 })
 							end
 						end
@@ -15280,7 +15279,11 @@ function requestActionsList(aplr)
 							else
 								colorName = "Спец."
 							end
-							table.insert(alist, { 12, string.format("%s %s(%s)($%d)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName, vehCommonSpawnPrice), { 0, row, key }, nil, 0, 255, 0 })
+							if (vehtype == "BMX") then
+							    table.insert(alist, { 12, string.format("%s %s(%s)($50)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName), { 0, row, key }, nil, 0, 255, 0 })
+						    else
+							    table.insert(alist, { 12, string.format("%s %s(%s)($%d)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName, vehCommonSpawnPrice), { 0, row, key }, nil, 0, 255, 0 })
+							end
 						end
 					end
 					
@@ -15960,7 +15963,11 @@ function executeAction(aplr, actionId, params)
 						i = params[3]
 						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
 						warpPedIntoVehicle(aplr, pveh)
-						takeMoney(aplr, vehCommonSpawnPrice)
+						if (getVehicleType(pveh) == "BMX") then
+						    takeMoney(aplr, 50)
+						else
+						    takeMoney(aplr, vehCommonSpawnPrice)
+						end
 					end
 					setElementGhostMode(pveh, 3000)
 					
@@ -19523,7 +19530,6 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 	if attacker then
 		local killer
 		
-		
 		if(getElementType(attacker) == "vehicle") then
 			evtStr = evtStr.."Задавлен транспортом - "
 			killer = getVehicleController(attacker)
@@ -19649,6 +19655,20 @@ function playerWasted(totalAmmo, attacker, killerWeapon, bodypart, stealth)
 	
 	if doesPedHaveJetPack(source) then
 		jetpackOff(source)
+	end
+	
+	setControlStates(source, true)
+	setElementData(source, "Cuffed", false)
+	
+	for w,cop in ipairs(getElementsByType("player")) do
+		if isPlayerFromPolice(cop) then
+			if arestedPlayer[cop] == source then
+				arestedPlayer[cop] = nil
+			end
+		end
+	end
+	if isTimer(TimerAr[source]) then
+		killTimer(TimerAr[source])
 	end
 	
 	ferrisWheelRemovePlayer(source)
