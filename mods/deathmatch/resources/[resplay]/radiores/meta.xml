@@ -1,6 +1,7 @@
 <meta>
     <script src="pioneer_c.lua" type="client" cache="false"/>
     <script src="pioneer_s.lua" type="server" />
+    <script src="exports_pioneer.lua" type="server" />
     <file src="files/TNRbi.ttf"/>
     <file src="files/digit.ttf" />
 
@@ -11,5 +12,6 @@
         <file src="files/but5.png" />
         <file src="files/but6.png" />
         <file src="files/pioneer.png" />
+		<export function='stopSoundRespawn'/>
 
 </meta>

@@ -7768,6 +7768,7 @@ function carSellRemoveUserVehicles(owner)
 	if veh and(isElement(veh)) then
 		setElementData(owner, "vehicle", nil)
 		carSellSQLIds[getElementData(veh, "sqlid")] = nil
+		exports.radiores:stopSoundRespawn(veh)
 		destroyElement(veh)
 		return true
 	end

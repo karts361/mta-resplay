@@ -107,6 +107,11 @@ function playerTakeMoney(plr, amount, playSnd)
 	return true
 end
 
+function resplayRemoveCar(owner)
+    carSellRemoveUserVehicles(owner)
+    return true
+end
+
 function playerGetMoney(plr)
 	return getMoney(plr)
 end

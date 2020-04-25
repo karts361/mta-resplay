@@ -11130,7 +11130,7 @@ function openStats()
 	
 	local respect = getElementData(localPlayer, "respect")
 	curRespectStr = string.format("%.2f", respect*100.0).."%"
-	local pwanted = getElementData(source, "wantedLevel")
+	local pwanted = getElementData(localPlayer, "wantedLevel")
 	
     if pwanted and(pwanted < 0) then
 	    wantedTex = pwanted
@@ -11140,12 +11140,12 @@ function openStats()
 		wntr, wntg, wntb = 0, 255, 0
 	end
 	
-    if fractionblaclist == 0 then
-	    fbl = "Отсутствует"
-		fblr, fblg, fblb = 0, 255, 0
-	elseif fractionblacklist == 1 then
+	if fractionblacklist == 1 then
 	    fbl = "Находится в ОЧС"
 		fblr, fblg, fblb = 255, 0, 0
+    else
+	    fbl = "нет"
+		fblr, fblg, fblb = 0, 255, 0
 	end
 	
     respectDraw = guiCreateLabel(230, 77, 52, 16, curRespectStr, false, ResplayPassport)

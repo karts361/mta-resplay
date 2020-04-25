@@ -10,6 +10,12 @@ end
 addEvent("stopSoundServer", true)
 addEventHandler("stopSoundServer", getRootElement(), stopSoundServer)
 
+function stopRespawnVehicle(vehicle)
+    if exports.resplay:resplayRemoveCar(source) then
+	    triggerClientEvent("serverStopSound", getRootElement(), vehicle)
+	end
+end
+
 function nextSoundServer(vehicle)
     triggerClientEvent("serverNextSound", getRootElement(), vehicle)
 end
