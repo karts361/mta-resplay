@@ -7940,7 +7940,7 @@ function jobTruckerFinish(plr, deliveryPrice)
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
 				local respect = getElementData(plr, "respect")
-				respectSet(plr, respect+ (deliveryPrice/15*0.00003), -1.0, 0.25, true)
+				respectSet(plr, respect+ (deliveryPrice/15*0.00001), -1.0, 0.25, true)
 				
 				if worker[4] then
 					destroyElement(worker[4])
