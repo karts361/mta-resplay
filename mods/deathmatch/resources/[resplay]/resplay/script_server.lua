@@ -2364,13 +2364,13 @@ ammuBusinessPrice = 3000000
 ammuShops = {}
 ammuWeapons = {
 	{
-		{ 1242, 1242, 100, 50 },
+		{ 1242, 1242, 100, 100 },
 		--{ 1, 331, 1, 10 },
 		{ 5, 336, 1, 95 },
 		{ 41, 365, 500, 75 },
-		{ 22, 346, 17, 120 },
+		{ 22, 346, 17, 170 },
 		--{ 23, 347, 17, 120 },
-		{ 24, 348, 7, 265 },
+		{ 24, 348, 7, 365 },
 		{ 25, 349, 5, 800 },
 		{ 29, 353, 30, 700 },		
 		{ 44, 368, 1, 500 }	,	
@@ -2420,21 +2420,21 @@ eatTypes = {
 	{ 22, "Больница SF", 19, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
 	{ 22, "Больница LV", 20, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
 	{ 22, "Пригородная больница", 21, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
-	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 222, 2400000 },
-	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 98, 2700000 },
-	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 2000000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 23, 1900000 },
-	{ 52, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 1950000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 100, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2000000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 210, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 93, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 37, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2500000 },
-	{ 52, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
-	{ 52, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 17, 2000000 },
-	{ 52, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
+	{ 25, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 222, 2400000 },
+	{ 25, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 98, 2700000 },
+	{ 25, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 2000000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 23, 1900000 },
+	{ 25, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 1950000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 100, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2000000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 210, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 93, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 37, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 170, 2500000 },
+	{ 25, "Магазин мебели", 18, 952.1723, -2.3534, 1008.3425, 270.0, 961.27936, -3.31315, 1008.3425, 90.0, { }, 60, 2500000 },
+	{ 25, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 17, 2000000 },
+	{ 25, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
     { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
 	{ 30, "LVPD HQ", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
@@ -3812,6 +3812,12 @@ queryPeds = {
 	{ 1691.2, 1464.6, 10.8, 135.0, nil }
 }
 
+drugDealers = {
+    { 2054.30835, -1765.07996, 13.54205, 0 },
+    { 1985.73730, -1236.83069, 20.11261, 280 },
+    { 2376.3374, -1644.54785, 13.55793, 180 }
+}
+
 weaponsDropped = {}
 
 reportsArray = {}
@@ -4567,6 +4573,7 @@ function derbyRemovePlayer(derbyid, plr)
 					local vx, vy, vz = getElementPosition(veh)
 					createExplosion(vx, vy, vz, 11, plr)
 					destroyElement(veh)
+					exports.radiores:stopSoundRespawn(veh)
 				end
 				
 				if(curPlayerCount == 0) then
@@ -5204,6 +5211,11 @@ function botCorrectRotationCoroutine()
 		for _,que in ipairs(queryPeds) do
 			setElementRotation(que[5], 0, 0, que[4], "default", true)
 			setPedAnimation(que[5], "CASINO", "cards_loop", -1, true, false, false, false)
+		end
+		
+		for _,drugd in ipairs(drugDealers) do
+			setElementRotation(drugd[5], 0, 0, drugd[4], "default", true)
+			setPedAnimation(drugd[5], "DEALER", "DEALER_IDLE", -1, true, false, false, false)
 		end
 		coroutine.yield()
 	end
@@ -7757,6 +7769,7 @@ function carSellRemoveUserVehicles(owner)
 	if veh and(isElement(veh)) then
 		setElementData(owner, "vehicle", nil)
 		carSellSQLIds[getElementData(veh, "sqlid")] = nil
+		exports.radiores:stopSoundRespawn(veh)
 		destroyElement(veh)
 		return true
 	end
@@ -10028,6 +10041,7 @@ function removeWorker(jobId, worker, reason)
 				
 				respawnVehicle(curWorker[3])
 				fixVehicle(curWorker[3])
+				exports.radiores:stopSoundRespawn(curWorker[3])
 				setVehicleDamageProof(curWorker[3], true)
 				setVehicleEngineState(curWorker[3], false)
 				setElementGhostMode(curWorker[3], 3000)
@@ -12668,6 +12682,19 @@ function resourceStart(startedResource)
 		queryPeds[i][5] = tutorPed
 	end
 	
+	local drugDealer
+	
+	for i,drugd in ipairs(drugDealers) do
+		drugDealer = createPed(29, drugd[1], drugd[2], drugd[3], drugd[4], false)
+		--attachActionToElement(defaultActions[104], drugDealer)
+		setElementData(drugDealer, "godmode", true)
+		setElementFrozen(drugDealer, true)
+		setElementRotation(drugDealer, 0, 0, drugd[4], "default", true)
+		setPedAnimation(drugDealer, "DEALER", "DEALER_IDLE", -1, true, false, false, false)
+		setElementData(drugDealer, "drugdealer", true, false)
+		drugDealers[i][5] = drugDealer
+	end
+	
 	setTimer(botCorrectRotation, 5000, 0)
 	curTaxiLocations = {}
 	
@@ -14253,6 +14280,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		setElementData(source, "gender", dbqueryresult[1]["gender"])
 		setElementData(source, "weaponlicense", dbqueryresult[1]["weaponlicense"])
 		setElementData(source, "licenseDeprived", dbqueryresult[1]["licenseDeprived"])
+		setElementData(source, "fractionbl", dbqueryresult[1]["fractionBL"])
 		
 		if(dbqueryresult[1]["fireproof"] == 1) then
 			setElementData(source, "fireproof", true)
@@ -14923,12 +14951,13 @@ function requestActionsList(aplr)
 				table.insert(alist, { 77, availableActions[77], {}, nil, 255, 255, 255 })
 			end
 			
-			local tutid, foodSelId, queryPed
+			local tutid, foodSelId, queryPed, drugPed
 			
 			for key,bot in ipairs(peds) do
 				tutid = getElementData(bot, "tutorial")
 				foodSelId = getElementData(bot, "foodseller")
 				queryPed = getElementData(bot, "query")
+				drugPed = getElementData(bot, "drugdealer")
 				
 				if tutid then
 					table.insert(alist, { 50, availableActions[50].." '"..tutorialArray[tutid][1].."'", { tutorialArray[tutid][1], tutorialArray[tutid][2] }, nil, 0, 255, 0 })
@@ -14942,6 +14971,8 @@ function requestActionsList(aplr)
 				
 				elseif queryPed then
 					table.insert(alist, { 104, availableActions[104], {}, nil, 0, 255, 0 })
+				elseif drugPed then
+				    table.insert(alist, { 153, "Наркотики - купить $3000", { i }, nil, 0, 255, 0 } )
 				end
 				
 			end
@@ -15109,7 +15140,7 @@ function requestActionsList(aplr)
 			
 			for i,drugMarker in ipairs(drugMarkers) do 
 				if(isElementWithinMarker(aplr, drugMarker[5])) then		
-					table.insert(alist, { 153, "Таблетки - купить $3000", { i }, nil, 0, 255, 0 } )
+					table.insert(alist, { 153, "Наркотики - купить $3000", { i }, nil, 0, 255, 0 } )
 				end
             end
 			
@@ -15585,7 +15616,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 112, availableActions[112], {}, { "Игрок" }, 255, 0, 0 })
 		end
 		
-		if pAdmin or pModerator then
+		if pAdmin or pModerator or pHelper then
 			local eFound = false
 			
 			for eId,eInfo in pairs(specialEvents) do
@@ -18239,7 +18270,7 @@ function executeAction(aplr, actionId, params)
 		    local gangster = getPlayerFromID(params[1])
 			local playerInPoliceVehicle = false
 			local aVeh = getPedOccupiedVehicle(aplr)
-			local pName = getPlayerName(plr)
+			local pName = getPlayerName(gangster)
 			
 			
 			if aVeh then
@@ -18696,7 +18727,7 @@ function executeAction(aplr, actionId, params)
 			
 			if(not((hour == nil) or (minute == nil))) then
                 setTime(hour, minute)
-				local notifyMessage = string.format(generateTimeString().."Время изменено на %02d:%02d!", hour, minute)
+				local notifyMessage = string.format(generateTimeString().."Администратор "..getPlayerName(aplr).." изменил время на %02d:%02d!", hour, minute)
 				outputChatBox(notifyMessage)
 			else
 				outputChatBox(errorStr_incorrectParams, aplr)
@@ -18707,7 +18738,7 @@ function executeAction(aplr, actionId, params)
 			
 			if(not((weatherId == nil))) then
 			    setWeather(weatherId)
-				outputChatBox(generateTimeString().."Погода изменена")
+				outputChatBox(generateTimeString().."Администратор "..getPlayerName(aplr).." изменил погоду")
 			else
 			    outputChatBox(errorStr_incorrectParams, aplr)
 			end
@@ -19944,6 +19975,7 @@ function vehicleExplode()
 	showVehicleDestroyedMessage(source)
 	local vehMdl = getElementModel(source)
 	
+	exports.radiores:stopSoundRespawn(source)
 	if(vehMdl == 428) then
 		local vx, vy, vz = getElementPosition(source)
 		vz = vz-0.5
@@ -20154,7 +20186,7 @@ function playerLogout(prevAccount, curAccount)
 end
 
 function cancelTrailerDetach(theTruck)
-	attachTrailerToVehicle(theTruck, source)
+	attachTrailerToxx(theTruck, source)
 end
 
 function lowriderAddPlayer(lowriderId, plr)
@@ -20532,6 +20564,7 @@ function rcDestroy(plr)
 		local blowInt = getElementInterior(rcVeh)
 		local blowDim = getElementDimension(rcVeh)
 		destroyElement(rcVeh)
+		exports.radiores:stopSoundRespawn(rcVeh)
 		local curCol = createColSphere(blowX, blowY, blowZ, 300)
 		local players = getElementsWithinColShape(curCol, "player")
 		destroyElement(curCol)
@@ -22075,6 +22108,7 @@ function clanBaseCarExploded()
 				clanBases[baseId][27][i] = false
 				dbExec(db, "UPDATE clanBases SET carnum=? WHERE id=?", clanBaseGetCarsCount(baseId), clanBases[baseId][1])
 				setTimer(destroyElement, 2000, 1, source)
+				exports.radiores:stopSoundRespawn(source)
 				break
 			end
 		end
@@ -23439,6 +23473,7 @@ function gangsterStealSellCar(veh)
 		
 		gangsterStealCars[veh] = nil
 		destroyElement(veh)
+		exports.radiores:stopSoundRespawn(veh)
 		giveMoney(seller, price)
 		
 		if(priceMult < 1.0) then
@@ -23487,6 +23522,7 @@ function gangsterStealEvacCar(eVeh)
 		if(worker[1] == ePlr) and(worker[3] == eVeh) then
 			gangsterStealCars[veh] = nil
 			destroyElement(veh)
+            exports.radiores:stopSoundRespawn(veh)
 			giveMoney(ePlr, 100)
 			--local respect = getElementData(ePlr, "respect")
 			--if respect then
@@ -24726,6 +24762,7 @@ function fractionClientAddMember(curMember, newMember)
 		local fId = fractionGetPlayerFraction(curMember)
 		local respect = getElementData(newMember, "respect")
 		local clan = getPlayerClan(newMember)
+		local blacklistcheck = getElementData(newMember, "fractionbl")
 		
 		if not fId then
 			playerShowMessage(curMember, "Вы не состоите в фракции.")
@@ -24743,6 +24780,11 @@ function fractionClientAddMember(curMember, newMember)
 		end]]
 		if(not respect) or (respect < fractionGroupRPLevels[fractionGetGroup(fId)]) then
 			playerShowMessage(curMember, "Для приема в эту фракцию у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% положительного уважения.")
+			return false
+		end
+		
+		if (blacklistcheck == 1) then
+			playerShowMessage(curMember, "Не удалось принять игрока во фракцию. Игрок находится в общем чёрном списке фракций")
 			return false
 		end
 		
@@ -25340,6 +25382,7 @@ function vehicleSellAccept(newOwner, curOwner, veh, price)
 											end
 											
 											destroyElement(curVeh)
+											exports.radiores:stopSoundRespawn(curVeh)
 										end
 										
 										setElementData(newOwner, "vehicle", veh, false)
@@ -25585,10 +25628,16 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "AKSOV") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "Pagan")
 	
 	if adminNicknames then
 		return true
+	end
+	
+	local testServerNicknames = string.find(pName, "AKSOV")
+	
+	if testServerNicknames and isTestServer() then
+	    return true
 	end
 	
 	local s = string.find(pName, "^%u%l+_Mc%u%l+$") or (string.find(pName, "^%u%l+_%u%l+$") and not string.find(pName, "^%u%l+_Mc%l+$"))
@@ -26883,7 +26932,7 @@ function adminCMDjail(plr, nickname, secondsText, ...)
 			setElementData(jailPlr, "arrested", arrested)
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы посадили игрока "..jailName.." в тюрьму на "..jailTime)
 			triggerClientEvent(jailPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." посадил вас в тюрьму на "..jailTime.." с причиной '"..table.concat({...}, " ").."'")
-            outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..jailName.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 255, 0, 0, true)
+            outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..jailName.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 234, 38, 19, true)
 			spawnPlayerEx(jailPlr)
 		end
 	--else
@@ -27140,6 +27189,7 @@ function adminCMDacc(plr, nickname)
 		infoStr = infoStr.."Броня: "..string.format("%.2f",(plrArmor or tonumber(dbInfo["armor"]))).."%\r\n"
 		infoStr = infoStr.."Кол-во денег: "..((plrMoney or tonumber(dbInfo["money"]))).."\r\n"
 		infoStr = infoStr.."Лицензия на оружие: "..(((dbInfo["weaponlicense"] == 1) and "есть") or ((dbInfo["licenseDeprived"] > 0) and "лишён") or ((dbInfo["weaponlicense"] == 2) and "бессрочно лишён") or ((dbInfo["weaponlicense"] == 0) and "Отсутствует")).."\r\n"
+		infoStr = infoStr.."Общий черный список фракций: "..(((dbInfo["fractionBL"] == 1) and "да") or ((dbInfo["fractionBL"] == 0) and "нет")).."\r\n"
 		infoStr = infoStr.."Баны: "
 		
 		if plrBansCount > 0 then
@@ -27567,6 +27617,7 @@ function adminCMDunmute(plr, nickname)
 			setElementData(unmutePlr, "muted", muted)
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы сняли мут игроку "..unmutelName)
 			triggerClientEvent(unmutePlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." снял с вас мут")
+			outputChatBox(generateTimeString().."C игрока "..unmutelName.." был снят мут Администратором "..getPlayerName(plr), getRootElement(), 0, 255, 0, true)
 			setPlayerMuted(unmutePlr, false)
 			exports.voice:setPlayerVoiceMuted(unmutePlr, false)
 		end
@@ -27707,6 +27758,62 @@ function adminCMDgivelicense(plr, nickname)
 	end
 end
 
+function adminCMDbanfraction(plr, nickname, ...)
+	local pHash = getHash(nickname)
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if dbqueryresult[1] then
+		local bPlr = getPlayerFromName(nickname)
+		
+		if bPlr and getElementData(bPlr, "spawned") then
+			triggerClientEvent(bPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." внёс вас в ОЧС. Причина: "..table.concat({...}, " "))
+			setElementData(bPlr, "fractionbl", 1)
+			dbExec(db, "UPDATE users SET fractionbl=1 WHERE name=?", pHash)
+		else
+			dbExec(db, "UPDATE users SET fractionbl=1 WHERE name=?", pHash)
+		end
+		
+		outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." внёс игрока "..nickname.." в общий ЧС фракций. Причина: "..table.concat({...}, " "), getRootElement(), 247, 87, 74, true)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы внесли игрока в ОЧС.")
+	
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
+	end
+end
+
+function adminCMDunbanfraction(plr, nickname)
+	local pHash = getHash(nickname)
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if dbqueryresult[1] then
+		local bPlr = getPlayerFromName(nickname)
+		
+		if bPlr and getElementData(bPlr, "spawned") then
+			triggerClientEvent(bPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." удалил вас из ОЧС.")
+			setElementData(bPlr, "fractionbl", 0)
+			dbExec(db, "UPDATE users SET fractionbl=0 WHERE name=?", pHash)
+		else
+			dbExec(db, "UPDATE users SET fractionbl=0 WHERE name=?", pHash)
+		end
+		
+		outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." удалил игрока "..nickname.." из общего ЧС фракций.", getRootElement(), 0, 255, 0, true)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы удалили игрока из ОЧС.")
+	
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
+	end
+end
+
 
 function adminCMDahelp(plr)
 	outputConsole("ДОСТУПНЫЕ АДМИН-КОМАНДЫ:", plr)
@@ -27771,6 +27878,8 @@ end
     /licensedepriveperm [ник] [причина] - лишить бессрочно игрока лицензии на оружие.
 	/removelicensedeprive [ник] - сбросить срок лишения лицензии на оружие.
 	/givelicense [ник] - выдать лицензию на оружие.
+	/banfraction [ник] [причина] - Внести игрока в ОЧС
+	/unbanfraction [ник] - удалить игрока из ОЧС
 ]]
 
 mutedTime = nil
@@ -27803,6 +27912,7 @@ function mutefnc()
                     setPlayerMuted(plr, false)
 					exports.voice:setPlayerVoiceMuted(plr, false)
 					triggerClientEvent(plr, "onServerMsgAdd", plr, "Ваш срок мута истёк, с вас снят мут.")
+					outputChatBox(generateTimeString().."C игрока "..getPlayerName(plr).." был снят мут.", getRootElement(), 0, 255, 0, true)
 				end
 
 			end
@@ -28807,6 +28917,7 @@ function gangClientAddMember(curMember, newMember)
 	if(source == resourceRoot) and(client == curMember) then
 		local gId = gangGetPlayerGang(curMember)
 		local respect = getElementData(newMember, "respect")
+		local blacklistcheck = getElementData(newMember, "fractionbl")
 		
 		if not gId then
 			playerShowMessage(curMember, "Вы не состоите в фракции.")
@@ -28820,6 +28931,11 @@ function gangClientAddMember(curMember, newMember)
 		
 		if respect and (respect > gangGroupRPLevels[gangGetGroup(gId)]) then
 			playerShowMessage(curMember, "Для приема в эту банду у игрока должно быть "..tostring(math.floor(rpMin*100.0)).."% отрицательного уважения.")
+			return false
+		end
+		
+		if (blacklistcheck == 1) then
+			playerShowMessage(curMember, "Не удалось принять игрока в банду, игрок находится в общем черном списке фракций.")
 			return false
 		end
 		
