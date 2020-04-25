@@ -11070,6 +11070,8 @@ function openStats()
     guiSetFont(curUsrGrpDraw, "default-bold-small")
     wantedLvlInfo = guiCreateLabel(21, 105, 120, 20, "Уровень розыска:", false, ResplayPassport)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 123, 120, 20, "Общий ЧС фракций:", false, ResplayPassport)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 	
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
 
@@ -11098,6 +11100,7 @@ function openStats()
 	
 	local deprivedLic = getElementData(localPlayer, "licenseDeprived")
 	local licweap = getElementData(localPlayer, "weaponlicense")
+	local fractionblacklist = getElementData(localPlayer, "fractionbl")
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11135,6 +11138,9 @@ function openStats()
     wantedLvl = guiCreateLabel(230, 105, 160, 16, wantedTex, false, ResplayPassport)
     guiSetFont(wantedLvl, "default-bold-small")    
 	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	fractionbl = guiCreateLabel(230, 122, 160, 16, fbl, false, ResplayPassport)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 	
 	local pwanted = getElementData(localPlayer, "wantedLevel")
 	
@@ -11144,6 +11150,14 @@ function openStats()
     elseif pwanted and (pwanted == 0) then
 	    wantedTex = "Отсутствует"
 		wntr, wntg, wntb = 0, 255, 0
+	end
+	
+    if fractionblaclist == 0 then
+	    fbl = "Отсутствует"
+		fblr, fblg, fblb = 0, 255, 0
+	elseif fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
 	end
 	
 end
@@ -11170,6 +11184,8 @@ function openResplayPlayerPassport()
     guiSetFont(curUsrGrpDraw, "default-bold-small")
     wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, ResplayPassport)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 165, 120, 20, "Общий ЧС фракций:", false, ResplayPassport)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 	
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
 
@@ -11198,6 +11214,7 @@ function openResplayPlayerPassport()
 	
 	local deprivedLic = getElementData(source, "licenseDeprived")
 	local licweap = getElementData(source, "weaponlicense")
+	local fractionblacklist = getElementData(source, "fractionbl")
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11235,6 +11252,9 @@ function openResplayPlayerPassport()
     wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, ResplayPassport)
     guiSetFont(wantedLvl, "default-bold-small")    
 	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	fractionbl = guiCreateLabel(230, 165, 160, 16, fbl, false, ResplayPassport)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 	
 	local pwanted = getElementData(source, "wantedLevel")
 	
@@ -11244,6 +11264,14 @@ function openResplayPlayerPassport()
     elseif pwanted and (pwanted == 0) then
 	    wantedTex = "Отсутствует"
 		wntr, wntg, wntb = 0, 255, 0
+	end
+	
+    if fractionblacklist == 0 then
+	    fbl = "Отсутствует"
+		fblr, fblg, fblb = 0, 255, 0
+	elseif fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
 	end
 	
 end
@@ -11271,6 +11299,8 @@ function playerPoliceDb()
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, policeDb)
     wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, policeDb)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 165, 120, 20, "Общий ЧС фракций:", false, policeDb)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 
 	addEventHandler ( "onClientGUIClick", closeButton,
 		function ()
@@ -11297,6 +11327,7 @@ function playerPoliceDb()
 	
 	local deprivedLic = getElementData(source, "licenseDeprived")
 	local licweap = getElementData(source, "weaponlicense")
+	local fractionblacklist = getElementData(source, "fractionbl")
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11334,6 +11365,9 @@ function playerPoliceDb()
     wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, policeDb)
     guiSetFont(wantedLvl, "default-bold-small")    
 	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	fractionbl = guiCreateLabel(230, 165, 160, 16, fbl, false, policeDb)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 	
 	local pwanted = getElementData(source, "wantedLevel")
 	
@@ -11345,6 +11379,13 @@ function playerPoliceDb()
 		wntr, wntg, wntb = 0, 255, 0
 	end
 
+    if fractionblacklist == 0 then
+	    fbl = "Отсутствует"
+		fblr, fblg, fblb = 0, 255, 0
+	elseif fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
+	end
 end
 addEvent("onPlayerPoliceDb", true)
 addEventHandler("onPlayerPoliceDb", root, playerPoliceDb)

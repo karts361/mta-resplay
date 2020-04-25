@@ -13,6 +13,8 @@
 	<include resource="hummerarmor"/>
 	<include resource="blocksmi"/>
 	<include resource="bone_attach"/>
+	<include resource="customblips"/>
+	<include resource="blip"/>
 	<include resource="camera"/>
 	<include resource="dirtlevel"/>
 	<include resource="ammushoot"/>
