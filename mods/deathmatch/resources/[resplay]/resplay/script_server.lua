@@ -27174,7 +27174,7 @@ function adminCMDacc(plr, nickname)
 		infoStr = infoStr.."Броня: "..string.format("%.2f",(plrArmor or tonumber(dbInfo["armor"]))).."%\r\n"
 		infoStr = infoStr.."Кол-во денег: "..((plrMoney or tonumber(dbInfo["money"]))).."\r\n"
 		infoStr = infoStr.."Лицензия на оружие: "..(((dbInfo["weaponlicense"] == 1) and "есть") or ((dbInfo["licenseDeprived"] > 0) and "лишён") or ((dbInfo["weaponlicense"] == 2) and "бессрочно лишён") or ((dbInfo["weaponlicense"] == 0) and "Отсутствует")).."\r\n"
-		infoStr = infoStr.."Общий черный список фракций: "..(((dbInfo["fractionbl"] == 1) and "да") or ((dbInfo["fractionbl"] == 0) and "нет")).."\r\n"
+		infoStr = infoStr.."Общий черный список фракций: "..(((dbInfo["fractionBL"] == 1) and "да") or ((dbInfo["fractionBL"] == 0) and "нет")).."\r\n"
 		infoStr = infoStr.."Баны: "
 		
 		if plrBansCount > 0 then
