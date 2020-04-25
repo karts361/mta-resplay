@@ -13155,7 +13155,7 @@ function registerPlayerSerial(dbq, accName, pass, city, email, referrer, sserial
 	dbFree(dbq)
 	
 	if isElement(source) then
-		if(dbqueryresult[1]["count"] < 3) or isTestServer() then
+		if(dbqueryresult[1]["count"] < 2) or isTestServer() then
 			if(string.len(referrer) > 0) then
 				dbQuery(registerPlayerReferrer, {accName, pass, city, email, referrer, sserial, userGender}, db, "SELECT * FROM users WHERE name = ?", getHash(referrer))
 			else
