@@ -1,0 +1,15 @@
+<meta>
+    <script src="pioneer_c.lua" type="client" cache="false"/>
+    <script src="pioneer_s.lua" type="server" />
+    <file src="files/TNRbi.ttf"/>
+    <file src="files/digit.ttf" />
+
+        <file src="files/but1.png" />
+        <file src="files/but2.png" />
+        <file src="files/but3.png" />
+        <file src="files/but4.png" />
+        <file src="files/but5.png" />
+        <file src="files/but6.png" />
+        <file src="files/pioneer.png" />
+
+</meta>

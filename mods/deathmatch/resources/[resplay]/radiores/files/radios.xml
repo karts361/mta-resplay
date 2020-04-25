@@ -1,0 +1,26 @@
+﻿<root>
+	<radio>http://stream.nonstopplay.co.uk/nsp-192k-mp3|NON STOP</radio>
+	<radio>http://online.radiorecord.ru:8101/rr_128|RECORD</radio>	
+	<radio>http://music.myradio.ua/rep128.mp3|РЭП</radio>
+	<radio>http://music.myradio.ua/DrumAndBass128.mp3|Drum and Bass</radio>
+	<radio>http://music.myradio.ua/dubstep128.mp3|Дабстеп</radio>
+	<radio>http://online.radiorecord.ru:8102/teo_128|Техно</radio>
+	<radio>http://radio.zaycev.fm:9002/ZaycevFM(256)|Zaycev FM</radio>
+	<radio>http://online.radiorecord.ru:8102/sd90_128|Дискотека 90х</radio>
+	<radio>http://online.radiorecord.ru:8102/gop_128|Гоп FM</radio>
+	<radio>http://nashe1.hostingradio.ru:80/rock-128.mp3|ROCK FM</radio>
+	<radio>http://stream.electroradio.ch:26630|Electro</radio>
+	<radio>http://air.radiorecord.ru:8102/pump_320|Record PUMP'N'KLUBB</radio>
+	<radio>http://air.radiorecord.ru:8102/yo_320|Record YO! FM</radio>
+	<radio>http://air.radiorecord.ru:8102/trap_320|Record Trap</radio>
+	<radio>http://stream01.emgsound.ru/europaplus128.mp3|Europa Plus</radio>
+	<radio>http://icecast.rmg.cdnvideo.ru/dfm.mp3|DFM</radio>
+	<radio>http://icecast.rmg.cdnvideo.ru/rr.mp3|Russian Radio</radio>
+	<radio>http://46.105.180.202:8039/live|Beard FM Wild Rock</radio>
+	<radio>http://69.46.90.84:5018/|FM Blues Radio Blues</radio>
+	<radio>http://79.120.39.202:9125/|Classic Wave Retrowave</radio>
+	<radio>http://209.133.216.3:7588/listen.pls?sid=1|Country-FM Country Rock</radio>
+	<radio>http://64.150.176.87:8287/|Wild Radio Rock</radio>
+	<radio>http://23.29.71.154:8140/listen.pls?sid=1|Alternative</radio>
+	<radio>http://zaycevfm.cdnvideo.ru/ZaycevFM_electronic_128.mp3|Zaycev FM</radio>>
+</root>

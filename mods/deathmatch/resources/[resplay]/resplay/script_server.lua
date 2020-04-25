@@ -18267,7 +18267,7 @@ function executeAction(aplr, actionId, params)
 		    local gangster = getPlayerFromID(params[1])
 			local playerInPoliceVehicle = false
 			local aVeh = getPedOccupiedVehicle(aplr)
-			local pName = getPlayerName(plr)
+			local pName = getPlayerName(gangster)
 			
 			
 			if aVeh then
@@ -27758,6 +27758,7 @@ function adminCMDbanfraction(plr, nickname, ...)
 		if bPlr and getElementData(bPlr, "spawned") then
 			triggerClientEvent(bPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." внёс вас в ОЧС. Причина: "..table.concat({...}, " "))
 			setElementData(bPlr, "fractionbl", 1)
+			dbExec(db, "UPDATE users SET fractionbl=1 WHERE name=?", pHash)
 		else
 			dbExec(db, "UPDATE users SET fractionbl=1 WHERE name=?", pHash)
 		end
@@ -27785,6 +27786,7 @@ function adminCMDunbanfraction(plr, nickname)
 		if bPlr and getElementData(bPlr, "spawned") then
 			triggerClientEvent(bPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." удалил вас из ОЧС.")
 			setElementData(bPlr, "fractionbl", 0)
+			dbExec(db, "UPDATE users SET fractionbl=0 WHERE name=?", pHash)
 		else
 			dbExec(db, "UPDATE users SET fractionbl=0 WHERE name=?", pHash)
 		end
