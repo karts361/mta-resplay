@@ -4573,6 +4573,7 @@ function derbyRemovePlayer(derbyid, plr)
 					local vx, vy, vz = getElementPosition(veh)
 					createExplosion(vx, vy, vz, 11, plr)
 					destroyElement(veh)
+					exports.radiores:stopSoundRespawn(veh)
 				end
 				
 				if(curPlayerCount == 0) then
@@ -10040,6 +10041,7 @@ function removeWorker(jobId, worker, reason)
 				
 				respawnVehicle(curWorker[3])
 				fixVehicle(curWorker[3])
+				exports.radiores:stopSoundRespawn(curWorker[3])
 				setVehicleDamageProof(curWorker[3], true)
 				setVehicleEngineState(curWorker[3], false)
 				setElementGhostMode(curWorker[3], 3000)
@@ -15614,7 +15616,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 112, availableActions[112], {}, { "Игрок" }, 255, 0, 0 })
 		end
 		
-		if pAdmin or pModerator then
+		if pAdmin or pModerator or pHelper then
 			local eFound = false
 			
 			for eId,eInfo in pairs(specialEvents) do
@@ -18725,7 +18727,7 @@ function executeAction(aplr, actionId, params)
 			
 			if(not((hour == nil) or (minute == nil))) then
                 setTime(hour, minute)
-				local notifyMessage = string.format(generateTimeString().."Время изменено на %02d:%02d!", hour, minute)
+				local notifyMessage = string.format(generateTimeString().."Администратор "..getPlayerName(aplr).." изменил время на %02d:%02d!", hour, minute)
 				outputChatBox(notifyMessage)
 			else
 				outputChatBox(errorStr_incorrectParams, aplr)
@@ -18736,7 +18738,7 @@ function executeAction(aplr, actionId, params)
 			
 			if(not((weatherId == nil))) then
 			    setWeather(weatherId)
-				outputChatBox(generateTimeString().."Погода изменена")
+				outputChatBox(generateTimeString().."Администратор "..getPlayerName(aplr).." изменил погоду")
 			else
 			    outputChatBox(errorStr_incorrectParams, aplr)
 			end
@@ -19973,6 +19975,7 @@ function vehicleExplode()
 	showVehicleDestroyedMessage(source)
 	local vehMdl = getElementModel(source)
 	
+	exports.radiores:stopSoundRespawn(source)
 	if(vehMdl == 428) then
 		local vx, vy, vz = getElementPosition(source)
 		vz = vz-0.5
@@ -20183,7 +20186,7 @@ function playerLogout(prevAccount, curAccount)
 end
 
 function cancelTrailerDetach(theTruck)
-	attachTrailerToVehicle(theTruck, source)
+	attachTrailerToxx(theTruck, source)
 end
 
 function lowriderAddPlayer(lowriderId, plr)
@@ -20561,6 +20564,7 @@ function rcDestroy(plr)
 		local blowInt = getElementInterior(rcVeh)
 		local blowDim = getElementDimension(rcVeh)
 		destroyElement(rcVeh)
+		exports.radiores:stopSoundRespawn(rcVeh)
 		local curCol = createColSphere(blowX, blowY, blowZ, 300)
 		local players = getElementsWithinColShape(curCol, "player")
 		destroyElement(curCol)
@@ -22104,6 +22108,7 @@ function clanBaseCarExploded()
 				clanBases[baseId][27][i] = false
 				dbExec(db, "UPDATE clanBases SET carnum=? WHERE id=?", clanBaseGetCarsCount(baseId), clanBases[baseId][1])
 				setTimer(destroyElement, 2000, 1, source)
+				exports.radiores:stopSoundRespawn(source)
 				break
 			end
 		end
@@ -23468,6 +23473,7 @@ function gangsterStealSellCar(veh)
 		
 		gangsterStealCars[veh] = nil
 		destroyElement(veh)
+		exports.radiores:stopSoundRespawn(veh)
 		giveMoney(seller, price)
 		
 		if(priceMult < 1.0) then
@@ -23516,6 +23522,7 @@ function gangsterStealEvacCar(eVeh)
 		if(worker[1] == ePlr) and(worker[3] == eVeh) then
 			gangsterStealCars[veh] = nil
 			destroyElement(veh)
+            exports.radiores:stopSoundRespawn(veh)
 			giveMoney(ePlr, 100)
 			--local respect = getElementData(ePlr, "respect")
 			--if respect then
@@ -25375,6 +25382,7 @@ function vehicleSellAccept(newOwner, curOwner, veh, price)
 											end
 											
 											destroyElement(curVeh)
+											exports.radiores:stopSoundRespawn(curVeh)
 										end
 										
 										setElementData(newOwner, "vehicle", veh, false)
@@ -25620,10 +25628,16 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "AKSOV") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "Pagan")
 	
 	if adminNicknames then
 		return true
+	end
+	
+	local testServerNicknames = string.find(pName, "AKSOV")
+	
+	if testServerNicknames and isTestServer() then
+	    return true
 	end
 	
 	local s = string.find(pName, "^%u%l+_Mc%u%l+$") or (string.find(pName, "^%u%l+_%u%l+$") and not string.find(pName, "^%u%l+_Mc%l+$"))

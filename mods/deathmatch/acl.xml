@@ -12,14 +12,14 @@
         <object name="resource.votemanager"></object>
         <object name="resource.adminpp"></object>
         <object name="user.DEAGLOS"></object>
+        <object name="user.Alex_Mercer"></object>
         <object name="user.Pagan"></object>
-        <object name="user.Midlas"></object>
-        <object name="user.JustEazzy"></object>
         <object name="user.Sadros"></object>
     </group>
     <group name="Helper">
         <acl name="Default"></acl>
         <object name="user.Ramil_Yakubow"></object>
+		<object name="user.Artur_Molodcov"></object>
     </group>
     <group name="Admin">
         <acl name="Default"></acl>
@@ -28,6 +28,8 @@
         <object name="resource.cinema"></object>
         <object name="resource.anticmdspam"></object>
         <object name="user.Karts"></object>
+        <object name="user.Midlas"></object>
+        <object name="user.JustEazzy"></object>
     </group>
     <group name="Console">
         <acl name="Default"></acl>
