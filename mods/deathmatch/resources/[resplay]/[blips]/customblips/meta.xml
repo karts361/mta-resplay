@@ -3,7 +3,9 @@
 
 	<script src="imagelib.lua" type="client" />
 	<script src="blipstreamer_client.lua" type="client" />
-	<script src="utility.lua" type="client" />	
+	<script src="customblips.lua" type="client" />
+	<script src="utility.lua" type="client" />
+	
 	<export function="guiConvertToCustomBlip" type="client" />
 	<export function="createCustomBlip" type="client" />
 	<export function="getCustomBlipStreamRadius" type="client" />
