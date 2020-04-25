@@ -282,7 +282,7 @@ playersInsideHouses = {}
 workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18 }
 
 playerGroups = {
-	{ "Гражданин", 23, 26, 34, 37, 45, 72, 96, 97, 100, 101, 188, 206, 217, 240, 241, 242 },
+	{ "Гражданин", 23 },
 	{ "Полицейский", 280, 281, 265, 266, 267, 283, 285, 145 },
 	{ "Пожарный", 277, 278, 279 }, -- unused (неиспользуемый статус)
 	{ "Медик", 275, 276, 70, 182, 232, 197, 274 },
@@ -291,10 +291,10 @@ playerGroups = {
 	{ "Пилот", 253, 255 },
 	{ "Фермер", 202, 206, 32, 34, 36, 37, 158, 159 },
 	{ "Водитель", 95, 72, 73, 32, 128, 133, 24, 302 },
-	{ "Бандит", 30, 28, 29, 117, 118, 120, 122, 123, 124, 125, 126, 127, 173, 85, 56, 64, 67, 249 },
+	{ "Бандит", 30 },
 	{ "Коммунальные службы", 27, 260, 16, 9 },
 	{ "Бомж", 200, 212, 230, 239, 78, 79, 134, 137, 135 },
-	{ "Бизнесмен", 227, 228, 147, 186, 187, 219 },
+	{ "Бизнесмен", 227 },
 	{ "Спецназ", 285 }, --unused (неиспользуемый статус, скин спецназовца есть пока что у полицейского статуса)
 	{ "Администрация", 295 },
 	{ "Продавец", 168, 209 },
@@ -9178,10 +9178,10 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/200
+					local money = timemsec/666
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
-						money = math.ceil(money/1.0)
+						money = math.ceil(money/1.5)
 					end
 					
 					local moneytext = string.format("$%d", money)
@@ -9940,6 +9940,7 @@ function removeWorker(jobId, worker, reason)
 						
 						removeEventHandler("onVehicleExplode", truck[1], jobTruckerTruckDestroyed)
 						destroyElement(truck[1])
+						exports.radiores:stopSoundRespawn(truck[1])
 						jobTruckerAvailableTrucks[i2][1] = nil
 						jobTruckerAvailableTrucks[i2] = nil
 						break
@@ -9963,7 +9964,7 @@ function removeWorker(jobId, worker, reason)
 				if(not jobFarmFields[curWorker[4]][7]) or (jobFarmFields[curWorker[4]][7] == curWorker[3]) then
 					jobFarmSpawnNextVeh(getElementModel(curWorker[3]), curWorker[4])
 				end
-				
+				exports.radiores:stopSoundRespawn(curWorker[3])
 				destroyElement(curWorker[3])
 				setElementVisibleTo(jobFarmFields[curWorker[4]][8][curWorker[5]][4], worker, false)				
 			
@@ -9979,7 +9980,7 @@ function removeWorker(jobId, worker, reason)
 				if(not jobFarmFields[curWorker[4]][7]) or (jobFarmFields[curWorker[4]][7] == curWorker[3]) then
 					jobFarmSpawnNextVeh(getElementModel(curWorker[3]), curWorker[4])
 				end
-				
+				exports.radiores:stopSoundRespawn(curWorker[3])
 				destroyElement(curWorker[3])
 				setElementVisibleTo(jobFarmFields[curWorker[4]][8][curWorker[5]][4], worker, false)				
 			
@@ -10001,7 +10002,7 @@ function removeWorker(jobId, worker, reason)
 				destroyElement(militaryGeneralCar)
 				militaryGeneralInfoId = 0
 				setTimer(militaryGeneralNew, militaryGeneralTimeBetween, 1)
-			
+				exports.radiores:stopSoundRespawn(militaryGeneralCar)
 			elseif(jobId == 10) then -- Такси
 				for _,cp in ipairs(jobTaxiCpsFinish) do
 					setElementVisibleTo(cp[4], worker, false)
@@ -16008,7 +16009,11 @@ function executeAction(aplr, actionId, params)
 						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
 						warpPedIntoVehicle(aplr, pveh)
 						if (getVehicleType(pveh) == "BMX") then
-						    takeMoney(aplr, 50)
+						    if (getMoney(aplr) < 50 ) then
+						    return false
+							else
+							takeMoney(aplr, 50)
+						    end
 						else
 						    takeMoney(aplr, vehCommonSpawnPrice)
 						end
