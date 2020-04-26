@@ -9940,7 +9940,7 @@ function removeWorker(jobId, worker, reason)
 						
 						removeEventHandler("onVehicleExplode", truck[1], jobTruckerTruckDestroyed)
 						destroyElement(truck[1])
-						exports.radiores:stopSoundRespawn(truck[1])
+						exports.radiores:stopSoundRespawn(curWorker[3])
 						jobTruckerAvailableTrucks[i2][1] = nil
 						jobTruckerAvailableTrucks[i2] = nil
 						break
