@@ -15926,7 +15926,7 @@ function executeAction(aplr, actionId, params)
 					carSpawnsCur = dbqueryresult[1]["carSpawns"]
 				end
 				
-				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= vehCommonSpawnPrice) then
+				if((i == -1) and not (carSpawnsCur > 0)) or (i ~= 0) then
 					local carInfo = params[2]
 					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
 					local pveh
@@ -16015,13 +16015,15 @@ function executeAction(aplr, actionId, params)
 							takeMoney(aplr, 50)
 						    end
 						else
-						    takeMoney(aplr, vehCommonSpawnPrice)
+						    if (getMoney(aplr) >= vehCommonSpawnPrice) then
+							    takeMoney(aplr, vehCommonSpawnPrice)
+							else
+							    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
+							end
 						end
 					end
 					setElementGhostMode(pveh, 3000)
 					
-				else
-					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
 				end
 			end
 		
