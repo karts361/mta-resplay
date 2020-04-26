@@ -9175,10 +9175,10 @@ function jobProcessCoroutine()
 					end
 					]]
 					--local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex][5]/60000)
-					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
+					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*40000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/680
+					local money = timemsec/580
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money/1.5)
@@ -15926,7 +15926,7 @@ function executeAction(aplr, actionId, params)
 					carSpawnsCur = dbqueryresult[1]["carSpawns"]
 				end
 				
-				if((i == -1) and not (carSpawnsCur > 0)) or (i ~= 0) then
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= vehCommonSpawnPrice) then
 					local carInfo = params[2]
 					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
 					local pveh
@@ -16009,21 +16009,15 @@ function executeAction(aplr, actionId, params)
 						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
 						warpPedIntoVehicle(aplr, pveh)
 						if (getVehicleType(pveh) == "BMX") then
-						    if (getMoney(aplr) < 50 ) then
-						    return false
-							else
 							takeMoney(aplr, 50)
-						    end
 						else
-						    if (getMoney(aplr) >= vehCommonSpawnPrice) then
-							    takeMoney(aplr, vehCommonSpawnPrice)
-							else
-							    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
-							end
+						   takeMoney(aplr, vehCommonSpawnPrice)  
 						end
 					end
 					setElementGhostMode(pveh, 3000)
 					
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
 				end
 			end
 		
@@ -23473,7 +23467,7 @@ function gangsterStealSellCar(veh)
 		
 		priceMult = priceMult/500.0
 		local vehMdl = getElementModel(veh)
-		local price = math.floor(math.max(800, carSellPrices[vehMdl]/710.0))
+		local price = math.floor(math.max(800, carSellPrices[vehMdl]/500.0))
 		--local price = math.floor(math.min(8000, math.max(800, carSellPrices[vehMdl]))*priceMult)
 		
 		for mId,mInfo in ipairs(gangsterStealCarSellMarkers) do
@@ -23576,7 +23570,7 @@ function gangsterStealStartCar(veh, plr)
 	else
 		local px, py = getElementPosition(plr)
 		local vx, vy = getElementPosition(veh)
-		local openTime = 20000+math.ceil(carSellPrices[getElementModel(veh)]/3000.0)*240
+		local openTime = 30000+math.ceil(carSellPrices[getElementModel(veh)]/6000.0)*180
 		gangsterStealCars[veh][2] = plr
 		gangsterStealCars[veh][3] = openTime
 		removePedFromVehicle(plr)
