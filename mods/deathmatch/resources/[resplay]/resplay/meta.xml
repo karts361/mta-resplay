@@ -17,6 +17,7 @@
 	<include resource="blip"/>
 	<include resource="radiores"/>
 	<include resource="camera"/>
+	<include resource="chatinfo"/>
 	<include resource="dirtlevel"/>
 	<include resource="ammushoot"/>
 	<include resource="Reshud"/>
