@@ -13,9 +13,13 @@ font = {}}
 
 
 local PlayList = {---<radio>http://stream.nonstopplay.co.uk/nsp-192k-mp3|NON STOP</radio>
-{"http://air2.radiorecord.ru:9003/rapclassics_320", "Los Santos FM"}, ---{"playlist/Песня под номером.mp3", "Sound 1 - название песни"},
-{"http://air.radiorecord.ru:8102/rus_320", "Russian Mix"},
+{"http://air2.radiorecord.ru:9003/rapclassics_320", "LS FM"}, ---{"playlist/Песня под номером.mp3", "Sound 1 - название песни"},
+{"http://air2.radiorecord.ru:9003/cadillac_320", "Cadillac FM"},
+{"http://air.radiorecord.ru:8102/club_320", "Club FM"},
 {"http://139.162.14.151:9090/160mp3", "Retro FM"},
+{"http://air2.radiorecord.ru:9003/synth_320", "Synthwave FM"},
+{"http://air2.radiorecord.ru:9003/2step_320", "2 step FM"},
+{"http://air2.radiorecord.ru:9003/trap_320", "Trap FM"},
 }
 local SoundDist = 25
 local sound = {}
@@ -136,15 +140,15 @@ function()
                     --vol = getSoundVolume(sound[vehicle])
                     pos = math.floor ( getSoundPosition(sound[vehicle]) )
                     len = math.floor ( getSoundLength(sound[vehicle]) )
-                    dxDrawTextEx(math.floor(volume[vehicle]), 680, 1627, 919, 269, tocolor(255, 165, 0, 255), 0.7, Pioneer.font[1], "center", "center", false, false, true, false, false)
+                    dxDrawTextEx(math.floor(volume[vehicle]), 680, 1627, 919, 269, tocolor(255, 165, 0, 255), 0.5, Pioneer.font[1], "center", "center", false, false, true, false, false)
         
-                    dxDrawTextEx(math.floor(soundnum[vehicle]).."/"..math.floor(#PlayList), 668, 1627, 1131, 269, tocolor(255, 165, 0, 255), 0.7, Pioneer.font[1], "center", "center", false, false, true, false, false)
+                    dxDrawTextEx(math.floor(soundnum[vehicle]).."/"..math.floor(#PlayList), 668, 1627, 1131, 269, tocolor(255, 165, 0, 255), 0.5, Pioneer.font[1], "center", "center", false, false, true, false, false)
         
-                    dxDrawTextEx(PlayList[soundnum[vehicle]][2], 568, 1645, 1131, 297, tocolor(255, 165, 0, 255), 1.00, Pioneer.font[1], "center", "center", false, false, true, false, false)
+                    dxDrawTextEx(PlayList[soundnum[vehicle]][2], 568, 1645, 1131, 297, tocolor(255, 165, 0, 255), 0.8, Pioneer.font[1], "center", "center", false, false, true, false, false)
         
-                    dxDrawTextEx(convertTime (pos), 668, 1674, 945, 319, tocolor(255, 165, 0, 255), 0.7, Pioneer.font[2], "center", "center", false, false, true, false, false)
+                    dxDrawTextEx(convertTime (pos), 668, 1674, 945, 319, tocolor(255, 165, 0, 255), 0.5, Pioneer.font[2], "center", "center", false, false, true, false, false)
         
-                    dxDrawTextEx(convertTime (len), 656, 1674, 1131, 319, tocolor(255, 165, 0, 255), 0.7, Pioneer.font[2], "center", "center", false, false, true, false, false)
+                    dxDrawTextEx(convertTime (len), 656, 1674, 1131, 319, tocolor(255, 165, 0, 255), 0.5, Pioneer.font[2], "center", "center", false, false, true, false, false)
         
                 end
             end
