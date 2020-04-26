@@ -9178,7 +9178,7 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/666
+					local money = timemsec/680
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money/1.5)
