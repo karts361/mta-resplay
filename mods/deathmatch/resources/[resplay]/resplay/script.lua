@@ -3812,7 +3812,7 @@ function processUserData_start(userdata, loadedSlots, curWeather, busStopsForCli
 	setWeather(curWeather)
 	curRespect = userdata["respect"]
 	addEventHandler("onClientRender", root, drawRespect, false)
-	addEventHandler("onClientRender", root, busesDrawText, false)
+	--addEventHandler("onClientRender", root, busesDrawText, false)
 	addEventHandler("onClientRender", root, taxiCarsRender, false)
 	inventoryInit(loadedSlots)
 	setTimer(function()
@@ -11477,7 +11477,7 @@ addEvent("onFriendsLoad", true)
 addEvent("onCarSellUpdate", true)
 addEvent("onJobTruckerUpdate", true)
 addEvent("onServerSetControlState", true)
-addEvent("onBusesUpdate", true)
+--addEvent("onBusesUpdate", true)
 addEvent("onServerCreateEffect", true)
 addEvent("onServerDestroyAttachedEffects", true)
 addEvent("onLuckyPhoneRing", true)
@@ -11666,9 +11666,9 @@ addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate)
 addEventHandler("onServerSetControlState", root, function(scontrol, sstate)
 													setPedAnalogControlState(source, scontrol, sstate)
 												 end)
-addEventHandler("onBusesUpdate", root, function(newtbl)
+--[[addEventHandler("onBusesUpdate", root, function(newtbl)
 										buses = newtbl
-									   end)
+									   end)]]
 addEventHandler("onClientPreRender", root,
 	function()
 		for fx, info in pairs(attachedEffects) do

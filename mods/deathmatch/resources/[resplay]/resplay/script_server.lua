@@ -12222,7 +12222,7 @@ function resourceStart(startedResource)
 			removeWorldModel(obj[1], obj[5], obj[2], obj[3], obj[4], obj[6])
 		--end
 	end
-	
+	--[[
 	local firstBusStopPassed, nextBusStop, prevBusStop, firstBusStopId, lastBusStopId, busStopObj, busStopObjDist, busStopsCounter
 	for i,busPath in ipairs(busesPaths) do
 		firstBusStopPassed = false
@@ -12300,7 +12300,7 @@ function resourceStart(startedResource)
 			busStopsForClient[firstBusStopId][4] = busStopsForClient[lastBusStopId][3]
 		end
 	end
-	
+	--]]
 	for i=1,table.getn(carSellCarSpawnPoints) do
 		table.insert(carSellAvailableCars, nil)
 	end
@@ -12321,9 +12321,9 @@ function resourceStart(startedResource)
 	setTimer(carSellProcess, 1000, 0)
 	setTime(6, 0)
 	setTimer(jobProcess, 500, 0)
-	setTimer(function()
+	--[[setTimer(function()
 				triggerClientEvent(getElementsByType("player"), "onBusesUpdate", resourceRoot, busesCars)
-			 end, 1000, 0)
+			 end, 1000, 0)]]
 	
 	for i,station in ipairs(fuelStations) do
 		fuelStations[i][4] = createMarker(station[1], station[2], station[3], "cylinder", 4, 0, 0, 255, 128)
