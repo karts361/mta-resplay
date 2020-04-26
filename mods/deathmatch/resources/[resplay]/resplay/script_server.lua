@@ -344,7 +344,7 @@ playerGroupRPLevels = {
 	{ 0.0, 0.5 },
 	{ 0.25, 0.35 },
 	{ -1.0, 0.0 },
-	{ 0.03, 0.08 },
+	{ 0.10, 0.25 },
 	{ -1.0, 0.0 },
 	{ 0.0, 0.7 },
 	{ 0.0, 1.0 },
@@ -585,7 +585,7 @@ jobTrashmasterVehMarker = nil
 -- Мойка дорог(переменные)
 jobWashroadsStartTime = 120000
 jobWashroadsIncTime = 15000
-jobWashroadsIncMoneyPerCp = 35
+jobWashroadsIncMoneyPerCp = 15
 jobWashroadsMoneyForBlowedCar = 2000
 jobWashroadsMoneyForLeftCar = 100
 jobWashroadsTimeBackToVeh = 60000
@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 10
+jobLawnmowMoneyForGrass = 5
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -2511,7 +2511,7 @@ jobFarmFields = {}
 jobFarmMoneyForBlowedCar = 2000
 jobFarmMoneyForLeftCar = 100
 jobFarmTimeBackToVeh = 60000
-jobFarmMoneyForField = 70
+jobFarmMoneyForField = 50
 
 extraObjs = {}
 removeObjs = {}
@@ -5503,7 +5503,7 @@ function militaryCargoDeliver(hitElem)
 		if driver and isElementVisibleTo(source, driver) then
 			addNewEventToLog(getPlayerName(driver), "Военный - Груз - Разгрузка", true)
 			militaryCargoRemove(hitElem)
-			giveMoney(driver, 95)
+			giveMoney(driver, 55)
 			local respect = getElementData(driver, "respect")
 			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
@@ -28111,7 +28111,7 @@ function PlayerFromSaNews(plr)
 	return false
 end
 
-saNewsPrice = 95 -- price for SaNews by command "/mm"
+saNewsPrice = 50 -- price for SaNews by command "/mm"
 
 function gangAccept(plr) --(становление бандитом)
     local pGrp = getElementData(plr, "usergroup")
