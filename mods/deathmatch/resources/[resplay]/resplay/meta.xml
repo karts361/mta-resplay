@@ -13,7 +13,12 @@
 	<include resource="hummerarmor"/>
 	<include resource="blocksmi"/>
 	<include resource="bone_attach"/>
+	<include resource="customblips"/>
+	<include resource="blip"/>
+	<include resource="radiores"/>
 	<include resource="camera"/>
+	<include resource="chatinfo"/>
+	<include resource="dirtlevel"/>
 	<include resource="ammushoot"/>
 	<include resource="Reshud"/>
 	<include resource="citymaps"/>
@@ -296,6 +301,18 @@
     <file src="imgres/33.col" download="true"/>
     <file src="imgres/34.col" download="true"/>
     <file src="imgres/35.col" download="true"/>
+    <file src="imgres/129.dff" download="true"/>
+    <file src="imgres/129.txd" download="true"/>
+    <file src="imgres/90.dff" download="true"/>
+    <file src="imgres/90.txd" download="true"/>
+    <file src="imgres/68.dff" download="true"/>
+    <file src="imgres/68.txd" download="true"/>
+    <file src="imgres/203.dff" download="true"/>
+    <file src="imgres/203.txd" download="true"/>
+    <file src="imgres/87.dff" download="true"/>
+    <file src="imgres/87.txd" download="true"/>
+    <file src="imgres/154.dff" download="true"/>
+    <file src="imgres/154.txd" download="true"/>
     <file src="imgres/5403.dff" download="true"/>
     <file src="imgres/5403.txd" download="true"/>
     <file src="imgres/5403.col" download="true"/>
@@ -474,6 +491,7 @@
 	<export function='isActionAvailableTo'/>
 	<export function='clearActionAvailableTo'/>
 	<export function='setActionAvailableTo'/>
+	<export function='resplayRemoveCar'/>
 	<export function='attachActionToPosition'/>
 	<export function='detachActionFromPosition'/>
 	<export function='attachActionToElement'/>

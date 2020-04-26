@@ -114,7 +114,7 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	--{ "88", { 88 } },
 	{ "62", { 62 } },
 	{ "213", {213} },
-	--{ "129", {129} },
+	{ "129", {129} },
 	{ "263", {263} },
 	{ "tenpen", { 146 } },
 	{ "14", { 14 } },
@@ -197,7 +197,12 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	{ "lstrud_las", { 4895 } },
 	{ "snpedland2_LAS", { 4859 } },
 	{ "snpedteew3_LAS", { 4982 } },
-	{ "TRNTRK5_LAS", { 4819 } }
+	{ "TRNTRK5_LAS", { 4819 } },
+	{ "154", { 154 } },
+	{ "68", { 68 } },
+	{ "90", { 90 } },
+	{ "203", { 203 } },
+	{ "87", { 87 } },
 }
 
 customTxd = { -- { "Имя файла", { ID моделей через запятую } }
@@ -236,7 +241,7 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "8079", { 2144 } },
 	{ "9593", { 2228 } },
 	{ "213", {213} },
-	--{ "129", {129} },
+	{ "129", {129} },
 	{ "263", {263} },
 	{ "copcarsa", { 596 } },
 	{ "copcar", { 598 } },
@@ -295,7 +300,11 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "232", { 232 } },
 	{ "275", { 275 } },
 	{ "197", { 197 } },
-	{ "196", { 196 } },
+	{ "154", { 154 } },
+	{ "68", { 68 } },
+	{ "90", { 90 } },
+	{ "203", { 203 } },
+	{ "87", { 87 } },
 }
 customCol = { -- { "Имя файла", { ID моделей через запятую } }
 	{ "furn2", { 3967 } },
@@ -3575,9 +3584,9 @@ function startGame()
 				setTimer(skillsProc, 500, 0)
 
 				-- Start skin selection if first time entering
-				--[[if firstTime and not startSkinChosen then
-					setTimer(enableSkinChooser, 30000, 1)
-				end]]
+				if firstTime and not startSkinChosen then
+					setTimer(enableSkinChooser, 2000, 1)
+				end
 
 			 end, 5250, 1)
 end
@@ -10366,22 +10375,24 @@ skinMale = {
 	-- {Раздел, Название},
 	{ 0, "Мужчины" },
 		-- {Раздел, Айди, Вид, Цена},
-		{1, 19 ,"Male", 5000 },
-		{1, 20 ,"Male", 7000 },
-		{1, 21 ,"Male", 3000 },
+		{1, 19 ,"Male", 10000 },
+		{1, 20 ,"Male", 30000 },
+		{1, 21 ,"Male", 11000 },
 		{1, 22 ,"Male", 7100 },
 		{1, 23 ,"Male", 4000 },
 		{1, 25 ,"Male", 8000 },
 		{1, 26 ,"Male", 3400 },
 		{1, 47 ,"Male", 9000 },
-		{1, 48 ,"Male", 10000 },
-		{1, 98 ,"Male", 17000 },
-		{1, 59 ,"Male", 14000 },
-		{1, 187 ,"Male", 40000 },
+		{1, 48 ,"Male", 12000 },
+		{1, 98 ,"Male", 37000 },
+		{1, 68 ,"Male", 65000 },
+		{1, 59 ,"Male", 24000 },
+		{1, 187 ,"Male", 65000 },
 		{1, 36 ,"Male", 8000 },
 		{1, 72 ,"Male", 3500 },
+		{1, 154,"male", 26000},
 		{1, 96 ,"Male", 3000 },
-		{1, 240 ,"Male", 25000 },
+		{1, 240 ,"Male", 50000 },
 		{1, 299 ,"Male", 300000 },
 		{1, 296 ,"Male", 500000 },
 		{1, 111, "Male", 80000},
@@ -10391,15 +10402,17 @@ skinFemale = {
 	-- Виды разделов: 0 - Тип , 1 - Одежда 
 	-- {Раздел, Название},				
 	{ 0 , "Женщины"},
-	{1, 40,"Girl", 10000 },
-	{1, 12,"Girl", 3000 },
-	{1, 69,"Girl", 4500 },
-	{1, 211,"Girl", 7000  },
+	{1, 40,"Girl", 70000 },
+	{1, 12,"Girl", 45000 },
+	{1, 69,"Girl", 9000 },
+	{1, 211,"Girl", 12000  },
 	{1, 56,"Girl", 2000  },
-	{1, 93,"Girl", 7200  },
-	{1, 219,"Girl", 20000  },
-	{1, 172, "Girl", 25000 },
-	{1, 216, "Girl", 35000},
+	{1, 93,"Girl", 21000  },
+	{1, 219,"Girl", 95000  },
+	{1, 172, "Girl", 60000 },
+	{1, 90, "Girl", 120000 },
+	{1, 87, "Girl", 70000 },
+	{1, 216, "Girl", 85000},
 }
 
 skinGangMale = {
@@ -10408,22 +10421,22 @@ skinGangMale = {
 	{ 0, "Мужчины" },
 		-- {Раздел, Айди, Вид, Цена},
 		{1, 28 ,"Male", 5000 },
-		{1, 29 ,"Male", 7000 },
+		{1, 29 ,"Male", 17500 },
 		{1, 30 ,"Male", 8000 },
 		{1, 117 ,"Male", 10000 },
 		{1, 118 ,"Male", 10100 },
-		{1, 120 ,"Male", 9500 },
-		{1, 122 ,"Male", 3400 },
-		{1, 123 ,"Male", 4000 },
+		{1, 120 ,"Male", 10500 },
+		{1, 122 ,"Male", 11400 },
+		{1, 123 ,"Male", 10000 },
     	{1, 67, "Male", 4000 },
-		{1, 124 ,"Male", 5000 },
-		{1, 125 ,"Male", 11000 },
-		{1, 126 ,"Male", 11100 },
-		{1, 127 ,"Male", 12000 },
-		{1, 115 ,"Male", 4000 },
-		{1, 72 ,"Male", 3500 },
-		{1, 249 ,"Male", 40000 },
-		{1, 186 ,"Male", 25000 },
+		{1, 124 ,"Male", 10000 },
+		{1, 125 ,"Male", 31000 },
+		{1, 126 ,"Male", 31100 },
+		{1, 203, "male", 20000 },
+		{1, 127 ,"Male", 30000 },
+		{1, 115 ,"Male", 16000 },
+		{1, 249 ,"Male", 100000 },
+		{1, 186 ,"Male", 55000 },
 		--{1, 213, "Male", 80000},
 }
 
@@ -10438,7 +10451,7 @@ skinGangFemale = {
 	{1, 169, "Girl", 10000 },
 	{1, 192, "Girl", 6000 },
 	{1, 194, "Girl", 25000 },
-	--{1, 129, "Girl", 50000 },
+	{1, 129, "Girl", 50000 },
 	{1, 243 ,"Male", 5600 },
 }
 
@@ -10472,7 +10485,7 @@ function showSkin()
     local usergrp = getElementData(localPlayer, "usergroup")
 	local gender = getElementData(localPlayer, "gender")
 	guiGridListClear(skin_list_gui)
-    if usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 1 then
+    if (usergrp == 1 or usergrp == 13 or usergrp == 23) and gender == 1 then
 	    for i,colum in ipairs(skinMale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
@@ -10483,7 +10496,7 @@ function showSkin()
 			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
 		        end
 	    end
-    elseif usergrp == 1 or usergrp == 13 or usergrp == 23 and gender == 2 then
+    elseif (usergrp == 1 or usergrp == 13 or usergrp == 23) and gender == 2 then
 	    for i,colum in ipairs(skinFemale) do
 		    local rowID = guiGridListAddRow(skin_list_gui)
 		        if colum[1] == 0 then
@@ -11058,6 +11071,8 @@ function openStats()
     guiSetFont(curUsrGrpDraw, "default-bold-small")
     wantedLvlInfo = guiCreateLabel(21, 105, 120, 20, "Уровень розыска:", false, ResplayPassport)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 123, 120, 20, "Общий ЧС фракций:", false, ResplayPassport)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 	
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
 
@@ -11086,6 +11101,8 @@ function openStats()
 	
 	local deprivedLic = getElementData(localPlayer, "licenseDeprived")
 	local licweap = getElementData(localPlayer, "weaponlicense")
+	local fractionblacklist = getElementData(localPlayer, "fractionbl")
+	
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11114,16 +11131,6 @@ function openStats()
 	
 	local respect = getElementData(localPlayer, "respect")
 	curRespectStr = string.format("%.2f", respect*100.0).."%"
-	
-    respectDraw = guiCreateLabel(230, 77, 52, 16, curRespectStr, false, ResplayPassport)
-    guiSetFont(respectDraw, "default-bold-small")
-    curUsrGrp = guiCreateLabel(230, 90, 160, 16, grpstr, false, ResplayPassport)
-    guiSetFont(curUsrGrp, "default-bold-small")    
-	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
-    wantedLvl = guiCreateLabel(230, 105, 160, 16, wantedTex, false, ResplayPassport)
-    guiSetFont(wantedLvl, "default-bold-small")    
-	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
-	
 	local pwanted = getElementData(localPlayer, "wantedLevel")
 	
     if pwanted and(pwanted < 0) then
@@ -11133,6 +11140,26 @@ function openStats()
 	    wantedTex = "Отсутствует"
 		wntr, wntg, wntb = 0, 255, 0
 	end
+	
+	if fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
+    else
+	    fbl = "нет"
+		fblr, fblg, fblb = 0, 255, 0
+	end
+	
+    respectDraw = guiCreateLabel(230, 77, 52, 16, curRespectStr, false, ResplayPassport)
+    guiSetFont(respectDraw, "default-bold-small")
+    curUsrGrp = guiCreateLabel(230, 90, 160, 16, grpstr, false, ResplayPassport)
+    guiSetFont(curUsrGrp, "default-bold-small")    
+	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
+    wantedLvl = guiCreateLabel(230, 105, 160, 16, wantedTex, false, ResplayPassport)
+    guiSetFont(wantedLvl, "default-bold-small")    
+	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	fractionbl = guiCreateLabel(230, 122, 160, 16, fbl, false, ResplayPassport)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 	
 end
 addEvent("openMyStats", true)
@@ -11158,6 +11185,8 @@ function openResplayPlayerPassport()
     guiSetFont(curUsrGrpDraw, "default-bold-small")
     wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, ResplayPassport)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 174, 120, 20, "Общий ЧС фракций:", false, ResplayPassport)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 	
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, ResplayPassport)
 
@@ -11186,6 +11215,7 @@ function openResplayPlayerPassport()
 	
 	local deprivedLic = getElementData(source, "licenseDeprived")
 	local licweap = getElementData(source, "weaponlicense")
+	local fractionblacklist = getElementData(source, "fractionbl")
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11212,6 +11242,24 @@ function openResplayPlayerPassport()
 	guiLabelSetColor(weaponLicense, lr, lg, lb)
     guiSetFont(weaponLicense, "default-bold-small")
 	
+	local pwanted = getElementData(source, "wantedLevel")
+	
+    if pwanted and(pwanted < 0) then
+	    wantedTex = pwanted
+		wntr, wntg, wntb = 255, 0, 0
+    elseif pwanted and (pwanted == 0) then
+	    wantedTex = "Отсутствует"
+		wntr, wntg, wntb = 0, 255, 0
+	end
+	
+    if fractionblacklist == 0 then
+	    fbl = "Нет"
+		fblr, fblg, fblb = 0, 255, 0
+	elseif fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
+	end
+	
 	local respect = getElementData(source, "respect")
 	curRespectStr = string.format("%.2f", respect*100.0).."%"
 	
@@ -11223,17 +11271,9 @@ function openResplayPlayerPassport()
     wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, ResplayPassport)
     guiSetFont(wantedLvl, "default-bold-small")    
 	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
-	
-	local pwanted = getElementData(source, "wantedLevel")
-	
-    if pwanted and(pwanted < 0) then
-	    wantedTex = pwanted
-		wntr, wntg, wntb = 255, 0, 0
-    elseif pwanted and (pwanted == 0) then
-	    wantedTex = "Отсутствует"
-		wntr, wntg, wntb = 0, 255, 0
-	end
-	
+	fractionbl = guiCreateLabel(230, 174, 160, 16, fbl, false, ResplayPassport)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 end
 addEvent("onResplayPassport", true)
 addEventHandler("onResplayPassport", root, openResplayPlayerPassport)
@@ -11259,6 +11299,8 @@ function playerPoliceDb()
     closeButton = guiCreateButton(92, 205, 101, 24, "Закрыть", false, policeDb)
     wantedLvlInfo = guiCreateLabel(21, 158, 120, 20, "Уровень розыска:", false, policeDb)
     guiSetFont(wantedLvlInfo, "default-bold-small")
+    fractionBLinfo = guiCreateLabel(21, 174, 120, 20, "Общий ЧС фракций:", false, policeDb)
+    guiSetFont(fractionBLinfo, "default-bold-small")
 
 	addEventHandler ( "onClientGUIClick", closeButton,
 		function ()
@@ -11285,6 +11327,7 @@ function playerPoliceDb()
 	
 	local deprivedLic = getElementData(source, "licenseDeprived")
 	local licweap = getElementData(source, "weaponlicense")
+	local fractionblacklist = getElementData(source, "fractionbl")
 
 	if licweap == 0 then
 	    licwp = "Отсутствует"
@@ -11314,15 +11357,6 @@ function playerPoliceDb()
 	local respect = getElementData(source, "respect")
 	curRespectStr = string.format("%.2f", respect*100.0).."%"
 	
-    respectDraw = guiCreateLabel(230, 83, 52, 16, curRespectStr, false, policeDb)
-    guiSetFont(respectDraw, "default-bold-small")
-    curUsrGrp = guiCreateLabel(230, 138, 160, 16, grpstr, false, policeDb)
-    guiSetFont(curUsrGrp, "default-bold-small")    
-	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
-    wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, policeDb)
-    guiSetFont(wantedLvl, "default-bold-small")    
-	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
-	
 	local pwanted = getElementData(source, "wantedLevel")
 	
     if pwanted and(pwanted < 0) then
@@ -11332,7 +11366,26 @@ function playerPoliceDb()
 	    wantedTex = "Отсутствует"
 		wntr, wntg, wntb = 0, 255, 0
 	end
-
+	
+    if fractionblacklist == 0 then
+	    fbl = "Нет"
+		fblr, fblg, fblb = 0, 255, 0
+	elseif fractionblacklist == 1 then
+	    fbl = "Находится в ОЧС"
+		fblr, fblg, fblb = 255, 0, 0
+	end
+	
+    respectDraw = guiCreateLabel(230, 83, 52, 16, curRespectStr, false, policeDb)
+    guiSetFont(respectDraw, "default-bold-small")
+    curUsrGrp = guiCreateLabel(230, 138, 160, 16, grpstr, false, policeDb)
+    guiSetFont(curUsrGrp, "default-bold-small")    
+	guiLabelSetColor(curUsrGrp, grpr, grpg, grpb)
+    wantedLvl = guiCreateLabel(230, 158, 160, 16, wantedTex, false, policeDb)
+    guiSetFont(wantedLvl, "default-bold-small")    
+	guiLabelSetColor(wantedLvl, wntr, wntg, wntb)
+	fractionbl = guiCreateLabel(230, 174, 160, 16, fbl, false, policeDb)
+    guiSetFont(fractionbl, "default-bold-small")    
+	guiLabelSetColor(fractionbl, fblr, fblg, fblb)
 end
 addEvent("onPlayerPoliceDb", true)
 addEventHandler("onPlayerPoliceDb", root, playerPoliceDb)

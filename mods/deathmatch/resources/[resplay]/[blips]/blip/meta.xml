@@ -1,0 +1,7 @@
+<meta>
+	<info author="Talidan" type="misc" name="Custom Blips" description="A resource to create custom blips" version="1.1" />
+	<script src="createicon.lua" type="client" />
+
+	<file src="moika4.png" download="true"/>
+	<file src="mebel2.png" download="true"/>
+</meta>
