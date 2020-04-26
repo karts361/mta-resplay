@@ -7940,7 +7940,7 @@ function jobTruckerFinish(plr, deliveryPrice)
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
 				local respect = getElementData(plr, "respect")
-				respectSet(plr, respect+ (deliveryPrice/15*0.00001), -1.0, 0.25, true)
+				respectSet(plr, respect+0.0008, -1.0, 0.25, true)
 				
 				if worker[4] then
 					destroyElement(worker[4])
@@ -9175,13 +9175,13 @@ function jobProcessCoroutine()
 					end
 					]]
 					--local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex][5]/60000)
-					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*40000
+					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/580
+					local money = timemsec/560
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
-						money = math.ceil(money/1.5)
+						money = math.ceil(money/1.1)
 					end
 					
 					local moneytext = string.format("$%d", money)
@@ -28486,7 +28486,6 @@ addEvent("onBuySkin", true)
 addEventHandler("onBuySkin", root, onBuySkin)
 
 ------- ФРАКЦИИ БАНД ----------
-
 function gangGetAllGroups()
 	local groups = {}
 	
@@ -28593,7 +28592,7 @@ function gangSetLeader(gId, gLeader)
 		local gLeaderHash = getHash(getPlayerName(gLeader))
 		
 		if dbExec(db, "UPDATE gangs SET gleader = ? WHERE name = ?", gLeaderHash, gHash) then
-			local curGLeader = gangs[gId][3]
+			local curLeader = gangs[gId][3]
 			addNewEventToLog(curLeader, "Банда - Снят с лидера - "..gangs[gId][1])
 			gangs[gId][3] = gLeaderHash
 			table.remove(gangs[gId][5], pId)
@@ -29066,7 +29065,7 @@ function gangClientDowngradeMember(curMember, member)
 			end
 			
 		else
-			if setPlayerNewGroup(member, groupCommonGet(member), true) then
+			if setPlayerNewGroup(member, groupCommonGet(member), false, true) then
 				playerShowMessage(member, "Вы были исключены из банды игроком "..getPlayerName(curMember)..".")
 				addNewEventToLog(getPlayerName(curMember), "Банда - Исключил - "..gangs[gId][1]..", "..getPlayerName(member))
 				return true
@@ -29495,6 +29494,11 @@ function gangBaseCaptureFinish(baseId, success)
 			triggerClientEvent(ownerPlayers, "onServerMsgAdd", resourceRoot, "банда '"..getTeamName(gang).."' захватила одну из ваших территорий.")
 			triggerClientEvent(gangPlayers, "onServerMsgAdd", resourceRoot, "Поздравляем! Ваша банда захватила территорию банды '"..getTeamName(owner).."'.")
 			triggerClientEvent(areaPlayers, "onSuccessMusicPlay", resourceRoot)
+			
+		    for playerKey, playerValue in ipairs ( gangPlayers ) do
+			    -- kill the player
+			   giveMoney(playerValue, 6000)
+		    end
 			--giveMoney(gangPlayers, 6000)
 		
 		else

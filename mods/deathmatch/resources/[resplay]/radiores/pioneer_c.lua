@@ -20,6 +20,7 @@ local PlayList = {---<radio>http://stream.nonstopplay.co.uk/nsp-192k-mp3|NON STO
 {"http://air2.radiorecord.ru:9003/synth_320", "Synthwave FM"},
 {"http://air2.radiorecord.ru:9003/2step_320", "2 step FM"},
 {"http://air2.radiorecord.ru:9003/trap_320", "Trap FM"},
+{"http://air.radiorecord.ru:8102/rock_320", "Rock Wave"},
 }
 local SoundDist = 25
 local sound = {}
