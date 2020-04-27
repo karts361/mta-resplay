@@ -28361,7 +28361,7 @@ function enterVehicleRank(plr, seat)
 	local vehModel = getElementModel(source)
 	local eId = specialEventGetEventByElement(source)
 
-	if (seat == 0 ) and grp == 2 or grp == 4 or grp == 5 or grp == 17 then
+	if (seat == 0 and not seat == 2 or seat == 3) and (grp == 2 or grp == 4 or grp == 5 or grp == 17) then
 	    local eventCancelled = false
 		
 	    repeat
@@ -29213,8 +29213,8 @@ eatGangs = {
 
 gangBases = {}
 gangBaseCaptures = {}
-gangBaseCaptureMinPlr = 1
-gangBaseCaptureTimeSec = 30
+gangBaseCaptureMinPlr = 7
+gangBaseCaptureTimeSec = 560
 
 --[[счетчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
