@@ -13060,7 +13060,7 @@ function payoutProc(plr, amount)
 				plrInPayoutZone = false
 				local pVeh = getPedOccupiedVehicle(plr)
 				
-				if pVeh and(getPedOccupiedVehicleSeat(plr) == 0) then
+				if pVeh and(getPedOccupiedVehicleSeat(plr) == 0) or (getPedOccupiedVehicleSeat(plr) == 1) or (getPedOccupiedVehicleSeat(plr) == 2) or (getPedOccupiedVehicleSeat(plr) == 3) then
 					local vGrps = groupVehicles[getElementModel(pVeh)]
 					
 					if vGrps then
@@ -28361,7 +28361,7 @@ function enterVehicleRank(plr, seat)
 	local vehModel = getElementModel(source)
 	local eId = specialEventGetEventByElement(source)
 
-	if (seat == 0 and not seat == 2 or seat == 3) and (grp == 2 or grp == 4 or grp == 5 or grp == 17) then
+	if (seat == 0 ) and not (seat == 1 or seat == 2 or seat == 3) and (grp == 2 or grp == 4 or grp == 5 or grp == 17) then
 	    local eventCancelled = false
 		
 	    repeat
