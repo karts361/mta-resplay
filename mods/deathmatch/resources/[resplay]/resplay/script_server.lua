@@ -2905,7 +2905,7 @@ gangs = {}
 gangInvites = {}
 
 vehCommonSpawnPos = {}
-vehCommonSpawnPrice = 1000
+vehCommonSpawnPrice = 400
 
 extraVehCoords = {}
 
@@ -15926,7 +15926,7 @@ function executeAction(aplr, actionId, params)
 					carSpawnsCur = dbqueryresult[1]["carSpawns"]
 				end
 				
-				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= vehCommonSpawnPrice) then
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= 50) then
 					local carInfo = params[2]
 					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
 					local pveh
