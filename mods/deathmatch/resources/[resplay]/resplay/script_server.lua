@@ -12200,7 +12200,7 @@ function resourceStart(startedResource)
 					
 				end
 			end
-		
+	
 		else
     		-- FIXME: RUNTIME ERROR #93 createObject
 			-- https://wiki.multitheftauto.com/wiki/CreateObject
@@ -15325,7 +15325,7 @@ function requestActionsList(aplr)
 								colorName = "Спец."
 							end
 							if (vehtype == "BMX") then
-							    table.insert(alist, { 12, string.format("%s %s(%s)($50)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName), { 0, row, key }, nil, 0, 255, 0 })
+							    table.insert(alist, { 172, string.format("%s %s(%s)($50)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName), { 0, row, key }, nil, 0, 255, 0 })
 						    else
 							    table.insert(alist, { 12, string.format("%s %s(%s)($%d)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName, vehCommonSpawnPrice), { 0, row, key }, nil, 0, 255, 0 })
 							end
@@ -15926,7 +15926,7 @@ function executeAction(aplr, actionId, params)
 					carSpawnsCur = dbqueryresult[1]["carSpawns"]
 				end
 				
-				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= 50) then
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= vehCommonSpawnPrice) then
 					local carInfo = params[2]
 					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
 					local pveh
@@ -16008,11 +16008,7 @@ function executeAction(aplr, actionId, params)
 						i = params[3]
 						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
 						warpPedIntoVehicle(aplr, pveh)
-						if (getVehicleType(pveh) == "BMX") then
-							takeMoney(aplr, 50)
-						else
-						   takeMoney(aplr, vehCommonSpawnPrice)  
-						end
+					    takeMoney(aplr, vehCommonSpawnPrice)  
 					end
 					setElementGhostMode(pveh, 3000)
 					
@@ -18566,6 +18562,118 @@ function executeAction(aplr, actionId, params)
 				giveMoney(aplr, 500)
 				triggerClientEvent(crim, "onServerMsgAdd", crim, "Вы арестованы. Длительность ареста - "..getTimeString(arrested*1000)..".")
 
+			end
+		
+	    elseif(actionId == 172) then
+			
+			if isPlayerBusy(aplr) then
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Закончите остальные дела, прежде чем заспаунить транспорт.")
+			else
+				local i = params[1]
+				local sHash = getHash(getPlayerName(aplr))
+				local carSpawnsCur
+				
+				if(i == -1) then
+					repeat
+						local dbq = dbQuery(db, "SELECT carSpawns FROM users WHERE name=?", sHash)
+						dbqueryresult = dbPoll(dbq, 30000)
+						dbFree(dbq)
+					until dbqueryresult
+					
+					carSpawnsCur = dbqueryresult[1]["carSpawns"]
+				end
+				
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= 50) then
+					local carInfo = params[2]
+					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
+					local pveh
+					carSellRemoveUserVehicles(aplr)
+					
+					if(carSellSQLIds[carInfo["id"]]) then
+						pveh = carSellSQLIds[carInfo["id"]]
+					else
+						pveh = createVehicle(carInfo["carid"], 0, 0, 0)
+						attachActionToElement(defaultActions[127], pveh)
+						attachActionToElement(defaultActions[60], pveh)
+						attachActionToElement(defaultActions[62], pveh)
+						local pvehHandling = getOriginalHandling(carInfo["carid"])
+						setVehicleColor(pveh, carInfo["clrr1"], carInfo["clrg1"], carInfo["clrb1"], carInfo["clrr2"], carInfo["clrg2"], carInfo["clrb2"], carInfo["clrr3"], carInfo["clrg3"], carInfo["clrb3"], carInfo["clrr4"], carInfo["clrg4"], carInfo["clrb4"])
+						setVehiclePaintjob(pveh, carInfo["paintjob"])
+						local accelMult
+						
+						if(carInfo["engineBoost"] == 1) then
+							accelMult = 1.05
+						
+						elseif(carInfo["engineBoost"] == 2) then
+							accelMult = 1.15		
+						
+						elseif(carInfo["engineBoost"] == 3) then
+							accelMult = 1.2
+						
+						else
+							accelMult = 1.0
+						end
+						
+						if predefinedHandling[carInfo["carid"]] and predefinedHandling[carInfo["carid"]]["engineAcceleration"] and predefinedHandling[carInfo["carid"]]["maxVelocity"] and predefinedHandling[carInfo["carid"]]["tractionBias"] then
+							setVehicleHandling(pveh, "engineAcceleration", predefinedHandling[carInfo["carid"]]["engineAcceleration"]*accelMult)
+							setVehicleHandling(pveh, "maxVelocity", predefinedHandling[carInfo["carid"]]["maxVelocity"]*accelMult)
+						else
+							setVehicleHandling(pveh, "engineAcceleration", pvehHandling["engineAcceleration"]*accelMult)
+							setVehicleHandling(pveh, "maxVelocity", pvehHandling["maxVelocity"]*accelMult)
+						end
+						
+						local upgradeName
+						
+						for i2=0,16 do
+							upgradeName = string.format("upgrade%d", i2)
+							if(carInfo[upgradeName] > 0) then
+								addVehicleUpgrade(pveh, carInfo[upgradeName])
+							end
+						end
+						
+						setElementData(pveh, "owner", getHash(getPlayerName(aplr)), false)
+						setElementData(aplr, "vehicle", pveh, false)
+						setElementData(pveh, "hp", carInfo["hp"], false)
+						setElementData(pveh, "sqlid", carInfo["id"], false)
+						setElementData(pveh, "fuelLevel", carInfo["fuel"])
+						setElementData(pveh, "engineBoost", carInfo["engineBoost"])
+						
+						if(carInfo["fly"] > 0) then
+							setElementData(pveh, "flyAbility", true)
+						end
+						
+						applyCarArmor(pveh, carInfo["armorLevel"])
+						carSellSQLIds[carInfo["id"]] = pveh
+					end
+					
+					if(i == -1) or (i == -2) then
+						local px, py, pz = getElementPosition(aplr)
+						local rx, ry ,rz = getElementRotation(aplr)
+						spawnVehicle(pveh, px, py, pz, 0, 0, rz)
+						warpPedIntoVehicle(aplr, pveh)
+						
+						if(i == -1) then
+							carSpawnsCur = carSpawnsCur-1
+							dbExec(db, "UPDATE users SET carSpawns=? WHERE name=?", carSpawnsCur, sHash)
+							--triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас осталось "..tostring(carSpawnsCur).." спаунов транспорта в любом месте.")
+						end
+						
+					elseif(i ~= 0) then
+						spawnVehicle(pveh, houses[i][5], houses[i][6], houses[i][7], houses[i][8], houses[i][9], houses[i][10])
+					
+					else
+						i = params[3]
+						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
+						warpPedIntoVehicle(aplr, pveh)
+						if (getVehicleType(pveh) == "BMX") then
+							takeMoney(aplr, 50)
+						end
+					end
+					setElementGhostMode(pveh, 3000)
+					
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
+				end
 			end
 			
 
