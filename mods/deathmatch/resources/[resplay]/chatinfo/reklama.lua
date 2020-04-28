@@ -4,7 +4,7 @@ function generateTimeString()
 end
 
 reklamy = {"Остались вопросы по игре? Откройте меню K, нажмите Модерация - Задать вопрос и напишите все ваши вопросы"} --Reklamy
-reklamy2 = {"#00FF77Нашли баг? Отправьте его в личные сообщения группы ВК: #FFBF00vk.com/resplay или в дискорд канал https://discord.gg/94NWrbk"} --Reklamy
+reklamy2 = {"Нашли баг? Отправьте его в личные сообщения группы ВК: #FFBF00vk.com/resplay #FFFFFFили в дискорд канал #FFBF00https://discord.gg/94NWrbk"} --Reklamy
 
 function getAds ()
  
