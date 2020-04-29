@@ -29331,10 +29331,10 @@ gangBaseKillOwnerGang = 0]]
 ---- требования в банду -------
 
 gangGroupRPLevels = {
-	[19] = -0.03,
-	[20] = -0.03,
-	[21] = -0.03,
-	[22] = -0.03
+	[19] = -0.001,
+	[20] = -0.001,
+	[21] = -0.001,
+	[22] = -0.001
 }
 
 function gangBaseCaptureProcess(baseId)
