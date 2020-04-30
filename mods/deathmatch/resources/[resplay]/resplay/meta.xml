@@ -29,6 +29,7 @@
 	<include resource="hdradar"/>
 	<include resource="heligrab"/>
 	<include resource="jailfix"/>
+	<include resource="idc"/>
 	<include resource="npchlc_traffic" />
 	<include resource="server_coldata"/>
 	<include resource="nitro"/>

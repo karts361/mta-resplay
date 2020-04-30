@@ -205,7 +205,7 @@ function serverPlaySound(vehicle)
     end
     if not isElement(sound[vehicle]) then
         soundnum[vehicle] = 1
-        volume[vehicle] = 100
+        volume[vehicle] = 40
         path = PlayList[soundnum[vehicle]][1]
         x, y, z = getElementPosition(vehicle)
         sound[vehicle] = playSound3D(path, x, y, z, true)
