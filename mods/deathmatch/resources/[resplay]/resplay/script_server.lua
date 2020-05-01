@@ -5413,7 +5413,7 @@ function militaryCargoRespawn() -- функция на респавн ящико
 	end
 	for _, player in ipairs (getElementsByType("player")) do 
 	    if getElementData(player, "usergroup") == 5 then
-		   outputChatBox(generateTimeString().."[Военная база]: #FFFFFFНа базу привезли груз с оружием", getRootElement(), 0, 128, 0, true)
+		   outputChatBox(generateTimeString().."[Военная база]: #FFFFFFНа базу привезли груз с оружием", player, 0, 128, 0, true)
         end
     end		
 end
