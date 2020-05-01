@@ -25614,7 +25614,7 @@ function houseSellAccept(newOwner, curOwner, houseid, price)
 			playerShowMessage(newOwner, "Нельзя приобретать в собственность больше трёх домов.")
 			return false
 		
-		elseif(dbExec(db, "UPDATE houses SET owner=? ownerNick=? WHERE id=?", newHash, newOwnerName, hsqlindex)) then
+		elseif(dbExec(db, "UPDATE houses SET owner=?, ownerNick=? WHERE id=?", newHash, newOwnerName, hsqlindex)) then
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Передача - SQL ID "..hsqlindex, true)
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Получение - SQL ID "..hsqlindex, true)
 			if(houseid == saveHouseGet(curOwner)) then
@@ -29331,10 +29331,10 @@ gangBaseKillOwnerGang = 0]]
 ---- требования в банду -------
 
 gangGroupRPLevels = {
-	[19] = -0.001,
-	[20] = -0.001,
-	[21] = -0.001,
-	[22] = -0.001
+	[19] = -0.0001,
+	[20] = -0.0001,
+	[21] = -0.0001,
+	[22] = -0.0001
 }
 
 function gangBaseCaptureProcess(baseId)
