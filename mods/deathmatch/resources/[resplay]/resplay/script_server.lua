@@ -29793,7 +29793,7 @@ function checkTaxHouse()
 	if(house[11] ~= 0) then
 		local hsqlindex = house[1]
 		
-		local income = house[3]/25
+		local income = house[3]/45
 		--taxTime = math.max(0, taxTime+1)
 		house[12] = house[12]+income
 		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", house[12], hsqlindex)
@@ -29807,7 +29807,7 @@ function checkTaxBusinesess()
 	if(ammuShop[9] ~= 0) then
 		local amsqlindex = ammuShop[7]
 		
-		local income = ammuBusinessPrice/25
+		local income = ammuBusinessPrice/385
 		ammuShop[10] = ammuShop[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", ammuShop[10], amsqlindex)
 	end
@@ -29817,7 +29817,7 @@ function checkTaxBusinesess()
 	if(eatLocation[9] ~= 0) then
 		local eatsqlindex = eatLocation[7]
 		
-		local income = eatTypes[eatLocation[1]][14]/25
+		local income = eatTypes[eatLocation[1]][14]/225
 		eatLocation[10] = eatLocation[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", eatLocation[10], eatsqlindex)
 	end
@@ -29834,6 +29834,7 @@ function()
 	if (weekday == 6 and hour == 4 and minute == 0) then
       	checkTaxHouse()
 		checkTaxBusinesess()
+		outputChatBox(generateTimeString().."RESPLAY: На все приобретенные дома и бизнесы пришли налоги", getRootElement(), 255, 128, 0, true)
 		timerkill()
 	end
 end, 1000, 0)
