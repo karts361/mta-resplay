@@ -344,7 +344,7 @@ playerGroupRPLevels = {
 	{ 0.0, 0.5 },
 	{ 0.25, 0.35 },
 	{ -1.0, 0.0 },
-	{ 0.10, 0.25 },
+	{ 0.05, 0.25 },
 	{ -1.0, 0.0 },
 	{ 0.0, 0.7 },
 	{ 0.0, 1.0 },
@@ -483,7 +483,7 @@ availableActions = {
 	"Безопасность - Отсоединить аккаунт от устройства",
 	"Модерация - Проверить присоединенное устроиство аккаунта",
 	"Тригер - Открыть/Закрыть",
-	"Игрок - Задать лицо персонажа",
+	"Игрок - Задать лицо персонажа ($1000)",
 	"Игрок - Очистить лицо персонажа",
 	"Работа - Предложить оплатить штраф игроку ",
 	"Мероприятие - Создать",
@@ -5365,7 +5365,7 @@ function militaryGeneralFinish(plr, success)
 	if success then
 		giveMoney(plr, 5000)
 		local respect = getElementData(plr, "respect")
-		respectSet(plr, respect+0.0007, -1.0, 1.0, true)
+		respectSet(plr, respect+0.0009, -1.0, 1.0, true)
 		removeWorker(9, plr, 1)
 	
 	else
@@ -5413,7 +5413,7 @@ function militaryCargoRespawn() -- функция на респавн ящико
 	end
 	for _, player in ipairs (getElementsByType("player")) do 
 	    if getElementData(player, "usergroup") == 5 then
-		   outputChatBox(generateTimeString().."[Военная база]: #FFFFFFНа базу привезли груз с оружием", getRootElement(), 0, 128, 0, true)
+		   outputChatBox(generateTimeString().."[Военная база]: #FFFFFFНа базу привезли груз с оружием", player, 0, 128, 0, true)
         end
     end		
 end
@@ -5505,7 +5505,7 @@ function militaryCargoDeliver(hitElem)
 			militaryCargoRemove(hitElem)
 			giveMoney(driver, 55)
 			local respect = getElementData(driver, "respect")
-			respectSet(driver, respect+0.000035, -1.0, 1.0, true)
+			respectSet(driver, respect+0.000055, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
 		end
 	end
@@ -5914,7 +5914,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.0001, -1.0, 0.5, true)
+						respectSet(hitElem, respect+0.0006, -1.0, 0.5, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
@@ -7940,7 +7940,7 @@ function jobTruckerFinish(plr, deliveryPrice)
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
 				local respect = getElementData(plr, "respect")
-				respectSet(plr, respect+0.0008, -1.0, 0.25, true)
+				respectSet(plr, respect+0.00011, -1.0, 0.25, true)
 				
 				if worker[4] then
 					destroyElement(worker[4])
@@ -8322,7 +8322,7 @@ function jobEvacuatorFillAccept(evacPlr)
 						local serviceId = getElementData(evacPlr, "usergroup")
 						if serviceId and serviceRegister(source, evacPlr, serviceId) then
 							local respect = getElementData(evacPlr, "respect")
-							respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
+							respectSet(evacPlr, respect+0.0006, -1.0, 0.1, true)
 						end
 					end
 					
@@ -8400,9 +8400,9 @@ function jobEvacuatorFixAccept(evacPlr)
 						
 						if hp then
 							if(hp < 500.0) then
-								respectSet(evacPlr, respect+0.0002, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0005, -1.0, 0.1, true)
 							elseif(hp < 750.0) then
-								respectSet(evacPlr, respect+0.0001, -1.0, 0.1, true)
+								respectSet(evacPlr, respect+0.0003, -1.0, 0.1, true)
 							end
 						end
 						
@@ -8532,7 +8532,7 @@ function jobLawnmowDoneWithLawn()
 			addNewEventToLog(getPlayerName(source), "Газонокосилка - Кошение газона - ID "..tostring(worker[4]), true)
 			giveMoney(worker[1], jobLawnmowMoneyForGrass*table.getn(jobLawnmowLawnCoords[worker[4]][4]))
 			local respect = getElementData(source, "respect")
-			respectSet(source, respect+0.00005, -1.0, 0.1, true)
+			respectSet(source, respect+0.000010, -1.0, 0.1, true)
 			--destroyElement(jobLawnmowLawns[worker[4]][1])
 			--jobLawnmowLawns[worker[4]][1] = nil
 			--destroyElement(jobLawnmowLawns[worker[4]][2])
@@ -8739,7 +8739,7 @@ function jobWashroadsMarkerHit(hitElem)
 							triggerClientEvent(hitElem, "onJobProgress", hitElem, jobWashroadsIncTime, playerVeh)
 							giveMoney(hitElem, jobWashroadsIncMoneyPerCp)
 							local respect = getElementData(hitElem, "respect")
-							respectSet(hitElem, respect+0.00001, -1.0, 0.1, true)
+							respectSet(hitElem, respect+0.00008, -1.0, 0.1, true)
 						end
 					end
 					
@@ -9438,7 +9438,7 @@ function jobTrashmasterGetMoney(trashUnloaded, continueWork)
 	addNewEventToLog(getPlayerName(source), "Вывоз мусора - Выгрузка - "..tostring(trashUnloaded).."%", true)
 	giveMoney(source, trashUnloaded*jobTrashmasterIncMoney)
 	local respect = getElementData(source, "respect")
-	respectSet(source, respect+0.000006*trashUnloaded, -1.0, 0.1, true)
+	respectSet(source, respect+0.0000012*trashUnloaded, -1.0, 0.1, true)
 	
 	if(continueWork) then
 		local playerVeh = getPedOccupiedVehicle(source)
@@ -12200,7 +12200,7 @@ function resourceStart(startedResource)
 					
 				end
 			end
-		
+	
 		else
     		-- FIXME: RUNTIME ERROR #93 createObject
 			-- https://wiki.multitheftauto.com/wiki/CreateObject
@@ -14826,12 +14826,12 @@ function requestActionsList(aplr)
 		end
 		
 		
-		--[[
+		
 		if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
 			table.insert(alist, { 114, availableActions[114], {}, { "PNG 256x256" }, 255, 255, 255 })
 		else
 			table.insert(alist, { 115, availableActions[115], {}, nil, 255, 255, 255 })
-		end]]
+		end
 		
 		if(aplrveh) then
 			if(aplrveh == ownedveh) then
@@ -15325,7 +15325,7 @@ function requestActionsList(aplr)
 								colorName = "Спец."
 							end
 							if (vehtype == "BMX") then
-							    table.insert(alist, { 12, string.format("%s %s(%s)($50)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName), { 0, row, key }, nil, 0, 255, 0 })
+							    table.insert(alist, { 172, string.format("%s %s(%s)($50)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName), { 0, row, key }, nil, 0, 255, 0 })
 						    else
 							    table.insert(alist, { 12, string.format("%s %s(%s)($%d)", availableActions[12], getVehicleNameFromModel(vehmdl), colorName, vehCommonSpawnPrice), { 0, row, key }, nil, 0, 255, 0 })
 							end
@@ -15565,7 +15565,7 @@ function requestActionsList(aplr)
 		
 		table.insert(alist, { 52, availableActions[52], {}, { "Местоположение" }, 255, 255, 255 })
 		--table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
-		table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
+		--table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
 		table.insert(alist, { 109, availableActions[109], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 56, availableActions[56], {}, { "Игрок", "Причина" }, 255, 255, 0 })
 		table.insert(alist, { 71, availableActions[71], {}, { "Вопрос" }, 255, 255, 0 })
@@ -15604,11 +15604,11 @@ function requestActionsList(aplr)
 		if pAdmin or pModerator or pHelper then
 			table.insert(alist, { 72, availableActions[72], {}, nil, 255, 0, 0 })
 			--table.insert(alist, { 53, availableActions[53], {}, { "Игрок", "Причина" }, 255, 0, 0 })
-			if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
+			--[[if(not dbuserinfo[1]["face"]) or (dbuserinfo[1]["face"] == "EMPTY") then
 			    table.insert(alist, { 114, availableActions[114], {}, { "PNG 256x256" }, 255, 0, 0 })
 		    else
 			    table.insert(alist, { 115, availableActions[115], {}, nil, 255, 0, 0 })
-		    end
+		    end]]
 			
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
@@ -15926,7 +15926,7 @@ function executeAction(aplr, actionId, params)
 					carSpawnsCur = dbqueryresult[1]["carSpawns"]
 				end
 				
-				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= 50) then
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= vehCommonSpawnPrice) then
 					local carInfo = params[2]
 					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
 					local pveh
@@ -16008,11 +16008,7 @@ function executeAction(aplr, actionId, params)
 						i = params[3]
 						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
 						warpPedIntoVehicle(aplr, pveh)
-						if (getVehicleType(pveh) == "BMX") then
-							takeMoney(aplr, 50)
-						else
-						   takeMoney(aplr, vehCommonSpawnPrice)  
-						end
+					    takeMoney(aplr, vehCommonSpawnPrice)  
 					end
 					setElementGhostMode(pveh, 3000)
 					
@@ -17590,17 +17586,25 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 114) then
 			local faceURL = params[1]
 			local pName = getPlayerName(aplr)
+			
+		    if getMoney(aplr < 1000) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "У вас недостаточно денег.")
+				return false
+			end
+			
 			if(string.lower(string.sub(faceURL, 1, 7)) ~= "http://") then
 				triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "Ссылка на лицо персонажа должна начинаться с 'http://'")
 			elseif(string.lower(string.sub(faceURL, -4)) ~= ".png") then
 				triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "Ссылка на лицо персонажа должна заканчиваться на '.png'")
 			elseif dbExec(db, "UPDATE users SET face=? WHERE name=?", faceURL, getHash(pName)) then
 				triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "Лицо персонажа установлено. Для его появления перезайдите на сервер. Помните, что для работоспособности размер изображения должен быть 256х256.")
+				takeMoney(aplr, 1000)
 			else
 				triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "Возникла ошибка при назначении лица персонажа. Обратитесь к администрации.")
 			end
 		
 		elseif(actionId == 115) then
+			
 			if dbExec(db, "UPDATE users SET face=? WHERE name=?", nil, getHash(getPlayerName(aplr))) then
 				triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "Лицо персонажа очищено. Для применения изменений перезайдите на сервер.")
 			else
@@ -18562,10 +18566,122 @@ function executeAction(aplr, actionId, params)
 				spawnPlayerEx(crim)
 				wantedLevelClear(crim)
 				local respect = getElementData(aplr, "respect")
-				respectSet(aplr, respect+0.00002*sourceWanted, 0.0, 1.0, true)
+				respectSet(aplr, respect+0.00007*sourceWanted, 0.0, 1.0, true)
 				giveMoney(aplr, 500)
 				triggerClientEvent(crim, "onServerMsgAdd", crim, "Вы арестованы. Длительность ареста - "..getTimeString(arrested*1000)..".")
 
+			end
+		
+	    elseif(actionId == 172) then
+			
+			if isPlayerBusy(aplr) then
+				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Закончите остальные дела, прежде чем заспаунить транспорт.")
+			else
+				local i = params[1]
+				local sHash = getHash(getPlayerName(aplr))
+				local carSpawnsCur
+				
+				if(i == -1) then
+					repeat
+						local dbq = dbQuery(db, "SELECT carSpawns FROM users WHERE name=?", sHash)
+						dbqueryresult = dbPoll(dbq, 30000)
+						dbFree(dbq)
+					until dbqueryresult
+					
+					carSpawnsCur = dbqueryresult[1]["carSpawns"]
+				end
+				
+				if((i == -1) and(carSpawnsCur > 0)) or (i ~= 0) or (getMoney(aplr) >= 50) then
+					local carInfo = params[2]
+					addNewEventToLog(getPlayerName(aplr), "Личный транспорт - Спаун - "..getVehicleNameFromModel(carInfo["carid"]), true)
+					local pveh
+					carSellRemoveUserVehicles(aplr)
+					
+					if(carSellSQLIds[carInfo["id"]]) then
+						pveh = carSellSQLIds[carInfo["id"]]
+					else
+						pveh = createVehicle(carInfo["carid"], 0, 0, 0)
+						attachActionToElement(defaultActions[127], pveh)
+						attachActionToElement(defaultActions[60], pveh)
+						attachActionToElement(defaultActions[62], pveh)
+						local pvehHandling = getOriginalHandling(carInfo["carid"])
+						setVehicleColor(pveh, carInfo["clrr1"], carInfo["clrg1"], carInfo["clrb1"], carInfo["clrr2"], carInfo["clrg2"], carInfo["clrb2"], carInfo["clrr3"], carInfo["clrg3"], carInfo["clrb3"], carInfo["clrr4"], carInfo["clrg4"], carInfo["clrb4"])
+						setVehiclePaintjob(pveh, carInfo["paintjob"])
+						local accelMult
+						
+						if(carInfo["engineBoost"] == 1) then
+							accelMult = 1.05
+						
+						elseif(carInfo["engineBoost"] == 2) then
+							accelMult = 1.15		
+						
+						elseif(carInfo["engineBoost"] == 3) then
+							accelMult = 1.2
+						
+						else
+							accelMult = 1.0
+						end
+						
+						if predefinedHandling[carInfo["carid"]] and predefinedHandling[carInfo["carid"]]["engineAcceleration"] and predefinedHandling[carInfo["carid"]]["maxVelocity"] and predefinedHandling[carInfo["carid"]]["tractionBias"] then
+							setVehicleHandling(pveh, "engineAcceleration", predefinedHandling[carInfo["carid"]]["engineAcceleration"]*accelMult)
+							setVehicleHandling(pveh, "maxVelocity", predefinedHandling[carInfo["carid"]]["maxVelocity"]*accelMult)
+						else
+							setVehicleHandling(pveh, "engineAcceleration", pvehHandling["engineAcceleration"]*accelMult)
+							setVehicleHandling(pveh, "maxVelocity", pvehHandling["maxVelocity"]*accelMult)
+						end
+						
+						local upgradeName
+						
+						for i2=0,16 do
+							upgradeName = string.format("upgrade%d", i2)
+							if(carInfo[upgradeName] > 0) then
+								addVehicleUpgrade(pveh, carInfo[upgradeName])
+							end
+						end
+						
+						setElementData(pveh, "owner", getHash(getPlayerName(aplr)), false)
+						setElementData(aplr, "vehicle", pveh, false)
+						setElementData(pveh, "hp", carInfo["hp"], false)
+						setElementData(pveh, "sqlid", carInfo["id"], false)
+						setElementData(pveh, "fuelLevel", carInfo["fuel"])
+						setElementData(pveh, "engineBoost", carInfo["engineBoost"])
+						
+						if(carInfo["fly"] > 0) then
+							setElementData(pveh, "flyAbility", true)
+						end
+						
+						applyCarArmor(pveh, carInfo["armorLevel"])
+						carSellSQLIds[carInfo["id"]] = pveh
+					end
+					
+					if(i == -1) or (i == -2) then
+						local px, py, pz = getElementPosition(aplr)
+						local rx, ry ,rz = getElementRotation(aplr)
+						spawnVehicle(pveh, px, py, pz, 0, 0, rz)
+						warpPedIntoVehicle(aplr, pveh)
+						
+						if(i == -1) then
+							carSpawnsCur = carSpawnsCur-1
+							dbExec(db, "UPDATE users SET carSpawns=? WHERE name=?", carSpawnsCur, sHash)
+							--triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас осталось "..tostring(carSpawnsCur).." спаунов транспорта в любом месте.")
+						end
+						
+					elseif(i ~= 0) then
+						spawnVehicle(pveh, houses[i][5], houses[i][6], houses[i][7], houses[i][8], houses[i][9], houses[i][10])
+					
+					else
+						i = params[3]
+						spawnVehicle(pveh, vehCommonSpawnPos[i][1], vehCommonSpawnPos[i][2], vehCommonSpawnPos[i][3]+1, 0, 0, vehCommonSpawnPos[i][5])
+						warpPedIntoVehicle(aplr, pveh)
+						if (getVehicleType(pveh) == "BMX") then
+							takeMoney(aplr, 50)
+						end
+					end
+					setElementGhostMode(pveh, 3000)
+					
+				else
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
+				end
 			end
 			
 
@@ -21508,11 +21624,16 @@ end
 function clanInviteAccept(plr, clan)
     local fracGrp = getElementData(plr, "usergroup")
 	local invite = clanInviteFind(plr, clan)
+	local respect = getElementData(plr, "respect")
 	if fracGrp and (fracGrp == 2) or (fracGrp == 4) or (fracGrp == 5) or (fracGrp == 17) or (fracGrp == 18) then
 	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в гос.фракции.")
 		return
 	elseif fracGrp and (fracGrp == 19) or (fracGrp == 20) or (fracGrp == 21) then
 	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не можете вступить в клан, находясь в банде.")
+		return
+	end	
+	if (respect > 0) then
+	    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Вы не сможете вступить в клан при положительной репутации.")
 		return
 	end	
 	
@@ -23555,7 +23676,8 @@ function gangsterStealStartCar(veh, plr)
 		return false
 	end
 	
-	if not(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then
+	--[[if not(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then]]
+	if (getElementData(plr, "respect") > 0.00 then
 		playerShowMessage(plr, "Взлом автомобилей доступен только бандитам.")
 	
 	elseif not gangsterStealCars[veh] then
@@ -25506,7 +25628,7 @@ function houseSellAccept(newOwner, curOwner, houseid, price)
 			playerShowMessage(newOwner, "Нельзя приобретать в собственность больше трёх домов.")
 			return false
 		
-		elseif(dbExec(db, "UPDATE houses SET owner=? ownerNick=? WHERE id=?", newHash, newOwnerName, hsqlindex)) then
+		elseif(dbExec(db, "UPDATE houses SET owner=?, ownerNick=? WHERE id=?", newHash, newOwnerName, hsqlindex)) then
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Передача - SQL ID "..hsqlindex, true)
 			addNewEventToLog(getPlayerName(curOwner), "Дом - Получение - SQL ID "..hsqlindex, true)
 			if(houseid == saveHouseGet(curOwner)) then
@@ -29223,10 +29345,10 @@ gangBaseKillOwnerGang = 0]]
 ---- требования в банду -------
 
 gangGroupRPLevels = {
-	[19] = -0.03,
-	[20] = -0.03,
-	[21] = -0.03,
-	[22] = -0.03
+	[19] = -0.0001,
+	[20] = -0.0001,
+	[21] = -0.0001,
+	[22] = -0.0001
 }
 
 function gangBaseCaptureProcess(baseId)
@@ -29498,6 +29620,8 @@ function gangBaseCaptureFinish(baseId, success)
 		    for playerKey, playerValue in ipairs ( gangPlayers ) do
 			    -- kill the player
 			   giveMoney(playerValue, 6000)
+		       local respect = getElementData(plr, "respect")
+		       respectSet(plr, respect-0.0002, -1.0, 1.0, true)
 		    end
 			--giveMoney(gangPlayers, 6000)
 		
@@ -29685,7 +29809,7 @@ function checkTaxHouse()
 	if(house[11] ~= 0) then
 		local hsqlindex = house[1]
 		
-		local income = house[3]/25
+		local income = house[3]/45
 		--taxTime = math.max(0, taxTime+1)
 		house[12] = house[12]+income
 		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", house[12], hsqlindex)
@@ -29699,7 +29823,7 @@ function checkTaxBusinesess()
 	if(ammuShop[9] ~= 0) then
 		local amsqlindex = ammuShop[7]
 		
-		local income = ammuBusinessPrice/25
+		local income = ammuBusinessPrice/385
 		ammuShop[10] = ammuShop[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", ammuShop[10], amsqlindex)
 	end
@@ -29709,7 +29833,7 @@ function checkTaxBusinesess()
 	if(eatLocation[9] ~= 0) then
 		local eatsqlindex = eatLocation[7]
 		
-		local income = eatTypes[eatLocation[1]][14]/25
+		local income = eatTypes[eatLocation[1]][14]/225
 		eatLocation[10] = eatLocation[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", eatLocation[10], eatsqlindex)
 	end
@@ -29726,6 +29850,7 @@ function()
 	if (weekday == 6 and hour == 4 and minute == 0) then
       	checkTaxHouse()
 		checkTaxBusinesess()
+		outputChatBox(generateTimeString().."RESPLAY: На все приобретенные дома и бизнесы пришли налоги", getRootElement(), 255, 128, 0, true)
 		timerkill()
 	end
 end, 1000, 0)
