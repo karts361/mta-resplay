@@ -9438,7 +9438,7 @@ function jobTrashmasterGetMoney(trashUnloaded, continueWork)
 	addNewEventToLog(getPlayerName(source), "Вывоз мусора - Выгрузка - "..tostring(trashUnloaded).."%", true)
 	giveMoney(source, trashUnloaded*jobTrashmasterIncMoney)
 	local respect = getElementData(source, "respect")
-	respectSet(source, respect+0.000012*trashUnloaded, -1.0, 0.1, true)
+	respectSet(source, respect+0.000024*trashUnloaded, -1.0, 0.1, true)
 	
 	if(continueWork) then
 		local playerVeh = getPedOccupiedVehicle(source)
