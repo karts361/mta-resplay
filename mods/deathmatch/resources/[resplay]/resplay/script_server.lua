@@ -15154,7 +15154,7 @@ function requestActionsList(aplr)
 			
 			for i,drugMarker in ipairs(drugMarkers) do 
 				if(isElementWithinMarker(aplr, drugMarker[5])) then		
-					table.insert(alist, { 153, "Наркотики - купить $3000", { i }, nil, 0, 255, 0 } )
+					table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
 				end
             end
 			
@@ -18202,7 +18202,7 @@ function executeAction(aplr, actionId, params)
 			
 			    if(slotId) then
 				    local money = getMoney(aplr)
-				    local price = 3000
+				    local price = 300
 				
 				    if(money >= price) then
 					    if(inventoryNewItem(aplr, 267, slotId)) then
