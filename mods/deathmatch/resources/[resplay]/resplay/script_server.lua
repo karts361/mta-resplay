@@ -5914,7 +5914,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.0006, -1.0, 0.5, true)
+						respectSet(hitElem, respect+0.0006, -1.0, 0.1, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
