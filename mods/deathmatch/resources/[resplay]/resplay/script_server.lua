@@ -9181,7 +9181,7 @@ function jobProcessCoroutine()
 					local money = timemsec/490
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
-						money = math.ceil(money*1.1)
+						money = math.ceil(money*2.0)
 					end
 					
 					local moneytext = string.format("$%d", money)

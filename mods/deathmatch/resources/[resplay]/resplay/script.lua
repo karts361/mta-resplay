@@ -3223,7 +3223,7 @@ end
 function forgotPass(button, state)
 	if(button == "left") and state then
 		guiLabelSetColor(msgLoginReg, 255, 255, 255)
-		guiSetText(msgLoginReg, "Отправьте письмо с заголовком 'Забыл пароль' и вашим никнеймом на почту resplaymta@gmail.com с того ящика, который был введен при регистрации.")
+		guiSetText(msgLoginReg, "Отправьте письмо с заголовком 'Забыл пароль' и вашим никнеймом на почту mtaresplay@gmail.com с того ящика, который был введен при регистрации.")
 	end
 end
 
