@@ -2511,7 +2511,7 @@ jobFarmFields = {}
 jobFarmMoneyForBlowedCar = 2000
 jobFarmMoneyForLeftCar = 100
 jobFarmTimeBackToVeh = 60000
-jobFarmMoneyForField = 50
+jobFarmMoneyForField = 80
 
 extraObjs = {}
 removeObjs = {}
@@ -9178,10 +9178,10 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/500
+					local money = timemsec/490
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
-						money = math.ceil(money/1.1)
+						money = math.ceil(money*1.1)
 					end
 					
 					local moneytext = string.format("$%d", money)
