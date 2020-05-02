@@ -570,7 +570,7 @@ jobCpFinish = {}
 jobTrashmasterStartTime = 120000
 jobTrashmasterIncTime = 10000
 jobTrashmasterMaxFillness = 100
-jobTrashmasterIncMoney = 35
+jobTrashmasterIncMoney = 45
 jobTrashmasterMoneyForBlowedCar = 2000
 jobTrashmasterMoneyForLeftCar = 100
 jobTrashmasterUnloadCycle = 5
@@ -585,7 +585,7 @@ jobTrashmasterVehMarker = nil
 -- Мойка дорог(переменные)
 jobWashroadsStartTime = 120000
 jobWashroadsIncTime = 15000
-jobWashroadsIncMoneyPerCp = 15
+jobWashroadsIncMoneyPerCp = 25
 jobWashroadsMoneyForBlowedCar = 2000
 jobWashroadsMoneyForLeftCar = 100
 jobWashroadsTimeBackToVeh = 60000
@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 5
+jobLawnmowMoneyForGrass = 10
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -5503,7 +5503,7 @@ function militaryCargoDeliver(hitElem)
 		if driver and isElementVisibleTo(source, driver) then
 			addNewEventToLog(getPlayerName(driver), "Военный - Груз - Разгрузка", true)
 			militaryCargoRemove(hitElem)
-			giveMoney(driver, 55)
+			giveMoney(driver, 75)
 			local respect = getElementData(driver, "respect")
 			respectSet(driver, respect+0.000055, -1.0, 1.0, true)
 			triggerClientEvent(getElementsByType("player"), "onMilitaryCargoUpdate", driver, militaryCargoBoxes)
@@ -7940,7 +7940,7 @@ function jobTruckerFinish(plr, deliveryPrice)
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
 				local respect = getElementData(plr, "respect")
-				respectSet(plr, respect+0.00011, -1.0, 0.25, true)
+				respectSet(plr, respect+0.0010, -1.0, 0.25, true)
 				
 				if worker[4] then
 					destroyElement(worker[4])
@@ -8532,7 +8532,7 @@ function jobLawnmowDoneWithLawn()
 			addNewEventToLog(getPlayerName(source), "Газонокосилка - Кошение газона - ID "..tostring(worker[4]), true)
 			giveMoney(worker[1], jobLawnmowMoneyForGrass*table.getn(jobLawnmowLawnCoords[worker[4]][4]))
 			local respect = getElementData(source, "respect")
-			respectSet(source, respect+0.000010, -1.0, 0.1, true)
+			respectSet(source, respect+0.00010, -1.0, 0.1, true)
 			--destroyElement(jobLawnmowLawns[worker[4]][1])
 			--jobLawnmowLawns[worker[4]][1] = nil
 			--destroyElement(jobLawnmowLawns[worker[4]][2])
@@ -9178,7 +9178,7 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/560
+					local money = timemsec/500
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money/1.1)
@@ -9438,7 +9438,7 @@ function jobTrashmasterGetMoney(trashUnloaded, continueWork)
 	addNewEventToLog(getPlayerName(source), "Вывоз мусора - Выгрузка - "..tostring(trashUnloaded).."%", true)
 	giveMoney(source, trashUnloaded*jobTrashmasterIncMoney)
 	local respect = getElementData(source, "respect")
-	respectSet(source, respect+0.0000012*trashUnloaded, -1.0, 0.1, true)
+	respectSet(source, respect+0.000012*trashUnloaded, -1.0, 0.1, true)
 	
 	if(continueWork) then
 		local playerVeh = getPedOccupiedVehicle(source)
@@ -17587,7 +17587,7 @@ function executeAction(aplr, actionId, params)
 			local faceURL = params[1]
 			local pName = getPlayerName(aplr)
 			
-		    if getMoney(aplr < 1000) then
+		    if getMoney(aplr) < 1000 then
 			    triggerClientEvent(aplr, "onServerMsgAdd", resourceRoot, "У вас недостаточно денег.")
 				return false
 			end
@@ -23677,7 +23677,7 @@ function gangsterStealStartCar(veh, plr)
 	end
 	
 	--[[if not(getElementData(plr, "usergroup") == 10 or getElementData(plr, "usergroup") == 19 or getElementData(plr, "usergroup") == 20 or getElementData(plr, "usergroup") == 21 or getElementData(plr, "usergroup") == 22) then]]
-	if (getElementData(plr, "respect") > 0.00 then
+	if (getElementData(plr, "respect") > 0.00 )then
 		playerShowMessage(plr, "Взлом автомобилей доступен только бандитам.")
 	
 	elseif not gangsterStealCars[veh] then
@@ -29809,7 +29809,7 @@ function checkTaxHouse()
 	if(house[11] ~= 0) then
 		local hsqlindex = house[1]
 		
-		local income = house[3]/45
+		local income = house[3]/50
 		--taxTime = math.max(0, taxTime+1)
 		house[12] = house[12]+income
 		dbExec(db, "UPDATE houses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", house[12], hsqlindex)
@@ -29823,7 +29823,7 @@ function checkTaxBusinesess()
 	if(ammuShop[9] ~= 0) then
 		local amsqlindex = ammuShop[7]
 		
-		local income = ammuBusinessPrice/385
+		local income = ammuBusinessPrice/375
 		ammuShop[10] = ammuShop[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", ammuShop[10], amsqlindex)
 	end
@@ -29833,7 +29833,7 @@ function checkTaxBusinesess()
 	if(eatLocation[9] ~= 0) then
 		local eatsqlindex = eatLocation[7]
 		
-		local income = eatTypes[eatLocation[1]][14]/225
+		local income = eatTypes[eatLocation[1]][14]/120
 		eatLocation[10] = eatLocation[10]+income
 		dbExec(db, "UPDATE businesses SET taxAmount=?, taxTime=taxTime + 1 WHERE id=?", eatLocation[10], eatsqlindex)
 	end
