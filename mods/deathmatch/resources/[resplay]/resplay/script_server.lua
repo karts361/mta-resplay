@@ -29621,7 +29621,7 @@ function gangBaseCaptureFinish(baseId, success)
 			    -- kill the player
 			   giveMoney(playerValue, 6000)
 		       local respect = getElementData(plr, "respect")
-		       respectSet(plr, respect-0.0002, -1.0, 1.0, true)
+		       respectSet(playerValue, respect-0.0002, -1.0, 1.0, true)
 		    end
 			--giveMoney(gangPlayers, 6000)
 		
