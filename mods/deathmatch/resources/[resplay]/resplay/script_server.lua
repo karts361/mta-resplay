@@ -21135,7 +21135,7 @@ clanInvites = {}
 ]]
 
 function clanInit()
-	--dbExec(db, "UPDATE users SET clan=0,coleader=0 WHERE lastLogin<? AND leader=0", getRealTime().timestamp-604800)
+	dbExec(db, "UPDATE users SET clan=0,coleader=0 WHERE lastLogin<? AND leader=0", getRealTime().timestamp-604800)
 	dbExec(db, "DELETE FROM clans WHERE id IN(SELECT id FROM(SELECT clans.id, COUNT(users.name) AS playerCount FROM clans LEFT JOIN users ON users.clan = clans.id GROUP BY clans.id HAVING playerCount = 0) AS emptyClans)")
 	dbExec(db, "UPDATE clanBases SET clan=0 WHERE clan NOT IN(SELECT id FROM clans)")
 	clanDefault = createTeam("Граждане")
@@ -24492,7 +24492,7 @@ function fractionGetAllGroups()
 end
 
 function fractionInit()
-	--dbExec(db, "UPDATE users SET usergroup=12,fraction=0,rank=0 WHERE lastLogin<? AND usergroup IN(2, 4, 5, 17, 18 )", getRealTime().timestamp-1814400) -- Автоувольнение с гос.фракций.
+	dbExec(db, "UPDATE users SET usergroup=12,fraction=0,rank=0 WHERE lastLogin<? AND usergroup IN(2, 4, 5, 17, 18 )", getRealTime().timestamp-1814400) -- Автоувольнение с гос.фракций.
 	local fHash
 	fractions = fractionsOrig
 	
@@ -28619,7 +28619,7 @@ function gangGetAllGroups()
 end
 
 function gangInit()
-	--dbExec(db, "UPDATE users SET usergroup=12,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21, 22 )", getRealTime().timestamp-1814400)
+	dbExec(db, "UPDATE users SET usergroup=1,gang=0,grank=0 WHERE lastLogin<? AND usergroup IN(19, 20, 21, 22 )", getRealTime().timestamp-1814400)
 	dbExec(db, "UPDATE gangBases SET gang=0 WHERE gang NOT IN(SELECT name FROM gangs)")
 	
     cripsarea = createRadarArea ( 2407.1, -1835, 150, 200, 1, 81, 136, 175 )
