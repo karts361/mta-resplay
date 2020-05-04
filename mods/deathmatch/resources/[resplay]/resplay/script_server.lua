@@ -29620,7 +29620,7 @@ function gangBaseCaptureFinish(baseId, success)
 		    for playerKey, playerValue in ipairs ( gangPlayers ) do
 			    -- kill the player
 			   giveMoney(playerValue, 6000)
-		       local respect = getElementData(plr, "respect")
+		       local respect = getElementData(playerValue, "respect")
 		       respectSet(playerValue, respect-0.0002, -1.0, 1.0, true)
 		    end
 			--giveMoney(gangPlayers, 6000)
