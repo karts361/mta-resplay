@@ -2854,7 +2854,7 @@ inventoryItemNames = {
 	{ "Средняя девичья кровать + навес", 1300, 1803 },
 	{ "Кровать + шкаф", 2000, 2301 },
 	{ "Кровать из массива", 3000, 2302 },
-	{ "Наркотики", 3000, 1575 }
+	{ "Наркотики", 300, 1575 }
 }
 inventoryFurnitureItems = {
 	[41]=true, [42]=true, [43]=true, [44]=true, [45]=true, [46]=true, [47]=true, [48]=true, [49]=true, [50]=true, [51]=true, [52]=true, [53]=true, [54]=true, [55]=true, [56]=true, [57]=true,
@@ -14986,7 +14986,7 @@ function requestActionsList(aplr)
 				elseif queryPed then
 					table.insert(alist, { 104, availableActions[104], {}, nil, 0, 255, 0 })
 				elseif drugPed then
-				    table.insert(alist, { 153, "Наркотики - купить $3000", { i }, nil, 0, 255, 0 } )
+				    table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
 				end
 				
 			end
