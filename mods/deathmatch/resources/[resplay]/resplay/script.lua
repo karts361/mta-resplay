@@ -3586,9 +3586,9 @@ function startGame()
 				setTimer(skillsProc, 500, 0)
 
 				-- Start skin selection if first time entering
-				if firstTime and not startSkinChosen then
+				--[[if firstTime and not startSkinChosen then
 					setTimer(enableSkinChooser, 2000, 1)
-				end
+				end]]
 
 			 end, 5250, 1)
 end
