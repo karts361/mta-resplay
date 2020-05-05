@@ -360,6 +360,7 @@ playerGroupRPLevels = {
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
+	{ -0.35, 1.0 },
 }
 workStartMarkers = {}
 
