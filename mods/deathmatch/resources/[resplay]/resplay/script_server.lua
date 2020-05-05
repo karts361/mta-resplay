@@ -13931,38 +13931,34 @@ function inventoryUseSlot(slotId)
 						 end, 1500, 1, source)
 				slotUsed = true
 			end
-		end
 		
 		elseif(slotItem == 268) then
 			if(not isPedInVehicle(source)) and isPedOnGround(source) then
-				if isPlayerBusy(source) then
-					playerShowMessage(source, "Вы должны закончить остальные дела, прежде чем сможете починить авто.")
-	
-				else
-					if not slotUsed then
-						local veh, vx, vy, vz, minDist, curDist
-						local px, py, pz = getElementPosition(source)
+				if not slotUsed then
+					local veh, vx, vy, vz, minDist, curDist
+					local px, py, pz = getElementPosition(source)
 						
-						for curveh in pairs(gangsterStealCars) do
-							if isElement(curveh) then
-								vx, vy, vz = getElementPosition(curveh)
-								curDist = getDistanceBetweenPoints3D(px, py, pz, vx, vy, vz)
-								if(curDist <= nearbyVehiclesRadius) and((not minDist) or (minDist > curDist)) then
-									veh = curveh
-									minDist = curDist
-								end
+					for curveh in pairs(gangsterStealCars) do
+						if isElement(curveh) then
+							vx, vy, vz = getElementPosition(curveh)
+							curDist = getDistanceBetweenPoints3D(px, py, pz, vx, vy, vz)
+							if(curDist <= nearbyVehiclesRadius) and((not minDist) or (minDist > curDist)) then
+								veh = curveh
+								minDist = curDist
 							end
 						end
+					end
 						
-						if veh then
-							playerShowMessage(source, "Вы не можете починить взломанное авто.")
-						end
+					if veh then
+						playerShowMessage(source, "Вы не можете починить взломанное авто.")
+					end
 						
 				        local vehicles = getNearbyElementsByType(source, "vehicle", nearbyVehiclesRadius)
 				        local hp
 				
 				        for _,vehi in ipairs(vehicles) do
 					        hp = getElementHealth(vehi)
+							local cx, cy, cz = getElementPosition(vehi)
 					
 					        if(hp < 750) then
 							    setPedAnimation(source, "COP_AMBIENT", "copbrowse_loop", 15000, true, false, false, false)
@@ -13974,11 +13970,12 @@ function inventoryUseSlot(slotId)
 										triggerClientEvent(players, "onServerPlaySFX3D", vehi, "script", 150, 0, 0, 0, 0, false, 100, vehi)
 						                destroyElement(curCol)
 							            animStop(source)
+										triggerEvent("onPlayerChat", source, "починил Т/С", 1)
 									end
 				                end, 15000, 1, source)
 					            slotUsed = true
 							else
-							    playerShowMessage(source, "Вы не можете починить авто, если повреждения всего 80%")
+							    playerShowMessage(source, "Вы не можете починить авто, если повреждения всего 20%")
 					        end
 					
 				        end
