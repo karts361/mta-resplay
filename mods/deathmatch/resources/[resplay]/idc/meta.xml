@@ -1,0 +1,5 @@
+<meta>
+    <info author="Resplay" type="gamemode" name="Resplay" description="Resplay game mode"/>
+    <script src="script_server.lua"/>
+    <min_mta_version server="1.5.6" client="1.5.6"></min_mta_version>
+</meta>

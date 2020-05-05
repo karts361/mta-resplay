@@ -76,6 +76,7 @@ customDff = { -- { "Имя файла", { ID моделей через запя�
 	{ "furn1", { 2147 } },
 	{ "furn3", { 1780 } },
 	{ "furn5", { 1990 } },
+	{ "295", { 295 } },
 	{ "furn6", { 1610 } },
 	{ "hp", { 14801 } },
 	{ "dodo", { 593 } },
@@ -303,6 +304,7 @@ customTxd = { -- { "Имя файла", { ID моделей через запя�
 	{ "154", { 154 } },
 	{ "68", { 68 } },
 	{ "90", { 90 } },
+	{ "295", { 295 } },
 	{ "203", { 203 } },
 	{ "87", { 87 } },
 }
@@ -3224,7 +3226,7 @@ end
 function forgotPass(button, state)
 	if(button == "left") and state then
 		guiLabelSetColor(msgLoginReg, 255, 255, 255)
-		guiSetText(msgLoginReg, "Отправьте письмо с заголовком 'Забыл пароль' и вашим никнеймом на почту resplaymta@gmail.com с того ящика, который был введен при регистрации.")
+		guiSetText(msgLoginReg, "Отправьте письмо с заголовком 'Забыл пароль' и вашим никнеймом на почту mtaresplay@gmail.com с того ящика, который был введен при регистрации.")
 	end
 end
 
@@ -3813,7 +3815,7 @@ function processUserData_start(userdata, loadedSlots, curWeather, busStopsForCli
 	setWeather(curWeather)
 	curRespect = userdata["respect"]
 	addEventHandler("onClientRender", root, drawRespect, false)
-	addEventHandler("onClientRender", root, busesDrawText, false)
+	--addEventHandler("onClientRender", root, busesDrawText, false)
 	addEventHandler("onClientRender", root, taxiCarsRender, false)
 	inventoryInit(loadedSlots)
 	setTimer(function()
@@ -11478,7 +11480,7 @@ addEvent("onFriendsLoad", true)
 addEvent("onCarSellUpdate", true)
 addEvent("onJobTruckerUpdate", true)
 addEvent("onServerSetControlState", true)
-addEvent("onBusesUpdate", true)
+--addEvent("onBusesUpdate", true)
 addEvent("onServerCreateEffect", true)
 addEvent("onServerDestroyAttachedEffects", true)
 addEvent("onLuckyPhoneRing", true)
@@ -11667,9 +11669,9 @@ addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate)
 addEventHandler("onServerSetControlState", root, function(scontrol, sstate)
 													setPedAnalogControlState(source, scontrol, sstate)
 												 end)
-addEventHandler("onBusesUpdate", root, function(newtbl)
+--[[addEventHandler("onBusesUpdate", root, function(newtbl)
 										buses = newtbl
-									   end)
+									   end)]]
 addEventHandler("onClientPreRender", root,
 	function()
 		for fx, info in pairs(attachedEffects) do
