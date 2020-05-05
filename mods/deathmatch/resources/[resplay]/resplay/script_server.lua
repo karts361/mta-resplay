@@ -15703,7 +15703,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 112, availableActions[112], {}, { "Игрок" }, 255, 0, 0 })
 		end
 		
-		if pAdmin or pModerator or pHelper then
+		if pAdmin or pModerator then
 			local eFound = false
 			
 			for eId,eInfo in pairs(specialEvents) do

@@ -16,7 +16,7 @@ local staffTable =
 --You can add admins manually here
 -- {"Account Name"},
 --Eg.
-{"Karts"}, {"JustEazzy"}, {"Midlas"}, {"Sadros"}, {"Pagan"}, {"DEAGLOS"}, {"Alex_Mercer"},
+{"Karts"}, {"JustEazzy"}, {"Midlas"}, {"Sadros"}, {"Pagan"}, {"DEAGLOS"}, {"Alex_Mercer"}, {"Artur_Molodcov"},
 }
 
 --=========================================Don't edit anything below this or you might break it=========================================--

@@ -15,11 +15,14 @@
         <object name="user.Alex_Mercer"></object>
         <object name="user.Pagan"></object>
         <object name="user.Sadros"></object>
+        <object name="user.Artur_Molodcov"></object>
     </group>
     <group name="Helper">
         <acl name="Default"></acl>
         <object name="user.Ramil_Yakubow"></object>
-		<object name="user.Artur_Molodcov"></object>
+        <object name="user.Artur_Molodcov"></object>
+        <object name="user.James_Kingston"></object>
+        <object name="user.Tommy_Merlin"></object>
     </group>
     <group name="Admin">
         <acl name="Default"></acl>
