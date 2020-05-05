@@ -283,23 +283,23 @@ workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18 }
 
 playerGroups = {
 	{ "Гражданин", 23 },
-	{ "Полицейский", 280, 281, 265, 266, 267, 283, 285, 145 },
+	{ "Полицейский", 280 },
 	{ "Пожарный", 277, 278, 279 }, -- unused (неиспользуемый статус)
-	{ "Медик", 275, 276, 70, 182, 232, 197, 274 },
-	{ "Военный", 287, 179, 191, 77, 62, 14 },
+	{ "Медик", 275},
+	{ "Военный", 287 },
 	{ "Спортсмен", 18, 45, 51, 52, 154, 96, 97, 99 }, -- unused (неиспользуемый статус)
 	{ "Пилот", 253, 255 },
 	{ "Фермер", 202, 206, 32, 34, 36, 37, 158, 159 },
-	{ "Водитель", 95, 72, 73, 32, 128, 133, 24, 302 },
+	{ "Водитель", 302 },
 	{ "Бандит", 30 },
-	{ "Коммунальные службы", 27, 260, 16, 9 },
+	{ "Коммунальные службы", 27, 260, 16 },
 	{ "Бомж", 200, 212, 230, 239, 78, 79, 134, 137, 135 },
 	{ "Бизнесмен", 227 },
 	{ "Спецназ", 285 }, --unused (неиспользуемый статус, скин спецназовца есть пока что у полицейского статуса)
 	{ "Администрация", 295 },
 	{ "Продавец", 168, 209 },
-	{ "ФБР", 286, 166, 163, 164, 165 },
-	{ "СМИ", 240, 60, 217, 296, 46, 306, 76 },
+	{ "ФБР", 286 },
+	{ "СМИ", 240 },
 	{ "Bloods", 105, 106, 107 },
 	{ "Crips", 102, 103, 104 },
 	{ "Latin Kings", 108, 109, 110 },
@@ -12919,6 +12919,7 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 		fractionRemovePlayerFromFraction(plr)
 		gangRemovePlayerFromGang(plr)
 		local moneyAmount = getMoney(plr)
+		local gender = getElementData(plr, "gender")
 		
         if grpid == 19 then
             setPlayerTeam(plr, bloods)
@@ -12972,6 +12973,24 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 				end
 			end
 			-------
+			
+			if grpid == 2 and gender == 2 then
+			    sknid = 145
+			elseif grpid == 4 and gender == 2 then
+			    sknid = 232
+			elseif grpid == 5 and gender == 2 then
+			    sknid = 77
+			elseif grpid == 8 and gender == 2 then
+			    sknid = 157
+			elseif grpid == 9 and gender == 2 then 
+			    sknid = 151
+			elseif grpid == 11 and gender == 2 then
+			    sknid = 9
+			elseif grpid == 16 and gender == 2 then
+			    sknid = 205
+			elseif grpid == 18 and gender == 2 then
+			    sknid = 150
+			end
 			
 			if(dbExec(db, "UPDATE users SET usergroup=?, skin=? WHERE name=?", grpid, sknid, sHash)) then
 				setElementModel(plr, sknid)
@@ -13776,7 +13795,7 @@ function inventoryUseSlot(slotId)
 				
 				if(curHp > 0) and(curHp < 100) then
 				    setPedAnimation(source, "CASINO", "dealone", 10000, true, false, false, false)
-			        setTimer(function(source)
+			        healPlayertm = setTimer(function(source)
 					    if isElement(source) then
 						    setElementHealth(source, math.min(130, curHp+35))
 						    local cx, cy, cz = getElementPosition(source)
@@ -13951,6 +13970,7 @@ function inventoryUseSlot(slotId)
 						
 					if veh then
 						playerShowMessage(source, "Вы не можете починить взломанное авто.")
+						return false
 					end
 						
 				        local vehicles = getNearbyElementsByType(source, "vehicle", nearbyVehiclesRadius)
@@ -13960,9 +13980,9 @@ function inventoryUseSlot(slotId)
 					        hp = getElementHealth(vehi)
 							local cx, cy, cz = getElementPosition(vehi)
 					
-					        if(hp < 750) then
+					        if(hp < 750) and not veh then
 							    setPedAnimation(source, "COP_AMBIENT", "copbrowse_loop", 15000, true, false, false, false)
-			                    setTimer(function(source)
+			                    timerRepair = setTimer(function(source)
 					                if isElement(source) then
 						                setElementHealth(vehi, hp+200)
 						                local curCol = createColSphere(cx, cy, cz, 150)
@@ -14865,8 +14885,10 @@ function requestActionsList(aplr)
 		table.insert(alist, { 25, availableActions[25], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 26, availableActions[26], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 27, availableActions[27], {}, { "Ваше обращение" }, 255, 255, 255 })
-		table.insert(alist, { 66, availableActions[66], {}, nil, 255, 255, 255 })
-		table.insert(alist, { 67, availableActions[67], {}, nil, 255, 255, 255 })
+		if not ( isTimer(timerRepair) or isTimer(healPlayertm)) then
+		    table.insert(alist, { 66, availableActions[66], {}, nil, 255, 255, 255 })
+		    table.insert(alist, { 67, availableActions[67], {}, nil, 255, 255, 255 })
+		end
 		table.insert(alist, { 159, "Игрок - Открыть статистику", {}, nil, 255, 255, 255 })
 		
 		if(dbuserinfo[1]["customWalk"] == 1) then
@@ -30175,6 +30197,56 @@ function removeMarkers(object)
 		end
 	end;
 end
+
+------ выбор фракционных скинов ------------
+
+SkinFracsMarkers = {
+	--x, y, z, dimension, interior
+	{ x = 202.807617187, y = 1865.0322265625, z = 12.14062, dim = 0, int = 0 },
+	{ x = 665.4482421875, y = -1358.587890625, z = 12.632524490356, dim = 0, int = 0 },	
+	{ x = 1524.2001953125, y = -15.644528388977, z = 1074.2061767578, dim = 94, int = 18 },
+	{ x = 1524.2001953125, y = -15.644528388977, z = 1074.2061767578, dim = 95, int = 18 },
+	{ x = 257.7978515625, y = 77.7958984375, z = 1003.64062, dim = 87, int = 6 },	
+}
+
+function skinFrac()
+	for i, skinfra in pairs(SkinFracsMarkers) do
+		local x, y, z, int, dim, type = skinfra.x, skinfra.y, skinfra.z, skinfra.int, skinfra.dim, skinfra.type
+		marker = createMarker(x, y, z, "cylinder", 1.5, 255, 255, 0, 60)
+		setElementInterior(marker, int)
+		setElementDimension(marker, dim)
+		pickupSetText(marker, "Выбор фракционного скина", 255, 255, 0)
+		if type == 2 then
+			setElementAlpha(marker,0)
+		end
+		addEventHandler("onMarkerHit", marker, on_marker_hit2)
+	end
+end
+addEventHandler("onResourceStart", resourceRoot, skinFrac)
+
+function on_marker_hit2(plr, matchingDim)
+local pGrp = getElementData(plr, "usergroup")
+	if (plr and getElementType(plr) == "player" and matchingDim) then
+		if pGrp == 2 or pGrp == 4 or pGrp == 5 or pGrp == 18 then
+		    triggerClientEvent(plr, "showSkinFrac", plr)
+		end
+	end
+end
+
+function onSelectSkin(model)
+    local pHash = getHash(getPlayerName(client))
+    local pGrp = getElementData(client, "usergroup")
+
+
+	if pGrp == 2 or pGrp == 4 or pGrp == 5 or pGrp == 18 then
+		playerShowMessage(client, "Вы выбрали новую одежду!")
+		setElementModel(client, model)
+	    dbExec(db, "UPDATE users SET skin=? WHERE name=?", model, pHash)
+	end
+end
+addEvent("onSelectFracSkin", true)
+addEventHandler("onSelectFracSkin", root, onSelectSkin)
+
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

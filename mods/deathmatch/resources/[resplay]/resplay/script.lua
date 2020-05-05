@@ -11435,6 +11435,290 @@ function houseGuestDecline()
 	destroyRequestWindow()
 end
 
+-------- выбор скина во фракциях -----------
+skinMalePD = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 281 ,"Male", 0 },
+		{1, 265 ,"Male", 0 },
+		{1, 266 ,"Male", 0 },
+		{1, 267 ,"Male", 0 },
+		{1, 283 ,"Male", 0 },
+		{1, 285 ,"Male", 0 },
+}
+
+skinFemalePD = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 145,"Girl", 0 },
+	{1, 285,"Girl", 0 },
+}
+
+skinMaleMed = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 275 ,"Male", 0},
+		{1, 276 ,"Male", 0},
+		{1, 70 ,"Male", 0},
+		{1, 182 ,"Male", 0},
+		{1, 274 ,"Male", 0},
+}
+
+skinFemaleMed = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 197,"Girl", 0 },
+	{1, 232,"Girl", 0 },
+}
+
+skinMaleArmy = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 287 ,"Male", 0},
+		{1, 179 ,"Male", 0},
+		{1, 62 ,"Male", 0},
+		{1, 14 ,"Male", 0},
+}
+
+skinFemaleArmy = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 191,"Girl", 0 },
+	{1, 77,"Girl", 0 },
+}
+--[[
+skinMaleFBI = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 19 ,"Male", 0},
+}
+
+skinFemaleFBI = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 40,"Girl", 0 },
+}]]
+
+skinMaleSanews = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},
+	{ 0, "Мужчины" },
+		-- {Раздел, Айди, Вид, Цена},
+		{1, 240 ,"Male", 0},
+		{1, 60 ,"Male", 0},
+		{1, 217 ,"Male", 0},
+		{1, 46 ,"Male", 0},
+		{1, 306 ,"Male", 0},
+}
+
+skinFemaleSanews = {
+	-- Виды разделов: 0 - Тип , 1 - Одежда 
+	-- {Раздел, Название},				
+	{ 0 , "Женщины"},
+	{1, 76,"Girl", 0 },
+	{1, 150,"Girl", 0 },
+	{1, 141,"Girl", 0 },
+	{1, 219,"Girl", 0 },
+	{1, 148,"Girl", 0 },
+}
+
+
+local sWidth, sHeight = guiGetScreenSize()
+local model
+function initialize_skin_frac()
+	window = guiCreateWindow(sWidth-340, (sHeight-500)/2, 340, 500, "Выбор скина", false)
+	skin_list_gui = guiCreateGridList(10, 25, 320, 425, false, window)
+	col_name = guiGridListAddColumn(skin_list_gui, "ID", 0.25)
+	--col_cost = guiGridListAddColumn(skin_list_gui, "Цена", 0.25)
+	btn_buy = guiCreateButton(10, 456, 158, 40, "Выбрать", false, window)
+	btn_close = guiCreateButton(172, 456, 158, 40, "Закрыть", false, window)
+	guiSetVisible(window, false)
+	addEventHandler("onClientGUIClick", btn_close, function( )
+		guiSetVisible(window, false)
+		showCursor(false)
+		setElementModel(localPlayer, model)
+		setElementFrozen(localPlayer, false)
+	end, false)
+	addEventHandler("onClientGUIClick", btn_buy, selectSkin2, false)
+	addEventHandler("onClientGUIClick", skin_list_gui, preview_skin2, false)
+end
+addEventHandler("onClientResourceStart", resourceRoot, initialize_skin_frac)
+
+t_skins2 			= { }
+t_skins2.name 	= { }
+t_skins2.price = { }
+t_skins2.id    = { }
+
+function showSkinFrac()
+    local usergrp = getElementData(localPlayer, "usergroup")
+	local gender = getElementData(localPlayer, "gender")
+	guiGridListClear(skin_list_gui)
+    if (usergrp == 2) and gender == 1 then
+	    for i,colum in ipairs(skinMalePD) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+    elseif (usergrp == 2) and gender == 2 then
+	    for i,colum in ipairs(skinFemalePDPD) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 4 and gender == 1 then
+	    for i,colum in ipairs(skinMaleMed) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 4 and gender == 2 then
+	    for i,colum in ipairs(skinFemaleMed) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	
+	elseif usergrp == 5 and gender == 1 then
+	    for i,colum in ipairs(skinMaleArmy) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 5 and gender == 2 then
+	    for i,colum in ipairs(skinFemaleArmy) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	
+	--[[elseif usergrp == 17 and gender == 1 then
+	    for i,colum in ipairs(skinMaleFBI) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 17 and gender == 2 then
+	    for i,colum in ipairs(skinFemaleFBIFBI) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	end]]
+	
+	elseif usergrp == 18 and gender == 1 then
+	    for i,colum in ipairs(skinMaleSanews) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	elseif usergrp == 18 and gender == 2 then
+	    for i,colum in ipairs(skinFemaleSanews) do
+		    local rowID = guiGridListAddRow(skin_list_gui)
+		        if colum[1] == 0 then
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], true, true)
+			        guiGridListSetItemColor( skin_list_gui, rowID, 1, 100, 100, 100 )
+		        else
+			        guiGridListSetItemText(skin_list_gui, rowID, 1, colum[2], false, true)
+			        guiGridListSetItemText(skin_list_gui, rowID, 2, colum[4], false, true)
+		        end
+	    end
+	end
+	setElementFrozen(localPlayer, true)
+	guiSetVisible(window, true)
+	showCursor(true)
+	local rx,ry,rz = getElementRotation(localPlayer)
+	setTimer(setCameraTarget, 900, 1, localPlayer)
+	setTimer(setElementRotation, 1000, 1, localPlayer, rx,ry, rz-180)
+	setTimer(fadeCamera, 1200, 1, true)
+	model = getElementModel(localPlayer)
+end
+addEvent("showSkinFrac", true)
+addEventHandler("showSkinFrac", root, showSkinFrac)
+
+function preview_skin2()
+	local row = guiGridListGetSelectedItem(skin_list_gui)
+	if (not row or row == -1) then return end
+	local id = guiGridListGetItemText(skin_list_gui, row, 1)
+	id = tonumber(id)
+	if (not id) then return end
+	setElementModel(localPlayer, id)
+end
+
+function selectSkin2()
+	local row = guiGridListGetSelectedItem(skin_list_gui)
+	if (not row or row == -1) then return end
+	local id = guiGridListGetItemText(skin_list_gui, row, 1)
+	local cost = guiGridListGetItemText(skin_list_gui, row, 2)
+	id = tonumber(id)
+	cost = tonumber(cost)
+	if (not id) and (not cost) then return end
+	if id == model then
+	msgAdd("Вы уже одели эту одежду!")
+	return
+	end
+	setElementModel(localPlayer, model)
+	setElementFrozen(localPlayer, false)
+	guiSetVisible(window, false)
+	showCursor(false)
+	triggerServerEvent("onSelectFracSkin", root, id)
+end
 
 addEvent("onSaNewsShow", true)
 addEvent("onSkinChooser", true)
