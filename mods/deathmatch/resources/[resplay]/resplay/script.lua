@@ -822,7 +822,8 @@ inventoryItems = {
 	{ "Средняя девичья кровать + навес", "images/inv_box.dds", 1300 },
 	{ "Кровать + шкаф", "images/inv_box.dds", 2000 },
 	{ "Кровать из массива", "images/inv_box.dds", 3000 },
-	{ "Наркотики", "images/drugs.png", 3000}
+	{ "Наркотики", "images/drugs.png", 300},
+	{ "Ремкомплект для авто", "images/remkomplekty.png", 300}
 }
 
 inventoryEmptyItem = { "Пусто", "images/inv_null.dds" }
