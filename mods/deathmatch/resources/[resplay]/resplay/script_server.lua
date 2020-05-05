@@ -12110,7 +12110,7 @@ function resourceStart(startedResource)
 	fractionInit()
 	gangInit()
 	criminalActivityInit()
-	--missionsInit()
+	missionsInit()
 	colorNames = fromJSON(colorNamesJSON)
 	--outputServerLog(string.format("RESPLAY: %d colors found", table.getn(colorNames)))
 	
