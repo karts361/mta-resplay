@@ -20,6 +20,7 @@
 	<include resource="chatinfo"/>
 	<include resource="dirtlevel"/>
 	<include resource="ammushoot"/>
+	<include resource="work_inkass"/>
 	<include resource="Reshud"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
