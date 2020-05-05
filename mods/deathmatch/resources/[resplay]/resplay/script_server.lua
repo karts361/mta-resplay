@@ -199,7 +199,7 @@ function updateVehicleHandling()
 				setVehicleHandling(v, k, vl)
 			end
 			
-			outputDebugString("* Handling updated for vehicle model " .. tostring(getElementModel(v))) -- INFO STRING
+			--outputDebugString("* Handling updated for vehicle model " .. tostring(getElementModel(v))) -- INFO STRING
 		end
 		
 		if getElementData(v, "engineBoost") then
@@ -2405,9 +2405,9 @@ eatTypes = {
 	{ 29, "Вел Стакед Пицца Ко.", 5, 372.5, -133.3, 1001.5, 0.0, 374.3, -117.3, 1001.5, 180.0, { 4, 1 }, 155, 600000 },
 	{ 49, "Бар", 11, 501.9, -68.4, 998.8, 180.0, 494.9, -77.5, 998.8, 0.0, { 6, 1 }, 211, 700000 },
 	{ 49, "Бар", 17, 493.4, -24.2, 1000.7, 0.0, 501.7, -20.5, 1000.7, 90.0, { 6, 1 }, 211, 700000 },
-	{ 52, "Магазин 24/7", 6, -27.3, -57.5, 1003.5, 0.0, -22.6, -57.2, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 1
-	{ 52, "Магазин 24/7", 18, -31.0, -91.5, 1003.5, 0.0, -26.9, -91.8, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 2
-	{ 52, "Магазин 24/7", 4, -27.3, -30.6, 1003.5, 0.0, -29.6, -30.7, 1003.5, 0.0, { 1, 409, 406, 443, 441, 442, 414, 446, 16 }, 36, 1500000 }, -- 3
+	{ 52, "Магазин 24/7", 6, -27.3, -57.5, 1003.5, 0.0, -22.6, -57.2, 1003.5, 0.0, { 1, 405, 409, 406, 443, 441, 442, 414, 446, 16, 268 }, 36, 1500000 }, -- 1
+	{ 52, "Магазин 24/7", 18, -31.0, -91.5, 1003.5, 0.0, -26.9, -91.8, 1003.5, 0.0, { 1, 405, 409, 406, 443, 441, 442, 414, 446, 16, 268 }, 36, 1500000 }, -- 2
+	{ 52, "Магазин 24/7", 4, -27.3, -30.6, 1003.5, 0.0, -29.6, -30.7, 1003.5, 0.0, { 1, 405, 409, 406, 443, 441, 442, 414, 446, 16, 268 }, 36, 1500000 }, -- 3
 	{ 50, "Столовая", 4, 459.1, -88.5, 999.6, 90.0, 450.1, -82.2, 999.6, 180.0, { 9, 4, 6, 1 }, 129, 500000 },
 	{ 47, "Магазин RC Zero", 6, -2240.1, 128.3, 1035.4, 270.0, -2235.4, 128.5, 1035.4, 0.0, { 12, 13, 14, 15 }, 306, 650000 },
 	{ 49, "Клуб Jizzy's", 3, -2636.7, 1403.3, 906.5, 0.0, -2655.8, 1406.9, 906.3, 230.0, { 6, 1 }, 211, 600000 },
@@ -2470,7 +2470,7 @@ raceInfoCoroutine = nil
 racersCoroutine = nil
 
 repairGarages = {}
-repairPrice = 100
+repairPrice = 500
 
 boomboxMusic = {
 	{ "Radio Los Santos", 51, 58, 65, 72, 79, 86, 92, 98, 104, 109, 116, 123, 130, 135, 142, 148 },
@@ -2854,7 +2854,8 @@ inventoryItemNames = {
 	{ "Средняя девичья кровать + навес", 1300, 1803 },
 	{ "Кровать + шкаф", 2000, 2301 },
 	{ "Кровать из массива", 3000, 2302 },
-	{ "Наркотики", 300, 1575 }
+	{ "Наркотики", 300, 1575 },
+	{ "Ремкомплект для авто", 300, 2040 }
 }
 inventoryFurnitureItems = {
 	[41]=true, [42]=true, [43]=true, [44]=true, [45]=true, [46]=true, [47]=true, [48]=true, [49]=true, [50]=true, [51]=true, [52]=true, [53]=true, [54]=true, [55]=true, [56]=true, [57]=true,
@@ -13929,6 +13930,56 @@ function inventoryUseSlot(slotId)
 							end
 						 end, 1500, 1, source)
 				slotUsed = true
+			end
+		
+		elseif(slotItem == 268) then
+			if(not isPedInVehicle(source)) and isPedOnGround(source) then
+				if not slotUsed then
+					local veh, vx, vy, vz, minDist, curDist
+					local px, py, pz = getElementPosition(source)
+						
+					for curveh in pairs(gangsterStealCars) do
+						if isElement(curveh) then
+							vx, vy, vz = getElementPosition(curveh)
+							curDist = getDistanceBetweenPoints3D(px, py, pz, vx, vy, vz)
+							if(curDist <= nearbyVehiclesRadius) and((not minDist) or (minDist > curDist)) then
+								veh = curveh
+								minDist = curDist
+							end
+						end
+					end
+						
+					if veh then
+						playerShowMessage(source, "Вы не можете починить взломанное авто.")
+					end
+						
+				        local vehicles = getNearbyElementsByType(source, "vehicle", nearbyVehiclesRadius)
+				        local hp
+				
+				        for _,vehi in ipairs(vehicles) do
+					        hp = getElementHealth(vehi)
+							local cx, cy, cz = getElementPosition(vehi)
+					
+					        if(hp < 750) then
+							    setPedAnimation(source, "COP_AMBIENT", "copbrowse_loop", 15000, true, false, false, false)
+			                    setTimer(function(source)
+					                if isElement(source) then
+						                setElementHealth(vehi, hp+200)
+						                local curCol = createColSphere(cx, cy, cz, 150)
+						                local players = getElementsWithinColShape(curCol, "player")
+										triggerClientEvent(players, "onServerPlaySFX3D", vehi, "script", 150, 0, 0, 0, 0, false, 100, vehi)
+						                destroyElement(curCol)
+							            animStop(source)
+										triggerEvent("onPlayerChat", source, "починил Т/С", 1)
+									end
+				                end, 15000, 1, source)
+					            slotUsed = true
+							else
+							    playerShowMessage(source, "Вы не можете починить авто, если повреждения всего 20%")
+					        end
+					
+				        end
+		        end
 			end
 		end
 
