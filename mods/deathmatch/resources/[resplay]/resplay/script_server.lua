@@ -29752,7 +29752,7 @@ function licenseWeaponExamFinish(plr)
 		dbFree(dbq)
 	until dbqueryresult
 	
-	if (getMoney(plr) < 15000) then
+	if (getMoney(plr) < 25000) then
 	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
 	else
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
