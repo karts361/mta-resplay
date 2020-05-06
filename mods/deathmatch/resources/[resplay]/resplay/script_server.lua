@@ -29758,7 +29758,7 @@ function licenseWeaponExamFinish(plr)
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Поздравляем, вы сдали экзамен и получили лицензию на владение оружием!")
 		triggerClientEvent(plr, "onSuccessMusicPlay", resourceRoot)
-		takeMoney(plr, 15000)
+		takeMoney(plr, 25000)
 		addNewEventToLog(getPlayerName(plr), "Лицензия на оружие - сдал", true)
 		setElementData(plr, "weaponlicense", 1)
 	end
