@@ -7169,12 +7169,11 @@ function ammuBuyWeapon(ammuCurWeap)
 		local weapammo = tmpWeapons[ammuCurWeap][3]
 		local weaponlicense = getElementData(source, "weaponlicense")
 		
-		if (weaponlicense == 0) or (weaponlicense == 2) then
+		if (weaponlicense == 0 or weaponlicense == 2) and not (weapid == 1242) then
 		    outputChatBox(generateTimeString().."[Аммуниция]: У вас отсутствует лицензия на оружие.", source, 255, 64, 64)
-		    return false
-		end
+		    --return false
 		
-		if(weapid == 1242) and not (weaponlicense == 0) or (weaponlicense == 2) then
+		elseif (weapid == 1242) and (weaponlicense == 0 or weaponlicense == 1 or weaponlicense == 2 ) then
 			if(getPedArmor(source) < 100) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - Armor(100)", true)
 				local ammuId = getElementDimension(source)
@@ -18304,10 +18303,10 @@ function executeAction(aplr, actionId, params)
 			respect = math.abs(respect)
 			local licenseDeprived = getElementData(aplr, "licenseDeprived")
 
-			if(money < 25000) then
+			if(money < 15000) then
                 triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег для сдачи экзамена на лицензии для владения оружием.")
-			elseif ( respect < 0.10 ) then
-			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 10% репутации для сдачи экзамена на лицензии для владения оружием.")
+			elseif ( respect < 0.05 ) then
+			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Необходимо 5% репутации для сдачи экзамена на лицензии для владения оружием.")
 			elseif ( licenseDeprived > 0 ) then
 			    triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы были лишены лицензии на оружие. Пересдать вы сможете через "..getTimeString(licenseDeprived*1000, "r").." реального времени")
 			elseif (license == 1) then
@@ -29753,13 +29752,13 @@ function licenseWeaponExamFinish(plr)
 		dbFree(dbq)
 	until dbqueryresult
 	
-	if (getMoney(plr) < 25000) then
+	if (getMoney(plr) < 15000) then
 	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
 	else
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Поздравляем, вы сдали экзамен и получили лицензию на владение оружием!")
 		triggerClientEvent(plr, "onSuccessMusicPlay", resourceRoot)
-		takeMoney(plr, 25000)
+		takeMoney(plr, 15000)
 		addNewEventToLog(getPlayerName(plr), "Лицензия на оружие - сдал", true)
 		setElementData(plr, "weaponlicense", 1)
 	end
