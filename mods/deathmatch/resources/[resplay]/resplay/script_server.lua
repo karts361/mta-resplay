@@ -30212,14 +30212,14 @@ SkinFracsMarkers = {
 function skinFrac()
 	for i, skinfra in pairs(SkinFracsMarkers) do
 		local x, y, z, int, dim, type = skinfra.x, skinfra.y, skinfra.z, skinfra.int, skinfra.dim, skinfra.type
-		marker = createMarker(x, y, z, "cylinder", 1.5, 255, 255, 0, 60)
-		setElementInterior(marker, int)
-		setElementDimension(marker, dim)
-		pickupSetText(marker, "Выбор фракционного скина", 255, 255, 0)
+		markerfrac = createMarker(x, y, z, "cylinder", 1.5, 255, 255, 0, 60)
+		setElementInterior(markerfrac, int)
+		setElementDimension(markerfrac, dim)
+		pickupSetText(markerfrac, "Выбор фракционного скина", 255, 255, 0)
 		if type == 2 then
-			setElementAlpha(marker,0)
+			setElementAlpha(markerfrac,0)
 		end
-		addEventHandler("onMarkerHit", marker, on_marker_hit2)
+		addEventHandler("onMarkerHit", markerfrac, on_marker_hit2)
 	end
 end
 addEventHandler("onResourceStart", resourceRoot, skinFrac)
