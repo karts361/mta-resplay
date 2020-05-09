@@ -1568,7 +1568,7 @@ function chatMsgAdd(timeStr, playerid, police, medic, soldier, fbi, sanews, isAd
 		    outputChatBox(timeStr.."(( "..getPlayerName(source).."["..playerid.."] "..msg.." ))", 147, 147, 147, true)
 		
 		elseif isMEGAFONfunc then
-		    outputChatBox(timeStr.."[МЕГАФОН]"..getPlayerName(source).."["..playerid.."] "..msg.."", 204, 252, 235, true)
+		    outputChatBox(timeStr.."[МЕГАФОН] "..getPlayerName(source).."["..playerid.."] "..msg.."", 204, 252, 235, true)
 
 		elseif isAdmin then
 			outputChatBox(timeStr.."[Admin] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 70, 0, true)

@@ -7115,7 +7115,7 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 				if wantedCooldowns[playerValue] then
 					wantedCooldowns[playerValue] = wantedCooldowns[playerValue] + 1
 					
-					if(wantedCooldowns[playerValue] > 30*wanted) then
+					if(wantedCooldowns[playerValue] > 60*wanted) then
 						wantedLevelClear(playerValue)
 					end
 				else
