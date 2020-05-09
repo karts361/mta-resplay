@@ -1542,7 +1542,7 @@ function removeHex(text, digits)
     return string.gsub(text, "#" ..(digits and string.rep("%x", digits) or "%x+"), "")
 end
 
-function chatMsgAdd(timeStr, playerid, police, medic, soldier, fbi, sanews, isAdmin, isHelper, msg, isMeFunc, isRpFunc, isOOCfunc)
+function chatMsgAdd(timeStr, playerid, police, medic, soldier, fbi, sanews, isAdmin, isHelper, msg, isMeFunc, isRpFunc, isOOCfunc, isMEGAFONfunc)
 	local sendMsg = true
 	local playerid = getElementData(source, "ID")
 	
@@ -1566,12 +1566,15 @@ function chatMsgAdd(timeStr, playerid, police, medic, soldier, fbi, sanews, isAd
 			
 		elseif isOOCfunc then
 		    outputChatBox(timeStr.."(( "..getPlayerName(source).."["..playerid.."] "..msg.." ))", 147, 147, 147, true)
+		
+		elseif isMEGAFONfunc then
+		    outputChatBox(timeStr.."[МЕГАФОН]"..getPlayerName(source).."["..playerid.."] "..msg.."", 204, 252, 235, true)
 
 		elseif isAdmin then
-			outputChatBox(timeStr.."[АДМИН] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 70, 0, true)
+			outputChatBox(timeStr.."[Admin] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 70, 0, true)
 			
 		elseif isHelper then
-		    outputChatBox(timeStr.."[ХЕЛПЕР] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
+		    outputChatBox(timeStr.."[Helper] "..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 255, 160, 160, true)
 			
 		elseif police then
 		    outputChatBox(timeStr..getPlayerName(source).."["..playerid.."]"..": #FFFFFF"..msg, 0, 0, 255, true)

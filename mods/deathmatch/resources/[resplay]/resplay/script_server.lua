@@ -5659,6 +5659,7 @@ end
 function otbStart()
 	local winNum = math.random(50)
 	local winSum = math.floor(otbFund*0.9)
+	local winRandomSum = math.random(600, 3500)
 	
 	for key,plr in pairs(otbTickets) do
 		if isElement(plr) then
@@ -5666,7 +5667,7 @@ function otbStart()
 				addNewEventToLog(getPlayerName(plr), "Букмекерская контора - Выигрыш - $"..tostring(winSum), true)
 				triggerClientEvent(plr, "onServerMsgAdd", plr, string.format("Вы выиграли в лотерее. Ваш выигрыш составил $%d.", winSum))
 				triggerClientEvent(plr, "onOtbWin", plr)
-				giveMoney(plr, winSum)
+				giveMoney(plr, winRandomSum)
 			
 			else
 				addNewEventToLog(getPlayerName(plr), "Букмекерская контора - Проигрыш - nil", true)
@@ -5696,7 +5697,7 @@ function gangsterKillOrderNew(killPlr, killPrice, killOrderer)
 		addNewEventToLog(getPlayerName(killOrderer), "Цена за голову - Назначение - $"..tostring(killPrice).." за "..getPlayerName(killPlr), true)
 		addNewEventToLog(getPlayerName(killPlr), "Цена за голову - Получение - $"..tostring(killPrice).." от "..getPlayerName(killOrderer), true)
 		triggerClientEvent(killOrderer, "onServerMsgAdd", killOrderer, string.format("Вы назначили цену $%d за голову игрока %s. Текущая цена - $%d.", killPrice, kName, gangsterKillOrders[kName]))
-		triggerClientEvent(killPlr, "onServerMsgAdd", killPlr, string.format("Игрок назначил за вашу голову награду $%d. Текущая цена - $%d.", killPrice, gangsterKillOrders[kName]))
+		triggerClientEvent(killPlr, "onServerMsgAdd", killPlr, string.format("Неизвестный назначил за вашу голову награду $%d. Текущая цена - $%d.", killPrice, gangsterKillOrders[kName]))
 	
 	else
 		addNewEventToLog(getPlayerName(killPlr), "Цена за голову - Получение - $"..tostring(killPrice).." от анонима", true)
@@ -5738,7 +5739,7 @@ function gangsterKillOrderRandomProc()
 					pName = getPlayerName(plr)
 					
 					if not gangsterKillOrderRandoms[pName] then
-						gangsterKillOrderNew(plr, math.random(2, 10)*100)
+						gangsterKillOrderNew(plr, math.random(2, 10)*250)
 						gangsterKillOrderRandoms[pName] = true
 						break
 					end
@@ -7114,7 +7115,7 @@ function saveCurrentPlayer(playerValue, skipAFKCheck, procJetpack, procStats, pr
 				if wantedCooldowns[playerValue] then
 					wantedCooldowns[playerValue] = wantedCooldowns[playerValue] + 1
 					
-					if(wantedCooldowns[playerValue] > 9*wanted) then
+					if(wantedCooldowns[playerValue] > 30*wanted) then
 						wantedLevelClear(playerValue)
 					end
 				else
@@ -14851,7 +14852,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
 
 			for _,plr in ipairs(players) do
-				if(getPlayerWantedLevel(plr) > 0) then
+				if(getPlayerWantedLevel(plr) > 0) and not (getPlayerWantedLevel(plr) >= 3) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
 				end
 				if (getElementData(plr, "Cuffed") == false) then
@@ -15636,7 +15637,7 @@ function requestActionsList(aplr)
 		
 		
 		table.insert(alist, { 52, availableActions[52], {}, { "Местоположение" }, 255, 255, 255 })
-		--table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
+		table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
 		--table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
 		table.insert(alist, { 109, availableActions[109], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 56, availableActions[56], {}, { "Игрок", "Причина" }, 255, 255, 0 })
@@ -15695,6 +15696,7 @@ function requestActionsList(aplr)
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
 					table.insert(alist, { 702, "Модерация - Удалить аккаунт", {}, { "ID аккаунта" }, 255, 0, 0 })
+					table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
 				end
 			end
 			
@@ -19712,8 +19714,46 @@ function wantedLevelInc(plr)
 	return false
 end
 
+function wantedLevelIncPD(plr)
+	if(getElementType(plr) == "player") and(not isPedDead(plr)) and(not isAdmin(plr) or isModerator(plr)) then
+		
+		if wantedTimers2[plr] then
+			return false
+		end
+		
+		local curWL = getPlayerWantedLevel(plr)
+		
+		if(curWL < 6) then
+			curWL = curWL+3
+			attachActionToElement(defaultActions[134], plr)
+			attachActionToElement(defaultActions[116], plr)
+			addNewEventToLog(getPlayerName(plr), "Уровень розыска - Увеличение - "..tostring(curWL), true)
+			setPlayerWantedLevel(plr, curWL)
+			setElementData(plr, "wantedLevel", curWL)
+			wantedCooldowns[plr] = nil
+			dbExec(db, "UPDATE users SET wantedLevel=? WHERE name=?", curWL, getHash(getPlayerName(plr)))
+			triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы были объявлены в розыск за нападение на представителя органов правопорядка.")
+		end
+		
+		--if isPlayerFromPolice(plr) then
+		--	triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы уволены за наличие уровня розыска.")
+		--	setPlayerNewGroup(plr, groupCommonGet(plr))
+		--end
+		wantedTimers2[plr] = setTimer(wantedTimerRemove2, 30000, 1, plr)
+		return true
+	end
+	
+	return false
+end
+
+wantedTimers2 = { }
+
 function wantedTimerRemove(plr)
 	wantedTimers[plr] = nil
+end
+
+function wantedTimerRemove2(plr)
+	wantedTimers2[plr] = nil
 end
 
 function wantedLevelClear(plr)
@@ -19743,7 +19783,7 @@ function playerDamage(attacker, attackWeap, bodypart, loss)
 		
 		if isPlayerFromPolice(source) and not (isAdmin(source) or isModerator(source)) and(not isPlayerFromPolice(attacker)) then
 			criminalActivityRegisterCrime(criminalActivityGetPlayerZoneIndex(attacker))
-			wantedLevelInc(attacker)
+			wantedLevelIncPD(attacker)
 		end
 		
 	end
@@ -20229,6 +20269,9 @@ function chatCmdMessage(plr, cmdName, ...)
 		    playerSendSMIMessage(plr, msg)
 			giveMoney(plr, saNewsPrice)
 			respectSet(plr, respect+0.000010, -1.0, 1.0, true)
+			
+		elseif(cmdName == "megafon") and isPlayerFromPolice(plr) then
+		    triggerEvent("onPlayerChat", plr, msg, 5)
 		
 		elseif(cmdName == "do") then
 			triggerEvent("onPlayerChat", plr, msg.." #FFFFFF"..getPlayerName(plr), 3)
@@ -20365,10 +20408,15 @@ function playerChat(msg, msgType)
 			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
 			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, true)
 		
-		elseif(msgType == 4) then 
+		elseif(msgType == 4) then -- ooc
 			local players = getNearbyElementsByType(source, "player", 30.0)
 			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
 			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
+			
+		elseif(msgType == 5) then -- megafon pd
+			local players = getNearbyElementsByType(source, "player", 155.0)
+			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, false, true)
+			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, false, true)
 
 		end
 		
@@ -30523,6 +30571,7 @@ addCommandHandler("b", chatCmdMessage, false, false) --OOC Chat
 addCommandHandler("mm", chatCmdMessage, false, false) --Command for SaNews status (СМИ). Writes text to global chat like as /a.
 addCommandHandler("bt", chatCmdMessage, false, false) --OOC Chat in teamsay
 addCommandHandler("try", chatCmdMessage, false, false) --RP Command for trying. 
+addCommandHandler("megafon", chatCmdMessage, false, false) --megafon PD
 --addCommandHandler("admins", outputAdmins, false, false) --cut command for show who is online from administrators.
 
 setTimer(collectgarbage, 60000, 0, "collect")
