@@ -14428,6 +14428,24 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			end
 		end
 		
+        for houseid,house in pairs(houses) do
+		    if (house[11] == sHash) and (house[12] > 0) then
+			    outputChatBox(generateTimeString().."RESPLAY: Ваш долг по оплате за дом составляет: "..house[12].."$. Оплатить сможете через маркер дома.", source, 255, 128, 0, true)
+			end
+		end
+		
+		for ammuId,ammuShop in ipairs(ammuShops) do 
+		    if (ammuShop[9] == sHash) and (ammuShop[10] > 0) then
+			    outputChatBox(generateTimeString().."RESPLAY: Ваш долг по оплате за аммуницию составляет: "..ammuShop[10].."$. Оплатить сможете через маркер бизнеса.", source, 255, 128, 0, true)
+			end
+		end
+		 
+		for eatId,eatLocation in ipairs(eatLocations) do
+		    if (eatLocation[9] == sHash) and (eatLocation[10] > 0) then
+			    outputChatBox(generateTimeString().."RESPLAY: Ваш долг по оплате за бизнес составляет: "..eatLocation[10].."$. Оплатить сможете через маркер бизнеса.", source, 255, 128, 0, true)
+			end
+		end
+		
 		local pTeam = dbqueryresult[1]["clan"]
 		
 		if(pTeam == 0) then
@@ -29981,24 +29999,6 @@ function timerkill()
 	end
 end
 
-taxSellNonPayment = setTimer(
-function()
-	local tsm = getRealTime()
-	local minute = tsm.minute
-	local weekday = tsm.weekday
-	local hour = tsm.hour
-	if (weekday == 6 and hour == 7 and minute == 55) then
-		taxSellTaxNonPayment()
-		timerkill2()
-	end
-end, 1000, 0)
-
-function timerkill2()
-    if isTimer(taxSellNonPayment) then
-	    killTimer(taxSellNonPayment)
-	end
-end
-
 function taxSellTaxNonPayment()
     for houseid,house in pairs(houses) do
 
@@ -30043,6 +30043,25 @@ function taxSellTaxNonPayment()
     end
 	end
 end
+
+taxSellNonPayment = setTimer(
+function()
+	local tsm = getRealTime()
+	local minute = tsm.minute
+	local weekday = tsm.weekday
+	local hour = tsm.hour
+	if (weekday == 6 and hour == 7 and minute == 55) then
+		taxSellTaxNonPayment()
+		timerkill2()
+	end
+end, 1000, 0)
+
+function timerkill2()
+    if isTimer(taxSellNonPayment) then
+	    killTimer(taxSellNonPayment)
+	end
+end
+
 --addCommandHandler("testsliv", taxSellTaxNonPayment) -- debug
 
 ------------ Система Ареста -----------
