@@ -14684,7 +14684,7 @@ function requestUserData4(dbq, source, sHash)
 	
 	--dbQuery(requestUserData5, {source}, db, "SELECT id FROM houses WHERE owner = ?", sHash)
 end
---[[
+--[[ хуита не рабочая, убрать.
 function requestUserData5(dbq, source)
     dbqueryresult = dbPoll(dbq, 0)
 	dbFree(dbq)
