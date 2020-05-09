@@ -426,7 +426,7 @@ availableActions = {
 	"Модерация - Забанить игрока",
 	"Игрок - Дать денег игроку",
 	"Модерация - Пожаловаться на игрока",
-	"Полиция - Откуп",
+	"Полиция - Оплатить штраф",
 	"Бой лоурайдеров - Начать",
 	"Бой лоурайдеров - Покинуть",
 	"Транспорт - Открыть багажник",
@@ -14396,7 +14396,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		if not (sphouse == 0) then
 			local sphouselvl, sphouseowner = houses[sphouse][2], houses[sphouse][11]
 			
-			if(sphouseowner == sHash) then
+			if(sphouseowner == sHash) and not (getElementData(source, "arrested") > 0) then
 				spdim = 2
 				
 				for i,house in pairs(houses) do
@@ -14859,6 +14859,9 @@ function requestActionsList(aplr)
 		
 		if isElementWithinMarker(aplr, licenseweaponmarker) then
 		    table.insert(alist, { 155, "Лицензия - Сдать экзамен на получение лицензии на владение оружием $25000", {}, nil, 0, 255, 0 } )
+			if(getPlayerWantedLevel(aplr) > 0) and not (getPlayerWantedLevel(aplr) >= 3)then
+				table.insert(alist, { 57, string.format("%s($%d x 1 звезда)", availableActions[57], buyoutPrice), {}, nil, 0, 255, 0 })
+			end
 		end
 
 		table.insert(alist, { 81, availableActions[81], { dbqueryresult }, nil, 255, 255, 255 })
@@ -16814,21 +16817,21 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 57) then
 			local respect = getElementData(aplr, "respect")
 			
-			if respect and(respect >= 0.0) then
+			--if respect and(respect >= 0.0) then
 				local price = buyoutPrice*getPlayerWantedLevel(aplr)
 				
 				if(getMoney(aplr) >= price) then
-					addNewEventToLog(getPlayerName(aplr), "Полиция - Откуп - Звёзды: "..tostring(getPlayerWantedLevel(aplr)), true)
+					addNewEventToLog(getPlayerName(aplr), "Полиция - штраф - Звёзды: "..tostring(getPlayerWantedLevel(aplr)), true)
 					takeMoney(aplr, price)
 					wantedLevelClear(aplr)
-					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы откупились от полицейских.")
+					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы заплатили штраф.")
 				else
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "У вас недостаточно денег.")
 				end
 				
-			else
-				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы должны обладать неотрицательным уважением, чтобы воспользоваться откупом.")
-			end
+		--	else
+			--	triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Вы должны обладать неотрицательным уважением, чтобы воспользоваться откупом.")
+		--	end
 			
 			--policeOrder(aplr, params[1])
 			--triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Ваш вызов принят и разослан всем полицейским поблизости.")
@@ -18498,7 +18501,7 @@ function executeAction(aplr, actionId, params)
 				local taxPayment = houses[hindex][12]
 					
 			    if (getMoney(aplr) < taxPayment) then
-			        playerShowMessage(newOwner, "У вас недостаточно денег.")
+			        playerShowMessage(aplr, "У вас недостаточно денег.")
 			        return false
 		        end
 
@@ -18528,7 +18531,7 @@ function executeAction(aplr, actionId, params)
 					local taxAmount = eatLocations[bindex][10]
 
 			        if (getMoney(aplr) < taxAmount) then
-			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            playerShowMessage(aplr, "У вас недостаточно денег.")
 			            return false
 		            end
 					if(taxAmount > 0) then
@@ -18552,7 +18555,7 @@ function executeAction(aplr, actionId, params)
 				if(owner == pHash) then
 					local taxAmount = ammuShops[bindex][10]
 			        if (getMoney(aplr) < taxAmount) then
-			            playerShowMessage(newOwner, "У вас недостаточно денег.")
+			            playerShowMessage(aplr, "У вас недостаточно денег.")
 			            return false
 		            end
 					if(taxAmount > 0) then
@@ -29808,7 +29811,7 @@ end
 licenseweaponmarker = createMarker(249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
 setElementInterior(licenseweaponmarker, 6)
 setElementDimension(licenseweaponmarker, 87)
-setPickupText(licenseweaponmarker, "Лицензия", 255, 255, 0)
+setPickupText(licenseweaponmarker, "Полицейский департамент", 255, 255, 0)
 
 function licenseWeaponExamFinish(plr)
     local pHash = getHash(getPlayerName(plr))
