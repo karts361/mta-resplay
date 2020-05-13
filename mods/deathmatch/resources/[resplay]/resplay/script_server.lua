@@ -14876,11 +14876,11 @@ function requestActionsList(aplr)
 				if(getPlayerWantedLevel(plr) > 0) and not (getPlayerWantedLevel(plr) >= 3) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
 				end
-				if (getElementData(plr, "Cuffed") == false) then
+				--[[if (getElementData(plr, "Cuffed") == false) then
 				    table.insert(alist, { 169, "Работа - Заковать в наручники игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
 				else
 				    table.insert(alist, { 170, "Работа - Cнять наручники с игрока "..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
-				end
+				end]]
 				table.insert(alist, { 134, availableActions[134]..getPlayerName(plr), { plr }, nil, 0, 255, 0 })
 			end
 		end
@@ -18653,8 +18653,8 @@ function executeAction(aplr, actionId, params)
 			    triggerEvent("onPlayerChat", aplr, "отправил "..getPlayerName(crim).." в тюрьму", 1)
 			    --toggleAllControls(crim, true)
 			    --setPedFrozen(crim, false)
-			    setElementData(crim, "Cuffed", false)
-                arestedPlayer[aplr] = nil
+			   -- setElementData(crim, "Cuffed", false)
+               -- arestedPlayer[aplr] = nil
 				local arrested = 300*sourceWanted -- срок в тюрьме за звезды, 1 зв = 5 минут тюрьмы, 6 = 30 минут.
 				setElementData(crim, "arrested", arrested)
 				dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, getHash(getPlayerName(crim)))
@@ -20435,7 +20435,7 @@ function playerChat(msg, msgType)
 			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, true)
 			
 		elseif(msgType == 5) then -- megafon pd
-			local players = getNearbyElementsByType(source, "player", 155.0)
+			local players = getNearbyElementsByType(source, "player", 180.0)
 			triggerClientEvent(players, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, false, true)
 			triggerClientEvent(source, "onChatMessageRender", source, generateTimeString(), false, false, false, false, false, false, false, false, msg, false, false, false, true)
 
@@ -29821,13 +29821,13 @@ function licenseWeaponExamFinish(plr)
 		dbFree(dbq)
 	until dbqueryresult
 	
-	if (getMoney(plr) < 25000) then
+	if (getMoney(plr) < 15000) then
 	    triggerClientEvent(plr, "onServerMsgAdd", plr, "У вас недостаточно денег.")
 	else
 		dbExec(db, "UPDATE users SET weaponlicense=1 WHERE name=?", pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Поздравляем, вы сдали экзамен и получили лицензию на владение оружием!")
 		triggerClientEvent(plr, "onSuccessMusicPlay", resourceRoot)
-		takeMoney(plr, 25000)
+		takeMoney(plr, 15000)
 		addNewEventToLog(getPlayerName(plr), "Лицензия на оружие - сдал", true)
 		setElementData(plr, "weaponlicense", 1)
 	end
@@ -30142,7 +30142,7 @@ function warpPlayerIntArested(plr)
 	    triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), source, 18, { key })
     end
 end]]
-
+--[[ наручнкики доработать
 function arrestOrTaze(attacker, attackerweapon)
 	if not attacker or not isElement(attacker) or getElementType(attacker) ~= "player"
 		or not getPlayerTeam(attacker) then return end
@@ -30162,7 +30162,7 @@ function arrestOrTaze(attacker, attackerweapon)
 		setControlStates(source, false)
 	end
 end
-addEventHandler("onPlayerDamage", root, arrestOrTaze)
+addEventHandler("onPlayerDamage", root, arrestOrTaze)]]
 
 function syncSuspect(crim, cop)
 	if isElement(crim) and isElement(cop) and getElementData(crim,"Cuffed") == true then
