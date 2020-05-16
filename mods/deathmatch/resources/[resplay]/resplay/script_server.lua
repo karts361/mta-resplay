@@ -5226,10 +5226,15 @@ function botCorrectRotationCoroutine()
 			setElementRotation(que[5], 0, 0, que[4], "default", true)
 			setPedAnimation(que[5], "CASINO", "cards_loop", -1, true, false, false, false)
 		end
-		
 		for _,drugd in ipairs(drugDealers) do
 			setElementRotation(drugd[5], 0, 0, drugd[4], "default", true)
 			setPedAnimation(drugd[5], "DEALER", "DEALER_IDLE", -1, true, false, false, false)
+			
+			for _, player in ipairs (getElementsByType("player")) do
+			    if not (getElementData(player, "usergroup") == 19 or getElementData(player, "usergroup") == 20 or getElementData(player, "usergroup") == 21 or getElementData(player, "usergroup") == 22) then
+			        exports.ai:botTalk(drugd[5], "Эй, отстань от меня! С такими как ты я дел не имею..", player)
+			    end
+			end
 		end
 		coroutine.yield()
 	end
@@ -12700,13 +12705,18 @@ function resourceStart(startedResource)
 	local drugDealer
 	
 	for i,drugd in ipairs(drugDealers) do
-		drugDealer = createPed(29, drugd[1], drugd[2], drugd[3], drugd[4], false)
+		drugDealer = createPed(28, drugd[1], drugd[2], drugd[3], drugd[4], false)
 		--attachActionToElement(defaultActions[104], drugDealer)
 		setElementData(drugDealer, "godmode", true)
 		setElementFrozen(drugDealer, true)
 		setElementRotation(drugDealer, 0, 0, drugd[4], "default", true)
 		setPedAnimation(drugDealer, "DEALER", "DEALER_IDLE", -1, true, false, false, false)
 		setElementData(drugDealer, "drugdealer", true, false)
+			for _, player in ipairs (getElementsByType("player")) do
+			    if not (getElementData(player, "usergroup") == 19 or getElementData(player, "usergroup") == 20 or getElementData(player, "usergroup") == 21 or getElementData(player, "usergroup") == 22) then
+			        exports.ai:botTalk(drugDealer, "Эй, отстань от меня! С такими как ты я дел не имею..", player)
+			    end
+			end
 		drugDealers[i][5] = drugDealer
 	end
 	
@@ -15080,7 +15090,9 @@ function requestActionsList(aplr)
 				elseif queryPed then
 					table.insert(alist, { 104, availableActions[104], {}, nil, 0, 255, 0 })
 				elseif drugPed then
-				    table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
+				    if(getElementData(aplr, "usergroup") == 19 or getElementData(aplr, "usergroup") == 20 or getElementData(aplr, "usergroup") == 21 or getElementData(aplr, "usergroup") == 22) then
+				        table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
+					end
 				end
 				
 			end
