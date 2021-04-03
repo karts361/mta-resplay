@@ -12113,7 +12113,7 @@ function resourceStart(startedResource)
 	clanInit()
 	--generateMapFile()
 	fractionInit()
-	gangInit()
+	--gangInit()
 	criminalActivityInit()
 	missionsInit()
 	colorNames = fromJSON(colorNamesJSON)
@@ -28760,12 +28760,13 @@ end
 addEvent("onBuySkin", true)
 addEventHandler("onBuySkin", root, onBuySkin)
 
-------- ФРАКЦИИ БАНД ----------
+--[[
+------- ФРАКЦИИ БАНД (ВЫКЛЮЧЕНО) ----------
 function gangGetAllGroups()
 	local groups = {}
 	
 	for _,gang in ipairs(gangs) do
-		groups[gang[2]] = true
+		groups[gang[2] ] = true
 	end
 	
 	return groups
@@ -29462,8 +29463,8 @@ function gangIsPlayerInsideGangInterior(plr, gId)
 			return false
 		end
 		
-		if eatGangs[eatLocations[pdim][1]] then
-			return((getElementInterior(plr) == eatTypes[eatLocations[pdim][1]][3]) and(gId == eatGangs[eatLocations[pdim][1]]))
+		if eatGangs[eatLocations[pdim][1] ] then
+			return((getElementInterior(plr) == eatTypes[eatLocations[pdim][1] ][3]) and(gId == eatGangs[eatLocations[pdim][1] ]))
 		end
 		
 		return false
@@ -29818,6 +29819,7 @@ function gangBaseIsInCapture(baseId)
 	
 	return false
 end
+]]
 
 ----- сдача экзамена на лицензию на оружия
 licenseweaponmarker = createMarker(249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
