@@ -12928,10 +12928,11 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 		end
 		
 		fractionRemovePlayerFromFraction(plr)
-		gangRemovePlayerFromGang(plr)
+		--gangRemovePlayerFromGang(plr)
 		local moneyAmount = getMoney(plr)
 		local gender = getElementData(plr, "gender")
 		
+		--[[
         if grpid == 19 then
             setPlayerTeam(plr, bloods)
 	    elseif grpid == 20 then
@@ -12940,7 +12941,7 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
             setPlayerTeam(plr, lkings)
 		elseif grpid == 22 then
 		    setPlayerTeam(plr, ms13)
-	    end
+	    end]]
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
 			local sHash = getHash(getPlayerName(plr))
