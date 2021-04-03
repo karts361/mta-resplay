@@ -29493,9 +29493,9 @@ gangBaseCaptures = {}
 gangBaseCaptureMinPlr = 7
 gangBaseCaptureTimeSec = 560
 
---[[счетчик (временно не рабочий, доделать переделать)
+--четчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
-gangBaseKillOwnerGang = 0]]
+gangBaseKillOwnerGang = 0
 
 ---- требования в банду -------
 
@@ -29580,7 +29580,7 @@ function gangBaseCaptureProcess(baseId)
 		gangBaseCaptures[baseId][3] = capture[3]-1
 	end
 	
-	--[[ДОДЕЛАТЬ, СЧЕТЧИКИ
+	--ДОДЕЛАТЬ, СЧЕТЧИКИ
 	if gangPlayers then 
 	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == gangPlayers) then gangBaseCaptures[baseId][7] = capture[7]+1 end end)
 		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
@@ -29589,7 +29589,7 @@ function gangBaseCaptureProcess(baseId)
 	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == ownerPlayers) then gangBaseCaptures[baseId][8] = capture[8]+1 end end)
 		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
 		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][8]+1 })
-	end]]
+	end
 	
 	for _,plr in ipairs(ownerPlayers) do
 		px, py = getElementPosition(plr)
@@ -29614,12 +29614,12 @@ function gangBaseCaptureProcess(baseId)
 	if(gangBaseCaptures[baseId][3] > 0) then
 		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr, gangBaseKillGang, gangBaseKillOwnerGang })
 	---- СЧЕТЧИКИ
-	--[[elseif(gangBaseCaptures[baseId][7] > 2) then
+	--seif(gangBaseCaptures[baseId][7] > 2) then
 		gangBaseCaptureFinish(baseId, true)
 	elseif(gangBaseCapture[baseId][8] > 2 ) then
 	    gangBaseCaptureFinish(baseId, false)
 	elseif(gangBaseCaptures[baseId][3] < 0) then
-	    gangBaseCaptureFinish(baseId, false)]]
+	    gangBaseCaptureFinish(baseId, false)
 	else
 	    gangBaseCaptureFinish(baseId, true)
 	end
