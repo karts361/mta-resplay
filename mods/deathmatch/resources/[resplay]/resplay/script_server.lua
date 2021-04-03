@@ -14582,7 +14582,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		checkPlayerGroup(source)
 		dbqueryresult[1]["usergroup"] = getElementData(source, "usergroup")
 		local fId, pId = fractionGetPlayerFraction(source)
-		local gId, ppId = gangGetPlayerGang(source)
+		--local gId, ppId = gangGetPlayerGang(source)
 		
 		if fId then
 			local rankName
@@ -14593,7 +14593,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			end
 			setElementData(source, "usergroupname", fractions[fId][1].." - "..rankName)
 			fractionUpdate(fId, true, true)
-		elseif gId then
+		--[[elseif gId then
 			local rankName
 			if(ppId == 0) then
 				rankName = "Лидер"
@@ -14601,7 +14601,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 				rankName = gangGetRankName(gId, gangGetPlayerRank(gId, ppId))
 			end
 			setElementData(source, "usergroupname", gangs[gId][1].." - "..rankName)
-			gangUpdate(gId, true, true)
+			gangUpdate(gId, true, true)]]
 		else
 			setElementData(source, "usergroupname", playerGroups[dbqueryresult[1]["usergroup"]][1])
 		end
@@ -14752,7 +14752,7 @@ function requestActionsList(aplr)
 		local objs = getNearbyElementsByType(aplr, "object", nearbyPlayersRadius)
 		local clan = getPlayerClan(aplr)
 		local fId = fractionGetPlayerFraction(aplr)
-		local gId = gangGetPlayerGang(aplr)
+		--local gId = gangGetPlayerGang(aplr)
 		local pHelper = isHelper(aplr)
 		local pAdmin = isAdmin(aplr)
 		local pModerator = isModerator(aplr)
@@ -15694,7 +15694,7 @@ function requestActionsList(aplr)
 			end
 		end
 		
-		if gId then 
+		--[[if gId then 
 		    for i,gbase in ipairs(gangBases) do
 			    local gposz = gbase[4] 
 			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr) and(math.abs(pz-gposz) < 100.0)) then
@@ -15702,7 +15702,7 @@ function requestActionsList(aplr)
 			    end
 			end
 			table.insert(alist, { 33, availableActions[33], {}, nil, 255, 255, 255 })
-		end
+		end]]
 		
 		if fId then
 			table.insert(alist, { 125, availableActions[125], {}, nil, 255, 255, 255 })
@@ -16388,10 +16388,10 @@ function executeAction(aplr, actionId, params)
 			end
 		
 		elseif(actionId == 33) then
-			local gId = gangGetPlayerGang(aplr)
+			--[[local gId = gangGetPlayerGang(aplr)
 			if gId then
 				triggerClientEvent(aplr, "onGangOpenMenu", aplr)
-			end
+			end]]
 		
 		elseif(actionId == 34) then
 			gangBaseCaptureStart(params[1], aplr)
@@ -19292,10 +19292,10 @@ function checkPlayerGroup(plr)
 	end
 	
 	local fId = fractionGetPlayerFraction(plr)
-	local gId = gangGetPlayerGang(plr)
+	--local gId = gangGetPlayerGang(plr)
 	local respectCur = getElementData(plr, "respect")
 	
-	if not fId or gId then
+	if not fId then
 		local curGrp = getElementData(plr, "usergroup")
 		local respectNeedMin, respectNeedMax = playerGroupRPLevels[curGrp][1], playerGroupRPLevels[curGrp][2]
 		local moneyAmount = getMoney(plr)
@@ -19572,13 +19572,13 @@ function spawnPlayerEx(plr)
 		local spawned = false
 		local locationId = nil
 		local fId = fractionGetPlayerFraction(plr)
-		local gId = gangGetPlayerGang(plr)
+		--local gId = gangGetPlayerGang(plr)
 		
 		if fId then
 			locationId = getClosestFractionInterior(fId, px, py, pz)
-		elseif gId then
+		--[[elseif gId then
 		    locationId = getClosestGangInterior(gId, px, py, pz)
-			hp = 40
+			hp = 40]]
 			
 		else
 			locationId = getClosestHospital(px, py, pz)
