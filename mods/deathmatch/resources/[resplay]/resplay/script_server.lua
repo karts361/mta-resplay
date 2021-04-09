@@ -14491,7 +14491,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		local wantedLvl = dbqueryresult[1]["wantedLevel"]
 		weapons[0] = { dbqueryresult[1]["w0"], dbqueryresult[1]["w0ammo"] }
 		local grp = dbqueryresult[1]["usergroup"]
-        if grp == 19 then
+        --[[if grp == 19 then
             setPlayerTeam(source, bloods)
 	    elseif grp == 20 then
 	        setPlayerTeam(source, crips)
@@ -14499,7 +14499,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
             setPlayerTeam(source, lkings)
 	    elseif grp == 22 then
             setPlayerTeam(source, ms13)
-	    end
+	    end]]
 		
 
 		--- REFRESH SKIN IF NOT INITED ---
@@ -15721,7 +15721,7 @@ function requestActionsList(aplr)
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
 				table.insert(alist, { 126, availableActions[126], {}, { "Фракция", "Игрок" }, 255, 0, 0 })
-				table.insert(alist, { 703, "Банда - Назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
+				--table.insert(alist, { 703, "Банда - Назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
 				--[[table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
 				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })]]
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
@@ -27009,7 +27009,7 @@ function adminCMDbanip(plr, ip, hours, ...)
 end
 
 
-function adminCMDbanaccount(plr, nickname, hours, ...)
+function adminCMDbanacc(plr, nickname, hours, ...)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "player", nickname, table.concat({...}, " "), hours })
 end
 
@@ -27021,7 +27021,7 @@ function adminCMDunbanip(plr, ip)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "ip", ip })
 end
 
-function adminCMDunbanaccount(plr, nickname)
+function adminCMDunbanacc(plr, nickname)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "player", nickname })
 end
 
