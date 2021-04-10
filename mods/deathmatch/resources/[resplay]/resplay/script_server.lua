@@ -14609,8 +14609,6 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		
 		if(getElementData(source, "arrested") > 0) or (fId and spawnOutside) then
 			spawnPlayerEx(source)
-		elseif(getElementData(source, "arrested") > 0) or (gId and spawnOutside) then
-		    spawnPlayerEx(source)
 		elseif spawnOutside then
 			setTimer(setPlayerGreenZone, 500, 1, source)
 		end
