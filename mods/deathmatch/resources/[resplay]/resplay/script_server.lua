@@ -15092,7 +15092,7 @@ function requestActionsList(aplr)
 				elseif queryPed then
 					table.insert(alist, { 104, availableActions[104], {}, nil, 0, 255, 0 })
 				elseif drugPed then
-				    if(getElementData(aplr, "usergroup") == 19 or getElementData(aplr, "usergroup") == 20 or getElementData(aplr, "usergroup") == 21 or getElementData(aplr, "usergroup") == 22) then
+				    if(getElementData(aplr, "usergroup") == 10) then
 				        table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
 					end
 				end
@@ -27838,9 +27838,10 @@ function adminCMDsetgender(plr, nickname, newGender)
 	
 	if dbqueryresult[1] then
 		local gender = tonumber(newGender)
+		local gendPlr = getPlayerFromName(nickname)
 		dbExec(db, "UPDATE users SET gender=? WHERE name=?", gender, pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили пол на аккаунте "..nickname)
-		setElementData(plr, "gender", gender)
+		setElementData(gendPlr, "gender", gender)
 	else
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
