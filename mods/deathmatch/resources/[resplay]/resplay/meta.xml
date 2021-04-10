@@ -15,8 +15,8 @@
 	<include resource="bone_attach"/>
 	<include resource="customblips"/>
 	<include resource="blip"/>
-	<!-- <include resource="radiores"/>
-		<include resource="Reshud"/>
+    <include resource="radiores"/>
+		<!--<include resource="Reshud"/>
       <include resource="dirtlevel"/> -->
 	<include resource="camera"/>
 	<include resource="chatinfo"/>
