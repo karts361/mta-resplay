@@ -27022,6 +27022,7 @@ end
 function adminCMDunbanacc(plr, nickname)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "player", nickname })
 end
+--test hook
 
 function adminCMDslap(plr, nickname)
 	local slappedPlr = findPlayerByNamePattern(nickname)
