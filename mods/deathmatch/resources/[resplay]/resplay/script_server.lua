@@ -12104,9 +12104,10 @@ function resourceStart(startedResource)
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		if isTestServer() then
 			--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
-			db = dbConnect("mysql", "dbname=resplaychik;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+			--db = dbConnect("mysql", "dbname=resplaychik;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+			db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "UAxjiDzwm0fkpA9")
 		else
-		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
+		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "UAxjiDzwm0fkpA9")
 		end
 	until db
 	
