@@ -56,7 +56,7 @@ addEventHandler("onClientResourceStart", resourceRoot,
         Pioneer.font[2] = dxCreateFont("files/digit.ttf", 17)
         -----------------------------------------------------------------------------------------------------------
         guiSetVisible(Pioneer.staticimage[1], false)
-        bindKey("m", "down", PioneerMenu, localPlayer )
+        --bindKey("m", "down", PioneerMenu, localPlayer )
         -----------------------------------------------------------------------------------------------------------
     end
 end

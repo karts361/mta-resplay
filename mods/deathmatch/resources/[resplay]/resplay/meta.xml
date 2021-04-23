@@ -15,12 +15,12 @@
 	<include resource="bone_attach"/>
 	<include resource="customblips"/>
 	<include resource="blip"/>
-	<include resource="radiores"/>
+    <include resource="radiores"/>
+		<!--<include resource="Reshud"/>
+      <include resource="dirtlevel"/> -->
 	<include resource="camera"/>
 	<include resource="chatinfo"/>
-	<include resource="dirtlevel"/>
 	<include resource="ammushoot"/>
-	<include resource="Reshud"/>
 	<include resource="citymaps"/>
 	<include resource="damage"/>
 	<include resource="taser"/>

@@ -3,10 +3,10 @@
 	<command name="kick" level="1" description="/kick [ID] [причина] - Кикнуть игрока"/>
 	<command name="ban" level="2" description="/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока"/>
 	<command name="banip" level="2" description="/banip [IP] [часы] [причина] - Забанить игрока по IP"/>
-	<command name="banaccount" level="2" description="/banaccount [ник аккаунта] [часы] [причина] - Забанить аккаунт"/>
+	<command name="banacc" level="2" description="/banacc [ник аккаунта] [часы] [причина] - Забанить аккаунт"/>
 	<command name="unban" level="2" description="/unban [серийный номер] - Разбанить игрока"/>
 	<command name="unbanip" level="2" description="/unbanip [IP] - Разбанить игрока по IP"/>
-	<command name="unbanaccount" level="2" description="/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока"/>
+	<command name="unbanacc" level="2" description="/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока"/>
 	<command name="slap" level="1" description="/slap [часть ника] - Пнуть игрока"/>
 	<command name="warp" level="2" description="/warp [ID] - Переместить игрока к себе"/>
 	<command name="warpto" level="1" description="/warpto [ID] - Переместиться к игроку"/>
@@ -35,8 +35,6 @@
 	<command name="removefraction" level="2" description="/removefraction [ник] - уволить игрока из фракции"/>
 	<command name="mute" level="1" description="/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)"/>
 	<command name="unmute" level="1" description="/unmute [ник] - Снять мут игроку"/>
-	<command name="setgang" level="2" description="/setgang [ник] [название банды] - принять игрока в банду"/>
-	<command name="removegang" level="2" description="/removegang [ник] - исключить игрока из банды"/>
 	<command name="setgender" level="3" description="/setgender [ник] [пол] изменить пол игроку 1 - мужчина 2 - женчина"/>	
 	<command name="setpassword" level="4" description="/setpassword [пароль] - Установить пароль для входа на сервер"/>	
 	<command name="removepassword" level="4" description="/removepassword - снять пароль для входа на сервер"/>	

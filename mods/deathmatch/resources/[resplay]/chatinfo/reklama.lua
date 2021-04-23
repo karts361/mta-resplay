@@ -10,7 +10,7 @@ function getAds ()
  
 cislo = math.random(1, #reklamy)
 --cislo2 = math.random(1, #reklamy2) 
-outputChatBox(generateTimeString()..reklamy[cislo], getRootElement(), 0, 120, 255, true)
+outputChatBox(generateTimeString()..reklamy[cislo], getRootElement(), 255, 255, 255, true)
 --outputChatBox(generateTimeString()..reklamy2[cislo2], getRootElement(), 255,255,255, true)
  
 end

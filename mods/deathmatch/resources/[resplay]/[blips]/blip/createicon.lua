@@ -1,7 +1,5 @@
 addEventHandler ( "onClientResourceStart", getResourceRootElement(getThisResource()),
 	function()
-		blip1 = exports.customblips:createCustomBlip ( 1000.5251464844, -937.18579101563, 30, 30, "moika4.png", 30 )
-		blip2 = exports.customblips:createCustomBlip ( 1852.1025390625, -1854.102, 30, 30, "moika4.png", 30 )
 		blip3 = exports.customblips:createCustomBlip ( -2440.4717, 755.00616, 18, 18, "mebel2.png", 30 )
 		blip4 = exports.customblips:createCustomBlip ( 2352.0583, -1412.0686, 18, 18, "mebel2.png", 30 )
 		blip5 = exports.customblips:createCustomBlip ( 561.49908, -1506.7131, 18, 18, "mebel2.png", 30 )
@@ -17,10 +15,6 @@ addEventHandler ( "onClientResourceStart", getResourceRootElement(getThisResourc
 		blip15 = exports.customblips:createCustomBlip ( -2050.0688, -60.60839, 18, 18, "mebel2.png", 30 )
 		blip16 = exports.customblips:createCustomBlip ( 2292.2058, -1722.9681, 18, 18, "mebel2.png", 30 )
 		blip17 = exports.customblips:createCustomBlip ( 431.51099, -1645.0774 , 18, 18, "mebel2.png", 30 )
-		createBlip( 1000.5251464844, -937.18579101563, 20, 26, 2, 255, 0, 0 ,0, 0, 400)
-		createBlip( 1852.1025390625, -1854.102, 13, 26, 2, 255, 0, 0 ,0, 0, 400)
-		exports.customblips:setCustomBlipRadarScale ( blip1, 0)
-		exports.customblips:setCustomBlipRadarScale ( blip2, 0)
 		exports.customblips:setCustomBlipRadarScale ( blip3, 0)
 		exports.customblips:setCustomBlipRadarScale ( blip4, 0)
 		exports.customblips:setCustomBlipRadarScale ( blip5, 0)

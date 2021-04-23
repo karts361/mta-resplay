@@ -5,7 +5,7 @@ dbqueryresult = nil
 playerLastInfo = {}
 
 outsideSpawnsArray = {
-	{ 1686.92847, -2326.21167, 13.5, 358.767, 0, 0 },
+	{ 1774.706, -1949.13, 14.11, 341.952, 0, 0 },
 	{ -1422.5, -288.5, 14.1, 135.0, 0, 0 },
 	{ 1689.9, 1447.7, 10.8, 270.0, 0, 0 }
 }
@@ -2414,12 +2414,12 @@ eatTypes = {
 	{ 49, "Бар Lil Probe Inn", 18, -228.8, 1401.1, 27.8, 270.0, -223.4, 1405.9, 27.8, 90.0, { 6, 1 }, 157, 650000 },
 	{ 30, "LSPD HQ", 6, 246.8, 63.0, 1003.6, 0.0, 233.6, 65.1, 1005.0, 270.0, { }, 286, 0 },
 	{ 30, "SFPD HQ", 10, 246.5, 108.2, 1003.2, 0.0, 248.8, 110.5, 1012.6, 0.0, { }, 286, 0 },
-	{ 30, "Федеральное Бюрю Расследований", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
+	{ 30, "LVPD HQ", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
 	{ 30, "Штаб пригородного PD", 5, 322.3, 303, 999.1, 0.0, 317.3, 318, 1004.1, 0.0, { }, 286, 0 },
-	{ 22, "Больница LS", 18, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
-	{ 22, "Больница SF", 19, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
-	{ 22, "Больница LV", 20, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
-	{ 22, "Пригородная больница", 21, 1536.33, -17.02, 1075.2, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
+	{ 22, "Больница LS", 18, 251.600, 98.5, 1019.7, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
+	{ 22, "Больница SF", 19, 251.600, 98.5, 1019.7, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
+	{ 22, "Больница LV", 20, 251.600, 98.5, 1019.7, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
+	{ 22, "Пригородная больница", 21, 251.600, 98.5, 1019.7, 270.0, 426.1, 171.1, 1030.8, 270.0, { }, 286, 0 },
 	{ 25, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 222, 2400000 },
 	{ 25, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 98, 2700000 },
 	{ 25, "Магазин мебели", 18, 206.14, -112.94174, 1008.9375, 0.0, 206.196, -102.1666, 1009.0625, 180.0, { }, 32, 2000000 },
@@ -4042,13 +4042,13 @@ commandSpam = {}
 specStates = {}
 
 fractionsOrig = {
-	{ "Полицейский департамент San Andreas", 2 },
+	{ "Полиция LS", 2 },
 	{ "Полиция SF", 2 },
-	{ "ФБР", 17 },
+	{ "Полиция LV", 17 },
 	{ "Пригородная полиция", 2 },
-	{ "Медицинский департамент San Andreas", 4 },
-	{ "Больница SF", 4 },
-	{ "Больница LV", 4 },
+	{ "Мед.Департамент LS", 4 },
+	{ "Мед.Департамент SF", 4 },
+	{ "Мед.Департамент LV", 4 },
 	{ "Пригородная больница", 4 },
 	{ "Национальная гвардия", 5 },
 	{ "Армия SF", 5 },
@@ -7945,7 +7945,7 @@ function jobTruckerFinish(plr, deliveryPrice)
 				jobWorkers[5][i][8] = true
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
-				local respect = getElementData(plr, "respect")
+				local respect = getElementData(plr, "respect") 
 				respectSet(plr, respect+0.0010, -1.0, 0.25, true)
 				
 				if worker[4] then
@@ -12103,7 +12103,8 @@ function resourceStart(startedResource)
 		--3LcJm524jr
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		if isTestServer() then
-			db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+			--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
+			db = dbConnect("mysql", "dbname=resplaychik;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		else
 		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "GF4sBu57s5319Gf")
 		end
@@ -12113,7 +12114,7 @@ function resourceStart(startedResource)
 	clanInit()
 	--generateMapFile()
 	fractionInit()
-	gangInit()
+	--gangInit()
 	criminalActivityInit()
 	missionsInit()
 	colorNames = fromJSON(colorNamesJSON)
@@ -12927,10 +12928,11 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
 		end
 		
 		fractionRemovePlayerFromFraction(plr)
-		gangRemovePlayerFromGang(plr)
+		--gangRemovePlayerFromGang(plr)
 		local moneyAmount = getMoney(plr)
 		local gender = getElementData(plr, "gender")
 		
+		--[[
         if grpid == 19 then
             setPlayerTeam(plr, bloods)
 	    elseif grpid == 20 then
@@ -12939,7 +12941,7 @@ function setPlayerNewGroup(plr, grpid, skipFractionCheck, skipGangFractionCheck)
             setPlayerTeam(plr, lkings)
 		elseif grpid == 22 then
 		    setPlayerTeam(plr, ms13)
-	    end
+	    end]]
 		
 		if(moneyAmount >= 0) or ((moneyAmount < 0) and((grpid == 8) or (grpid == 12))) then
 			local sHash = getHash(getPlayerName(plr))
@@ -14489,7 +14491,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		local wantedLvl = dbqueryresult[1]["wantedLevel"]
 		weapons[0] = { dbqueryresult[1]["w0"], dbqueryresult[1]["w0ammo"] }
 		local grp = dbqueryresult[1]["usergroup"]
-        if grp == 19 then
+        --[[if grp == 19 then
             setPlayerTeam(source, bloods)
 	    elseif grp == 20 then
 	        setPlayerTeam(source, crips)
@@ -14497,7 +14499,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
             setPlayerTeam(source, lkings)
 	    elseif grp == 22 then
             setPlayerTeam(source, ms13)
-	    end
+	    end]]
 		
 
 		--- REFRESH SKIN IF NOT INITED ---
@@ -14581,7 +14583,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 		checkPlayerGroup(source)
 		dbqueryresult[1]["usergroup"] = getElementData(source, "usergroup")
 		local fId, pId = fractionGetPlayerFraction(source)
-		local gId, ppId = gangGetPlayerGang(source)
+		--local gId, ppId = gangGetPlayerGang(source)
 		
 		if fId then
 			local rankName
@@ -14592,7 +14594,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			end
 			setElementData(source, "usergroupname", fractions[fId][1].." - "..rankName)
 			fractionUpdate(fId, true, true)
-		elseif gId then
+		--[[elseif gId then
 			local rankName
 			if(ppId == 0) then
 				rankName = "Лидер"
@@ -14600,15 +14602,13 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 				rankName = gangGetRankName(gId, gangGetPlayerRank(gId, ppId))
 			end
 			setElementData(source, "usergroupname", gangs[gId][1].." - "..rankName)
-			gangUpdate(gId, true, true)
+			gangUpdate(gId, true, true)]]
 		else
 			setElementData(source, "usergroupname", playerGroups[dbqueryresult[1]["usergroup"]][1])
 		end
 		
 		if(getElementData(source, "arrested") > 0) or (fId and spawnOutside) then
 			spawnPlayerEx(source)
-		elseif(getElementData(source, "arrested") > 0) or (gId and spawnOutside) then
-		    spawnPlayerEx(source)
 		elseif spawnOutside then
 			setTimer(setPlayerGreenZone, 500, 1, source)
 		end
@@ -14751,7 +14751,7 @@ function requestActionsList(aplr)
 		local objs = getNearbyElementsByType(aplr, "object", nearbyPlayersRadius)
 		local clan = getPlayerClan(aplr)
 		local fId = fractionGetPlayerFraction(aplr)
-		local gId = gangGetPlayerGang(aplr)
+		--local gId = gangGetPlayerGang(aplr)
 		local pHelper = isHelper(aplr)
 		local pAdmin = isAdmin(aplr)
 		local pModerator = isModerator(aplr)
@@ -15090,7 +15090,7 @@ function requestActionsList(aplr)
 				elseif queryPed then
 					table.insert(alist, { 104, availableActions[104], {}, nil, 0, 255, 0 })
 				elseif drugPed then
-				    if(getElementData(aplr, "usergroup") == 19 or getElementData(aplr, "usergroup") == 20 or getElementData(aplr, "usergroup") == 21 or getElementData(aplr, "usergroup") == 22) then
+				    if(getElementData(aplr, "usergroup") == 10) then
 				        table.insert(alist, { 153, "Наркотики - купить $300", { i }, nil, 0, 255, 0 } )
 					end
 				end
@@ -15693,7 +15693,7 @@ function requestActionsList(aplr)
 			end
 		end
 		
-		if gId then 
+		--[[if gId then 
 		    for i,gbase in ipairs(gangBases) do
 			    local gposz = gbase[4] 
 			    if isInsideRadarArea(gbase[10], px, py) and(not isPedDead(aplr) and(math.abs(pz-gposz) < 100.0)) then
@@ -15701,7 +15701,7 @@ function requestActionsList(aplr)
 			    end
 			end
 			table.insert(alist, { 33, availableActions[33], {}, nil, 255, 255, 255 })
-		end
+		end]]
 		
 		if fId then
 			table.insert(alist, { 125, availableActions[125], {}, nil, 255, 255, 255 })
@@ -15719,7 +15719,7 @@ function requestActionsList(aplr)
 			if pAdmin or pModerator then
 				--table.insert(alist, { 54, availableActions[54], { "player" }, { "Игрок", "Причина", "Время(кол-во часов)" }, 255, 0, 0 })
 				table.insert(alist, { 126, availableActions[126], {}, { "Фракция", "Игрок" }, 255, 0, 0 })
-				table.insert(alist, { 703, "Банда - Назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
+				--table.insert(alist, { 703, "Банда - Назначить лидера", {}, { "Банда", "Игрок" }, 255, 0, 0 })
 				--[[table.insert(alist, { 133, "Модерация - Разбанить игрока", { "serial" }, { "Серийный номер" }, 255, 0, 0 })
 				table.insert(alist, { 133, "Модерация - Разбанить аккаунт", { "player" }, { "Аккаунт" }, 255, 0, 0 })]]
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
@@ -16387,10 +16387,10 @@ function executeAction(aplr, actionId, params)
 			end
 		
 		elseif(actionId == 33) then
-			local gId = gangGetPlayerGang(aplr)
+			--[[local gId = gangGetPlayerGang(aplr)
 			if gId then
 				triggerClientEvent(aplr, "onGangOpenMenu", aplr)
-			end
+			end]]
 		
 		elseif(actionId == 34) then
 			gangBaseCaptureStart(params[1], aplr)
@@ -19291,10 +19291,10 @@ function checkPlayerGroup(plr)
 	end
 	
 	local fId = fractionGetPlayerFraction(plr)
-	local gId = gangGetPlayerGang(plr)
+	--local gId = gangGetPlayerGang(plr)
 	local respectCur = getElementData(plr, "respect")
 	
-	if not fId or gId then
+	if not fId then
 		local curGrp = getElementData(plr, "usergroup")
 		local respectNeedMin, respectNeedMax = playerGroupRPLevels[curGrp][1], playerGroupRPLevels[curGrp][2]
 		local moneyAmount = getMoney(plr)
@@ -19571,13 +19571,13 @@ function spawnPlayerEx(plr)
 		local spawned = false
 		local locationId = nil
 		local fId = fractionGetPlayerFraction(plr)
-		local gId = gangGetPlayerGang(plr)
+		--local gId = gangGetPlayerGang(plr)
 		
 		if fId then
 			locationId = getClosestFractionInterior(fId, px, py, pz)
-		elseif gId then
+		--[[elseif gId then
 		    locationId = getClosestGangInterior(gId, px, py, pz)
-			hp = 40
+			hp = 40]]
 			
 		else
 			locationId = getClosestHospital(px, py, pz)
@@ -27007,7 +27007,7 @@ function adminCMDbanip(plr, ip, hours, ...)
 end
 
 
-function adminCMDbanaccount(plr, nickname, hours, ...)
+function adminCMDbanacc(plr, nickname, hours, ...)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 54, { "player", nickname, table.concat({...}, " "), hours })
 end
 
@@ -27019,9 +27019,10 @@ function adminCMDunbanip(plr, ip)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "ip", ip })
 end
 
-function adminCMDunbanaccount(plr, nickname)
+function adminCMDunbanacc(plr, nickname)
 	triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 133, { "player", nickname })
 end
+
 
 function adminCMDslap(plr, nickname)
 	local slappedPlr = findPlayerByNamePattern(nickname)
@@ -27836,9 +27837,10 @@ function adminCMDsetgender(plr, nickname, newGender)
 	
 	if dbqueryresult[1] then
 		local gender = tonumber(newGender)
+		local gendPlr = getPlayerFromName(nickname)
 		dbExec(db, "UPDATE users SET gender=? WHERE name=?", gender, pHash)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили пол на аккаунте "..nickname)
-		setElementData(plr, "gender", gender)
+		setElementData(gendPlr, "gender", gender)
 	else
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
@@ -27916,6 +27918,7 @@ function adminCMDunmute(plr, nickname)
 	end
 end
 
+--[[
 function adminCMDsetgang(plr, nickname, ... )
     triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 704, { table.concat( {...}, " " ), nickname })
 end
@@ -27923,6 +27926,7 @@ end
 function adminCMDremovegang(plr, nickname, ... )
     triggerEvent("onPlayerSelectAction", getResourceRootElement(getResourceFromName("resplay")), plr, 705, { table.concat( {...}, " " ), nickname })
 end
+--]]
 
 function adminCMDsetpassword(plr, password)
     local success = setServerPassword(password)
@@ -28158,8 +28162,6 @@ end
     /removefraction [ник] - уволить игрока из фракции.
 	/mute [ник] [секунды] [причина] - Выдать мут игроку (ограничить возможность чата)
 	/unmute [ник] - Снять мут игроку
-	/setgang [ник] [банда] - принять игрока в банду
-	/removegang [ник] - исключить игрока из банды
 	/setpassword [пароль] - Установить пароль для входа на сервер
 	/removepassword - снять пароль для входа на сервер
 	/kickall [причина] - кикнуть всех игроков с сервера.
@@ -28760,12 +28762,13 @@ end
 addEvent("onBuySkin", true)
 addEventHandler("onBuySkin", root, onBuySkin)
 
-------- ФРАКЦИИ БАНД ----------
+--[[
+------- ФРАКЦИИ БАНД (ВЫКЛЮЧЕНО) ----------
 function gangGetAllGroups()
 	local groups = {}
 	
 	for _,gang in ipairs(gangs) do
-		groups[gang[2]] = true
+		groups[gang[2] ] = true
 	end
 	
 	return groups
@@ -29462,8 +29465,8 @@ function gangIsPlayerInsideGangInterior(plr, gId)
 			return false
 		end
 		
-		if eatGangs[eatLocations[pdim][1]] then
-			return((getElementInterior(plr) == eatTypes[eatLocations[pdim][1]][3]) and(gId == eatGangs[eatLocations[pdim][1]]))
+		if eatGangs[eatLocations[pdim][1] ] then
+			return((getElementInterior(plr) == eatTypes[eatLocations[pdim][1] ][3]) and(gId == eatGangs[eatLocations[pdim][1] ]))
 		end
 		
 		return false
@@ -29491,9 +29494,9 @@ gangBaseCaptures = {}
 gangBaseCaptureMinPlr = 7
 gangBaseCaptureTimeSec = 560
 
---[[счетчик (временно не рабочий, доделать переделать)
+--четчик (временно не рабочий, доделать переделать)
 gangBaseKillGang = 0
-gangBaseKillOwnerGang = 0]]
+gangBaseKillOwnerGang = 0
 
 ---- требования в банду -------
 
@@ -29578,7 +29581,7 @@ function gangBaseCaptureProcess(baseId)
 		gangBaseCaptures[baseId][3] = capture[3]-1
 	end
 	
-	--[[ДОДЕЛАТЬ, СЧЕТЧИКИ
+	--ДОДЕЛАТЬ, СЧЕТЧИКИ
 	if gangPlayers then 
 	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == gangPlayers) then gangBaseCaptures[baseId][7] = capture[7]+1 end end)
 		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and gangPlayers then gangBaseCaptures[baseId][7] = gangBaseCaptures[baseId][7]+1 end end)
@@ -29587,7 +29590,7 @@ function gangBaseCaptureProcess(baseId)
 	    addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if (killer == ownerPlayers) then gangBaseCaptures[baseId][8] = capture[8]+1 end end)
 		--addEventHandler("onPlayerWasted", getRootElement(), function(ammo, killer, weapon) if killer and ownerPlayers then gangBaseCaptures[baseId][8] = gangBaseCaptures[baseId][8]+1 end end)
 		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][8]+1 })
-	end]]
+	end
 	
 	for _,plr in ipairs(ownerPlayers) do
 		px, py = getElementPosition(plr)
@@ -29612,12 +29615,12 @@ function gangBaseCaptureProcess(baseId)
 	if(gangBaseCaptures[baseId][3] > 0) then
 		triggerClientEvent(areaPlayers, "onGangBaseCaptureUpdate", resourceRoot, { owner, gang, gangBaseCaptures[baseId][3]*1000, gangBaseCaptures[baseId][2], capturePlayersCount, gangBaseCaptureMinPlr, gangBaseKillGang, gangBaseKillOwnerGang })
 	---- СЧЕТЧИКИ
-	--[[elseif(gangBaseCaptures[baseId][7] > 2) then
+	--seif(gangBaseCaptures[baseId][7] > 2) then
 		gangBaseCaptureFinish(baseId, true)
 	elseif(gangBaseCapture[baseId][8] > 2 ) then
 	    gangBaseCaptureFinish(baseId, false)
 	elseif(gangBaseCaptures[baseId][3] < 0) then
-	    gangBaseCaptureFinish(baseId, false)]]
+	    gangBaseCaptureFinish(baseId, false)
 	else
 	    gangBaseCaptureFinish(baseId, true)
 	end
@@ -29818,6 +29821,7 @@ function gangBaseIsInCapture(baseId)
 	
 	return false
 end
+]]
 
 ----- сдача экзамена на лицензию на оружия
 licenseweaponmarker = createMarker(249.427734375, 68.00390625, 1002.640625, "cylinder", 1.5, 255, 255, 0, 64)
