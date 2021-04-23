@@ -4044,7 +4044,7 @@ specStates = {}
 fractionsOrig = {
 	{ "Полиция LS", 2 },
 	{ "Полиция SF", 2 },
-	{ "Полиция LV", 17 },
+	{ "Полиция LV", 2 },
 	{ "Пригородная полиция", 2 },
 	{ "Мед.Департамент LS", 4 },
 	{ "Мед.Департамент SF", 4 },
@@ -4055,7 +4055,7 @@ fractionsOrig = {
 	{ "Армия LV", 5 },
 	{ "Армия Зона 69", 5 },
 	{ "Полиция LS", 2 },
-	{ "Полиция LV", 2 },
+	{ "Полиция LVg", 2 },
 	{ "Больница LS", 4 },
 	{ "СМИ", 18 }
 }
@@ -11133,8 +11133,8 @@ function loadMapFile()
 		elemrz = getElementData(respawn, "rotZ")
 		oint = tonumber(getElementData(respawn, "interior"))
 		local fId = tonumber(getElementData(respawn, "fraction"))
-		local gId = tonumber(getElementData(respawn, "gang"))
-		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId, gId })
+		--local gId = tonumber(getElementData(respawn, "gang"))
+		table.insert(respawnPositions, { elemx, elemy, elemz, elemrz, oint, fId })
 		destroyElement(respawn)
 	end
 	
@@ -19583,7 +19583,7 @@ function spawnPlayerEx(plr)
 			locationId = getClosestHospital(px, py, pz)
 			hp = 5
 			fId = 0
-			gId = 0
+			--gId = 0
 
 		end
 		
@@ -19598,30 +19598,12 @@ function spawnPlayerEx(plr)
 					spawned = true
 					break
 				end
-				if respInfo[5] and(respInfo[5] > 0) and(respInfo[7] == gId) and(eatLocations[locationId][1] == respInfo[5]) then
-					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
-					srot = respInfo[4]
-					sdim = locationId
-					sint = eatTypes[eatLocations[locationId][1]][3]
-					setTimer(triggerClientEvent, 1000, 1, plr, "onEatEnter", plr, eatTypes[eatLocations[locationId][1]], true)
-					spawned = true
-					break
-				end
 			end
 		end
 		
 		if not spawned then
 			for _,respInfo in ipairs(respawnPositions) do
 				if respInfo[5] and(respInfo[5] == 0) and(respInfo[6] == fId) then
-					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
-					srot = respInfo[4]
-					sdim = 0
-					sint = 0
-					spawned = true
-					break
-				end
-				
-				if respInfo[5] and(respInfo[5] == 0) and(respInfo[7] == gId) then
 					sx, sy, sz = respInfo[1], respInfo[2], respInfo[3]
 					srot = respInfo[4]
 					sdim = 0
@@ -30594,13 +30576,13 @@ addEventHandler("onWeaponDataReceive", resourceRoot, receiveClientWeaponData, fa
 addEvent("onTrainSync", true)
 addEventHandler("onTrainSync", root, trainSync)
 
-
+--[[
 addEventHandler("onGangAddMember", resourceRoot, gangClientAddMember, false)
 addEventHandler("onGangUpgradeMember", resourceRoot, gangClientUpgradeMember, false)
 addEventHandler("onGangDowngradeMember", resourceRoot, gangClientDowngradeMember, false)
 addEventHandler("onGangAddRank", resourceRoot, gangClientAddRank, false)
 addEventHandler("onGangRemoveRank", resourceRoot, gangClientRemoveRank, false)
-addEventHandler("onGangRenameRank", resourceRoot, gangClientRenameRank, false)
+addEventHandler("onGangRenameRank", resourceRoot, gangClientRenameRank, false)]]
 --addEventHandler("onPlayerCommand", root, playerCmd)
 
 addCommandHandler("a", chatCmdMessage, true, false) -- Admin command for announcements to global chat
