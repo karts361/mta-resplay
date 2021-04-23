@@ -3,7 +3,7 @@
 	<command name="kick" level="1" description="/kick [ID] [причина] - Кикнуть игрока"/>
 	<command name="ban" level="2" description="/ban [Никнейм] [Серийный номер] [часы] [причина] - Забанить игрока"/>
 	<command name="banip" level="2" description="/banip [IP] [часы] [причина] - Забанить игрока по IP"/>
-	<command name="banacc" level="2" description="/banaccount [ник аккаунта] [часы] [причина] - Забанить аккаунт"/>
+	<command name="banacc" level="2" description="/banacc [ник аккаунта] [часы] [причина] - Забанить аккаунт"/>
 	<command name="unban" level="2" description="/unban [серийный номер] - Разбанить игрока"/>
 	<command name="unbanip" level="2" description="/unbanip [IP] - Разбанить игрока по IP"/>
 	<command name="unbanacc" level="2" description="/unbanaccount [аккаунт игрока] - разбанить аккаунт игрока"/>
