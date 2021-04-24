@@ -4065,7 +4065,7 @@ fractionGroupRPLevels = {
 	[2] = 0.15,
 	[4] = 0.05,
 	[5] = 0.05,
-	[17] = 0.3,
+	--[17] = 0.3,
 	[18] = 0.25
 }
 
@@ -5921,7 +5921,7 @@ function jobFarmEnterCp(hitElem)
 						addNewEventToLog(getPlayerName(worker[1]), "Ферма - "..jobName.." - Завершение", true)
 						removeWorker(jobId, hitElem, 1)
 						local respect = getElementData(hitElem, "respect")
-						respectSet(hitElem, respect+0.0006, -1.0, 0.1, true)
+						respectSet(hitElem, respect+0.00009, -1.0, 0.1, true)
 						giveMoney(hitElem, jobFarmMoneyForField)
 					
 					else
