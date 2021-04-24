@@ -16,7 +16,7 @@
 	<include resource="customblips"/>
 	<include resource="blip"/>
     <include resource="radiores"/>
-		<!--<include resource="Reshud"/>
+		<!-- <include resource="Reshud"/>
       <include resource="dirtlevel"/> -->
 	<include resource="camera"/>
 	<include resource="chatinfo"/>
@@ -32,6 +32,7 @@
 	<include resource="idc"/>
 	<include resource="npchlc_traffic" />
 	<include resource="server_coldata"/>
+	<include resource="spedres"/>
 	<include resource="nitro"/>
 	<include resource="roads"/>
 	<include resource="reload"/>
