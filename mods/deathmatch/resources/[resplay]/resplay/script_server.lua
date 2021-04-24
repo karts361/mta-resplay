@@ -15662,13 +15662,13 @@ function requestActionsList(aplr)
 				end
 			end
 			
-			--table.insert(alist, { 83, availableActions[83], {}, { "Название", "Цвет" }, 255, 255, 255 })
+			table.insert(alist, { 83, availableActions[83], {}, { "Название", "Цвет" }, 255, 255, 255 })
 		end
 		
 		
 		table.insert(alist, { 52, availableActions[52], {}, { "Местоположение" }, 255, 255, 255 })
 		--table.insert(alist, { 32, availableActions[32], {}, { "Игрок", "Цена" }, 255, 255, 255 })
-		--table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
+		table.insert(alist, { 141, availableActions[135], {}, nil, 255, 255, 255 }) -- становление бандитом
 		table.insert(alist, { 109, availableActions[109], {}, nil, 255, 255, 255 })
 		table.insert(alist, { 56, availableActions[56], {}, { "Игрок", "Причина" }, 255, 255, 0 })
 		table.insert(alist, { 71, availableActions[71], {}, { "Вопрос" }, 255, 255, 0 })
@@ -15722,7 +15722,6 @@ function requestActionsList(aplr)
 				table.insert(alist, { 65, availableActions[65], {}, { "ID гонки" }, 255, 0, 0 })
 				table.insert(alist, { 706, "Модерация - Изменить время", {}, { "Часов", "Минут" }, 255, 0, 0 })
 				table.insert(alist, { 707, "Модерация - Изменить погоду", {}, { "ID погоды" }, 255, 0, 0 })
-				table.insert(alist, { 83, "Модерация - Cоздать клан", {}, { "Название", "Цвет" }, 255, 0, 0 })
 				if pAdmin then 
 					table.insert(alist, { 132, availableActions[132], {}, { "Серийный номер" }, 255, 0, 0 })
 					table.insert(alist, { 702, "Модерация - Удалить аккаунт", {}, { "ID аккаунта" }, 255, 0, 0 })
@@ -17185,9 +17184,9 @@ function executeAction(aplr, actionId, params)
 		elseif(actionId == 83) then
 			local respect = getElementData(aplr, "respect")
 
-			--[[if(respect > -0.1 ) then
+			if(respect > -0.1 ) then
 				triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Для создания клана необходимо иметь 10% отрицательной репутации.")
-			else]]
+			else
 				local clanName = params[1]
 				local clanR, clanG, clanB
 				
@@ -17207,7 +17206,7 @@ function executeAction(aplr, actionId, params)
 				else
 					triggerClientEvent(aplr, "onServerMsgAdd", aplr, "Неправильно введены данные.")
 				end
-			--end
+			end
 		
 		elseif(actionId == 84) then
 			local baseId = params[1]
@@ -21462,9 +21461,9 @@ function clanCreateNew(creator, clanName, clanR, clanG, clanB)
 	elseif getPlayerClan(creator) then
 		triggerClientEvent(creator, "onServerMsgAdd", creator, "Вы уже находитесь в клане.")
 		
-	--[[elseif (curMoney < clanCreatePrice) then
+	elseif (curMoney < clanCreatePrice) then
 		triggerClientEvent(creator, "onServerMsgAdd", creator, "У вас недостаточно денег.")
-	]]
+	
 	
 	else
 		local pHash = getHash(getPlayerName(creator))
@@ -21477,8 +21476,8 @@ function clanCreateNew(creator, clanName, clanR, clanG, clanB)
 		clanColeaders[newClan] = {}
 		clanPlayerInfoUpdate(newClan)
 		local respect = getElementData(creator, "respect")
-		--[[respectSet(creator, math.min(respect, -0.0001), -1.0, 1.0)
-		takeMoney(creator, clanCreatePrice)]]
+		respectSet(creator, math.min(respect, -0.0001), -1.0, 1.0)
+		takeMoney(creator, clanCreatePrice)
 		local crResult = dbExec(db, "INSERT INTO clans(id,name,clrr,clrg,clrb) VALUES(?,?,?,?,?)", cHash, clanNameUpper, clanR, clanG, clanB)
 		
 		if crResult then
