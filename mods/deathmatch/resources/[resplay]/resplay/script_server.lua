@@ -4046,7 +4046,7 @@ fractionsOrig = {
 	{ "Мед.Департамент SF", 4 },
 	{ "Мед.Департамент LV", 4 },
 	{ "Пригородная больница", 4 },
-	{ "Национальная гвардия", 5 },
+	{ "Армия LS", 5 },
 	{ "Армия SF", 5 },
 	{ "Армия LV", 5 },
 	{ "Армия Зона 69", 5 },
@@ -22913,7 +22913,7 @@ function clanBaseCaptureStart(baseId, initiator)
 	
 	local curTime = getRealTime()
 	local lastCapture = dbqueryresult[1]["lastCapture"]
-	local timeLeft = lastCapture+64800-curTime.timestamp
+	local timeLeft = lastCapture+10800-curTime.timestamp
 	
 	if clan and(not clanBaseCaptures[baseId]) then
 		local owner = clanBases[baseId][25]
@@ -28521,7 +28521,7 @@ addEventHandler("onGenderChangeServer", root, changeGenderHospital)
 
 local markerlv = createMarker(1667.01953125, 1471.8740234375, 9.775049, "cylinder", 1.5, 255, 255, 0, 64)
 local markersf = createMarker(-1402.2666015625, -309.3896484375, 13.1484375, "cylinder", 1.5, 255, 255, 0, 64)
-local markerls = createMarker(1685.6015625, -2333.353515625, 12.546875, "cylinder", 1.5, 255, 255, 0, 64)
+local markerls = createMarker(1762.01855, -1936.94, 13, "cylinder", 1.5, 255, 255, 0, 64)
 setPickupText(markerlv, "Установить точку спавна", 255, 255, 0)
 setPickupText(markersf, "Установить точку спавна", 255, 255, 0)
 setPickupText(markerls, "Установить точку спавна", 255, 255, 0)
