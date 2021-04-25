@@ -38,7 +38,7 @@ addEventHandler("onPlayerLogin", root,
 		local staffName = dbPoll(dbQuery(adminDB, "SELECT * FROM staffList WHERE staff=?", getAccountName(getPlayerAccount(source))), -1)
 		if (not (#staffName == 0)) then
 			setElementData(source, "isPlayerStaff", true)
-			outputChatBox(generateTimeString().."Вы залогинились в админку. Нажмите P чтобы открыть админ панель.", source, 225, 225, 225)
+			outputChatBox(generateTimeString().."Вы залогинились в админку. Работаем, не стесняемся! Нажмите P чтобы открыть админ панель", source, 225, 225, 225)
 		end
 	end
 )

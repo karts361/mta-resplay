@@ -3194,7 +3194,7 @@ nearbyPlayersRadius = 3.0
 nearbyPickupsRadius = 2.0
 nearbyVehiclesRadius = 4.0
 
-heaverCargoPrice = 15
+heaverCargoPrice = 255
 heaverTakeMarkers = {}
 heaverDeliverMarkers = {}
 heaverCoroutine = nil
