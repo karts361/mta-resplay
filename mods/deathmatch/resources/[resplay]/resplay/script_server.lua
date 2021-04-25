@@ -4848,7 +4848,7 @@ function heaverDestroyCargo(plr, cargo, success)
 		end
 		
 		if success then
-			giveMoney(plr, с)
+			giveMoney(plr, heaverCargoPrice)
 		end
 		
 		toggleControl(plr, "fire", true)
