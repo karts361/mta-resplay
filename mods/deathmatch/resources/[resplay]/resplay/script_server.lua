@@ -25895,7 +25895,7 @@ function doesPlayerHaveRPName(plr, nick)
 		pName = getPlayerName(plr)
 	end
 	
-	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy") or string.find(pName, "Pagan")
+	local adminNicknames = string.find(pName, "Karts") or string.find(pName, "Midlas") or string.find(pName, "Sadros") or string.find(pName, "DEAGLOS") or string.find(pName, "JustEazzy")
 	
 	if adminNicknames then
 		return true
