@@ -596,7 +596,7 @@ jobWashroadsCps = {}
 jobWashroadsCpBlips = {}
 
 -- Газонокосилка(переменные)
-jobLawnmowMoneyForGrass = 10
+jobLawnmowMoneyForGrass = 1
 jobLawnmowMoneyForLeftCar = 100
 jobLawnmowMoneyForBlowedCar = 2000
 jobLawnmowLawnCoords = {}
@@ -3896,11 +3896,11 @@ pickupTextArray = {}
 thinkBubbleLastTime = {}
 
 payoutGroups = {
-	[2] = { 120, 5 }, -- ПД
-	[4] = { 100, 5 }, -- Медики
-	[5] = { 120, 5 }, -- Вояки
+	[2] = { 170, 5 }, -- ПД
+	[4] = { 170, 5 }, -- Медики
+	[5] = { 170, 5 }, -- Вояки
 	[17] = { 140, 5 }, -- ФБР
-	[18] = { 140, 5 } -- СМИ
+	[18] = { 200, 5 } -- СМИ
 }
 
 ---выплаты\зарплаты----
