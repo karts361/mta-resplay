@@ -30048,7 +30048,7 @@ function()
 	local minute = tsm.minute
 	local weekday = tsm.weekday
 	local hour = tsm.hour
-	if (weekday == 6 and hour == 7 and minute == 55) then
+	if (weekday == 6 and hour == 5 and minute == 55) then
 		taxSellTaxNonPayment()
 		timerkill2()
 	end
