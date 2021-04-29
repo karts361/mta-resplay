@@ -279,7 +279,7 @@ houseOwners = {}
 interiors = {}
 playersInsideHouses = {}
 
-workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18 }
+workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18, 19 }
 
 playerGroups = {
 	{ "Гражданин", 23 },
@@ -300,10 +300,7 @@ playerGroups = {
 	{ "Продавец", 168, 209 },
 	{ "ФБР", 286 },
 	{ "СМИ", 240 },
-	{ "Bloods", 105, 106, 107 },
-	{ "Crips", 102, 103, 104 },
-	{ "Latin Kings", 108, 109, 110 },
-	{ "MS-13", 173, 174, 175 },
+	{ "Дальнобойщик", 302 },
 	{ "Хелпер", 34 }
 }
 
@@ -354,9 +351,6 @@ playerGroupRPLevels = {
 	{ 0.0, 0.25 },
 	{ 0.0, 0.25 },
 	{ 0.0, 0.25 },
-	{ -1.0, 1.0 },
-	{ -1.0, 1.0 },
-	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 	{ -1.0, 1.0 },
 }
@@ -6219,7 +6213,7 @@ function groupCommonGet(plr)
 	end
 	
 	if isHelper(plr) then
-	    return 23
+	    return 20
 	end
 	
 	local moneyAmount = getMoney(plr)
@@ -19277,7 +19271,7 @@ function policeSetWantedLevel(policeman, gangster, wantedLvl, reason)
 end
 
 function isPlayerGroupCommon(grpid)
-	return((grpid == 1) or (grpid == 10) or (grpid == 12) or (grpid == 13) or (grpid == 15) or  (grpid == 23))
+	return((grpid == 1) or (grpid == 10) or (grpid == 12) or (grpid == 13) or (grpid == 15) or  (grpid == 20))
 end
 
 function checkPlayerGroup(plr)
