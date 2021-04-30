@@ -27228,6 +27228,8 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 		kickPlayer(playerKick, "Ник сменен. Перезайдите на сервер под новым никнеймом.")
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы изменили никнейм на аккаунте.")
 		dbExec(db, "UPDATE friends SET friend=? WHERE friend=?", newnick, oldHash)
+		dbExec(db, "UPDATE houses SET ownerNick=? WHERE owner=?", newnick, oldHash)
+		dbExec(db, "UPDATE businesses SET ownername=? WHERE owner=?", newnick, oldHash)
 		
 		for i,house in pairs(houses) do
 			if(house[11] == oldHash) then
@@ -27403,11 +27405,11 @@ function adminCMDacc(plr, nickname)
 			infoStr = infoStr.."нет\r\n"
 		end
 		
-		infoStr = infoStr.."Банда: "
-		dbInfo["gang"] = tonumber(dbInfo["gang"])
-		dbInfo["grank"] = tonumber(dbInfo["grank"])
+		--infoStr = infoStr.."Банда: "
+		--dbInfo["gang"] = tonumber(dbInfo["gang"])
+		--dbInfo["grank"] = tonumber(dbInfo["grank"])
 		
-		if dbInfo["gang"] ~= 0 then
+		--[[if dbInfo["gang"] ~= 0 then
 			repeat
 				local dbq = dbQuery(db, "SELECT gangs.gleader,gangs.granks,COUNT(users.name) AS pCount FROM gangs JOIN users ON users.gang=gangs.name WHERE gangs.name=?", dbInfo["gang"])
 				dbqueryresult = dbPoll(dbq, 30000)
@@ -27425,7 +27427,7 @@ function adminCMDacc(plr, nickname)
 			infoStr = infoStr..tostring(gName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
 		else
 			infoStr = infoStr.."нет\r\n"
-		end
+		end]]
 		
 		infoStr = infoStr.."Клан: "
 		dbInfo["clan"] = tonumber(dbInfo["clan"])
