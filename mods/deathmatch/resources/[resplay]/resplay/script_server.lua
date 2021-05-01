@@ -9673,7 +9673,7 @@ function addWorker(jobId, newWorker)
 				end
 				
 			elseif(jobId == 4) then -- Эвакуатор
-				addNewEventToLog(getPlayerName(newWorker), "Эвакуация - Старт работы - nil", true)
+				addNewEventToLog(getPlayerName(newWorker), "Эвакуация - Старт работы - nil", true) 
 				table.insert(jobWorkers[4], { newWorker, 0, jobVehicle })
 				addEventHandler("onPlayerWasted", newWorker, jobEvacuatorOnWasted)
 				addEventHandler("onVehicleExplode", jobVehicle, jobEvacuatorBlowedUp)
