@@ -9695,7 +9695,7 @@ function addWorker(jobId, newWorker)
 							truck[3] = true
 							local sx, sy, sz = getElementPosition(jobVehicle)
 							local _, _, srot = getElementRotation(jobVehicle)
-							--jobTrailer = truck[4]
+							jobTrailer = truck[4]
 							local truckIndex = truck[2]
 							
 							if(jobTruckerTrucks[truckIndex][2] >= 400) then
@@ -9708,11 +9708,11 @@ function addWorker(jobId, newWorker)
 								setVehicleDamageProof(jobTrailer, true)
 							end
 							
-							--if isElement(jobTrailer) then
-								--setElementFrozen(jobTrailer, false)
-								--setElementAlpha(jobTrailer, 255)
-								--setElementCollisionsEnabled(jobTrailer, true)
-							--end
+							if isElement(jobTrailer) then
+								setElementFrozen(jobTrailer, false)
+								setElementAlpha(jobTrailer, 255)
+								setElementCollisionsEnabled(jobTrailer, true)
+							end
 							local vehMdl = getElementModel(jobVehicle)
 							
 							if(vehMdl == 428) then
