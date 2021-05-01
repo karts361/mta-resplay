@@ -27227,7 +27227,7 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 	elseif dbExec(db, "UPDATE users SET nickname=?, name=? WHERE name=?", newnick, newHash, oldHash) then
 		kickPlayer(playerKick, "Ник сменен. Перезайдите на сервер под новым никнеймом.")
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы изменили никнейм на аккаунте.")
-		dbExec(db, "UPDATE friends SET friend=? WHERE friend=?", newnick, oldHash)
+		dbExec(db, "UPDATE friends SET player=? WHERE player=?", newHash, oldHash)
 		dbExec(db, "UPDATE houses SET ownerNick=? WHERE owner=?", newnick, oldHash)
 		dbExec(db, "UPDATE businesses SET ownername=? WHERE owner=?", newnick, oldHash)
 		
