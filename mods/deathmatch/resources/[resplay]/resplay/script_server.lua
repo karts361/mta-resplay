@@ -3880,7 +3880,7 @@ groupVehicles = {
 	[448] = { 16 },
 	[417] = { 7 },
 	[413] = { 5, 15 },
-	[490] = { 17, 15, 2 },
+	[490] = { 17, 15 },
     [488] = { 18, 15 },
 	[582] = { 18, 15 },
 }
@@ -9158,7 +9158,7 @@ function jobProcessCoroutine()
 						setElementData(veh, "explodable", true)
 					end
 					
-					--[[
+					
 					if(jobTruckerTrucks[jobTruckerSpawnIndex][2] >= 400) then
 						while not isElement(trailer) do
 							trailer = createVehicle(jobTruckerTrucks[jobTruckerSpawnIndex][2], spawnPoint[1], spawnPoint[2], spawnPoint[3]+jobTruckerTrucks[jobTruckerSpawnIndex][14], 0, 0, spawnPoint[4], "TRUCK", false, jobTruckerTrucks[jobTruckerSpawnIndex][11], jobTruckerTrucks[jobTruckerSpawnIndex][12])
@@ -9168,8 +9168,8 @@ function jobProcessCoroutine()
 						setElementFrozen(trailer, true)
 						setVehicleDamageProof(trailer, true)
 					end
-					]]
-					--local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex][5]/60000)
+					
+					local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex][5]/60000)
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
@@ -9183,7 +9183,7 @@ function jobProcessCoroutine()
 					local disttext = string.format("%.1f км", dist/1000.0)
 					jobTruckerAvailableTrucks[i] = { veh, jobTruckerSpawnIndex, false, trailer, jobTruckerTrucks[jobTruckerSpawnIndex][3], moneytext, timetext, disttext, timemsec, money }
 				end
-				--jobTruckerSpawnIndex = math.random(table.getn(jobTruckerTrucks))
+				jobTruckerSpawnIndex = math.random(table.getn(jobTruckerTrucks))
 				
 				if(jobTruckerSpawnIndex < table.getn(jobTruckerTrucks)) then
 					jobTruckerSpawnIndex = jobTruckerSpawnIndex+1
@@ -9683,7 +9683,7 @@ function addWorker(jobId, newWorker)
 				attachActionToSelf(defaultActions[10], newWorker)
 			
 			elseif(jobId == 5) then -- Перевозка грузов
-				local jobTrailer = nil
+				local jobTrailer
 				local truck
 				
 				for i=1,table.getn(jobTruckerCarSpawnPoints) do
@@ -9695,7 +9695,7 @@ function addWorker(jobId, newWorker)
 							truck[3] = true
 							local sx, sy, sz = getElementPosition(jobVehicle)
 							local _, _, srot = getElementRotation(jobVehicle)
-							--jobTrailer = truck[4]
+							jobTrailer = truck[4]
 							local truckIndex = truck[2]
 							
 							if(jobTruckerTrucks[truckIndex][2] >= 400) then
@@ -9708,11 +9708,11 @@ function addWorker(jobId, newWorker)
 								setVehicleDamageProof(jobTrailer, true)
 							end
 							
-							--if isElement(jobTrailer) then
-								--setElementFrozen(jobTrailer, false)
-								--setElementAlpha(jobTrailer, 255)
-								--setElementCollisionsEnabled(jobTrailer, true)
-							--end
+							if isElement(jobTrailer) then
+								setElementFrozen(jobTrailer, false)
+								setElementAlpha(jobTrailer, 255)
+								setElementCollisionsEnabled(jobTrailer, true)
+							end
 							local vehMdl = getElementModel(jobVehicle)
 							
 							if(vehMdl == 428) then
@@ -27221,9 +27221,7 @@ function adminCMDrenameaccount(plr, nickname, newnick)
 	elseif dbExec(db, "UPDATE users SET nickname=?, name=? WHERE name=?", newnick, newHash, oldHash) then
 		kickPlayer(playerKick, "Ник сменен. Перезайдите на сервер под новым никнеймом.")
         triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы изменили никнейм на аккаунте.")
-		dbExec(db, "UPDATE friends SET player=? WHERE player=?", newHash, oldHash)
-		dbExec(db, "UPDATE houses SET ownerNick=? WHERE owner=?", newnick, oldHash)
-		dbExec(db, "UPDATE businesses SET ownername=? WHERE owner=?", newnick, oldHash)
+		dbExec(db, "UPDATE friends SET friend=? WHERE friend=?", newnick, oldHash)
 		
 		for i,house in pairs(houses) do
 			if(house[11] == oldHash) then
@@ -27399,11 +27397,11 @@ function adminCMDacc(plr, nickname)
 			infoStr = infoStr.."нет\r\n"
 		end
 		
-		--infoStr = infoStr.."Банда: "
-		--dbInfo["gang"] = tonumber(dbInfo["gang"])
-		--dbInfo["grank"] = tonumber(dbInfo["grank"])
+		infoStr = infoStr.."Банда: "
+		dbInfo["gang"] = tonumber(dbInfo["gang"])
+		dbInfo["grank"] = tonumber(dbInfo["grank"])
 		
-		--[[if dbInfo["gang"] ~= 0 then
+		if dbInfo["gang"] ~= 0 then
 			repeat
 				local dbq = dbQuery(db, "SELECT gangs.gleader,gangs.granks,COUNT(users.name) AS pCount FROM gangs JOIN users ON users.gang=gangs.name WHERE gangs.name=?", dbInfo["gang"])
 				dbqueryresult = dbPoll(dbq, 30000)
@@ -27421,7 +27419,7 @@ function adminCMDacc(plr, nickname)
 			infoStr = infoStr..tostring(gName).."\r\nРанг в банде: "..rName.."\r\nИгроков в банде: "..tostring(dbqueryresult[1]["pCount"]).."\r\n"
 		else
 			infoStr = infoStr.."нет\r\n"
-		end]]
+		end
 		
 		infoStr = infoStr.."Клан: "
 		dbInfo["clan"] = tonumber(dbInfo["clan"])
