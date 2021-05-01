@@ -279,7 +279,7 @@ houseOwners = {}
 interiors = {}
 playersInsideHouses = {}
 
-workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 17, 18, 19 }
+workGroups = { 2, 4, 5, 7, 8, 9, 11, 16, 18, 19 }
 
 playerGroups = {
 	{ "Гражданин", 23 },
