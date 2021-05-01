@@ -21010,7 +21010,7 @@ function activateDonate(plr, dbid)
 					if dbqueryresult then
 						local maxhp = dbqueryresult[1]["maxhp"]
 						
-						if(maxhp == 569) then
+						if(maxhp < 999) then
 							donateSuccess = dbExec(db, "UPDATE users SET maxhp=1000 WHERE name=?", pHash)
 							if donateSuccess then
 								setPedStat(plr, 24, 1000)
