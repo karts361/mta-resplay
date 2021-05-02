@@ -14879,7 +14879,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
 
 			for _,plr in ipairs(players) do
-				if(getPlayerWantedLevel(plr) > 0) and not (getPlayerWantedLevel(plr) >= 3) then
+				if(getPlayerWantedLevel(plr) > 0) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
 				end
 				--[[if (getElementData(plr, "Cuffed") == false) then
