@@ -9802,18 +9802,18 @@ function addWorker(jobId, newWorker)
 						pGrp = getElementData(plr, "usergroup")
 						
 						--if pGrp and((pGrp == 5) or (pGrp == 10)) then
-						if pGrp and((pGrp == 5) or (pGrp == 2) or (pGrp == 17)) then
+						if pGrp and((pGrp == 5) or (pGrp == 2) or (pGrp == 10)) then
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..". Он обозначен оранжевым человечком на радаре.")
 							setElementVisibleTo(militaryGeneralPedBlip, plr, true)
-							--if(pGrp == 5) then
+							if pGrp and ((pGrp == 5) or (pGrp == 2)) then
 							    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Убедитесь, что генерал доберется до места назначения живым.")
 							
-							--elseif(pGrp == 10) then
-								--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
-							--end
-						elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
-						    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
-							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
+							elseif(pGrp == 10) then
+								triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
+							end
+						--elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
+						   -- triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
+							--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 						end
 					end
 				end
