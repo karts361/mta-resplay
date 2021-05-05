@@ -27055,35 +27055,24 @@ function adminCMDsetmoney(plr, nickname, newMoney)
 end
 
 function adminCMDremovemoney(plr, nickname, newMoney)
-	local pHash = getHash(nickname)
+    local monPlr = findPlayerByNamePattern(nickname)
 	
-	repeat
-		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
-		dbqueryresult = dbPoll(dbq, 30000)
-		dbFree(dbq)
-	until dbqueryresult
 	
-	if dbqueryresult[1] then
+	if isElement(monPlr) then
 		local money = tonumber(newMoney)
+		
+		local moneyName = getPlayerName(monPlr)
 		
 		if not money then
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Неправильно введено кол-во денег")
 			return
 		end
-		
-		local monPlr = getPlayerFromName(nickname)
-		
-		if monPlr and getElementData(monPlr, "spawned") then
-			takeMoney(monPlr, money)
-			triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." обновил вам кол-во денег")
-		else
-			dbExec(db, "UPDATE users SET money=? WHERE name=?", money, pHash)
+        if dbExec(db, "UPDATE users SET money=? WHERE name=?", money, getHash(moneyName)) then
+		    takeMoney(monPlr, money)
+			triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." списал с вас кол-во денег")
+            triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы списали кол-во денег у игрока "..moneyName)
 		end
 		
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили кол-вол денег на аккаунте "..nickname)
-	
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
 end
 
