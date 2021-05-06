@@ -27065,11 +27065,11 @@ function adminCMDremovemoney(plr, nickname, newMoney)
 		
 		if not money then
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Неправильно введено кол-во денег")
-			return
+			return false
 		end
-        if dbExec(db, "UPDATE users SET money=? WHERE name=?", money, getHash(moneyName)) then
+		if monPlr and getElementData(monPlr, "spawned") then
 		    takeMoney(monPlr, money)
-			triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." списал с вас кол-во денег")
+	        triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." списал с вас кол-во денег")
             triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы списали кол-во денег у игрока "..moneyName)
 		end
 		
