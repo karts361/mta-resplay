@@ -2430,7 +2430,7 @@ eatTypes = {
 	{ 25, "Магазин мебели", 18, -1893.0399, 83.00336, 1086.2915, 0.0, -1885.8531, 83.60645, 1086.2915, 90.0, { }, 17, 2000000 },
 	{ 25, "Магазин мебели", 18, -25.89125, -31.97294, 1008.6308, 0.0, -32.71419, -30.01737, 1008.6308, 0.0, { }, 91, 2000000 },
     { 36, "Tv_news", 1, 1419.4, 3.9, 1001.5, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
-	{ 30, "LVPD HQ", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
+	{ 333, "LVPD HQ(unused)", 3, 238.7, 139.5, 1003.0, 0.0, 242.2, 158.8, 1012.2, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом CRIPS", 3, 2495.86401, -1692.49536, 1014.74219, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом BLOODS", 5, 318.564971, 1114.909960, 1083.88, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
 	{ 333, "Общий дом Latin Kings", 2, 2468.23022, -1698.26404, 1013.5, 0.0, 2495.86401, -1692.49536, 1114.7421, 0.0, { }, 286, 0 },
@@ -9796,18 +9796,18 @@ function addWorker(jobId, newWorker)
 						pGrp = getElementData(plr, "usergroup")
 						
 						--if pGrp and((pGrp == 5) or (pGrp == 10)) then
-						if pGrp and((pGrp == 5) or (pGrp == 2) or (pGrp == 17)) then
+						if pGrp and((pGrp == 5) or (pGrp == 2) or (pGrp == 10)) then
 							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..". Он обозначен оранжевым человечком на радаре.")
 							setElementVisibleTo(militaryGeneralPedBlip, plr, true)
-							--if(pGrp == 5) then
+							if pGrp and ((pGrp == 5) or (pGrp == 2)) then
 							    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Убедитесь, что генерал доберется до места назначения живым.")
 							
-							--elseif(pGrp == 10) then
-								--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
-							--end
-						elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
-						    triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
-							triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
+							elseif(pGrp == 10) then
+								triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
+							end
+						--elseif pGrp and ((pGrp == 10) or (pGrp == 20) or (pGrp == 21) or (pGrp == 22) or (pGrp == 19)) then
+						   -- triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Началась перевозка генерала "..destInfo[5]..".")
+							--triggerClientEvent(plr, "onServerMsgAdd", resourceRoot, "Взорвите его автомобиль, чтобы получить деньги за его убийство.")
 						end
 					end
 				end
@@ -12792,7 +12792,7 @@ function resourceStart(startedResource)
 	gangsterKillOrderRandomTimer = setTimer(gangsterKillOrderRandomProc, 720000, 0)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
-	setTimer(militaryCargoRespawn, 9000000, 4) -- респавн ящиков с оружием, переменные
+	setTimer(militaryCargoRespawn, 9000000, 6) -- респавн ящиков с оружием, переменные
 	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
@@ -14873,7 +14873,7 @@ function requestActionsList(aplr)
 			table.insert(alist, { 74, availableActions[74], {}, nil, 0, 255, 0 })
 
 			for _,plr in ipairs(players) do
-				if(getPlayerWantedLevel(plr) > 0) and not (getPlayerWantedLevel(plr) >= 3) then
+				if(getPlayerWantedLevel(plr) > 0) then
 					table.insert(alist, { 116, availableActions[116]..getPlayerName(plr).."($"..tostring(buyoutPrice).." x 1 звезда)", { plr }, nil, 0, 255, 0 })
 				end
 				--[[if (getElementData(plr, "Cuffed") == false) then
@@ -21004,7 +21004,7 @@ function activateDonate(plr, dbid)
 					if dbqueryresult then
 						local maxhp = dbqueryresult[1]["maxhp"]
 						
-						if(maxhp == 569) then
+						if(maxhp < 999) then
 							donateSuccess = dbExec(db, "UPDATE users SET maxhp=1000 WHERE name=?", pHash)
 							if donateSuccess then
 								setPedStat(plr, 24, 1000)
@@ -27049,35 +27049,24 @@ function adminCMDsetmoney(plr, nickname, newMoney)
 end
 
 function adminCMDremovemoney(plr, nickname, newMoney)
-	local pHash = getHash(nickname)
+    local monPlr = findPlayerByNamePattern(nickname)
 	
-	repeat
-		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
-		dbqueryresult = dbPoll(dbq, 30000)
-		dbFree(dbq)
-	until dbqueryresult
 	
-	if dbqueryresult[1] then
+	if isElement(monPlr) then
 		local money = tonumber(newMoney)
+		
+		local moneyName = getPlayerName(monPlr)
 		
 		if not money then
 			triggerClientEvent(plr, "onServerMsgAdd", plr, "Неправильно введено кол-во денег")
-			return
+			return false
 		end
-		
-		local monPlr = getPlayerFromName(nickname)
-		
 		if monPlr and getElementData(monPlr, "spawned") then
-			takeMoney(monPlr, money)
-			triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." обновил вам кол-во денег")
-		else
-			dbExec(db, "UPDATE users SET money=? WHERE name=?", money, pHash)
+		    takeMoney(monPlr, money)
+	        triggerClientEvent(monPlr, "onServerMsgAdd", plr, "Администратор "..getPlayerName(plr).." списал с вас кол-во денег")
+            triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы списали кол-во денег у игрока "..moneyName)
 		end
 		
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы обновили кол-вол денег на аккаунте "..nickname)
-	
-	else
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Аккаунт "..nickname.." не зарегистрирован на сервере")
 	end
 end
 
@@ -30264,8 +30253,8 @@ SkinFracsMarkers = {
 	--x, y, z, dimension, interior
 	{ x = 202.807617187, y = 1865.0322265625, z = 12.14062, dim = 0, int = 0 },
 	{ x = 665.4482421875, y = -1358.587890625, z = 12.632524490356, dim = 0, int = 0 },	
-	{ x = 1524.2001953125, y = -15.644528388977, z = 1074.2061767578, dim = 94, int = 18 },
-	{ x = 1524.2001953125, y = -15.644528388977, z = 1074.2061767578, dim = 95, int = 18 },
+	{ x = 241.30468, y = 110.054, z = 1019.70, dim = 94, int = 18 },
+	{ x = 241.30468, y = 110.054, z = 1019.70, dim = 95, int = 18 },
 	{ x = 257.7978515625, y = 77.7958984375, z = 1003.64062, dim = 87, int = 6 },	
 }
 

@@ -24,7 +24,7 @@
 	<command name="removemoderator" level="3" description="/removemoderator [ник полностью] - Убрать модератора"/>
 	<command name="resetpass" level="2" description="/resetpass [ник полностью] [адрес email] - Сбросить пароль"/>
 	<command name="heal" level="2" description="/heal [часть ника] - Починить транспорт и восполнить здоровье игрока"/>
-	<command name="setmoney" level="3" description="/setmoney [кол-во денег] - Обновить кол-во денег игроку (дать кол-во денег, если игрок в онлайне)"/>
+	<command name="setmoney" level="4" description="/setmoney [кол-во денег] - Обновить кол-во денег игроку (дать кол-во денег, если игрок в онлайне)"/>
 	<command name="removemoney" level="3" description="/removemoney [кол-во денег] - Обновить кол-во денег игроку (удалить кол-во денег, если игрок в онлайне)"/>
 	<command name="renameaccount" level="3" description="/renameaccount [Старый никнейм] [новый никнейм] - Переименовать никнейм на аккаунте." />
 	<command name="unjail" level="2" description="/unjail [ник полностью] - Выпустить игрока из тюрьмы."/>
