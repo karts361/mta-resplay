@@ -8081,7 +8081,7 @@ function jobTruckerBlowedUp2()
 	end	
 end
 
-function jobTruckerLeftVehicle()
+function jobTruckerLeftVehicle2()
 	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Покинул транспорт", true)
 	takeMoney(source, jobTruckerMoneyForLeftCar2)
 	removeWorker(12, source, 3)
