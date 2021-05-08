@@ -8032,13 +8032,13 @@ function jobTruckerFinish2(plr, deliveryPrice)
 	if(source == resourceRoot) and(client == plr) then
 		for i,worker in ipairs(jobWorkers[12]) do
 			if(worker[1] == plr) and(getPedOccupiedVehicle(plr) == worker[3]) and(worker[2] == 0) and(not worker[8]) then
-				jobWorkers[5][i][8] = true
+				jobWorkers[13][i][8] = true
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
 				giveMoney(plr, deliveryPrice)
 				
 				if worker[4] then
 					destroyElement(worker[4])
-					jobWorkers[5][i][4] = nil
+					jobWorkers[13][i][4] = nil
 				end
 				
 				triggerClientEvent(plr, "onJobTruckerStartReturn2", plr, worker[5], worker[6], worker[7])
@@ -9272,7 +9272,7 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/490
+					local money = timemsec/290
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money*2.0)
