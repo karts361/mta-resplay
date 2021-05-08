@@ -4386,7 +4386,7 @@ function startJob(jobId, params)
 			msgAdd("Клиент, подбежав к вашему транспортному средству, сможет купить что-нибудь с помощью меню действий.")
 			msgAdd("Для завершения работы встаньте в красном маркере рядом с кафе, столовой или иной забегаловкой.")
 			
-		elseif(jobId == 12) then -- Перевозка грузов
+		elseif(jobId == 13) then -- Перевозка грузов
 			jobTimeCur = params[4]
 			jobTruckerFinishCp2 = createMarker(params[1], params[2], params[3], "checkpoint", 4.0, 255, 255, 0)
 			jobTruckerFinishBlip2 = createBlip(0, 0, 0, 0, 2, 255, 255)
@@ -4522,7 +4522,7 @@ function jobTimesUp()
 	elseif(curJobId == 9) then
 		triggerServerEvent("onMilitaryGeneralTimesup", resourceRoot, localPlayer)
 		
-	elseif(curJobId == 12) then
+	elseif(curJobId == 13) then
 		jobTruckerMoneyForDelivery2 = 0
 		msgAdd("Теперь вы не получите деньги за просроченный заказ.")
 	end

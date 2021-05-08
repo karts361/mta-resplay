@@ -514,7 +514,9 @@ availableJobs = {
 	"Вспахивание поля",
 	"Перевозка генерала",
 	"Такси",
-	"Продажа еды"
+	"Продажа еды",
+	"Автобус",
+	"Дальнобойщик"
 }
 jobWorkers = {}
 jobCollectedItems = {}
@@ -8047,12 +8049,12 @@ end
 
 function jobTruckerFinishReturn2()
 	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Успех", true)
-	removeWorker(12, source, 1)
+	removeWorker(13, source, 1)
 end
 
 function jobTruckerTimesup2()
 	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Время вышло", true)
-	removeWorker(12, source, 5)
+	removeWorker(13, source, 5)
 end
 
 function jobTruckerSetState2(worker, state)
@@ -8068,7 +8070,7 @@ end
 
 function jobTruckerOnWasted2()
 	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Погиб", true)
-	removeWorker(12, source, 2)
+	removeWorker(13, source, 2)
 end
 
 function jobTruckerBlowedUp2()
@@ -8076,7 +8078,7 @@ function jobTruckerBlowedUp2()
 		if(worker[3] == source) then
 			addNewEventToLog(getPlayerName(worker[1]), "Перевозка грузов - Завершение - Взрыв транспорта", true)
 			takeMoney(worker[1], jobTruckerMoneyForBlowedCar2)
-			removeWorker(12, worker[1], 4)
+			removeWorker(13, worker[1], 4)
 		end
 	end	
 end
@@ -8084,7 +8086,7 @@ end
 function jobTruckerLeftVehicle2()
 	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Покинул транспорт", true)
 	takeMoney(source, jobTruckerMoneyForLeftCar2)
-	removeWorker(12, source, 3)
+	removeWorker(13, source, 3)
 end
 
 function jobTruckerNowInVehicle2(state)
@@ -9503,7 +9505,7 @@ function jobProcessCoroutine()
 				jobFoodSetState(worker[1], 3)
 			end		
 		end
-		for key,worker in ipairs(jobWorkers[12]) do
+		for key,worker in ipairs(jobWorkers[13]) do
 			local workerVeh = getPedOccupiedVehicle(worker[1])
 			local workerTrailer = false
 			
@@ -9515,12 +9517,12 @@ function jobProcessCoroutine()
 				if((worker[4] == nil) or (workerTrailer == worker[4])) then
 					if(worker[2] == 1) then
 						triggerClientEvent(worker[1], "onJobTruckerBackToVehicle2", worker[1])
-						jobWorkers[12][key][2] = -1
+						jobWorkers[13][key][2] = -1
 					end
 					
 				elseif not (worker[2] == 1) then
 					triggerClientEvent(worker[1], "onJobTruckerLeaveTrailer2", worker[1], worker[2], jobTruckerTimeBackToVeh2, worker[4])
-					jobTruckerSetState(worker[1], 1)
+					jobTruckerSetState2(worker[1], 1)
 				end
 				
 			elseif not (worker[2] == 1) then
@@ -9536,28 +9538,28 @@ function jobProcessCoroutine()
 		
 		for i,spawnPoint2 in ipairs(jobTruckerCarSpawnPoints2) do
 			if(jobTruckerAvailableTrucks2[i] == nil) then
-				local dist = getDistanceBetweenPoints3D(jobTruckerCarSpawnPoints[i][1], jobTruckerCarSpawnPoints[i][2], jobTruckerCarSpawnPoints[i][3], jobTruckerTrucks[jobTruckerSpawnIndex2][6], jobTruckerTrucks[jobTruckerSpawnIndex2][7], jobTruckerTrucks[jobTruckerSpawnIndex2][8])
+				local dist = getDistanceBetweenPoints3D(jobTruckerCarSpawnPoints2[i][1], jobTruckerCarSpawnPoints2[i][2], jobTruckerCarSpawnPoints2[i][3], jobTruckerTrucks2[jobTruckerSpawnIndex2][6], jobTruckerTrucks2[jobTruckerSpawnIndex2][7], jobTruckerTrucks2[jobTruckerSpawnIndex2][8])
 				
-				if(((jobTruckerTrucks[jobTruckerSpawnIndex2][13] == 0) and spawnPoint2[5]) or (jobTruckerTrucks[jobTruckerSpawnIndex2][13] == i)) and(spawnPoint2[6] == getVehicleType(jobTruckerTrucks[jobTruckerSpawnIndex2][1])) and(dist > 400.0) then
+				if(((jobTruckerTrucks2[jobTruckerSpawnIndex2][13] == 0) and spawnPoint2[5]) or (jobTruckerTrucks2[jobTruckerSpawnIndex2][13] == i)) and(spawnPoint2[6] == getVehicleType(jobTruckerTrucks2[jobTruckerSpawnIndex2][1])) and(dist > 400.0) then
 					local veh
 					local trailer = nil
-					local vehMdl = jobTruckerTrucks[jobTruckerSpawnIndex2][1]
-					veh = createVehicle(vehMdl, spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks[jobTruckerSpawnIndex2][9], jobTruckerTrucks[jobTruckerSpawnIndex2][10])
+					local vehMdl = jobTruckerTrucks2[jobTruckerSpawnIndex2][1]
+					veh = createVehicle(vehMdl, spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks2[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks2[jobTruckerSpawnIndex2][9], jobTruckerTrucks2[jobTruckerSpawnIndex2][10])
 					attachActionToElement(defaultActions[7], veh)
 					setElementGhostMode(veh, 5000)
 					setElementData(veh, "fuelLevel", 1.0)
 					setElementFrozen(veh, true)
 					setVehicleDamageProof(veh, true)
-					addEventHandler("onVehicleExplode", veh, jobTruckerTruckDestroyed)
+					addEventHandler("onVehicleExplode", veh, jobTruckerTruckDestroyed2)
 					
 					if vehMdl == 428 then
 						setElementData(veh, "explodable", true)
 					end
 					
 					--[[
-					if(jobTruckerTrucks[jobTruckerSpawnIndex2][2] >= 400) then
+					if(jobTruckerTrucks2[jobTruckerSpawnIndex2][2] >= 400) then
 						while not isElement(trailer) do
-							trailer = createVehicle(jobTruckerTrucks[jobTruckerSpawnIndex2][2], spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks[jobTruckerSpawnIndex2][11], jobTruckerTrucks[jobTruckerSpawnIndex2][12])
+							trailer = createVehicle(jobTruckerTrucks2[jobTruckerSpawnIndex2][2], spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks2[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks2[jobTruckerSpawnIndex2][11], jobTruckerTrucks2[jobTruckerSpawnIndex2][12])
 						end
 						setElementGhostMode(trailer, 5000)
 						attachTrailerToVehicle(veh, trailer)
@@ -9565,7 +9567,7 @@ function jobProcessCoroutine()
 						setVehicleDamageProof(trailer, true)
 					end
 					]]
-					--local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex2][5]/60000)
+					--local timemins = math.ceil(jobTruckerTrucks2[jobTruckerSpawnIndex2][5]/60000)
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
@@ -9577,11 +9579,11 @@ function jobProcessCoroutine()
 					
 					local moneytext = string.format("$%d", money)
 					local disttext = string.format("%.1f км", dist/1000.0)
-					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks2[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
+					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks22[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
 				end
-				--jobTruckerSpawnIndex2 = math.random(table.getn(jobTruckerTrucks))
+				--jobTruckerSpawnIndex2 = math.random(table.getn(jobTruckerTrucks2))
 				
-				if(jobTruckerSpawnIndex2 < table.getn(jobTruckerTrucks)) then
+				if(jobTruckerSpawnIndex2 < table.getn(jobTruckerTrucks2)) then
 					jobTruckerSpawnIndex2 = jobTruckerSpawnIndex2+1
 				else
 					jobTruckerSpawnIndex2 = 1
@@ -10031,7 +10033,7 @@ function addWorker(jobId, newWorker)
 				table.insert(jobWorkers[11], { newWorker, 0, jobVehicle, food })
 				table.insert(jobFoodClientInfo, jobVehicle)
 				triggerClientEvent(getElementsByType("player"), "onJobFoodUpdate", newWorker, jobFoodClientInfo)
-			elseif(jobId == 12) then -- Перевозка грузов (дальнобой)
+			elseif(jobId == 13) then -- Перевозка грузов (дальнобой)
 				local jobTrailer = nil
 				local truck2
 				
@@ -10069,7 +10071,7 @@ function addWorker(jobId, newWorker)
 								giveWeapon(newWorker, 25, 25)
 							end
 							
-							table.insert(jobWorkers[5], { newWorker, 0, jobVehicle, jobTrailer, sx, sy, sz, false })
+							table.insert(jobWorkers[13], { newWorker, 0, jobVehicle, jobTrailer, sx, sy, sz, false })
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][6])
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][7])
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][8])
@@ -10274,7 +10276,7 @@ function removeWorker(jobId, worker, reason)
 					end
 				end
 
-            elseif(jobId == 12) then -- Перевозка грузов
+            elseif(jobId == 13) then -- Перевозка грузов
 				if(reason == -1) then
 					takeMoney(worker, jobTruckerMoneyForLeftCar)
 				end
@@ -12415,8 +12417,8 @@ function resourceStart(startedResource)
 	    --db = dbConnect("mysql", "dbname=rsplsrv;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
 		if isTestServer() then
 			--db = dbConnect("mysql", "dbname=resplaychik;host=game334530.ourserver.ru;port=3306", "resplaysis", "ebanutogoeliseeva")
-			--db = dbConnect("mysql", "dbname=resplaychik;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
-			db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "UAxjiDzwm0fkpA9")
+			db = dbConnect("mysql", "dbname=resplaychik;host=127.0.0.1;port=3306", "kartos", "Vecmrf12374")
+			--db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "UAxjiDzwm0fkpA9")
 		else
 		    db = dbConnect("mysql", "dbname=resplaydb;127.0.0.1;port=3306;unix_socket=/var/run/mysqld/mysqld.sock;charset=utf8;", "resplayer", "UAxjiDzwm0fkpA9")
 		end
@@ -15855,7 +15857,7 @@ function requestActionsList(aplr)
 					for key,truck2 in ipairs(jobTruckerAvailableTrucks2) do
 						if not (truck2 == nil) then
 							if(aplrveh == truck2[1]) then
-								table.insert(alist, { 7, string.format("%s '%s'", availableActions[7], availableJobs[12]), { 12 }, nil, 0, 255, 0 })
+								table.insert(alist, { 7, string.format("%s '%s'", availableActions[7], availableJobs[13]), { 13 }, nil, 0, 255, 0 })
 								jobFound = true
 								break
 							end
