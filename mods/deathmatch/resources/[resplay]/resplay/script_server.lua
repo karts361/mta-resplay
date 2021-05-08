@@ -8058,10 +8058,10 @@ function jobTruckerTimesup2()
 end
 
 function jobTruckerSetState2(worker, state)
-	for i,curWorker in ipairs(jobWorkers[12]) do
+	for i,curWorker in ipairs(jobWorkers[13]) do
 		if(curWorker[1] == worker) then
 			if not (curWorker[2] == state) then
-				jobWorkers[12][i][2] = state
+				jobWorkers[13][i][2] = state
 				break
 			end
 		end
