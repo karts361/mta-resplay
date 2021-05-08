@@ -10278,11 +10278,11 @@ function removeWorker(jobId, worker, reason)
 
             elseif(jobId == 13) then -- Перевозка грузов
 				if(reason == -1) then
-					takeMoney(worker, jobTruckerMoneyForLeftCar)
+					takeMoney(worker, jobTruckerMoneyForLeftCar2)
 				end
 				
 				removeEventHandler("onPlayerWasted", worker, jobTruckerOnWasted2)
-				removeEventHandler("onVehicleExplode", jobWorkers[12][i][3], jobTruckerBlowedUp2)	
+				removeEventHandler("onVehicleExplode", jobWorkers[13][i][3], jobTruckerBlowedUp2)	
 				
 				for i2,truck2 in ipairs(jobTruckerAvailableTrucks2) do
 					if(truck2[1] == curWorker[3]) then
@@ -10291,7 +10291,7 @@ function removeWorker(jobId, worker, reason)
 							jobWorkers[jobId][i][4] = nil
 						end
 						
-						removeEventHandler("onVehicleExplode", truck[1], jobTruckerTruckDestroyed2)
+						removeEventHandler("onVehicleExplode", truck2[1], jobTruckerTruckDestroyed2)
 						destroyElement(truck2[1])
 						exports.radiores:stopSoundRespawn(curWorker[3])
 						jobTruckerAvailableTrucks2[i2][1] = nil
@@ -12436,6 +12436,10 @@ function resourceStart(startedResource)
 	
 	for i=1,table.getn(jobTruckerCarSpawnPoints) do
 		jobTruckerAvailableTrucks[i] = nil
+	end
+	
+	for i=1,table.getn(jobTruckerCarSpawnPoints2) do
+		jobTruckerAvailableTrucks2[i] = nil
 	end
 	
 	addEventHandler("onVehicleStartEnter", root, groupVehicleEnter)
