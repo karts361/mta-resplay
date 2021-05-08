@@ -4492,6 +4492,10 @@ function endJob(jobId, reason)
 			removeEventHandler("onClientMarkerHit", jobTruckerFinishCp, jobTruckerOnFinish)
 		end
 		
+		if(isElement(jobTruckerFinishCp2)) then
+			removeEventHandler("onClientMarkerHit", jobTruckerFinishCp2, jobTruckerOnFinish2)
+		end
+		
 	end
 end
 
@@ -4691,7 +4695,7 @@ function jobTruckerLeaveTrailer2(curState, timeBackToTrailer, trailer)
 		msgAdd(string.format("У вас есть %d секунд, чтобы вернуть груз.", timeBackToTrailer/1000))
 		jobTimerBackToVeh = setTimer(function()
 										destroyElement(jobVehMarker)
-										triggerServerEvent("onJobTruckerLeftVehicle", localPlayer)
+										triggerServerEvent("onJobTruckerLeftVehicle2", localPlayer)
 									 end, timeBackToTrailer, 1)
 	end
 	
@@ -12143,7 +12147,7 @@ addEventHandler("onFriendsLoad", root, loadFriends)
 addEventHandler("onClientPlayerSpawn", root, clientNewPlayerSpawn)
 addEventHandler("onCarSellUpdate", root, carSellClientUpdate)
 addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate)
-addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate2)
+addEventHandler("onJobTruckerUpdate2", root, jobTruckerClientUpdate2)
 addEventHandler("onServerSetControlState", root, function(scontrol, sstate)
 													setPedAnalogControlState(source, scontrol, sstate)
 												 end)

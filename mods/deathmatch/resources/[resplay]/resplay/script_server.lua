@@ -8093,20 +8093,20 @@ function jobTruckerNowInVehicle2(state)
 	jobTruckerSetState2(source, 0)
 end
 
-function jobTruckerTruckDestroyed()
-	removeEventHandler("onVehicleExplode", source, jobTruckerTruckDestroyed)
+function jobTruckerTruckDestroyed2()
+	removeEventHandler("onVehicleExplode", source, jobTruckerTruckDestroyed2)
 	setTimer(function(veh)
-				for i=1,table.getn(jobTruckerCarSpawnPoints) do
-					if not (jobTruckerAvailableTrucks[i] == nil) then
-						if(jobTruckerAvailableTrucks[i][1] == veh) then
-							if(isElement(jobTruckerAvailableTrucks[i][4])) then
-								destroyElement(jobTruckerAvailableTrucks[i][4])
-								jobTruckerAvailableTrucks[i][4] = nil
+				for i=1,table.getn(jobTruckerCarSpawnPoints2) do
+					if not (jobTruckerAvailableTrucks2[i] == nil) then
+						if(jobTruckerAvailableTrucks2[i][1] == veh) then
+							if(isElement(jobTruckerAvailableTrucks2[i][4])) then
+								destroyElement(jobTruckerAvailableTrucks2[i][4])
+								jobTruckerAvailableTrucks2[i][4] = nil
 							end
 							
-							destroyElement(jobTruckerAvailableTrucks[i][1])
-							jobTruckerAvailableTrucks[i][1] = nil
-							jobTruckerAvailableTrucks[i] = nil
+							destroyElement(jobTruckerAvailableTrucks2[i][1])
+							jobTruckerAvailableTrucks2[i][1] = nil
+							jobTruckerAvailableTrucks2[i] = nil
 							break
 						end
 					end
@@ -9579,7 +9579,7 @@ function jobProcessCoroutine()
 					
 					local moneytext = string.format("$%d", money)
 					local disttext = string.format("%.1f км", dist/1000.0)
-					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks22[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
+					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks2[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
 				end
 				--jobTruckerSpawnIndex2 = math.random(table.getn(jobTruckerTrucks2))
 				
@@ -10053,7 +10053,7 @@ function addWorker(jobId, newWorker)
 								while not isElement(jobTrailer) do
 									jobTrailer = createVehicle(jobTruckerTrucks2[truck2Index][2], sx, sy, sz+jobTruckerTrucks2[truck2Index][14], 0, 0, srot, "TRUCK", false, jobTruckerTrucks2[truck2Index][11], jobTruckerTrucks2[truck2Index][12])
 								end
-								jobTruckerAvailableTrucks[i][4] = jobTrailer
+								jobTruckerAvailableTrucks2[i][4] = jobTrailer
 								setElementGhostMode(jobTrailer, 5000)
 								attachTrailerToVehicle(jobVehicle, jobTrailer)
 								setVehicleDamageProof(jobTrailer, true)
@@ -30666,6 +30666,7 @@ addEvent("onJobTruckerTimesup", true)
 addEvent("onJobTruckerLeftVehicle2", true)
 addEvent("onJobTruckerNowInVehicle2", true)
 addEvent("onJobTruckerTimesup2", true)
+addEvent("onJobTruckerFinish2", true)
 
 addEvent("onGangAddMember", true)
 addEvent("onGangUpgradeMember", true)
