@@ -617,6 +617,15 @@ jobTruckerCarSpawnPoints = {}
 jobTruckerTrucks = {}
 jobTruckerAvailableTrucks = {}
 
+
+jobTruckerMoneyForLeftCar2 = 1000
+jobTruckerMoneyForBlowedCar2 = 2000
+jobTruckerTimeBackToVeh2 = 120000
+jobTruckerSpawnIndex2 = 1
+jobTruckerCarSpawnPoints2 = {}
+jobTruckerTrucks2 = {}
+jobTruckerAvailableTrucks2 = {}
+
 -- Автобус (переменные)
 busStopsForClient = {}
 busesPaths = {
@@ -8015,6 +8024,94 @@ function jobTruckerTruckDestroyed()
 			 end, 5000, 1, source)
 end
 
+------------------------------------
+
+function jobTruckerFinish2(plr, deliveryPrice)
+	if(source == resourceRoot) and(client == plr) then
+		for i,worker in ipairs(jobWorkers[12]) do
+			if(worker[1] == plr) and(getPedOccupiedVehicle(plr) == worker[3]) and(worker[2] == 0) and(not worker[8]) then
+				jobWorkers[5][i][8] = true
+				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
+				giveMoney(plr, deliveryPrice)
+				
+				if worker[4] then
+					destroyElement(worker[4])
+					jobWorkers[5][i][4] = nil
+				end
+				
+				triggerClientEvent(plr, "onJobTruckerStartReturn2", plr, worker[5], worker[6], worker[7])
+			end
+		end
+	end
+end
+
+function jobTruckerFinishReturn2()
+	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Успех", true)
+	removeWorker(12, source, 1)
+end
+
+function jobTruckerTimesup2()
+	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Время вышло", true)
+	removeWorker(12, source, 5)
+end
+
+function jobTruckerSetState2(worker, state)
+	for i,curWorker in ipairs(jobWorkers[12]) do
+		if(curWorker[1] == worker) then
+			if not (curWorker[2] == state) then
+				jobWorkers[12][i][2] = state
+				break
+			end
+		end
+	end
+end
+
+function jobTruckerOnWasted2()
+	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Погиб", true)
+	removeWorker(12, source, 2)
+end
+
+function jobTruckerBlowedUp2()
+	for _,worker in ipairs(jobWorkers[12]) do
+		if(worker[3] == source) then
+			addNewEventToLog(getPlayerName(worker[1]), "Перевозка грузов - Завершение - Взрыв транспорта", true)
+			takeMoney(worker[1], jobTruckerMoneyForBlowedCar2)
+			removeWorker(12, worker[1], 4)
+		end
+	end	
+end
+
+function jobTruckerLeftVehicle()
+	addNewEventToLog(getPlayerName(source), "Перевозка грузов - Завершение - Покинул транспорт", true)
+	takeMoney(source, jobTruckerMoneyForLeftCar2)
+	removeWorker(12, source, 3)
+end
+
+function jobTruckerNowInVehicle2(state)
+	jobTruckerSetState2(source, 0)
+end
+
+function jobTruckerTruckDestroyed()
+	removeEventHandler("onVehicleExplode", source, jobTruckerTruckDestroyed)
+	setTimer(function(veh)
+				for i=1,table.getn(jobTruckerCarSpawnPoints) do
+					if not (jobTruckerAvailableTrucks[i] == nil) then
+						if(jobTruckerAvailableTrucks[i][1] == veh) then
+							if(isElement(jobTruckerAvailableTrucks[i][4])) then
+								destroyElement(jobTruckerAvailableTrucks[i][4])
+								jobTruckerAvailableTrucks[i][4] = nil
+							end
+							
+							destroyElement(jobTruckerAvailableTrucks[i][1])
+							jobTruckerAvailableTrucks[i][1] = nil
+							jobTruckerAvailableTrucks[i] = nil
+							break
+						end
+					end
+				end
+			 end, 5000, 1, source)
+end
+
 function friendRequestAdd(plr, friend)
 	if(source == resourceRoot) and(plr == client) then
 		triggerClientEvent(friend, "onFriendReceiveAdd", plr)
@@ -9406,6 +9503,99 @@ function jobProcessCoroutine()
 				jobFoodSetState(worker[1], 3)
 			end		
 		end
+		for key,worker in ipairs(jobWorkers[12]) do
+			local workerVeh = getPedOccupiedVehicle(worker[1])
+			local workerTrailer = false
+			
+			if workerVeh then
+				workerTrailer = getVehicleTowedByVehicle(workerVeh)
+			end
+			
+			if(workerVeh == worker[3]) then
+				if((worker[4] == nil) or (workerTrailer == worker[4])) then
+					if(worker[2] == 1) then
+						triggerClientEvent(worker[1], "onJobTruckerBackToVehicle2", worker[1])
+						jobWorkers[12][key][2] = -1
+					end
+					
+				elseif not (worker[2] == 1) then
+					triggerClientEvent(worker[1], "onJobTruckerLeaveTrailer2", worker[1], worker[2], jobTruckerTimeBackToVeh2, worker[4])
+					jobTruckerSetState(worker[1], 1)
+				end
+				
+			elseif not (worker[2] == 1) then
+				triggerClientEvent(worker[1], "onJobTruckerLeaveVehicle2", worker[1], worker[2], jobTruckerTimeBackToVeh2, worker[3])
+				jobTruckerSetState2(worker[1], 1)
+			end
+			
+			if(getTickCount()-startTick > 500) then
+				coroutine.yield()
+				startTick = getTickCount()
+			end
+		end
+		
+		for i,spawnPoint2 in ipairs(jobTruckerCarSpawnPoints2) do
+			if(jobTruckerAvailableTrucks2[i] == nil) then
+				local dist = getDistanceBetweenPoints3D(jobTruckerCarSpawnPoints[i][1], jobTruckerCarSpawnPoints[i][2], jobTruckerCarSpawnPoints[i][3], jobTruckerTrucks[jobTruckerSpawnIndex2][6], jobTruckerTrucks[jobTruckerSpawnIndex2][7], jobTruckerTrucks[jobTruckerSpawnIndex2][8])
+				
+				if(((jobTruckerTrucks[jobTruckerSpawnIndex2][13] == 0) and spawnPoint2[5]) or (jobTruckerTrucks[jobTruckerSpawnIndex2][13] == i)) and(spawnPoint2[6] == getVehicleType(jobTruckerTrucks[jobTruckerSpawnIndex2][1])) and(dist > 400.0) then
+					local veh
+					local trailer = nil
+					local vehMdl = jobTruckerTrucks[jobTruckerSpawnIndex2][1]
+					veh = createVehicle(vehMdl, spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks[jobTruckerSpawnIndex2][9], jobTruckerTrucks[jobTruckerSpawnIndex2][10])
+					attachActionToElement(defaultActions[7], veh)
+					setElementGhostMode(veh, 5000)
+					setElementData(veh, "fuelLevel", 1.0)
+					setElementFrozen(veh, true)
+					setVehicleDamageProof(veh, true)
+					addEventHandler("onVehicleExplode", veh, jobTruckerTruckDestroyed)
+					
+					if vehMdl == 428 then
+						setElementData(veh, "explodable", true)
+					end
+					
+					--[[
+					if(jobTruckerTrucks[jobTruckerSpawnIndex2][2] >= 400) then
+						while not isElement(trailer) do
+							trailer = createVehicle(jobTruckerTrucks[jobTruckerSpawnIndex2][2], spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks[jobTruckerSpawnIndex2][11], jobTruckerTrucks[jobTruckerSpawnIndex2][12])
+						end
+						setElementGhostMode(trailer, 5000)
+						attachTrailerToVehicle(veh, trailer)
+						setElementFrozen(trailer, true)
+						setVehicleDamageProof(trailer, true)
+					end
+					]]
+					--local timemins = math.ceil(jobTruckerTrucks[jobTruckerSpawnIndex2][5]/60000)
+					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
+					local timetext = getTimeString(timemsec, "i", true, true)
+					local vehType = getVehicleType(veh)
+					local money = timemsec/490
+					
+					if(vehType == "Plane") or (vehType == "Helicopter") then
+						money = math.ceil(money*2.0)
+					end
+					
+					local moneytext = string.format("$%d", money)
+					local disttext = string.format("%.1f км", dist/1000.0)
+					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks2[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
+				end
+				--jobTruckerSpawnIndex2 = math.random(table.getn(jobTruckerTrucks))
+				
+				if(jobTruckerSpawnIndex2 < table.getn(jobTruckerTrucks)) then
+					jobTruckerSpawnIndex2 = jobTruckerSpawnIndex2+1
+				else
+					jobTruckerSpawnIndex2 = 1
+				end
+				
+			end
+			
+			if(getTickCount()-startTick > 500) then
+				coroutine.yield()
+				startTick = getTickCount()
+			end
+			
+		end
+		triggerClientEvent(getElementsByType("player"), "onJobTruckerUpdate2", resourceRoot, jobTruckerAvailableTrucks2)
 		coroutine.yield()
 	end
 end
@@ -9841,6 +10031,58 @@ function addWorker(jobId, newWorker)
 				table.insert(jobWorkers[11], { newWorker, 0, jobVehicle, food })
 				table.insert(jobFoodClientInfo, jobVehicle)
 				triggerClientEvent(getElementsByType("player"), "onJobFoodUpdate", newWorker, jobFoodClientInfo)
+			elseif(jobId == 12) then -- Перевозка грузов (дальнобой)
+				local jobTrailer = nil
+				local truck2
+				
+				for i=1,table.getn(jobTruckerCarSpawnPoints2) do
+					truck2 = jobTruckerAvailableTrucks2[i]
+					
+					if not (truck2 == nil) then
+						if(truck2[1] == jobVehicle) then
+							addNewEventToLog(getPlayerName(newWorker), "Перевозка грузов - Старт работы - nil", true)
+							truck2[3] = true
+							local sx, sy, sz = getElementPosition(jobVehicle)
+							local _, _, srot = getElementRotation(jobVehicle)
+							jobTrailer = truck2[4]
+							local truck2Index = truck2[2]
+							
+							if(jobTruckerTrucks2[truck2Index][2] >= 400) then
+								while not isElement(jobTrailer) do
+									jobTrailer = createVehicle(jobTruckerTrucks2[truck2Index][2], sx, sy, sz+jobTruckerTrucks2[truck2Index][14], 0, 0, srot, "TRUCK", false, jobTruckerTrucks2[truck2Index][11], jobTruckerTrucks2[truck2Index][12])
+								end
+								jobTruckerAvailableTrucks[i][4] = jobTrailer
+								setElementGhostMode(jobTrailer, 5000)
+								attachTrailerToVehicle(jobVehicle, jobTrailer)
+								setVehicleDamageProof(jobTrailer, true)
+							end
+							
+							if isElement(jobTrailer) then
+								setElementFrozen(jobTrailer, false)
+								setElementAlpha(jobTrailer, 255)
+								setElementCollisionsEnabled(jobTrailer, true)
+							end
+							local vehMdl = getElementModel(jobVehicle)
+							
+							if(vehMdl == 428) then
+								setPedArmor(newWorker, 100.0)
+								giveWeapon(newWorker, 25, 25)
+							end
+							
+							table.insert(jobWorkers[5], { newWorker, 0, jobVehicle, jobTrailer, sx, sy, sz, false })
+							table.insert(clientParams, jobTruckerTrucks2[truck2Index][6])
+							table.insert(clientParams, jobTruckerTrucks2[truck2Index][7])
+							table.insert(clientParams, jobTruckerTrucks2[truck2Index][8])
+							table.insert(clientParams, truck2[9])
+							table.insert(clientParams, truck2[10])
+							break
+						end
+					end
+				end
+				
+				addEventHandler("onPlayerWasted", newWorker, jobTruckerOnWasted2)
+				addEventHandler("onVehicleExplode", jobVehicle, jobTruckerBlowedUp2)
+			
 			else
 				if not jobWorkers[jobId] then
 					jobWorkers[jobId] = {}
@@ -9850,6 +10092,7 @@ function addWorker(jobId, newWorker)
 				triggerEvent("onWorkStart", resourceRoot, jobId, newWorker, jobVehicle)
 			end
 			triggerClientEvent(newWorker, "onJobStart", newWorker, jobId, clientParams)
+
 		end
 	end
 end
@@ -10030,7 +10273,30 @@ function removeWorker(jobId, worker, reason)
 						break
 					end
 				end
+
+            elseif(jobId == 12) then -- Перевозка грузов
+				if(reason == -1) then
+					takeMoney(worker, jobTruckerMoneyForLeftCar)
+				end
 				
+				removeEventHandler("onPlayerWasted", worker, jobTruckerOnWasted2)
+				removeEventHandler("onVehicleExplode", jobWorkers[12][i][3], jobTruckerBlowedUp2)	
+				
+				for i2,truck2 in ipairs(jobTruckerAvailableTrucks2) do
+					if(truck2[1] == curWorker[3]) then
+						if not (curWorker[4] == nil) then
+							destroyElement(curWorker[4])
+							jobWorkers[jobId][i][4] = nil
+						end
+						
+						removeEventHandler("onVehicleExplode", truck[1], jobTruckerTruckDestroyed2)
+						destroyElement(truck2[1])
+						exports.radiores:stopSoundRespawn(curWorker[3])
+						jobTruckerAvailableTrucks2[i2][1] = nil
+						jobTruckerAvailableTrucks2[i2] = nil
+						break
+					end
+				end
 			else
 				triggerEvent("onWorkFinish", resourceRoot, jobId, curWorker[1], reason)
 			end
@@ -10540,6 +10806,36 @@ function generateMapFile()
 		xmlNodeSetAttribute(childNode, "rotX", "0")
 		xmlNodeSetAttribute(childNode, "rotY", "0")
 		xmlNodeSetAttribute(childNode, "rotZ", tostring(truckspawn[4]))
+	end
+	
+	for i,truck2deliver in ipairs(jobTruckerTrucks2) do
+		childNode = xmlCreateChild(rootNode, "truck2deliver")
+		xmlNodeSetAttribute(childNode, "id", "truck2deliver"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(truck2deliver[6]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(truck2deliver[7]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(truck2deliver[8]))
+		xmlNodeSetAttribute(childNode, "rotX", "0")
+		xmlNodeSetAttribute(childNode, "rotY", "0")
+		xmlNodeSetAttribute(childNode, "rotZ", "0")
+		xmlNodeSetAttribute(childNode, "truck", tostring(truck2deliver[1]))
+		xmlNodeSetAttribute(childNode, "trailer", tostring(truck2deliver[2]))
+		xmlNodeSetAttribute(childNode, "shipment", tostring(truck2deliver[3]))
+		xmlNodeSetAttribute(childNode, "truck2variant1", tostring(truck2deliver[9]))
+		xmlNodeSetAttribute(childNode, "truck2variant2", tostring(truck2deliver[10]))
+		xmlNodeSetAttribute(childNode, "trailervariant1", tostring(truck2deliver[11]))
+		xmlNodeSetAttribute(childNode, "trailervariant2", tostring(truck2deliver[12]))
+		xmlNodeSetAttribute(childNode, "zcorrection", tostring(truck2deliver[14]))
+	end
+	
+	for i,truck2spawn in ipairs(jobTruckerCarSpawnPoints2) do
+		childNode = xmlCreateChild(rootNode, "truck2spawn")
+		xmlNodeSetAttribute(childNode, "id", "truck2spawn"..tostring(i))
+		xmlNodeSetAttribute(childNode, "posX", tostring(truck2spawn[1]))
+		xmlNodeSetAttribute(childNode, "posY", tostring(truck2spawn[2]))
+		xmlNodeSetAttribute(childNode, "posZ", tostring(truck2spawn[3]))
+		xmlNodeSetAttribute(childNode, "rotX", "0")
+		xmlNodeSetAttribute(childNode, "rotY", "0")
+		xmlNodeSetAttribute(childNode, "rotZ", tostring(truck2spawn[4]))
 	end
 	
 	for i,ambulancecar in ipairs(jobAmbulanceCars) do
@@ -11573,6 +11869,32 @@ function loadMapFile()
 		local vehtype = getElementData(truckspawn, "vehtype")
 		table.insert(jobTruckerCarSpawnPoints, { elemx, elemy, elemz, elemrz, true, vehtype })
 		destroyElement(truckspawn)
+	end
+	
+	elements = getElementsByType("truck2deliver")
+	
+	for i,truck2deliver in ipairs(elements) do
+		elemx, elemy, elemz = getElementPosition(truck2deliver)
+		local vehid = tonumber(getElementData(truck2deliver, "truck2"))
+		local trailerid = tonumber(getElementData(truck2deliver, "trailer"))
+		local shipment = getElementData(truck2deliver, "shipment")
+		local vehvar1 = tonumber(getElementData(truck2deliver, "truck2variant1"))
+		local vehvar2 = tonumber(getElementData(truck2deliver, "truck2variant2"))
+		local trailervar1 = tonumber(getElementData(truck2deliver, "trailervariant1"))
+		local trailervar2 = tonumber(getElementData(truck2deliver, "trailervariant2"))
+		local zcorrection = tonumber(getElementData(truck2deliver, "zcorrection"))
+		table.insert(jobTruckerTrucks2, { vehid, trailerid, shipment, nil, nil, elemx, elemy, elemz, vehvar1, vehvar2, trailervar1, trailervar2, 0, zcorrection })
+		destroyElement(truck2deliver)
+	end
+	
+	elements = getElementsByType("truck2spawn")
+	
+	for i,truck2spawn in ipairs(elements) do
+		elemx, elemy, elemz = getElementPosition(truck2spawn)
+		elemrz = getElementData(truck2spawn, "rotZ")
+		local vehtype = getElementData(truck2spawn, "vehtype")
+		table.insert(jobTruckerCarSpawnPoints2, { elemx, elemy, elemz, elemrz, true, vehtype })
+		destroyElement(truck2spawn)
 	end
 	
 	elements = getElementsByType("ambulancecar")
@@ -15524,6 +15846,16 @@ function requestActionsList(aplr)
 						if not (truck == nil) then
 							if(aplrveh == truck[1]) then
 								table.insert(alist, { 7, string.format("%s '%s'", availableActions[7], availableJobs[5]), { 5 }, nil, 0, 255, 0 })
+								jobFound = true
+								break
+							end
+						end
+					end
+					
+					for key,truck2 in ipairs(jobTruckerAvailableTrucks2) do
+						if not (truck2 == nil) then
+							if(aplrveh == truck2[1]) then
+								table.insert(alist, { 7, string.format("%s '%s'", availableActions[7], availableJobs[12]), { 12 }, nil, 0, 255, 0 })
 								jobFound = true
 								break
 							end
@@ -30325,6 +30657,9 @@ addEvent("onJobEvacuatorNowInVehicle", true)
 addEvent("onJobTruckerLeftVehicle", true)
 addEvent("onJobTruckerNowInVehicle", true)
 addEvent("onJobTruckerTimesup", true)
+addEvent("onJobTruckerLeftVehicle2", true)
+addEvent("onJobTruckerNowInVehicle2", true)
+addEvent("onJobTruckerTimesup2", true)
 
 addEvent("onGangAddMember", true)
 addEvent("onGangUpgradeMember", true)
@@ -30450,11 +30785,16 @@ addEventHandler("onJobEvacuatorLeftVehicle", root, jobEvacuatorLeftVehicle)
 addEventHandler("onJobEvacuatorNowInVehicle", root, jobEvacuatorNowInVehicle)
 addEventHandler("onJobTruckerLeftVehicle", root, jobTruckerLeftVehicle)
 addEventHandler("onJobTruckerNowInVehicle", root, jobTruckerNowInVehicle)
+addEventHandler("onJobTruckerLeftVehicle2", root, jobTruckerLeftVehicle2)
+addEventHandler("onJobTruckerNowInVehicle2", root, jobTruckerNowInVehicle2)
 addEventHandler("onFriendRequestAdd", root, friendRequestAdd)
 addEventHandler("onAcceptFriendRequest", root, friendRequestAccept)
 addEventHandler("onFriendDel", root, friendDel)
 addEventHandler("onJobTruckerFinish", root, jobTruckerFinish)
 addEventHandler("onJobTruckerTimesup", root, jobTruckerTimesup)
+
+addEventHandler("onJobTruckerFinish2", root, jobTruckerFinish2)
+addEventHandler("onJobTruckerTimesup2", root, jobTruckerTimesup2)
 addEventHandler("onVehicleStartEnter", root, vehicleStartEnter)
 addEventHandler("onVehicleStartExit", root, vehicleStartExit)
 addEventHandler("onCarTuneApplyUpgrade", root, carTuneApplyUpgrade)
