@@ -9507,14 +9507,14 @@ function jobProcessCoroutine()
 		end
 		for key,worker in ipairs(jobWorkers[13]) do
 			local workerVeh = getPedOccupiedVehicle(worker[1])
-			local workerTrailer = false
+			local workerTrailer2 = false
 			
 			if workerVeh then
-				workerTrailer = getVehicleTowedByVehicle(workerVeh)
+				workerTrailer2 = getVehicleTowedByVehicle(workerVeh)
 			end
 			
 			if(workerVeh == worker[3]) then
-				if((worker[4] == nil) or (workerTrailer == worker[4])) then
+				if((worker[4] == nil) or (workerTrailer2 == worker[4])) then
 					if(worker[2] == 1) then
 						triggerClientEvent(worker[1], "onJobTruckerBackToVehicle2", worker[1])
 						jobWorkers[13][key][2] = -1
@@ -9542,7 +9542,7 @@ function jobProcessCoroutine()
 				
 				if(((jobTruckerTrucks2[jobTruckerSpawnIndex2][13] == 0) and spawnPoint2[5]) or (jobTruckerTrucks2[jobTruckerSpawnIndex2][13] == i)) and(spawnPoint2[6] == getVehicleType(jobTruckerTrucks2[jobTruckerSpawnIndex2][1])) and(dist > 400.0) then
 					local veh
-					local trailer = nil
+					local trailer2 = nil
 					local vehMdl = jobTruckerTrucks2[jobTruckerSpawnIndex2][1]
 					veh = createVehicle(vehMdl, spawnPoint2[1], spawnPoint2[2], spawnPoint2[3]+jobTruckerTrucks2[jobTruckerSpawnIndex2][14], 0, 0, spawnPoint2[4], "TRUCK", false, jobTruckerTrucks2[jobTruckerSpawnIndex2][9], jobTruckerTrucks2[jobTruckerSpawnIndex2][10])
 					attachActionToElement(defaultActions[7], veh)
@@ -9579,7 +9579,7 @@ function jobProcessCoroutine()
 					
 					local moneytext = string.format("$%d", money)
 					local disttext = string.format("%.1f км", dist/1000.0)
-					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer, jobTruckerTrucks2[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
+					jobTruckerAvailableTrucks2[i] = { veh, jobTruckerSpawnIndex2, false, trailer2, jobTruckerTrucks2[jobTruckerSpawnIndex2][3], moneytext, timetext, disttext, timemsec, money }
 				end
 				--jobTruckerSpawnIndex2 = math.random(table.getn(jobTruckerTrucks2))
 				
@@ -10034,7 +10034,7 @@ function addWorker(jobId, newWorker)
 				table.insert(jobFoodClientInfo, jobVehicle)
 				triggerClientEvent(getElementsByType("player"), "onJobFoodUpdate", newWorker, jobFoodClientInfo)
 			elseif(jobId == 13) then -- Перевозка грузов (дальнобой)
-				local jobTrailer = nil
+				local jobTrailer2 = nil
 				local truck2
 				
 				for i=1,table.getn(jobTruckerCarSpawnPoints2) do
@@ -10046,23 +10046,23 @@ function addWorker(jobId, newWorker)
 							truck2[3] = true
 							local sx, sy, sz = getElementPosition(jobVehicle)
 							local _, _, srot = getElementRotation(jobVehicle)
-							jobTrailer = truck2[4]
+							jobTrailer2 = truck2[4]
 							local truck2Index = truck2[2]
 							
 							if(jobTruckerTrucks2[truck2Index][2] >= 400) then
-								while not isElement(jobTrailer) do
-									jobTrailer = createVehicle(jobTruckerTrucks2[truck2Index][2], sx, sy, sz+jobTruckerTrucks2[truck2Index][14], 0, 0, srot, "TRUCK", false, jobTruckerTrucks2[truck2Index][11], jobTruckerTrucks2[truck2Index][12])
+								while not isElement(jobTrailer2) do
+									jobTrailer2 = createVehicle(jobTruckerTrucks2[truck2Index][2], sx, sy, sz+jobTruckerTrucks2[truck2Index][14], 0, 0, srot, "TRUCK", false, jobTruckerTrucks2[truck2Index][11], jobTruckerTrucks2[truck2Index][12])
 								end
-								jobTruckerAvailableTrucks2[i][4] = jobTrailer
-								setElementGhostMode(jobTrailer, 5000)
-								attachTrailerToVehicle(jobVehicle, jobTrailer)
-								setVehicleDamageProof(jobTrailer, true)
+								jobTruckerAvailableTrucks2[i][4] = jobTrailer2
+								setElementGhostMode(jobTrailer2, 5000)
+								attachTrailerToVehicle(jobVehicle, jobTrailer2)
+								setVehicleDamageProof(jobTrailer2, true)
 							end
 							
-							if isElement(jobTrailer) then
-								setElementFrozen(jobTrailer, false)
-								setElementAlpha(jobTrailer, 255)
-								setElementCollisionsEnabled(jobTrailer, true)
+							if isElement(jobTrailer2) then
+								setElementFrozen(jobTrailer2, false)
+								setElementAlpha(jobTrailer2, 255)
+								setElementCollisionsEnabled(jobTrailer2, true)
 							end
 							local vehMdl = getElementModel(jobVehicle)
 							
@@ -10071,7 +10071,7 @@ function addWorker(jobId, newWorker)
 								giveWeapon(newWorker, 25, 25)
 							end
 							
-							table.insert(jobWorkers[13], { newWorker, 0, jobVehicle, jobTrailer, sx, sy, sz, false })
+							table.insert(jobWorkers[13], { newWorker, 0, jobVehicle, jobTrailer2, sx, sy, sz, false })
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][6])
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][7])
 							table.insert(clientParams, jobTruckerTrucks2[truck2Index][8])
