@@ -8030,7 +8030,7 @@ end
 
 function jobTruckerFinish2(plr, deliveryPrice)
 	if(source == resourceRoot) and(client == plr) then
-		for i,worker in ipairs(jobWorkers[12]) do
+		for i,worker in ipairs(jobWorkers[13]) do
 			if(worker[1] == plr) and(getPedOccupiedVehicle(plr) == worker[3]) and(worker[2] == 0) and(not worker[8]) then
 				jobWorkers[13][i][8] = true
 				addNewEventToLog(getPlayerName(plr), "Перевозка грузов - Доставка - nil", true)
