@@ -3916,17 +3916,15 @@ payoutAdminPerQuestion = 250
 
 --чаты фракций-----
 playerTeamChats = {
-	[2] = { 2, 5, 15, 14, 17 },
-	[4] = { 4, 15 },
-	[5] = { 2, 5, 15, 14, 17 },
-	[14] = { 2, 5, 14, 15, 17 },
-	[15] = { 2, 4, 5, 15, 17, 18 },
-	[17] = { 2, 5, 14, 15, 17 },
-	[18] = { 18, 15 },
-	[19] = { 19 },
-	[20] = { 20 },
-	[21] = { 21 },
-	[22] = { 22 }
+	[2] = { 2, 5, 15, 14, 17, 20 },
+	[4] = { 4, 15, 20 },
+	[5] = { 2, 5, 15, 14, 17, 20 },
+	[14] = { 2, 5, 14, 15, 17, 20 },
+	[15] = { 2, 4, 5, 15, 17, 18, 20 },
+	[17] = { 2, 5, 14, 15, 17, 20 },
+	[18] = { 18, 15, 20 },
+	[19] = { 19, 20 },
+	[20] = { 20 }
 }
 
 groupGateObjs = {}
@@ -9272,7 +9270,7 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/290
+					local money = timemsec/490
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money*2.0)
@@ -9571,7 +9569,7 @@ function jobProcessCoroutine()
 					local timemsec = math.ceil(math.ceil(dist*150.0)/60000)*60000
 					local timetext = getTimeString(timemsec, "i", true, true)
 					local vehType = getVehicleType(veh)
-					local money = timemsec/490
+					local money = timemsec/290
 					
 					if(vehType == "Plane") or (vehType == "Helicopter") then
 						money = math.ceil(money*2.0)
