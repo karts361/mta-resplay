@@ -27537,32 +27537,25 @@ function adminCMDjailoff(plr, nickname, secondsText, ...)
 	local pHash = getHash(nickname)
 	
 	repeat
-		local dbq = dbQuery(db, "SELECT arrested FROM users WHERE name=?", pHash)
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
 		dbqueryresult = dbPoll(dbq, 30000)
 		dbFree(dbq)
 	until dbqueryresult
 	
 	local arrested = tonumber(secondsText)
 	
-	if not dbqueryresult[1] then
-		triggerClientEvent(plr, "onServerMsgAdd", plr, "Игрок с никнеймом "..nickname.." не зарегистрирован на сервере")
-		return
-	end
-	
-	if (dbqueryresult[1]["arrested"] > 0) then
-	    triggerClientEvent(plr, "onServerMsgAdd", plr, "Этот игрок уже находится под арестом")
-	    return
-	end
-	
     if(arrested > 10800) then
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы не можете назначить тюремный срок игроку дольше, чем 3 часов")
 		return
 	end
 	
-	if dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, pHash) then
+	if dbqueryresult[1] then
 		local jailTime = getTimeString(arrested*1000, "v", true)
 		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы посадили игрока "..nickname.." в тюрьму на "..jailTime)
         outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..nickname.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 234, 38, 19, true)
+		dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, pHash)
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Игрок с никнеймом "..nickname.." не зарегистрирован на сервере")
 	end
 
 end

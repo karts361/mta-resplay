@@ -22,6 +22,7 @@
 	<include resource="chatinfo"/>
 	<include resource="ammushoot"/>
 	<include resource="citymaps"/>
+	<include resource="lspdresphq"/>
 	<include resource="damage"/>
 	<include resource="taser"/>
 	<include resource="freecam"/>
