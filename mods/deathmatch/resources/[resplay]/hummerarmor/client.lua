@@ -22,3 +22,13 @@ function handleHummerDamage(attacker, weapon, loss, x, y, z, tyreID)
 	end
 end
 addEventHandler("onClientVehicleDamage", root, handleHummerDamage)
+
+
+function handlePDDamage(attacker, weapon, loss, x, y, z, tyreID)
+	if (weapon and getElementModel(source) == 470 or getElementModel(source) == 528 or getElementModel(source) == 596 or getElementModel(source) == 597 or getElementModel(source) == 598 or getElementModel(source) == 599 or getElementModel(source) == 490 or getElementModel(source) == 427 ) then
+		if (weaponsToDamageHummer[weapon]) then
+			setElementHealth(source, getElementHealth(source) + 22)
+		end
+	end
+end
+addEventHandler("onClientVehicleDamage", root, handlePDDamage)
