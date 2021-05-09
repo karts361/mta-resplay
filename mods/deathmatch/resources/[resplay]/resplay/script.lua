@@ -55,10 +55,7 @@ playerGroups = {
 	{ "Продавец", 255, 64, 16 },
 	{ "ФБР", 39, 107, 235 },
 	{ "СМИ", 0, 255, 147},
-	{ "Bloods", 167, 0, 0},	
-	{ "Crips", 1, 81, 136},
-	{ "Latin Kings", 253, 182, 3},
-	{ "MS-13", 0, 243, 224},
+	{ "Дальнобойщик", 167, 0, 0 },
 	{ "Хелпер", 255, 160, 160}
 }
 
@@ -391,6 +388,12 @@ jobTruckerFinishBlip = nil
 jobTruckerMoneyForDelivery = nil
 jobTruckerRenderTargets = {}
 jobTruckerAvailableTrucks = {}
+
+jobTruckerFinishCp2 = nil
+jobTruckerFinishBlip2 = nil
+jobTruckerMoneyForDelivery2 = nil
+jobTruckerRenderTargets2 = {}
+jobTruckerAvailableTrucks2 = {}
 
 jobGui = {}
 jobGuiLogoW = scaleMult*47
@@ -2269,6 +2272,41 @@ function drawGui3DPopups()
 					_, _, _, _, _, emaxz = getElementBoundingBox(truck[1])
 					emaxz = ez+emaxz+0.1
 					dxDrawMaterialLine3D(ex, ey, emaxz+jobTruckerPhysicalH, ex, ey, emaxz, jobTruckerRenderTargets[i], jobTruckerPhysicalW, tocolor(255,255,255,255))
+				end
+				
+			end
+		end
+	end
+
+	for i,truck2 in pairs(jobTruckerAvailableTrucks2) do
+		if(not(truck2 == nil)) and(not truck2[3]) and isElementStreamedIn(truck2[1]) then
+			ex, ey, ez = getElementPosition(truck2[1])
+			
+			if(getDistanceBetweenPoints3D(cx, cy, cz, ex, ey, ez) < 25) then
+				local jobTruckerRenderH = 58
+				local jobTruckerRenderW = 240
+				local jobTruckerPhysicalH = 0.75
+				local jobTruckerPhysicalW = 3.08
+				
+				if not jobTruckerRenderTargets2[i] then
+					jobTruckerRenderTargets2[i] = dxCreateRenderTarget(jobTruckerRenderW, jobTruckerRenderH, true)
+				end
+				
+				if(jobTruckerRenderTargets2[i]) then
+					dxSetRenderTarget(jobTruckerRenderTargets2[i], true)
+					dxDrawRectangle(0, 0, jobTruckerRenderW, jobTruckerRenderH, tocolor(0,0,0,160))
+					dxDrawLine(0, 0, jobTruckerRenderW, 0, tocolor(0,0,0,255), 2)
+					dxDrawLine(0, 0, 0, jobTruckerRenderH, tocolor(0,0,0,255), 2)
+					dxDrawLine(0, jobTruckerRenderH, jobTruckerRenderW, jobTruckerRenderH, tocolor(0,0,0,255), 2)
+					dxDrawLine(jobTruckerRenderW, 0, jobTruckerRenderW, jobTruckerRenderH, tocolor(0,0,0,255), 2)
+					dxDrawText(string.format("Груз: %s", truck2[5]), 5, 5, 5, 5, tocolor(255,255,255,255), 1, "default-bold")
+					dxDrawText(string.format("Расстояние: %s", truck2[8]), 5, 17, 5, 17, tocolor(255,255,255,255), 1, "default-bold")
+					dxDrawText(string.format("Время: %s", truck2[7]), 5, 29, 5, 29, tocolor(255,255,255,255), 1, "default-bold")
+					dxDrawText(string.format("Вознаграждение: %s", truck2[6]), 5, 41, 5, 41, tocolor(255,255,255,255), 1, "default-bold")
+					dxSetRenderTarget()
+					_, _, _, _, _, emaxz = getElementBoundingBox(truck2[1])
+					emaxz = ez+emaxz+0.1
+					dxDrawMaterialLine3D(ex, ey, emaxz+jobTruckerPhysicalH, ex, ey, emaxz, jobTruckerRenderTargets2[i], jobTruckerPhysicalW, tocolor(255,255,255,255))
 				end
 				
 			end
@@ -4347,10 +4385,21 @@ function startJob(jobId, params)
 			msgAdd("Ищите потенциальных клиентов, которым требуется еда или питьё.")
 			msgAdd("Клиент, подбежав к вашему транспортному средству, сможет купить что-нибудь с помощью меню действий.")
 			msgAdd("Для завершения работы встаньте в красном маркере рядом с кафе, столовой или иной забегаловкой.")
+			
+		elseif(jobId == 13) then -- Перевозка грузов
+			jobTimeCur = params[4]
+			jobTruckerFinishCp2 = createMarker(params[1], params[2], params[3], "checkpoint", 4.0, 255, 255, 0)
+			jobTruckerFinishBlip2 = createBlip(0, 0, 0, 0, 2, 255, 255)
+			attachElements(jobTruckerFinishBlip2, jobTruckerFinishCp2)
+			jobTruckerMoneyForDelivery2 = params[5]
+			addEventHandler("onClientMarkerHit", jobTruckerFinishCp2, jobTruckerOnFinish2)
+			msgAdd("Ваша задача - доставить груз до места назначения(желтый маркер на радаре).")
+			jobLaunchTimer()
 		
 		else
 			triggerEvent("onWorkStart", root, jobId)
 		end
+		
 		
 	else
 		msgAdd("Вы не можете начать новую работу, пока не закончили старую")
@@ -4408,6 +4457,14 @@ function endJob(jobId, reason)
 			destroyElement(jobTruckerFinishBlip)
 		end
 		
+		if(isElement(jobTruckerFinishCp2)) then
+			destroyElement(jobTruckerFinishCp2)
+		end
+		
+		if(isElement(jobTruckerFinishBlip2)) then
+			destroyElement(jobTruckerFinishBlip2)
+		end
+		
 		if(isElement(jobVehMarker)) then
 			destroyElement(jobVehMarker)
 		end
@@ -4433,6 +4490,10 @@ function endJob(jobId, reason)
 		
 		if(isElement(jobTruckerFinishCp)) then
 			removeEventHandler("onClientMarkerHit", jobTruckerFinishCp, jobTruckerOnFinish)
+		end
+		
+		if(isElement(jobTruckerFinishCp2)) then
+			removeEventHandler("onClientMarkerHit", jobTruckerFinishCp2, jobTruckerOnFinish2)
 		end
 		
 	end
@@ -4464,6 +4525,10 @@ function jobTimesUp()
 	
 	elseif(curJobId == 9) then
 		triggerServerEvent("onMilitaryGeneralTimesup", resourceRoot, localPlayer)
+		
+	elseif(curJobId == 13) then
+		jobTruckerMoneyForDelivery2 = 0
+		msgAdd("Теперь вы не получите деньги за просроченный заказ.")
 	end
 	
 end
@@ -4562,6 +4627,89 @@ function jobTruckerBackToVehicle()
 	end
 	
 	triggerServerEvent("onJobTruckerNowInVehicle", localPlayer, jobStateCur)
+end
+
+------------------
+
+function jobTruckerOnFinish2(hitPlayer)
+	if(hitPlayer == localPlayer) then
+		triggerServerEvent("onJobTruckerFinish2", resourceRoot, localPlayer, jobTruckerMoneyForDelivery2)
+	end
+end
+
+function jobTruckerOnStartReturn2(fx, fy, fz)
+	jobStopTimer()
+	jobTimeCur = 0
+	removeEventHandler("onClientMarkerHit", jobTruckerFinishCp2, jobTruckerOnFinish2)
+	setElementPosition(jobTruckerFinishCp2, fx, fy, fz)
+	setTimer(function()
+				addEventHandler("onClientMarkerHit", jobTruckerFinishCp2, jobTruckerOnFinishReturn2)
+			 end, 1000, 1)
+	msgAdd("Верните транспортное средство на первоначальное место.")
+end
+
+function jobTruckerOnFinishReturn2(hitPlayer)
+	if(hitPlayer == localPlayer) then
+		triggerServerEvent("onJobTruckerFinishReturn2", localPlayer)
+	end
+end
+
+function jobTruckerLeaveVehicle2(curState, timeBackToVeh, jobVeh)
+	if(isElement(jobVehMarker)) then
+		destroyElement(jobVehMarker)
+	end
+	
+	jobStateCur = curState
+	
+	if(curState == 0) then
+		jobStopTimer()
+	end
+	
+	jobVehMarker = createMarker(0, 0, 0, "arrow", 2.0, 255, 255, 0, 255)
+	attachElements(jobVehMarker, jobVeh, 0, 0, 5)
+	
+	if not (isTimer(jobTimerBackToVeh)) then
+		msgAdd(string.format("У вас есть %d секунд, чтобы вернуться в грузовик.", timeBackToVeh/1000))
+		jobTimerBackToVeh = setTimer(function()
+										destroyElement(jobVehMarker)
+										triggerServerEvent("onJobTruckerLeftVehicle2", localPlayer)
+									 end, timeBackToVeh, 1)
+	end
+end
+
+function jobTruckerLeaveTrailer2(curState, timeBackToTrailer, trailer)
+	if(isElement(jobVehMarker)) then
+		destroyElement(jobVehMarker)
+	end
+	
+	jobStateCur = curState
+	
+	if(curState == 0) then
+		jobStopTimer()
+	end
+	
+	jobVehMarker = createMarker(0, 0, 0, "arrow", 2.0, 255, 255, 0, 255)
+	attachElements(jobVehMarker, trailer, 0, 0, 5)
+	
+	if not (isTimer(jobTimerBackToVeh)) then
+		msgAdd(string.format("У вас есть %d секунд, чтобы вернуть груз.", timeBackToTrailer/1000))
+		jobTimerBackToVeh = setTimer(function()
+										destroyElement(jobVehMarker)
+										triggerServerEvent("onJobTruckerLeftVehicle2", localPlayer)
+									 end, timeBackToTrailer, 1)
+	end
+	
+end
+
+function jobTruckerBackToVehicle2()
+	killTimer(jobTimerBackToVeh)
+	destroyElement(jobVehMarker)
+	
+	if(jobStateCur == 0) then
+		jobLaunchTimer()
+	end
+	
+	triggerServerEvent("onJobTruckerNowInVehicle2", localPlayer, jobStateCur)
 end
 
 function jobEvacuatorRequestFinishOrder(evacid)
@@ -5159,6 +5307,10 @@ end
 
 function jobTruckerClientUpdate(newtbl)
 	jobTruckerAvailableTrucks = newtbl
+end
+
+function jobTruckerClientUpdate2(newtbl)
+	jobTruckerAvailableTrucks2 = newtbl
 end
 
 function luckyPhoneRing(phone)
@@ -11786,6 +11938,9 @@ addEvent("onJobEvacuatorBackToVehicle", true)
 addEvent("onJobTruckerLeaveVehicle", true)
 addEvent("onJobTruckerLeaveTrailer", true)
 addEvent("onJobTruckerBackToVehicle", true)
+addEvent("onJobTruckerLeaveVehicle2", true)
+addEvent("onJobTruckerLeaveTrailer2", true)
+addEvent("onJobTruckerBackToVehicle2", true)
 addEvent("onJobFarmLeaveVehicle", true)
 addEvent("onJobFarmBackToVehicle", true)
 addEvent("onJobFarm2LeaveVehicle", true)
@@ -11798,6 +11953,7 @@ addEvent("onFriendDel", true)
 addEvent("onFriendsLoad", true)
 addEvent("onCarSellUpdate", true)
 addEvent("onJobTruckerUpdate", true)
+addEvent("onJobTruckerUpdate2", true)
 addEvent("onServerSetControlState", true)
 --addEvent("onBusesUpdate", true)
 addEvent("onServerCreateEffect", true)
@@ -11850,6 +12006,9 @@ addEvent("onAmbOrderCreate", true)
 addEvent("onPlayerMoneyChange", true)
 addEvent("onJobTruckerStartReturn", true)
 addEvent("onJobTruckerFinishReturn", true)
+
+addEvent("onJobTruckerStartReturn2", true)
+addEvent("onJobTruckerFinishReturn2", true)
 addEvent("onPlayerTaxiCarsUpdate", true)
 addEvent("onAmbulanceRequest", true)
 addEvent("onEvacOrderCreate", true)
@@ -11973,6 +12132,9 @@ addEventHandler("onJobEvacuatorRequestFinishOrder", root, jobEvacuatorRequestFin
 addEventHandler("onJobTruckerLeaveVehicle", root, jobTruckerLeaveVehicle)
 addEventHandler("onJobTruckerLeaveTrailer", root, jobTruckerLeaveTrailer)
 addEventHandler("onJobTruckerBackToVehicle", root, jobTruckerBackToVehicle)
+addEventHandler("onJobTruckerLeaveVehicle2", root, jobTruckerLeaveVehicle2)
+addEventHandler("onJobTruckerLeaveTrailer2", root, jobTruckerLeaveTrailer2)
+addEventHandler("onJobTruckerBackToVehicle2", root, jobTruckerBackToVehicle2)
 addEventHandler("onServerMsgAdd", root, function(text, tTime)
 											if(source ~= resourceRoot) or resplayMessagesEnabled then
 												msgAdd(text, tTime)
@@ -11985,6 +12147,7 @@ addEventHandler("onFriendsLoad", root, loadFriends)
 addEventHandler("onClientPlayerSpawn", root, clientNewPlayerSpawn)
 addEventHandler("onCarSellUpdate", root, carSellClientUpdate)
 addEventHandler("onJobTruckerUpdate", root, jobTruckerClientUpdate)
+addEventHandler("onJobTruckerUpdate2", root, jobTruckerClientUpdate2)
 addEventHandler("onServerSetControlState", root, function(scontrol, sstate)
 													setPedAnalogControlState(source, scontrol, sstate)
 												 end)
@@ -12067,6 +12230,9 @@ addEventHandler("onPlayerMoneyChange", root, moneyChange)
 addEventHandler("onClientRender", root, moneyChangeRender)
 addEventHandler("onJobTruckerStartReturn", root, jobTruckerOnStartReturn)
 addEventHandler("onJobTruckerFinishReturn", root, jobTruckerOnFinishReturn)
+
+addEventHandler("onJobTruckerStartReturn2", root, jobTruckerOnStartReturn2)
+addEventHandler("onJobTruckerFinishReturn2", root, jobTruckerOnFinishReturn2)
 addEventHandler("onPlayerTaxiCarsUpdate", root, taxiCarsUpdate)
 addEventHandler("onAmbulanceRequest", root, ambulanceRequest)
 addEventHandler("onEvacOrderCreate", root, evacOrderCreate)
