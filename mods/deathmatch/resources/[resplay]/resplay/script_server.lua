@@ -2381,16 +2381,16 @@ ammuWeapons = {
 		--{ 23, 347, 17, 120 },
 		{ 24, 348, 7, 365 },
 		{ 25, 349, 5, 800 },
-		{ 29, 353, 30, 700 },		
+		{ 32, 353, 30, 700 },		
 		{ 44, 368, 1, 500 }	,	
 	},
 	{
 		{ 28, 352, 50, 300 },
-		{ 16, 342, 1, 100 },
+		--{ 16, 342, 1, 100 },
 	},
 	{
 		{ 30, 355, 30, 2200 },
-		{ 31, 356, 50, 2750 },
+		--{ 31, 356, 50, 2750 },
 		{ 34, 358, 5, 2100 },
 		{ 17, 343, 1, 350 },
 	},
@@ -2959,6 +2959,7 @@ militaryGeneralArrived = false
 militaryGeneralTimeBetween = 150000
 
 weaponsInBox = {
+	{ 1242, 1000, "бронежилет" },
 	{ 22, 17, "пистолет и одну обойму" },
 	{ 24, 7, "Desert Eagle и одну обойму" },
 	{ 25, 10, "ружье и десять патронов" },
@@ -2971,7 +2972,7 @@ weaponsInBox = {
 	{ 31, 50, "M4 и одну обойму" },
 	{ 34, 5, "снайперскую винтовку и пять патронов" },
 	{ 38, 50, "пулемёт и пятьдесят патронов" },
-	{ 16, 2, "две гранаты" }
+	{ 16, 1, "одну гранату" }
 }
 
 hospitalHealthPrice = 1000
@@ -27532,6 +27533,33 @@ function adminCMDjail(plr, nickname, secondsText, ...)
 	end
 end
 
+function adminCMDjailoff(plr, nickname, secondsText, ...)
+	local pHash = getHash(nickname)
+	
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	local arrested = tonumber(secondsText)
+	
+    if(arrested > 10800) then
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы не можете назначить тюремный срок игроку дольше, чем 3 часов")
+		return
+	end
+	
+	if dbqueryresult[1] then
+		local jailTime = getTimeString(arrested*1000, "v", true)
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Вы посадили игрока "..nickname.." в тюрьму на "..jailTime)
+        outputChatBox(generateTimeString().."Администратор "..getPlayerName(plr).." посадил в тюрьму игрока "..nickname.. " по причине "..table.concat({...}, " ").. " на "..jailTime..".", getRootElement(), 234, 38, 19, true)
+		dbExec(db, "UPDATE users SET arrested=? WHERE name=?", arrested, pHash)
+	else
+		triggerClientEvent(plr, "onServerMsgAdd", plr, "Игрок с никнеймом "..nickname.." не зарегистрирован на сервере")
+	end
+
+end
+
 function adminCMDrenameaccount(plr, nickname, newnick)
 	local playerKick = getPlayerFromName(nickname)
 	local oldHash = getHash(nickname)
@@ -28475,6 +28503,7 @@ end
 	/givelicense [ник] - выдать лицензию на оружие.
 	/banfraction [ник] [причина] - Внести игрока в ОЧС
 	/unbanfraction [ник] - удалить игрока из ОЧС
+	/jailoff [ник] [секунды] [причина] - посадить игрока в тюрьму, если игрок не находится в сети
 ]]
 
 mutedTime = nil
