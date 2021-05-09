@@ -44,6 +44,6 @@
 	<command name="removelicensedeprive" level="2" description="/removelicensedeprive [ник] - сбросить срок лишения лицензии на оружие."/>	
 	<command name="givelicense" level="3" description="/givelicense [ник] - выдать лицензию на оружие."/>	
 	<command name="banfraction" level="2" description="/banfraction [ник] [причина] - Внести игрока в ОЧС."/>	
-	<command name="unbanfraction" level="2" description="/unbanfraction [ник] - удалить игрока из ОЧС"/
+	<command name="unbanfraction" level="2" description="/unbanfraction [ник] - удалить игрока из ОЧС"/>
 	<command name="jailoff" level="2" description="/jailoff [ник] [секунды] [причина] - посадить игрока в тюрьму, если игрок не находится в сети"/>
 </commands>
