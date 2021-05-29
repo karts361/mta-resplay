@@ -7188,7 +7188,7 @@ function ammuBuyWeapon(ammuCurWeap)
 			if(getPedArmor(source) < 100) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - Armor(100)", true)
 				local ammuId = getElementDimension(source)
-				local income = math.ceil(weapprice*0.5)
+				local income = math.ceil(weapprice*0.25)
 				setPedArmor(source, weapammo)
 				takeMoney(source, weapprice)
 				local baseid = clanBaseBusinesses[ammuShops[ammuId][7]]
@@ -7210,7 +7210,7 @@ function ammuBuyWeapon(ammuCurWeap)
 				--if(dbExec(db, string.format("UPDATE users SET w%d=?, w%dammo=? WHERE name=?", slotid, slotid), weapid, curWeapAmmo, getHash(getPlayerName(source)))) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - "..getWeaponNameFromID(weapid).."("..tostring(weapammo)..")", true)
 				local ammuId = getElementDimension(source)
-				local income = math.ceil(weapprice*0.5)
+				local income = math.ceil(weapprice*0.25)
 				takeMoney(source, weapprice)
 				local baseid = clanBaseBusinesses[ammuShops[ammuId][7]]
 				
@@ -7502,7 +7502,7 @@ function housesSell(houseid, seller)
 				saveHouseSet(seller, 0)
 			end
 			
-			giveMoney(seller, math.floor(houses[houseid][3]/2))
+			giveMoney(seller, math.floor(houses[houseid][3]/0.30))
 			houses[houseid][11] = 0
 			local hx, hy, hz = getElementPosition(houses[houseid][4])
 			destroyElement(houses[houseid][4])
@@ -13126,6 +13126,7 @@ function resourceStart(startedResource)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 6) -- респавн ящиков с оружием, переменные
+	setTimer(clanBaseDailyMoney, 180, 0)
 	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
@@ -15274,7 +15275,7 @@ function requestActionsList(aplr)
 				
 				for _,carSellSellCp in ipairs(carSellSellCps) do
 					if(isElementWithinMarker(aplrveh, carSellSellCp[4])) then
-						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.25
+						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.09
 						table.insert(alist, { 13, string.format("%s($%d)", availableActions[13], price), { aplrveh, price }, nil, 0, 255, 0 })
 					end
 				end
@@ -30666,6 +30667,14 @@ function onSelectSkin(model)
 end
 addEvent("onSelectFracSkin", true)
 addEventHandler("onSelectFracSkin", root, onSelectSkin)
+
+clanBaseDailyMoneyNum = 25000
+
+function clanBaseDailyMoney() -- функция на выдачу денег на базы кланов суточн.
+    for _,base in pairs(clanBases) do
+        clanBaseGiveMoney(base[25], clanBaseDailyMoneyNum, true)
+	end
+end
 
 
 addEvent("onPlayerCheckIfRegistered", true)
