@@ -2373,8 +2373,38 @@ ammuBusinessPrice = 3000000
 ammuShops = {}
 ammuWeapons = {
 	{
-		{ 1242, 1242, 100, 100 },
-		--{ 1, 331, 1, 10 },
+		{ 1, 331, 1, 10 },
+		{ 41, 365, 500, 75 },
+		{ 22, 346, 17, 1250 },
+		{ 44, 368, 1, 500 },
+	},
+	{
+		{ 5, 336, 1, 95 },
+		{ 28, 352, 50, 300 },
+	},
+	{
+		{ 25, 349, 5, 2000 },
+	},
+	{
+		{ 28, 352, 30, 3500 },
+		{ 32, 372, 30, 3200 },
+		{ 17, 343, 1, 1000 },
+		{ 24, 348, 7, 2000 },
+	},
+	{
+		{ 34, 358, 5, 6000 },
+		{ 26, 350, 4,  2000},
+	},
+	{
+		{ 30, 355, 30, 8000 },
+		{ 34, 358, 5, 8000 },
+		{ 16, 342, 1, 2000 },
+	}
+}
+
+--[[
+ammuWeapons = {
+	{
 		{ 5, 336, 1, 95 },
 		{ 41, 365, 500, 75 },
 		{ 22, 346, 17, 170 },
@@ -2405,7 +2435,7 @@ ammuWeapons = {
 		--{ 35, 359, 1, 2500 },
 		--{ 36, 360, 1, 5000 }	
 	}
-}
+}]]
 -----типы интерьеров-----
 eatTypes = {
 	{ 10, "Бургер Шот", 10, 363.7, -74.6, 1001.5, 315.0, 375.7, -65.8, 1001.5, 180.0, { 3, 1 }, 205, 600000 },
@@ -13126,7 +13156,7 @@ function resourceStart(startedResource)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 6) -- респавн ящиков с оружием, переменные
-	setTimer(clanBaseDailyMoney, 180, 0)
+	--setTimer(clanBaseDailyMoney, 180, 0) 
 	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
@@ -19380,20 +19410,23 @@ function executeAction(aplr, actionId, params)
 				setElementCollisionsEnabled(aplr, false)
 				local ammuLevel
 				
-				if(respect < 0.25) then
+				if(respect < 0.05) then
 					ammuLevel = 1
 				
-				elseif(respect < 0.50) then
+				elseif(respect < 0.15) then
 					ammuLevel = 2
 				
-				elseif(respect < 0.75) then
+				elseif(respect < 0.25) then
 					ammuLevel = 3
 				
-				--elseif(respect < 1) then
-					--ammuLevel = 4
+				elseif(respect < 0.35) then
+					ammuLevel = 4
+					
+				elseif(respect < 0.50) then
+				    ammuLevel = 5
 				
 				else
-				    ammuLevel = 4
+				    ammuLevel = 6
 				end
 				
 				local curAmmuWeap = {}
@@ -30667,14 +30700,14 @@ function onSelectSkin(model)
 end
 addEvent("onSelectFracSkin", true)
 addEventHandler("onSelectFracSkin", root, onSelectSkin)
-
+--[[
 clanBaseDailyMoneyNum = 25000
 
 function clanBaseDailyMoney() -- функция на выдачу денег на базы кланов суточн.
     for _,base in pairs(clanBases) do
-        clanBaseGiveMoney(base[25], clanBaseDailyMoneyNum, true)
+        clanBaseGiveMoney(base[26], clanBaseDailyMoneyNum, true)
 	end
-end
+end]]
 
 
 addEvent("onPlayerCheckIfRegistered", true)
