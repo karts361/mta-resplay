@@ -2373,8 +2373,39 @@ ammuBusinessPrice = 3000000
 ammuShops = {}
 ammuWeapons = {
 	{
-		{ 1242, 1242, 100, 100 },
-		--{ 1, 331, 1, 10 },
+		{ 1, 331, 1, 10 },
+		{ 41, 365, 500, 75 },
+		{ 22, 346, 17, 1250 },
+		{ 44, 368, 1, 500 },
+	},
+	{
+		{ 5, 336, 1, 95 },
+	},
+	{
+		{ 25, 349, 5, 2000 },
+	},
+	{
+		{ 28, 352, 30, 3500 },
+		{ 32, 372, 30, 3200 },
+		{ 17, 343, 1, 1000 },
+		{ 24, 348, 7, 2000 },
+	},
+	{
+		{ 34, 358, 5, 6000 },
+		{ 26, 350, 4,  2000},
+	},
+	{
+		{ 30, 355, 30, 8000 },
+		{ 34, 358, 5, 8000 },
+		{ 16, 342, 1, 2000 },
+	}
+}
+
+--[[
+ammuWeapons = {
+	{
+		--{ 1242, 1242, 100, 100 },
+		{ 1, 331, 1, 10 },
 		{ 5, 336, 1, 95 },
 		{ 41, 365, 500, 75 },
 		{ 22, 346, 17, 170 },
@@ -2405,7 +2436,7 @@ ammuWeapons = {
 		--{ 35, 359, 1, 2500 },
 		--{ 36, 360, 1, 5000 }	
 	}
-}
+}]]
 -----типы интерьеров-----
 eatTypes = {
 	{ 10, "Бургер Шот", 10, 363.7, -74.6, 1001.5, 315.0, 375.7, -65.8, 1001.5, 180.0, { 3, 1 }, 205, 600000 },
@@ -7188,7 +7219,7 @@ function ammuBuyWeapon(ammuCurWeap)
 			if(getPedArmor(source) < 100) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - Armor(100)", true)
 				local ammuId = getElementDimension(source)
-				local income = math.ceil(weapprice*0.5)
+				local income = math.ceil(weapprice*0.25)
 				setPedArmor(source, weapammo)
 				takeMoney(source, weapprice)
 				local baseid = clanBaseBusinesses[ammuShops[ammuId][7]]
@@ -7210,7 +7241,7 @@ function ammuBuyWeapon(ammuCurWeap)
 				--if(dbExec(db, string.format("UPDATE users SET w%d=?, w%dammo=? WHERE name=?", slotid, slotid), weapid, curWeapAmmo, getHash(getPlayerName(source)))) then
 				addNewEventToLog(getPlayerName(source), "Аммуниция - Покупка - "..getWeaponNameFromID(weapid).."("..tostring(weapammo)..")", true)
 				local ammuId = getElementDimension(source)
-				local income = math.ceil(weapprice*0.5)
+				local income = math.ceil(weapprice*0.25)
 				takeMoney(source, weapprice)
 				local baseid = clanBaseBusinesses[ammuShops[ammuId][7]]
 				
@@ -7502,7 +7533,7 @@ function housesSell(houseid, seller)
 				saveHouseSet(seller, 0)
 			end
 			
-			giveMoney(seller, math.floor(houses[houseid][3]/2))
+			giveMoney(seller, math.floor(houses[houseid][3]))
 			houses[houseid][11] = 0
 			local hx, hy, hz = getElementPosition(houses[houseid][4])
 			destroyElement(houses[houseid][4])
@@ -13126,6 +13157,7 @@ function resourceStart(startedResource)
 	setTimer(updateMute, 1000, 0)
 	setTimer(updateLicenseTerm, 1000, 0)
 	setTimer(militaryCargoRespawn, 9000000, 6) -- респавн ящиков с оружием, переменные
+	--setTimer(clanBaseDailyMoney, 180, 0) 
 	--local vehid = getResourceFromName("vehid")
 	
 	if isTestServer() then
@@ -15274,7 +15306,7 @@ function requestActionsList(aplr)
 				
 				for _,carSellSellCp in ipairs(carSellSellCps) do
 					if(isElementWithinMarker(aplrveh, carSellSellCp[4])) then
-						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.25
+						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.7
 						table.insert(alist, { 13, string.format("%s($%d)", availableActions[13], price), { aplrveh, price }, nil, 0, 255, 0 })
 					end
 				end
@@ -15680,7 +15712,7 @@ function requestActionsList(aplr)
 						if (house[12] > 0) then
 						    table.insert(alist, { 167, "Дом - Оплатить ($"..house[12]..")", { key }, nil, 0, 255, 0 })
 						end
-						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
+						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3])), { key }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
 						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 						if(dbhouseinfo[1]["accesspublic"] == 0) then
@@ -19379,20 +19411,23 @@ function executeAction(aplr, actionId, params)
 				setElementCollisionsEnabled(aplr, false)
 				local ammuLevel
 				
-				if(respect < 0.25) then
+				if(respect < 0.05) then
 					ammuLevel = 1
 				
-				elseif(respect < 0.50) then
+				elseif(respect < 0.15) then
 					ammuLevel = 2
 				
-				elseif(respect < 0.75) then
+				elseif(respect < 0.25) then
 					ammuLevel = 3
 				
-				--elseif(respect < 1) then
-					--ammuLevel = 4
+				elseif(respect < 0.35) then
+					ammuLevel = 4
+					
+				elseif(respect < 0.50) then
+				    ammuLevel = 5
 				
 				else
-				    ammuLevel = 4
+				    ammuLevel = 6
 				end
 				
 				local curAmmuWeap = {}
@@ -30666,6 +30701,14 @@ function onSelectSkin(model)
 end
 addEvent("onSelectFracSkin", true)
 addEventHandler("onSelectFracSkin", root, onSelectSkin)
+--[[
+clanBaseDailyMoneyNum = 25000
+
+function clanBaseDailyMoney() -- функция на выдачу денег на базы кланов суточн.
+    for _,base in pairs(clanBases) do
+        clanBaseGiveMoney(base[26], clanBaseDailyMoneyNum, true)
+	end
+end]]
 
 
 addEvent("onPlayerCheckIfRegistered", true)
