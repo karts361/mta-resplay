@@ -2380,7 +2380,6 @@ ammuWeapons = {
 	},
 	{
 		{ 5, 336, 1, 95 },
-		{ 28, 352, 50, 300 },
 	},
 	{
 		{ 25, 349, 5, 2000 },
@@ -7534,7 +7533,7 @@ function housesSell(houseid, seller)
 				saveHouseSet(seller, 0)
 			end
 			
-			giveMoney(seller, math.floor(houses[houseid][3]/0.30))
+			giveMoney(seller, math.floor(houses[houseid][3]))
 			houses[houseid][11] = 0
 			local hx, hy, hz = getElementPosition(houses[houseid][4])
 			destroyElement(houses[houseid][4])
@@ -15307,7 +15306,7 @@ function requestActionsList(aplr)
 				
 				for _,carSellSellCp in ipairs(carSellSellCps) do
 					if(isElementWithinMarker(aplrveh, carSellSellCp[4])) then
-						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.09
+						local price = getVehiclePrice(getElementModel(aplrveh))* (getElementData(aplrveh, "hp")/1000)*0.7
 						table.insert(alist, { 13, string.format("%s($%d)", availableActions[13], price), { aplrveh, price }, nil, 0, 255, 0 })
 					end
 				end
@@ -15713,7 +15712,7 @@ function requestActionsList(aplr)
 						if (house[12] > 0) then
 						    table.insert(alist, { 167, "Дом - Оплатить ($"..house[12]..")", { key }, nil, 0, 255, 0 })
 						end
-						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3]/2)), { key }, nil, 0, 255, 0 })
+						table.insert(alist, { 143, string.format("%s($%d)", availableActions[2], math.floor(house[3])), { key }, nil, 0, 255, 0 })
 						table.insert(alist, { 29, availableActions[29], { house[1] }, nil, 0, 255, 0 })
 						table.insert(alist, { 14, availableActions[14], { key, i }, nil, 0, 255, 0 })
 						if(dbhouseinfo[1]["accesspublic"] == 0) then
