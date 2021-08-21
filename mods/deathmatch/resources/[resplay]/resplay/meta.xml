@@ -345,8 +345,16 @@
 	<file src="imgres/hellraiser.txd" download="true"/>
 	<file src="imgres/deluxo.dff" download="true"/>
 	<file src="imgres/deluxo.txd" download="true"/>
-	<file src="imgres/cheetah.dff" download="true"/>
-	<file src="imgres/cheetah.txd" download="true"/>
+	<file src="imgres/cheetah2.dff" download="true"/>
+	<file src="imgres/cheetah2.txd" download="true"/>
+	
+	<file src="imgres/sandking.dff" download="true"/>
+	<file src="imgres/sandking.txd" download="true"/>
+	<file src="imgres/supergt.dff" download="true"/>
+	<file src="imgres/supergt.txd" download="true"/>
+	<file src="imgres/uranus.dff" download="true"/>
+	<file src="imgres/uranus.txd" download="true"/>
+	
 	<file src="imgres/apc.dff" download="true"/>
 	<file src="imgres/apc.txd" download="true"/>
 	<file src="imgres/dodo.dff" download="true"/>
