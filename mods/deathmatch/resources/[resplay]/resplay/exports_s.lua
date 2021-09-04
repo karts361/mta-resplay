@@ -184,6 +184,14 @@ function elementSetGhostMode( elem, timeMs )
 	setElementGhostMode( elem, timeMs )
 end
 
+function getExportedHash(key, enableRegistry)
+    return getHash(key, enableRegistry)
+end
+
+function ExChangeMoneyForChipExport(key, enableRegistry)
+    return ExChangeMoneyForChip(key, enableRegistry)
+end
+
 function soundPlaySFX3D(sLib, sBank, sId, sX, sY, sZ, sLoop, sDist, sToAttach, sPos, sTime)
 	if sToAttach then
 		sX, sY, sZ = getElementPosition(sToAttach)

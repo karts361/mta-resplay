@@ -14716,6 +14716,7 @@ function requestUserData2(dbq, source, sHash, playerShouldBeSpawned, firstTime)
 			payoutTimers[source] = setTimer(payoutProc, 60000*payoutHours, 0, source, payoutAmount)
 		end
 		
+		setElementData(source, "pChips", dbqueryresult[1]["pChips"] )
 		setElementData(source, "hungryLevel", dbqueryresult[1]["hungry"] )
 		setElementData(source, "thirstLevel", dbqueryresult[1]["thirst"] )
 		setElementData(source, "arrested", dbqueryresult[1]["arrested"])
@@ -30709,6 +30710,26 @@ function clanBaseDailyMoney() -- функция на выдачу денег н�
         clanBaseGiveMoney(base[26], clanBaseDailyMoneyNum, true)
 	end
 end]]
+
+function ExChangeMoneyForChip(plr, ChipsValue)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if tonumber(getPlayerMoney(plr)) >= tonumber(ChipsValue) then
+	    local curChips = getElementData(plr, "pChips")
+		local amountRound = math.floor(ChipsValue)
+		local newChips = curChips+amountRound
+		setElementData(plr,"pChips", newChips)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+		takeMoney(plr, tonumber(ChipsValue))
+	end
+end
+addEvent("onExChangeMoneyForChip", true)
+addEventHandler("onExChangeMoneyForChip", plr, ExChangeMoneyForChip)
 
 
 addEvent("onPlayerCheckIfRegistered", true)
