@@ -1,0 +1,108 @@
+<meta>
+    <info author="** Atis Gaming **" type="script" name="Casino System" version="1" />
+
+    <file src="font.ttf" />
+    <file src="Chip.png" />
+    <file src="img/drum.png" />
+    <file src="img/C_Change.png" />
+    <file src="img/cards.png" />
+    <file src="img/White.png" />
+    <file src="img/RT_Empty.png" />
+    <file src="img/RT.png" />
+    <file src="img/Close.png" />
+    <file src="img/GrnRtBox.png" />
+    <file src="img/BlkRtBox.png" />
+    <file src="img/RedRtBox.png" />
+    <file src="img/D_Ace.png" />
+    <file src="img/D_2.png" />
+    <file src="img/D_3.png" />
+    <file src="img/D_4.png" />
+    <file src="img/D_5.png" />
+    <file src="img/D_6.png" />
+    <file src="img/D_7.png" />
+    <file src="img/D_8.png" />
+    <file src="img/D_9.png" />
+    <file src="img/D_10.png" />
+    <file src="img/D_J.png" />
+    <file src="img/D_K.png" />
+    <file src="img/D_Q.png" />
+    <file src="img/D_B.png" />
+    <file src="img/G_Ace.png" />
+    <file src="img/G_2.png" />
+    <file src="img/G_3.png" />
+    <file src="img/G_4.png" />
+    <file src="img/G_5.png" />
+    <file src="img/G_6.png" />
+    <file src="img/G_7.png" />
+    <file src="img/G_8.png" />
+    <file src="img/G_9.png" />
+    <file src="img/G_10.png" />
+    <file src="img/G_J.png" />
+    <file src="img/G_K.png" />
+    <file src="img/G_Q.png" />
+    <file src="img/K_Ace.png" />
+    <file src="img/K_2.png" />
+    <file src="img/K_3.png" />
+    <file src="img/K_4.png" />
+    <file src="img/K_5.png" />
+    <file src="img/K_6.png" />
+    <file src="img/K_7.png" />
+    <file src="img/K_8.png" />
+    <file src="img/K_9.png" />
+    <file src="img/K_10.png" />
+    <file src="img/K_J.png" />
+    <file src="img/K_K.png" />
+    <file src="img/K_Q.png" />
+    <file src="img/M_B.png" />
+    <file src="img/P_Ace.png" />
+    <file src="img/P_2.png" />
+    <file src="img/P_3.png" />
+    <file src="img/P_4.png" />
+    <file src="img/P_5.png" />
+    <file src="img/P_6.png" />
+    <file src="img/P_7.png" />
+    <file src="img/P_8.png" />
+    <file src="img/P_9.png" />
+    <file src="img/P_10.png" />
+    <file src="img/P_J.png" />
+    <file src="img/P_K.png" />
+    <file src="img/P_Q.png" />
+    <file src="img/Three_C_P.png" />
+
+
+	<script src="Change_Manager_C.lua" type="client" cache="false"/>
+    	<script src="Change_Manager_S.lua" type="server" />
+	<script src="biliard/utils.lua" type="client" cache="false"/>
+	<script src="biliard/utils.lua" type="server" />
+	<script src="biliard/b_c.lua" type="client"  cache="false"/>
+	<script src="biliard/billard.lua" type="server" />
+	<script src="biliard/interaction.lua" type="server" />
+    	<file src="biliard/HitBall.ogg"/>
+
+	<file src="slotMachineCards/bell.png" type="client" />
+	<file src="slotMachineCards/cherry.png" type="client" />
+	<file src="slotMachineCards/diamond.png" type="client" />
+	<file src="slotMachineCards/emerald.png" type="client" />
+	<file src="slotMachineCards/goldbar.png" type="client" />
+	<file src="slotMachineCards/goldclover.png" type="client" />
+	<file src="slotMachineCards/goldenseven.png" type="client" />
+	<file src="slotMachineCards/grape.png" type="client" />
+	<file src="slotMachineCards/greenbar.png" type="client" />
+	<file src="slotMachineCards/greenclover.png" type="client" />
+	<file src="slotMachineCards/heart.png" type="client" />
+	<file src="slotMachineCards/horseshoe.png" type="client" />
+	<file src="slotMachineCards/lemon.png" type="client" />
+	<file src="slotMachineCards/plum.png" type="client" />
+	<file src="slotMachineCards/redbar.png" type="client" />
+	<file src="slotMachineCards/redseven.png" type="client" />
+	<file src="slotMachineCards/ruby.png" type="client" />
+	<file src="slotMachineCards/watermelon.png" type="client" />
+	<file src="sounds/jackpot.ogg" type="client" />
+	<file src="font/Roboto.ttf" type="client" />
+	
+    <script src="SlotMachine_S.lua" type="server" />
+    <script src="SlotMachine_C.lua" type="client" cache="false" />
+    <script src="PongGame_C.lua" type="client" cache="false" />
+    <script src="RT_C.lua" type="client" cache="false" />
+    <script src="Three_C_P.lua" type="client" cache="false" />
+</meta>
