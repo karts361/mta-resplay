@@ -45,25 +45,17 @@ end)
 addEvent("ExChangeChipForMoney",true)
 addEventHandler("ExChangeChipForMoney", root,
 function (root, ChipsValue)
-	if tonumber(getElementData(getExportedHash(getPlayerName(root)), "pChips")) >= tonumber(ChipsValue) then
-		setElementData(getExportedHash(getPlayerName(root)), "pChips",(tonumber(getElementData(getExportedHash(getPlayerName(root)), "pChips"))-tonumber(ChipsValue)))
-		setElementData(root,"pChips",getElementData(getExportedHash(getPlayerName(root)), "pChips"))
-		exports.resplay:playerGiveMoney ( root, tonumber(ChipsValue) )
-	end
+    exports.resplay:ExChangeChipForMoneyExport(root, ChipsValue)
 end)
 
 addEvent("TakePlayerChips",true)
 addEventHandler("TakePlayerChips", root,
 function (root, ChipsValue)
-	if tonumber(getElementData(getExportedHash(getPlayerName(root)), "pChips")) >= tonumber(ChipsValue) then
-		setElementData(getExportedHash(getPlayerName(root)), "pChips",(tonumber(getElementData(getExportedHash(getPlayerName(root)), "pChips"))-tonumber(ChipsValue)))
-		setElementData(root,"pChips",getElementData(getExportedHash(getPlayerName(root)), "pChips"))
-	end
+    exports.resplay:TakePlayerChipsExport(root, ChipsValue)
 end)
 
 addEvent("GivePlayerChips",true)
 addEventHandler("GivePlayerChips", root,
 function (root, ChipsValue)
-	setElementData(getExportedHash(getPlayerName(root)), "pChips",(tonumber(getElementData(getExportedHash(getPlayerName(root)), "pChips"))+tonumber(ChipsValue)))
-	setElementData(root,"pChips",getElementData(getExportedHash(getPlayerName(root)), "pChips"))
+    exports.resplay:GivePlayerChipsExport(root, ChipsValue)
 end)

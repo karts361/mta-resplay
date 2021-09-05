@@ -467,6 +467,9 @@
 	<file src="imgres/sfr3.dff" download="true" />
 	<file src="imgres/sfr3.txd" download="true" />
 
+	<export function='GivePlayerChipsExport' http='true'/>
+	<export function='TakePlayerChipsExport' http='true'/>
+	<export function='ExChangeChipForMoneyExport' http='true'/>
 	<export function='ExChangeMoneyForChipExport' http='true'/>
 	<export function='getExportedHash' http='true'/>
 	<export function='webGetDonateRecordsNum' http='true'/>

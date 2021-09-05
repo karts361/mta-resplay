@@ -30731,6 +30731,63 @@ end
 addEvent("onExChangeMoneyForChip", true)
 addEventHandler("onExChangeMoneyForChip", plr, ExChangeMoneyForChip)
 
+function ExChangeChipForMoney(plr, ChipsValue)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if tonumber(getElementData(plr, "pChips")) >= tonumber(ChipsValue) then
+	    local curChips = getElementData(plr, "pChips")
+		local amountRound = math.floor(ChipsValue)
+		local newChips = curChips-amountRound
+		setElementData(plr,"pChips", newChips)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+		giveMoney(plr, tonumber(ChipsValue))
+	end
+end
+addEvent("onExChangeChipForMoney", true)
+addEventHandler("onExChangeChipForMoney", plr, ExChangeChipForMoney)
+
+function TakePlayerChips(plr, ChipsValue)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	if tonumber(getElementData(plr, "pChips")) >= tonumber(ChipsValue) then
+	    local curChips = getElementData(plr, "pChips")
+		local amountRound = math.floor(ChipsValue)
+		local newChips = curChips-amountRound
+		setElementData(plr,"pChips", newChips)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+	end
+end
+addEvent("onTakePlayerChips", true)
+addEventHandler("onTakePlayerChips", plr, TakePlayerChips)
+
+function GivePlayerChips(plr, ChipsValue)
+    local pHash = getHash(getPlayerName(plr))
+	repeat
+		local dbq = dbQuery(db, "SELECT * FROM users WHERE name=?", pHash)
+		dbqueryresult = dbPoll(dbq, 30000)
+		dbFree(dbq)
+	until dbqueryresult
+	
+	local curChips = getElementData(plr, "pChips")
+    local amountRound = math.floor(ChipsValue)
+	local newChips = curChips+amountRound
+	setElementData(plr,"pChips", newChips)
+	dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+
+end
+addEvent("onGivePlayerChips", true)
+addEventHandler("onGivePlayerChipsy", plr, GivePlayerChips)
+
 
 addEvent("onPlayerCheckIfRegistered", true)
 addEvent("onPlayerReg", true)

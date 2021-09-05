@@ -188,9 +188,22 @@ function getExportedHash(key, enableRegistry)
     return getHash(key, enableRegistry)
 end
 
-function ExChangeMoneyForChipExport(key, enableRegistry)
-    return ExChangeMoneyForChip(key, enableRegistry)
+function ExChangeMoneyForChipExport(plr, ChipsValue)
+    return ExChangeMoneyForChip(plr, ChipsValue)
 end
+
+function ExChangeChipForMoneyExport(plr, ChipsValue)
+    return ExChangeChipForMoney(plr, ChipsValue)
+end
+
+function TakePlayerChipsExport(plr, ChipsValue)
+    return TakePlayerChips(plr, ChipsValue)
+end
+
+function GivePlayerChipsExport(plr, ChipsValue)
+    return GivePlayerChips(plr, ChipsValue)
+end
+
 
 function soundPlaySFX3D(sLib, sBank, sId, sX, sY, sZ, sLoop, sDist, sToAttach, sPos, sTime)
 	if sToAttach then
