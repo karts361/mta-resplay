@@ -30724,7 +30724,7 @@ function ExChangeMoneyForChip(plr, ChipsValue)
 		local amountRound = math.floor(ChipsValue)
 		local newChips = curChips+amountRound
 		setElementData(plr,"pChips", newChips)
-		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", newChips, pHash)
 		takeMoney(plr, tonumber(ChipsValue))
 	end
 end
@@ -30744,7 +30744,7 @@ function ExChangeChipForMoney(plr, ChipsValue)
 		local amountRound = math.floor(ChipsValue)
 		local newChips = curChips-amountRound
 		setElementData(plr,"pChips", newChips)
-		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", newChips, pHash)
 		giveMoney(plr, tonumber(ChipsValue))
 	end
 end
@@ -30764,7 +30764,7 @@ function TakePlayerChips(plr, ChipsValue)
 		local amountRound = math.floor(ChipsValue)
 		local newChips = curChips-amountRound
 		setElementData(plr,"pChips", newChips)
-		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+		dbExec(db, "UPDATE users SET pChips=? WHERE name=?", newChips, pHash)
 	end
 end
 addEvent("onTakePlayerChips", true)
@@ -30782,7 +30782,7 @@ function GivePlayerChips(plr, ChipsValue)
     local amountRound = math.floor(ChipsValue)
 	local newChips = curChips+amountRound
 	setElementData(plr,"pChips", newChips)
-	dbExec(db, "UPDATE users SET pChips=? WHERE name=?", curChips, pHash)
+	dbExec(db, "UPDATE users SET pChips=? WHERE name=?", newChips, pHash)
 
 end
 addEvent("onGivePlayerChips", true)

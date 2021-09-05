@@ -108,7 +108,7 @@ end
 function BindExChange ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
 		bindKey( "Z", "down", ShowExChange )
-		exports["notf"]:addNotification("Baraye ExChange Chip/Money Dokme ( Z ) Ra Bezanid!" , 'info')
+		--exports["notf"]:addNotification("Baraye ExChange Chip/Money Dokme ( Z ) Ra Bezanid!" , 'info')
 	end
 end
 
@@ -132,10 +132,10 @@ function ()
 				triggerServerEvent("ExChangeMoneyForChip",getLocalPlayer(),getLocalPlayer(),ChipsValue)
 				guiSetText ( MoneyToChipEdit, "")
 			else
-				exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Money Baraye Kharid Chip Bayad Bishtar Az 500$ Va Kamtar Az 100,000$ Bashad")
+				--exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Money Baraye Kharid Chip Bayad Bishtar Az 500$ Va Kamtar Az 100,000$ Bashad")
 			end
 		else
-			exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")
+			--exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")
 
 		end
 	elseif source == ChipToMoneyButton then
@@ -145,10 +145,10 @@ function ()
 				triggerServerEvent("ExChangeChipForMoney",getLocalPlayer(),getLocalPlayer(),ChipsValue)
 				guiSetText ( ChipToMoneyEdit, "")
 			else
-                exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Chip Baraye Daryafte Money Bayad Bishtar Az 500$ Bashad!")
+               --exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Chip Baraye Daryafte Money Bayad Bishtar Az 500$ Bashad!")
 			end
 		else
-			exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")
+			--exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")
 		end
 	end
 end)
