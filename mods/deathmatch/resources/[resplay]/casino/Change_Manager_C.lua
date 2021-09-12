@@ -96,19 +96,20 @@ Change_Manager_C = {
 function ShowExChange ()
 	guiSetProperty(ExChangeBG, "Visible", "True")
 	showCursor(true)
-	unbindKey ( "Z", "down", ShowExChange )
+	bindKey( "F1", "down", ShowExChange )
 end
 
 function UnBindExChange ( Leave, matchingDimension )
     if Leave == getLocalPlayer() then
-		unbindKey ( "Z", "down", ShowExChange )
+		bindKey( "F1", "down", ShowExChange )
 	end
 end
 
 function BindExChange ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
-		bindKey( "Z", "down", ShowExChange )
+		bindKey( "F1", "down", ShowExChange )
 		--exports["notf"]:addNotification("Baraye ExChange Chip/Money Dokme ( Z ) Ra Bezanid!" , 'info')
+		outputChatBox('Нажмите на F1, чтобы обменять фишки и деньги', getLocalPlayer(), 255, 255, 0)
 	end
 end
 
@@ -133,6 +134,7 @@ function ()
 				guiSetText ( MoneyToChipEdit, "")
 			else
 				--exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Money Baraye Kharid Chip Bayad Bishtar Az 500$ Va Kamtar Az 100,000$ Bashad")
+				outputChatBox('Вы не можете обменять деньги на фишки, на больше 100.000$ или если меньше 500$', getLocalPlayer(), 255, 255, 0)
 			end
 		else
 			--exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")
@@ -146,6 +148,7 @@ function ()
 				guiSetText ( ChipToMoneyEdit, "")
 			else
                --exports.resplay:playerShowMessage(getLocalPlayer(), "Meqdare Chip Baraye Daryafte Money Bayad Bishtar Az 500$ Bashad!")
+			   outputChatBox('Вы не можете обменять фишки на деньги, если сумма фишек меньше 500', getLocalPlayer(), 255, 255, 0)
 			end
 		else
 			--exports.resplay:playerShowMessage(getLocalPlayer(), "Baraye Kharid Chip Bayad Adad Vared Konid!")

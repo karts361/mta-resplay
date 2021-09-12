@@ -86,8 +86,8 @@ localisation["english"] = {
 	notEnoughCash = "Shoma Pol Kafi Baraye Shart Bandi Bishtar Nadarid!",
 	notEnoughCashOnRoll = "Shoma Pol Kafi Baraye Shart Bandi Nadarid!",
 	stakeInfo = "Meghdar\nShart\n%d$",
-	roll = "Shart Bandi",
-	leave = "Khoroj",
+	roll = "Крутить",
+	leave = "Закрыть",
 	whenRolling = "Dar Hengame Shart Bandi Nemitavanid In Kar Ra Anjam Dahid!",
 }
 -- MISC FUNCTIONS
@@ -453,14 +453,15 @@ end
 
 function UnBindSlotMachine ( Leave, matchingDimension )
     if Leave == getLocalPlayer() then
-		unbindKey ( "Z", "down", showGUI )
+		unbindKey ( "F1", "down", showGUI )
 	end
 end
 
 function BindSlotMachine ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
-		bindKey( "Z", "down", showGUI )
+		bindKey( "F1", "down", showGUI )
 		--exports["notf"]:addNotification("Baraye Estefade Az Slot Machine Dokme ( Z ) Ra Bezanid!" , 'info')
+		outputChatBox('Нажмите F1, чтобы крутить автомат', getLocalPlayer(), 255, 255, 0)
 	end
 end
 

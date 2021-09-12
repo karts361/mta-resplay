@@ -125,7 +125,7 @@ end
 function ShowTCP ()
 	guiSetProperty(TCP_BG, "Visible", "True")
 	showCursor(true)
-	unbindKey ( "Z", "down", ShowTCP )
+	unbindKey ( "F1", "down", ShowTCP )
 end
 
 function UnBindTCP ( Leave, matchingDimension )
@@ -136,8 +136,9 @@ end
 
 function BindTCP ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
-		bindKey( "Z", "down", ShowTCP )
+		bindKey( "F1", "down", ShowTCP )
 		--exports["notf"]:addNotification("Baraye Poker Bazi Kardan Dokme ( Z ) Ra Bezanid!" , 'info')
+		outputChatBox('Нажмите F1, чтобы сыграть в покер', getLocalPlayer(), 255, 255, 0)
 	end
 end
 
@@ -170,11 +171,6 @@ function RestartPokerTable ()
 	end
 end
 
-
---[[local MiniRoyalTable = {}
-function CheckForMiniRoyal ( Aval, Dovom , Sevom )
-	local Aval = CardsTable[HandsTable[4[2]
-end]]
 
 function CheckForStraightFlush ( Aval, Dovom , Sevom )
 	if CardsTable[HandsTable[Aval]][1] == CardsTable[HandsTable[Dovom]][1] 
@@ -235,11 +231,12 @@ end
 function RevealWinner ( WinnerID , WinType , Zarib )
 	if WinnerID == 1 then -- My Win
 		if WinType == "Pair" and PairChips == true then
-			--exports["notf"]:addNotification("Tabrik, Shoma In Round Ra Barande Shodid! (( "..WinType.." )) +1200 Chips" , 'success')
-			triggerServerEvent("GivePlayerChips",getLocalPlayer(),getLocalPlayer(),1200)
+		    outputChatBox('вы выиграли 300 фишек', getLocalPlayer(), 255, 255, 0)
+			triggerServerEvent("GivePlayerChips",getLocalPlayer(),getLocalPlayer(),300)
 		else
 			--exports["notf"]:addNotification("Tabrik, Shoma In Round Ra Barande Shodid! (( "..WinType.." )) +800 Chips" , 'success')
-			triggerServerEvent("GivePlayerChips",getLocalPlayer(),getLocalPlayer(),800)
+			triggerServerEvent("GivePlayerChips",getLocalPlayer(),getLocalPlayer(),150)
+		    outputChatBox('вы выиграли 150 фишек', getLocalPlayer(), 255, 255, 0)
 		end
 	elseif WinnerID == 2 then -- Dealer Win
 		--exports["notf"]:addNotification("Dealer In Round Ra Az Shoma Bord! (( "..WinType.." ))" , 'warning')

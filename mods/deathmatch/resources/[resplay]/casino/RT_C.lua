@@ -104,19 +104,20 @@ RT_Bets = {
 function ShowRT ()
 	guiSetProperty(RouletteBG, "Visible", "True")
 	showCursor(true)
-	unbindKey ( "Z", "down", ShowRT )
+	unbindKey ( "F1", "down", ShowRT )
 end
 
 function UnBindRT ( Leave, matchingDimension )
     if Leave == getLocalPlayer() then
-		unbindKey ( "Z", "down", ShowRT )
+		unbindKey ( "F1", "down", ShowRT )
 	end
 end
 
 function BindRT ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
-		bindKey( "Z", "down", ShowRT )
+		bindKey( "F1", "down", ShowRT )
 		--exports["notf"]:addNotification("Baraye Roulette Bazi Kardan Dokme ( Z ) Ra Bezanid!" , 'info')
+		outputChatBox('Нажмите F1, чтобы сыграть в рулетку', getLocalPlayer(), 255, 255, 0)
 	end
 end
 
@@ -337,6 +338,7 @@ function ()
 			if RtBetStatus then
 				if tonumber(getElementData(getLocalPlayer(),"pChips")) < 500 then
 					--exports["notf"]:addNotification("Baraye Inkar Hadaghal (( 500 Chips )) Niaz Darid!" , 'error')
+					outputChatBox('У вас недостаточно фишек', getLocalPlayer(), 255, 255, 0)
 					return
 				end
 				triggerServerEvent("TakePlayerChips",getLocalPlayer(),getLocalPlayer(),500)
@@ -352,10 +354,10 @@ function ()
 				setTimer( function()
 					InRtBetting = false
 					if MyActiveBets[LastRandomID] then
-						--exports["notf"]:addNotification("Tabrik , Shoma Barande Shodid! +"..InZaribChips.." Chips" , 'success')
+						outputChatBox('Вы выиграли!', getLocalPlayer(), 255, 255, 0)
 						triggerServerEvent("GivePlayerChips",getLocalPlayer(),getLocalPlayer(),tonumber(InZaribChips))
 					else
-						--exports["notf"]:addNotification("Moteasefane Bakht Ba Shoma Yar Nabod! -500 Chips" , 'warning')
+						--exports["notf"]:addNotification("Ebteda Bet Bezanid!" , 'error')
 					end
 					RemoveRtBets()
 				end, 11000, 1)

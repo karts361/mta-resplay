@@ -231,12 +231,14 @@ end
 cFunc["enable_pong"] = function()
 	if tonumber(getElementData(getLocalPlayer(),"pChips")) < 100 then
 		--exports["notf"]:addNotification("Baraye Inkar Hadaghal (( 100 Chips )) Niaz Darid!" , 'error')
+		outputChatBox('У вас недостаточно фишек, нужно 100', getLocalPlayer(), 255, 255, 0)
 		return
 	end
 	triggerServerEvent("TakePlayerChips",getLocalPlayer(),getLocalPlayer(),100)
 	if(cSetting["enabled"] == false) then
-		unbindKey ( "Z", "down", cFunc["enable_pong"] )
+		unbindKey ( "F1", "down", cFunc["enable_pong"] )
 		--exports["notf"]:addNotification("Baraye Etmam Bazi Dokme ( Z ) Ra Bezanid!" , 'info')
+		outputChatBox('Нажмите на F1, чтобы сыграть', getLocalPlayer(), 255, 255, 0)
 		cSetting["enabled"] = true
 		addEventHandler("onClientRender", getRootElement(), cFunc["draw_pong"])
 		if(isTimer(cSetting["game_started_timer"])) then
@@ -349,13 +351,13 @@ PongMarkersTable = {
 
 function UnBindPongGame ( Leave, matchingDimension )
     if Leave == getLocalPlayer() then
-		unbindKey ( "Z", "down", cFunc["enable_pong"] )
+		unbindKey ( "F1", "down", cFunc["enable_pong"] )
 	end
 end
 
 function BindPongGame ( Hit, matchingDimension )
 	if Hit == getLocalPlayer() then
-		bindKey( "Z", "down", cFunc["enable_pong"] )
+		bindKey( "F1", "down", cFunc["enable_pong"] )
 		--exports["notf"]:addNotification("Baraye Pong Bazi Kardan Be Gheymat ( 100 Chips ) Dokme ( Z ) Ra Bezanid!" , 'info')
 	end
 end
