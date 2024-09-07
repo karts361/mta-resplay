@@ -30368,7 +30368,7 @@ function checkTaxBusinesess()
 end
 --addCommandHandler("tax2", checkTaxBusinesess)
 
-taxIncomeDay = setTimer(
+--[[taxIncomeDay = setTimer(
 function()
 	local tsm = getRealTime()
 	local minute = tsm.minute
@@ -30380,7 +30380,7 @@ function()
 		outputChatBox(generateTimeString().."RESPLAY: На все приобретенные дома и бизнесы пришли налоги", getRootElement(), 255, 128, 0, true)
 		timerkill()
 	end
-end, 1000, 0)
+end, 1000, 0)]]
 
 function timerkill()
     if isTimer(taxIncomeDay) then
