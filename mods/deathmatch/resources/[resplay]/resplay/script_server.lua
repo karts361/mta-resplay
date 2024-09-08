@@ -15229,7 +15229,7 @@ function requestActionsList(aplr)
 			end
 		end
 
-		table.insert(alist, { 81, availableActions[81], { dbqueryresult }, nil, 255, 255, 255 })
+		--table.insert(alist, { 81, availableActions[81], { dbqueryresult }, nil, 255, 255, 255 })
 		table.insert(alist, { 64, availableActions[64], {}, nil, 255, 255, 255 })
 		
 		if isPlayerFromPolice(aplr) then
